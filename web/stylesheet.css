@@ -1,0 +1,28 @@
+@font-face{ 
+	font-family: 'Roya';
+	src: url('Roya.eot');
+	src: url('Roya.eot?#iefix') format('embedded-opentype'),
+	     url('Roya.woff') format('woff'),
+	     url('Roya.ttf') format('truetype'),
+	     url('Roya.svg#webfont') format('svg');
+}
+
+table { 
+	font-family: 'Roya', Arial, sans-serif; 
+}
+
+th {
+	font-size: 18px;
+}
+
+p.program-title {
+	line-height: 0px; 
+}
+
+p.program-description {
+	font-style: italic;
+	font-size: 14px;
+	color: gray;
+	line-height: 0px; 
+}
+
