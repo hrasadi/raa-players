@@ -1,16 +1,34 @@
 <html>
-	<title>
-		رادیو اتو اسعد
-	</title>
-	<link rel="Radio Auto-asaad" href="img/favicon.ico" type="img/ico">
+	<head>
+		<title>
+			رادیو اتو اسعد
+		</title>
+		<link rel="Radio Auto-asaad" href="img/favicon.ico" type="img/ico">
+
+		<link rel="stylesheet" href="stylesheet.css" type="text/css" charset="utf-8" />
+        <link href="responsive.min.css" rel="stylesheet" />
+	</head>
 	<body>
 		<div align="center" style="margin:100px">
 			
-			<img src="img/raa-logo-256.png"/>
+			<div style="margin:50px">
+				<img src="img/raa-logo-256.png"/>
+			</div>
 			
-			<audio controls autoplay style="margin: 100px; width:50%; height:100px">
-				<source src="http://www.raa.media:8000/raa1.ogg" type="audio/mpeg">
-			</audio>
+			<div>
+				<a class="turquoise-flat-button" href="lineup.html" data-modal-title="">
+				    برنامه‌های امروز
+				</a>
+			</div>
+
+			<div>
+				<audio controls autoplay style="width:50%; height:100px">
+					<source src="http://www.raa.media:8000/raa1.ogg" type="audio/mpeg">
+				</audio>
+			</div>
 		</div>
+
+		<script src="vendor/jquery-2.1.4.min.js"></script>		 
+        <script src="responsive.min.js"></script>
 	</body>
 </html>
