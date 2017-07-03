@@ -70,6 +70,10 @@ p.program-description {
 	color: gray;
 }
 
+a.vod-link {
+	color: gray;
+}
+
 .turquoise-flat-button {
   text-decoration: none;
   position: relative;
