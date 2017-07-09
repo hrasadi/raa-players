@@ -21,11 +21,12 @@
 				    برنامه‌های امروز
 				</a>
 			</div>
-
 			<div>
 				<audio controls autoplay style="width:50%; height:100px">
 					<source src="http://www.raa.media:8000/raa1.ogg" type="audio/mpeg">
 				</audio>
+			</div>
+			<div id="current" style="margin-top:20px">
 			</div>
 		</div>
 
@@ -41,6 +42,21 @@
 		</footer>
 
 		<script src="vendor/jquery-2.1.4.min.js"></script>		 
-        <script src="responsive.min.js"></script>
+        	<script src="responsive.min.js"></script>
+		<script type="text/javascript">
+			var radioTitle = function(){
+  				var url = 'http://www.raa.media:8000/status-json.xsl';
+  				$.get(url, function(data){
+    					var title = data.icestats.source.title;
+    					if (title && title != "") {					
+						$('#current').html('در حال پخش: ' + title);
+  					} else {
+						$('#current').html('');
+					}
+				});
+			}
+			radioTitle();
+ 			setInterval(radioTitle, 10000);
+		</script>
 	</body>	
 </html>
