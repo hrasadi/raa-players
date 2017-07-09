@@ -48,7 +48,7 @@
   				var url = 'http://www.raa.media:8000/status-json.xsl';
   				$.get(url, function(data){
     					var title = data.icestats.source.title;
-    					if (title && title != "") {					
+    					if (title && title != "" && title != "BLANK") {					
 						$('#current').html('در حال پخش: ' + title);
   					} else {
 						$('#current').html('');
