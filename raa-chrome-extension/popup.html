@@ -1,0 +1,35 @@
+<!doctype html>
+<!--
+ This page is shown when the extension button is clicked, because the
+ "browser_action" field in manifest.json contains the "default_popup" key with
+ value "popup.html".
+ -->
+<html dir="rtl">
+  <head>
+    <meta charset="UTF-8">
+    <title>رادیو اتو-اسعد</title>
+    <link rel="stylesheet" href="stylesheet.css" type="text/css" charset="utf-8" />
+        
+    <!--
+      - JavaScript and HTML must be in separate files: see our Content Security
+      - Policy documentation[1] for details and explanation.
+      -
+      - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
+     -->
+    <script src="popup.js"></script>
+    <script src="jquery-3.2.1.min.js"></script>
+  </head>
+  <body>
+    <div align="center">
+      <div style="float:right; padding-top: 6px">خاموش/ روشن</div>
+      <!-- Rounded switch -->
+      <label class="switch" style="margin-right: 10px">
+        <input id="radioSwitch" type="checkbox">
+        <div class="slider round"></div>
+      </label>
+    </div>
+
+    <div style="margin-top: 10px; font-size: 12px" align="center" id="currentProgram"/>
+  </body>
+</html>
+
