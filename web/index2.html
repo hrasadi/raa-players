@@ -63,7 +63,12 @@
                     if (title && title != "" && title != "BLANK") {                 
                         radioHasProgram = true;
                         $('#current-program-td').html('<div style="padding-right: 60px">در حال پخش: ' + title + '</div>');
-                        $("#player-button-td").html('<a id="play-button" style="float: left" href="javascript:void(0);"                         onclick="playButtonClicked()">توقف</a>');
+                        
+                        if (player.paused) {
+                            $("#player-button-td").html('<a id="play-button" style="float: left" href="javascript:void(0);"onclick="playButtonClicked()">توقف</a>');                            
+                        } else {
+                            $("#player-button-td").html('<a id="play-button" style="float: left" href="javascript:void(0);"onclick="playButtonClicked()">پخش</a>');
+                        }
                     } else {
                         radioHasProgram = false;
                         $('#current-program-td').html('<div align="center" style="padding-right: 70px">الان برنامه نداریم! به محض شروع برنامه‌ها پخش به طور خودکار آغاز خواهد شد.</div>');
