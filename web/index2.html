@@ -1,0 +1,104 @@
+<html dir="rtl">
+    <head>
+        <meta charset="UTF-8">
+        <title>
+            رادیو اتو اسعد
+        </title>
+        <link rel="icon" href="favicon.png" type="image/png">
+
+        <link rel="stylesheet" href="stylesheet.css" type="text/css" charset="utf-8" />
+        <link href="responsive.min.css" rel="stylesheet" />
+    </head>
+    <body>
+        <div align="center" class="content" >
+            
+            <div style="margin:50px">
+                <img src="img/raa-logo-256.png"/>
+            </div>
+            
+            <div>
+                <a class="turquoise-flat-button" href="lineup.html" data-modal-title="">
+                    برنامه‌های امروز
+                </a>
+            </div>
+            <div>
+                <audio id="player" autoplay style="width:50%; height:100px">
+                    <source src="http://www.raa.media:8000/raa1.ogg" type="audio/mpeg">
+                </audio>
+            </div>
+        </div>
+
+        <footer>
+            <table style="margin: 0px">
+                <tr >
+                    <td id="current-program-td" style="padding: 10px; margin: 0px; color:white; background: black; width: 100%"></td>
+                    <td id="player-button-td" style="padding:0px; margin: 0px; background: #1a3e77"></td>
+                </tr>
+            </table>
+        </footer>
+        <footer class="footer">
+            <ul class="menu">
+                <li><a href="https://docs.google.com/spreadsheets/d/1SVCVIMHpp1umZr9jHyoZEFuDnFont-Xfkk864pMUthQ/edit?usp=sharing" target="_blank">هزینه‌ها</a></li>
+
+                <li style="float:left">
+                    Powered by <a style="text-decoration: underline;" target="_blank" href="https://github.com/hrasadi/auto-asaad">auto-asaad</a>
+                </li>
+            </ul>
+        </footer>
+
+        <script src="vendor/jquery-2.1.4.min.js"></script>       
+        <script src="responsive.min.js"></script>
+        <script src="raa-player.js"></script>
+        <script type="text/javascript">
+            const raa1StatusUrl = 'http://www.raa.media:8000/status-json.xsl';
+            var radioPowerSwitch = false;
+            var radioHasProgram = false;
+
+            var radioProgramCyclesInSameStatus = 0;
+
+            var readRadioTitle = function(){
+                var previousHasProgramStatus = radioHasProgram;
+                $.get(raa1StatusUrl, function(data){
+                    var title = data.icestats.source.title;
+                    if (title && title != "" && title != "BLANK") {                 
+                        radioHasProgram = true;
+                        $('#current-program-td').html('<div style="padding-right: 60px">در حال پخش: ' + title + '</div>');
+                        $("#player-button-td").html('<a id="play-button" style="float: left" href="javascript:void(0);"                         onclick="playButtonClicked()">توقف</a>');
+                    } else {
+                        radioHasProgram = false;
+                        $('#current-program-td').html('<div align="center" style="padding-right: 70px">الان برنامه نداریم! به محض شروع برنامه‌ها پخش به طور خودکار آغاز خواهد شد.</div>');
+                        $('#player-button-td').html('');
+                    }
+
+                    if (previousHasProgramStatus != radioHasProgram) {
+                        radioProgramCyclesInSameStatus = 0;
+                        decidePlayback();      
+                    } else {
+                        radioProgramCyclesInSameStatus++;
+                    }
+                });
+            }
+
+            var playButtonClicked = function() {
+                player = document.getElementById('player');
+                if (player.paused) {
+                    player.play();
+                } else {
+                    player.pause();
+                }
+            }
+
+            document.getElementById('player').addEventListener("play", function() {
+                $("#player-button-td").html('<a id="play-button" style="float: left" href="javascript:void(0);"                         onclick="playButtonClicked()">توقف</a>');
+            });
+            
+            document.getElementById('player').addEventListener("pause", function() {
+                $("#player-button-td").html('<a id="play-button" style="float: left" href="javascript:void(0);"                         onclick="playButtonClicked()">پخش</a>');
+            });
+            
+            // Manage the title
+            readRadioTitle();
+            setInterval(readRadioTitle, 10000);                
+        </script>
+    </body> 
+</html>
