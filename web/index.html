@@ -1,62 +1,67 @@
 <html dir="rtl">
-	<head>
-		<meta charset="UTF-8">
-		<title>
-			رادیو اتو اسعد
-		</title>
-		<link rel="icon" href="favicon.png" type="image/png">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>
+            رادیو اتو اسعد
+        </title>
+        <link rel="icon" href="favicon.png" type="image/png">
 
-		<link rel="stylesheet" href="stylesheet.css" type="text/css" charset="utf-8" />
-        <link href="responsive.min.css" rel="stylesheet" />
-	</head>
-	<body>
-		<div align="center" class="content" >
-			
-			<div style="margin:50px">
-				<img src="img/raa-logo-256.png"/>
-			</div>
-			
-			<div>
-				<a class="turquoise-flat-button" href="lineup.html" data-modal-title="">
-				    برنامه‌های امروز
-				</a>
-			</div>
-			<div>
-				<audio controls autoplay style="width:50%; height:100px">
-					<source src="http://www.raa.media:8000/raa1.ogg" type="audio/mpeg">
-				</audio>
-			</div>
-			<div id="current" style="margin-top:20px">
-			</div>
-		</div>
+        <link rel="stylesheet" href="stylesheet.css" type="text/css" charset="utf-8" />
+        <link href="bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="bootstrap-rtl.min.css">
+    </head>
+    <body>
+        <div class="container-fluid">
+            <img class="img-responsive center-block" src="img/raa-logo-256.png"/>
 
-		<footer class="footer">
-	  		<ul class="menu">
-			    <li><a href="https://docs.google.com/spreadsheets/d/1SVCVIMHpp1umZr9jHyoZEFuDnFont-Xfkk864pMUthQ/edit?usp=sharing" target="_blank">هزینه‌ها</a></li>
+            <div class="text-center current-program-button">
+                <a class="btn btn-success btn-lg" data-toggle="modal" data-target="#lineupModal">
+                    برنامه‌های امروز
+                </a>            
+            </div>
+            <div class="text-center chrome-extension">
+                <div class="col-xs-6 col-xs-offset-3">
+                    <img src="chrome-extension-support.png">
+                    <a href="https://chrome.google.com/webstore/detail/%D8%B1%D8%A7%D8%AF%DB%8C%D9%88-%D8%A7%D8%AA%D9%88-%D8%A7%D8%B3%D8%B9%D8%AF/abgkkdgilpehcalfkahppefeejmpnjep?hl=en-US" style="padding-right:10px; color:black; text-decoration: underline;" target="_blank">افزونه‌ی رادیو اتو-اسعد برای Google Chrome را امتحان کنید!</a>
+                </div>
+            <div>
+                <audio id="player" autoplay style="width:50%; height:100px">
+                    <source src="http://www.raa.media:8000/raa1.ogg" type="audio/mpeg">
+                </audio>
+            </div>
+            <div class="modal fade" id="lineupModal" tabindex="-1" role="dialog" aria-labelledby="lineupModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body" style="overflow:auto"></div>
 
-			    <li style="float:left">
-			    	Powered by <a style="text-decoration: underline;" target="_blank" href="https://github.com/hrasadi/auto-asaad">auto-asaad</a>
-			    </li>
-			</ul>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">بستن</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-		</footer>
+        <footer class="footer">
+                <div class="row">
+                    <div class="col-xs-8 h6">
+                        <a href="https://docs.google.com/spreadsheets/d/1SVCVIMHpp1umZr9jHyoZEFuDnFont-Xfkk864pMUthQ/edit?usp=sharing" target="_blank">هزینه‌ها</a>
+                    </div>
 
-		<script src="vendor/jquery-2.1.4.min.js"></script>		 
-        	<script src="responsive.min.js"></script>
-		<script type="text/javascript">
-			var radioTitle = function(){
-  				var url = 'http://www.raa.media:8000/status-json.xsl';
-  				$.get(url, function(data){
-    					var title = data.icestats.source.title;
-    					if (title && title != "" && title != "BLANK") {					
-						$('#current').html('در حال پخش: ' + title);
-  					} else {
-						$('#current').html('');
-					}
-				});
-			}
-			radioTitle();
- 			setInterval(radioTitle, 10000);
-		</script>
-	</body>	
+                    <div class="col-xs-4 h6" dir="ltr">
+                        Powered by <a style="text-decoration: underline;" target="_blank" href="https://github.com/hrasadi/auto-asaad">auto-asaad</a>
+                    </div>
+                </div>
+        </footer>
+
+
+        <script src="vendor/jquery-2.1.4.min.js"></script>       
+        <script src="bootstrap.min.js"></script>
+        <script type="text/javascript">
+            $('body').on('click', '[data-toggle="modal"]', 
+                function() { $($(this).data("target") + ' .modal-body').load('lineup.html'); });
+        </script>
+    </body> 
 </html>
