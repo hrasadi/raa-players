@@ -62,9 +62,9 @@ PlaybackManager.prototype.init = function() {
 
 var generatePlayerButton = function(forcePlaybackStatus = false) {
     if (!forcePlaybackStatus && $('#player')[0].paused) {
-      return '<img src="play-button.png" style="max-height: 50px">';
+      return '<img src="img/play-button.png" style="max-height: 50px">';
     } else {
-      return '<img src="pause-button.png" style="max-height: 50px">';
+      return '<img src="img/pause-button.png" style="max-height: 50px">';
     }
 }
 
