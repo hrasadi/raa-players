@@ -14,23 +14,25 @@
     </head>
     <body>
         <div class="container-fluid">
-            <img class="img-responsive center-block" src="img/raa-logo-256.png"/>
+            <img id="raa-logo" class="img-responsive center-block" src="img/raa-logo-256.png"/>
 
-            <div class="text-center current-program-button">
+            <div class="text-center lineup-button">
                 <a class="btn btn-success btn-lg" data-toggle="modal" data-target="#lineupModal">
                     برنامه‌های امروز
-                </a>            
+                </a>
             </div>
             <div class="text-center chrome-extension">
                 <div class="col-xs-6 col-xs-offset-3">
-                    <img src="chrome-extension-support.png">
+                    <img src="chrome-extension-support.png" style="max-height:48px">
                     <a href="https://chrome.google.com/webstore/detail/%D8%B1%D8%A7%D8%AF%DB%8C%D9%88-%D8%A7%D8%AA%D9%88-%D8%A7%D8%B3%D8%B9%D8%AF/abgkkdgilpehcalfkahppefeejmpnjep?hl=en-US" style="padding-right:10px; color:black; text-decoration: underline;" target="_blank">افزونه‌ی رادیو اتو-اسعد برای Google Chrome را امتحان کنید!</a>
                 </div>
             <div>
-                <audio id="player" autoplay style="width:50%; height:100px">
+                <audio id="player" autoplay>
                     <source src="http://www.raa.media:8000/raa1.ogg" type="audio/mpeg">
                 </audio>
             </div>
+
+            <!-- Modal -->
             <div class="modal fade" id="lineupModal" tabindex="-1" role="dialog" aria-labelledby="lineupModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -45,23 +47,29 @@
         </div>
 
         <footer class="footer">
-                <div class="row">
-                    <div class="col-xs-8 h6">
-                        <a href="https://docs.google.com/spreadsheets/d/1SVCVIMHpp1umZr9jHyoZEFuDnFont-Xfkk864pMUthQ/edit?usp=sharing" target="_blank">هزینه‌ها</a>
-                    </div>
-
-                    <div class="col-xs-4 h6" dir="ltr">
-                        Powered by <a style="text-decoration: underline;" target="_blank" href="https://github.com/hrasadi/auto-asaad">auto-asaad</a>
-                    </div>
+            <div id="player-bar" class="row player-bar-row"></div>
+            <div class="row footer-row">
+                <div class="col-xs-8 h6">
+                    <a href="https://docs.google.com/spreadsheets/d/1SVCVIMHpp1umZr9jHyoZEFuDnFont-Xfkk864pMUthQ/edit?usp=sharing" target="_blank">هزینه‌ها</a>
                 </div>
+
+                <div class="col-xs-4 h6" dir="ltr">
+                    Powered by <a style="text-decoration: underline;" target="_blank" href="https://github.com/hrasadi/auto-asaad">auto-asaad</a>
+                </div>
+            </div>
         </footer>
 
 
-        <script src="vendor/jquery-2.1.4.min.js"></script>       
+        <script src="vendor/jquery-2.1.4.min.js"></script>
         <script src="bootstrap.min.js"></script>
+        <script src="equalizer.js"></script>
+        <script src="raa.js"></script>
         <script type="text/javascript">
-            $('body').on('click', '[data-toggle="modal"]', 
+            $(document).ready(function() {
+                $('raa-logo').fadeIn()
+            })
+            $('body').on('click', '[data-toggle="modal"]',
                 function() { $($(this).data("target") + ' .modal-body').load('lineup.html'); });
         </script>
-    </body> 
+    </body>
 </html>
