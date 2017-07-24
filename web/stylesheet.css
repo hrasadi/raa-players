@@ -30,12 +30,13 @@ body {
 }
 
 p.program-title {
-  line-height: 0px;
+  display: inline;
 }
 
 p.program-description {
   font-style: italic;
   color: gray;
+	margin: 0
 }
 
 .band {
