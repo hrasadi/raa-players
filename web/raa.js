@@ -6,6 +6,7 @@ var PlaybackManager = function(onRadioProgramBeginCallback, onRadioProgramEndCal
   this.radioHasProgram = false;
   this.cyclesInSameStatus = 0;
   this.currentProgram = '';
+  this.isPausedByUser = false;
 
   this.loop = function(self, initialized = true) {
     self.readServerStatus(initialized);
@@ -60,8 +61,8 @@ PlaybackManager.prototype.init = function() {
   }, 10000);
 }
 
-var generatePlayerButton = function(forcePlaybackStatus = false) {
-    if (!forcePlaybackStatus && $('#player')[0].paused) {
+var generatePlayerButton = function() {
+    if ($('#player')[0].paused) {
       return '<img src="img/play-button.png" style="max-height: 50px">';
     } else {
       return '<img src="img/pause-button.png" style="max-height: 50px">';
@@ -71,13 +72,26 @@ var generatePlayerButton = function(forcePlaybackStatus = false) {
 var flipPlaybackStatus = function() {
   if ($('#player')[0].paused) {
     $('#player')[0].play();
+    playbackManager.isPausedByUser = false;
   } else {
     $('#player')[0].pause();
+    playbackManager.isPausedByUser = true;
   }
   $("#player-button").html(generatePlayerButton());
 }
 
-new PlaybackManager(function() {
+var playbackManager = new PlaybackManager(function() {
+  // don't waste resources! If player is already started continue
+  if (!$('#player')[0].paused) {
+    return;
+  }
+
+  // invalidate any previous players
+  if (!playbackManager.isPausedByUser) {
+    $('#player')[0].src = raa1Url;
+    $('#player')[0].play(); // Note that this line does not have any effect in mobile browsers
+  }
+
   $('#player-bar').html(
     '<div class="col-xs-11 h5">' +
       '<div class="row" style="padding-right:20px">' +
@@ -87,7 +101,7 @@ new PlaybackManager(function() {
     '</div>' +
     '<div id="player-button" class="col-xs-1" dir="ltr" style="padding:0px">' +
     '   <script type="text/javascript">' +
-    '     $("#player-button").html(generatePlayerButton(true));' +
+    '     $("#player-button").html(generatePlayerButton());' +
     '     $("#player-button").on("click", function() {' +
     '       flipPlaybackStatus();' +
     '     });' +
@@ -95,12 +109,11 @@ new PlaybackManager(function() {
     '</div>');
     makeSpectrum("equalizer", 20, 20, 3, 0);
 
-    // invalidate any previous players
-    $('#player')[0].src = raa1Url;
-    $('#player')[0].play();
 },function () {
   $('#player-bar').html('<div class="text-center h4" style="padding-top: 10px">' +
   'الان برنامه نداریم!</div>');
 
   $('#player')[0].src = "";
-}).init();
+});
+
+playbackManager.init();
