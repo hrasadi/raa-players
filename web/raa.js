@@ -80,7 +80,7 @@ var flipPlaybackStatus = function() {
 new PlaybackManager(function() {
   $('#player-bar').html(
     '<div class="col-xs-11 h5">' +
-      '<div class="row">' +
+      '<div class="row" style="padding-right:20px">' +
         '<div id="equalizer" class="col-xs-4"/>' +
         '<div class="col-xs-8" style="padding-top: 10px"> در حال پخش: ' + title + '</div>' +
       '</div>' +
