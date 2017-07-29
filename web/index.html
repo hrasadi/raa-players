@@ -33,7 +33,7 @@
             </div>
 
             <!-- Lineup Modal -->
-            <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal fade" id="raa-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-body" style="overflow:auto"></div>
@@ -75,9 +75,10 @@
             $('body').on('click', '[data-toggle="modal"]',
                 function() { 
                     if ($(this).data("target") == "#lineupModal") {
-                        $('#modal' + ' .modal-body').load('lineup.html'); 
+                        $('#raa-modal' + ' .modal-body').load('lineup.html'); 
                     } else if ($(this).data("target") == "#legalsModal") {
-                        $('#modal' + ' .modal-body').load('legals.html');                         
+                        console.log($('#raa-modal' + ' .modal-body'))
+                        $('#raa-modal' + ' .modal-body').load('legals.html');                         
                     }
                 });
         </script>
