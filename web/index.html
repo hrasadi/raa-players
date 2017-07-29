@@ -33,7 +33,7 @@
             </div>
 
             <!-- Lineup Modal -->
-            <div class="modal fade" id="raa-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal fade" id="raa-modal" tabindex="-1" role="dialog" aria-labelledby="raaModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-body" style="overflow:auto"></div>
@@ -55,7 +55,7 @@
                             <a href="https://docs.google.com/spreadsheets/d/1SVCVIMHpp1umZr9jHyoZEFuDnFont-Xfkk864pMUthQ/edit?usp=sharing" target="_blank">هزینه‌ها</a>
                         </li>
                         <li>
-                            <a data-toggle="modal" data-target="#legalsModal">قانونی‌جات</a>
+                            <a href="#" data-toggle="modal" data-target="#legalsModal">قانونی‌جات</a>
                         </li>
                     </ul>
                 </div>
@@ -75,11 +75,11 @@
             $('body').on('click', '[data-toggle="modal"]',
                 function() { 
                     if ($(this).data("target") == "#lineupModal") {
-                        $('#raa-modal' + ' .modal-body').load('lineup.html'); 
+                        $("#raa-modal .modal-body").load('lineup.html'); 
                     } else if ($(this).data("target") == "#legalsModal") {
-                        console.log($('#raa-modal' + ' .modal-body'))
-                        $('#raa-modal' + ' .modal-body').load('legals.html');                         
+                        $('#raa-modal .modal-body').load('legals.html');                         
                     }
+                    $("#raa-modal").modal();
                 });
         </script>
 
