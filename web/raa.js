@@ -1,5 +1,5 @@
-const raa1Url = "http://raa.media:8000/raa1.ogg";
-const raa1StatusUrl = 'http://www.raa.media:8000/status-json.xsl';
+var raa1Url = "http://raa.media:8000/raa1.ogg";
+var raa1StatusUrl = 'http://www.raa.media:8000/status-json.xsl';
 
 var PlaybackManager = function(onRadioProgramBeginCallback, onRadioProgramEndCallback) {
 
@@ -8,7 +8,10 @@ var PlaybackManager = function(onRadioProgramBeginCallback, onRadioProgramEndCal
   this.currentProgram = '';
   this.isPausedByUser = false;
 
-  this.loop = function(self, initialized = true) {
+  this.loop = function(self, initialized) {
+    // default value in older browsersxxxx
+    initialized = typeof initialized  === 'undefined' ? true : initialized;
+    
     self.readServerStatus(initialized);
   }
 
