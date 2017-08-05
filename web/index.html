@@ -71,10 +71,19 @@
         <script src="bootstrap.min.js"></script>
         <script src="raa.min.js"></script>
         <script type="text/javascript">
+            var todayFormatted = function() {
+                var formattedDate = new Date();
+                var d = formattedDate.getDate();
+                var m =  formattedDate.getMonth();
+                m += 1;  // JavaScript months are 0-11
+                var y = formattedDate.getFullYear();
+
+                return y + "-" + ("0" + m).slice(-2) + "-" + ("0" + d).slice(-2);
+            }
             $('body').on('click', '[data-toggle="modal"]',
                 function() { 
                     if ($(this).data("target") == "#lineupModal") {
-                        $("#raa-modal .modal-body").load('lineup.html'); 
+                        $("#raa-modal .modal-body").load('lineups/lineup-' + todayFormatted() + '.html'); 
                     } else if ($(this).data("target") == "#legalsModal") {
                         $('#raa-modal .modal-body').load('legals.html');                         
                     }
