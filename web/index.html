@@ -20,13 +20,10 @@
                 <a class="btn btn-success btn-lg" data-toggle="modal" data-target="#lineupModal">
                     برنامه‌های امروز
                 </a>
+                <a class="btn btn-primary btn-lg" data-toggle="modal" data-target="#howtoListenModal">
+                    چه طور گوش کنیم؟
+                </a>
             </div>
-            <div class="text-center chrome-extension">
-                <div class="col-xs-6 col-xs-offset-3">
-                    <img src="chrome-extension-support.png" style="max-height:48px">
-                    <a href="https://chrome.google.com/webstore/detail/%D8%B1%D8%A7%D8%AF%DB%8C%D9%88-%D8%A7%D8%AA%D9%88-%D8%A7%D8%B3%D8%B9%D8%AF/abgkkdgilpehcalfkahppefeejmpnjep?hl=en-US" style="padding-right:10px; color:black; text-decoration: underline;" target="_blank">افزونه‌ی رادیو اتو-اسعد برای Google Chrome را امتحان کنید!</a>
-                </div>
-            <div>
                 <audio id="player" autoplay>
                     <source src="http://www.raa.media:8000/raa1.ogg" type="audio/mpeg">
                 </audio>
@@ -86,6 +83,8 @@
                         $("#raa-modal .modal-body").load('lineups/lineup-' + todayFormatted() + '.html'); 
                     } else if ($(this).data("target") == "#legalsModal") {
                         $('#raa-modal .modal-body').load('legals.html');                         
+                    } else if ($(this).data("target") == "#howtoListenModal") {
+                        $('#raa-modal .modal-body').load('howtolisten.html');
                     }
                     $("#raa-modal").modal();
                 });
