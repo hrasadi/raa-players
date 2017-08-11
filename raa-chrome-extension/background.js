@@ -98,21 +98,24 @@ chrome.runtime.onMessage.addListener(
 
 document.addEventListener('DOMContentLoaded', function() {
     playbackManager = new PlaybackManager(function(title) {
-        currentProgram = 'در حال پخش: ' + title;
+      currentProgram = 'در حال پخش: ' + title;
 
+      if (!radioPowerSwitch) {
+        if (radioStream) {
+          radioStream.src = "";
+        }
+      } else {
         // don't waste resources! If player is already started continue
         if (radioStream && !radioStream.paused) {
             return;
         }
-
         // invalidate any previous players
         if (radioStream) {
             radioStream.src = "";
         }
-        if (radioPowerSwitch == true) {
-            radioStream = new Audio(raa1Url);
-            radioStream.play();
-        } 
+        radioStream = new Audio(raa1Url);
+        radioStream.play();          
+      }        
     },function () {
         currentProgram = 'الان برنامه نداریم!';
 
