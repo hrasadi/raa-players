@@ -5,6 +5,8 @@ var raa1Url = "http://raa.media:8000/raa1.ogg";
 
 var raa1StatusUrl = 'http://www.raa.media:8000/status-json.xsl';
 
+var playbackManager = null;
+
 var PlaybackManager = function(onRadioProgramBeginCallback, onRadioProgramEndCallback) {
 
   this.radioHasProgram = false;
@@ -70,22 +72,20 @@ PlaybackManager.prototype.init = function() {
 
 
 var flipRadioPowerStatus = function() {
-  if ($('#player')[0].paused) {
-    $('#player')[0].play();
-    playbackManager.isPausedByUser = false;
-  } else {
-    $('#player')[0].pause();
-    playbackManager.isPausedByUser = true;
+  radioPowerSwitch = !radioPowerSwitch;
+
+  if (playbackManager) {
+    playbackManager.decideRadioStatus();
   }
-  $("#player-button").html(generatePlayerButton());
 }
 
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
         if (!sender.tab) {
             if (request.hasOwnProperty("setRadioPowerSwitch")) {
-                radioPowerSwitch = request.setRadioPowerSwitch;
-                // TODO            
+                if (radioPowerSwitch != request.setRadioPowerSwitch) {
+                  flipRadioPowerStatus();
+                }
             } else if (request.hasOwnProperty("getRadioPowerSwitch")) {
                 sendResponse({radioPowerSwitch: radioPowerSwitch});
             
@@ -106,14 +106,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // invalidate any previous players
-        if (radioPowerSwitch) {
-            if (radioStream) {
-                radioStream.src = "";
-            }
-
+        if (radioStream) {
+            radioStream.src = "";
+        }
+        if (radioPowerSwitch == true) {
             radioStream = new Audio(raa1Url);
             radioStream.play();
-        }
+        } 
     },function () {
         currentProgram = 'الان برنامه نداریم!';
 
