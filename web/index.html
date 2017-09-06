@@ -1,103 +1,105 @@
 <html dir="rtl">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>
-            رادیو اتو اسعد
-        </title>
-        <link rel="icon" href="favicon.png" type="image/png">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+        رادیو اتو اسعد
+    </title>
+    <link rel="icon" href="favicon.png" type="image/png">
 
-        <link rel="stylesheet" href="stylesheet.css" type="text/css" charset="utf-8" />
-        <link href="bootstrap.min.css" rel="stylesheet" />
-        <link rel="stylesheet" href="bootstrap-rtl.min.css">
-    </head>
-    <body>
-        <div class="container-fluid">
-            <img id="raa-logo" class="img-responsive center-block" src="img/raa-logo-256.png"/>
+    <link rel="stylesheet" href="stylesheet.css" type="text/css" charset="utf-8" />
+    <link href="bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="bootstrap-rtl.min.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <img id="raa-logo" class="img-responsive center-block" src="img/raa-logo-256.png"/>
 
-            <div class="text-center lineup-button">
-                <a class="btn btn-success btn-lg" data-toggle="modal" data-target="#lineupModal">
-                    برنامه‌های امروز
-                </a>
-                <a class="btn btn-primary btn-lg" data-toggle="modal" data-target="#howtoListenModal">
-                    چه طور گوش کنیم؟
-                </a>
-            </div>
-                <audio id="player" autoplay>
-                    <source src="http://www.raa.media:8000/raa1.ogg" type="audio/mpeg">
-                </audio>
-            </div>
+        <div class="text-center lineup-button">
+            <a class="btn btn-success btn-lg" data-toggle="modal" data-target="#lineupModal">
+                برنامه‌های امروز
+            </a>
+            <a class="btn btn-primary btn-lg" data-toggle="modal" data-target="#howtoListenModal">
+                چه طور گوش کنیم؟
+            </a>
+        </div>
+        <audio id="player" autoplay>
+            <source src="http://www.raa.media:8000/raa1.ogg" type="audio/mpeg">
+            </audio>
+        </div>
 
-            <!-- Lineup Modal -->
-            <div class="modal fade" id="raa-modal" tabindex="-1" role="dialog" aria-labelledby="raaModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-body" style="overflow:auto"></div>
+        <!-- Lineup Modal -->
+        <div class="modal fade" id="raa-modal" tabindex="-1" role="dialog" aria-labelledby="raaModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body" style="overflow:auto"></div>
 
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">بستن</button>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">بستن</button>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <footer class="footer">
-            <div id="player-bar" class="row player-bar-row"></div>
-            <div class="row footer-row">
-                <div class="col-xs-8">
-                    <ul class="list-inline">
-                        <li>
-                            <a href="https://docs.google.com/spreadsheets/d/1SVCVIMHpp1umZr9jHyoZEFuDnFont-Xfkk864pMUthQ/edit?usp=sharing" target="_blank">هزینه‌ها</a>
-                        </li>
-                        <li>
-                            <a href="#" data-toggle="modal" data-target="#legalsModal">قانونی‌جات</a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="col-xs-4 small" dir="ltr">
-                    Powered by <a style="text-decoration: underline;" target="_blank" href="https://github.com/hrasadi/auto-asaad">auto-asaad</a>
-                </div>
+    <footer class="footer">
+        <div id="player-bar" class="row player-bar-row"></div>
+        <div class="row footer-row">
+            <div class="col-xs-8">
+                <ul class="list-inline">
+                    <li>
+                        <a href="https://docs.google.com/spreadsheets/d/1SVCVIMHpp1umZr9jHyoZEFuDnFont-Xfkk864pMUthQ/edit?usp=sharing" target="_blank">هزینه‌ها</a>
+                    </li>
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#legalsModal">قانونی‌جات</a>
+                    </li>
+                </ul>
             </div>
-        </footer>
+
+            <div class="col-xs-4 small" dir="ltr">
+                Powered by <a style="text-decoration: underline;" target="_blank" href="https://github.com/hrasadi/auto-asaad">auto-asaad</a>
+            </div>
+        </div>
+    </footer>
 
 
-        <script src="vendor/jquery-2.1.4.min.js"></script>
-        <script src="bootstrap.min.js"></script>
-        <script src="raa.min.js"></script>
-        <script type="text/javascript">
-            var todayFormatted = function() {
-                var formattedDate = new Date();
-                var d = formattedDate.getDate();
-                var m =  formattedDate.getMonth();
-                m += 1;  // JavaScript months are 0-11
-                var y = formattedDate.getFullYear();
+    <script src="vendor/jquery-2.1.4.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+    <script src="raa.min.js"></script>
+    <script src="moment.min.js"></script>
+    <script type="text/javascript">
+        var todayFormatted = function() {
+            var formattedDate = new Date();
+            var d = formattedDate.getDate();
+            var m =  formattedDate.getMonth();
+            m += 1;  // JavaScript months are 0-11
+            var y = formattedDate.getFullYear();
 
-                return y + "-" + ("0" + m).slice(-2) + "-" + ("0" + d).slice(-2);
-            }
-            $('body').on('click', '[data-toggle="modal"]',
-                function() { 
-                    if ($(this).data("target") == "#lineupModal") {
-                        $("#raa-modal .modal-body").load('lineups/lineup-' + todayFormatted() + '.html'); 
-                    } else if ($(this).data("target") == "#legalsModal") {
-                        $('#raa-modal .modal-body').load('legals.html');                         
-                    } else if ($(this).data("target") == "#howtoListenModal") {
-                        $('#raa-modal .modal-body').load('howtolisten.html');
-                    }
-                    $("#raa-modal").modal();
-                });
-        </script>
+            return y + "-" + ("0" + m).slice(-2) + "-" + ("0" + d).slice(-2);
+        }
+        $('body').on('click', '[data-toggle="modal"]',
+            function() { 
+                if ($(this).data("target") == "#lineupModal") {
+                    $("#raa-modal .modal-body").load('lineups/lineup-' + todayFormatted() + '.html'); 
+                } else if ($(this).data("target") == "#legalsModal") {
+                    $('#raa-modal .modal-body').load('legals.html');                         
+                } else if ($(this).data("target") == "#howtoListenModal") {
+                    $('#raa-modal .modal-body').load('howtolisten.html');
+                }
+                $("#raa-modal").modal();
+            });
+    </script>
 
-        <script>
-            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-            ga('create', 'UA-103579661-1', 'auto');
-            ga('send', 'pageview');
-        </script>
-    </body>
+        ga('create', 'UA-103579661-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+</body>
 </html>

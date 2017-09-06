@@ -1,11 +1,10 @@
 var raa1Url = "http://raa.media:8000/raa1.ogg";
-var raa1StatusUrl = 'http://www.raa.media:8000/status-json.xsl';
+var raa1StatusUrl = 'http://raa.media/lineups/status.json';
 
 var PlaybackManager = function(onRadioProgramBeginCallback, onRadioProgramEndCallback) {
 
   this.radioHasProgram = false;
   this.cyclesInSameStatus = 0;
-  this.currentProgram = '';
   this.isPausedByUser = false;
 
   this.loop = function(self, initialized) {
@@ -18,9 +17,9 @@ var PlaybackManager = function(onRadioProgramBeginCallback, onRadioProgramEndCal
   this.readServerStatus = function(initialized) {
     self = this;
     $.get(raa1StatusUrl, function(data) {
-      title = data.icestats.source.title;
-      if (title && title != "" && title != "BLANK") {
-        /* We have program. Determine if the status has changed */
+     title = data.currentProgram;	
+     if (data.isCurrentlyPlaying) {
+      /* We have program. Determine if the status has changed */
         // If radio didn't have program before
         if (!self.radioHasProgram) {
           self.radioHasProgram = true;
@@ -29,6 +28,8 @@ var PlaybackManager = function(onRadioProgramBeginCallback, onRadioProgramEndCal
           self.cyclesInSameStatus++;
         }
       } else {
+       nextBoxId = data.nextBoxId;
+       nextBoxStartTime = moment(data.nextBoxStartTime);
         // We do not have program. Determine if the status has changed
         if (self.radioHasProgram) {
           self.radioHasProgram = false;
@@ -49,7 +50,7 @@ var PlaybackManager = function(onRadioProgramBeginCallback, onRadioProgramEndCal
       // give some time for playback the rest
       // If this is the first time we are here (uninitialized status) we
       // should go ahead and set the status no matter what
-    } else if ((!this.radioHasProgram && this.cyclesInSameStatus > 2) || !initialized) {
+    } else if ((!this.radioHasProgram && this.cyclesInSameStatus > 1) || !initialized) {
       onRadioProgramEndCallback();
     }
   }
@@ -65,11 +66,11 @@ PlaybackManager.prototype.init = function() {
 }
 
 var generatePlayerButton = function() {
-    if ($('#player')[0].paused) {
-      return '<img src="img/play-button.png" style="max-height: 50px">';
-    } else {
-      return '<img src="img/pause-button.png" style="max-height: 50px">';
-    }
+  if ($('#player')[0].paused) {
+    return '<img src="img/play-button.png" style="max-height: 50px">';
+  } else {
+    return '<img src="img/pause-button.png" style="max-height: 50px">';
+  }
 }
 
 var flipPlaybackStatus = function() {
@@ -84,39 +85,64 @@ var flipPlaybackStatus = function() {
 }
 
 var playbackManager = new PlaybackManager(function() {
-  // don't waste resources! If player is already started continue
-  if (!$('#player')[0].paused) {
-    return;
-  }
-
   // invalidate any previous players
-  if (!playbackManager.isPausedByUser) {
+  if ($('#player')[0].paused && !playbackManager.isPausedByUser) {
     $('#player')[0].src = raa1Url;
     $('#player')[0].play(); // Note that this line does not have any effect in mobile browsers
   }
 
-  $('#player-bar').html(
-    '<div class="col-xs-11 h5">' +
-      '<div class="row" style="padding-right:20px">' +
-        '<div id="equalizer" class="col-xs-4"/>' +
-        '<div class="col-xs-8" style="padding-top: 10px"> در حال پخش: ' + title + '</div>' +
-      '</div>' +
-    '</div>' +
-    '<div id="player-button" class="col-xs-1" dir="ltr" style="padding:0px">' +
-    '   <script type="text/javascript">' +
-    '     $("#player-button").html(generatePlayerButton());' +
-    '     $("#player-button").on("click", function() {' +
-    '       flipPlaybackStatus();' +
-    '     });' +
-    '   </script>' +
-    '</div>');
-    makeSpectrum("equalizer", 20, 20, 3, 0);
+  // invalidate the counter
+  downCounterMoment = null;
+  if (typeof downCounterIntervalId != 'undefined' || downCounterIntervalId > 0) {
+   clearInterval(downCounterIntervalId);
+   downCounterIntervalId = -1;
+ }
+ 
+ $('#player-bar').html(
+  '<div class="col-xs-11 h5">' +
+  '<div class="row" style="padding-right:20px">' +
+  '<div id="equalizer" class="col-xs-4"/>' +
+  '<div class="col-xs-8" style="padding-top: 10px"> در حال پخش: ' + title + '</div>' +
+  '</div>' +
+  '</div>' +
+  '<div id="player-button" class="col-xs-1" dir="ltr" style="padding:0px">' +
+  '   <script type="text/javascript">' +
+  '     $("#player-button").html(generatePlayerButton());' +
+  '     $("#player-button").on("click", function() {' +
+  '       flipPlaybackStatus();' +
+  '     });' +
+  '   </script>' +
+  '</div>');
+ makeSpectrum("equalizer", 20, 20, 3, 0);
 
-},function () {
-  $('#player-bar').html('<div class="text-center h4" style="padding-top: 10px">' +
-  'الان برنامه نداریم!</div>');
+}, function () {
+  
+  if (typeof downCounterMoment === 'undefined' || downCounterMoment == null) {
+   
+   downCounterMoment = moment.duration(nextBoxStartTime.diff(moment()));
 
-  $('#player')[0].src = "";
+   downCounterIntervalId = setInterval(function() {
+     downCounterMoment.subtract(1, 'second');
+
+     if (downCounterMoment.asMilliseconds() < 0) {
+       $('#player-bar').html('<div class="text-center h4" style="padding-top: 10px">' +
+        'به زودی: ' + nextBoxId + '</div>');
+     } else {
+       var playerBarHtml = '<div class="text-center h4" style="padding-top: 10px">' + nextBoxId + ' در ';
+
+       if (downCounterMoment.hours() != 0) {
+        playerBarHtml = playerBarHtml + downCounterMoment.hours() + ' ساعت و ';
+      }
+      if (downCounterMoment.minutes() != 0) {
+        playerBarHtml = playerBarHtml + downCounterMoment.minutes() + ' دقیقه و ';
+      }
+
+      playerBarHtml = playerBarHtml + downCounterMoment.seconds() + ' ثانیه ' + '</div>';
+
+      $('#player-bar').html(playerBarHtml);
+    }
+  }, 1000);
+ } 
 });
 
 playbackManager.init();
