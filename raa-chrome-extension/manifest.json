@@ -3,7 +3,7 @@
 
   "name": "رادیو اتو-اسعد",
   "description": "Smart playback of Radio Auto-asaad",
-  "version": "1.0.4",
+  "version": "1.0.5",
 
   "icons": {
     "16": "icon_16.png",
@@ -19,6 +19,10 @@
   },
   "permissions": [
     "activeTab",
+    "notifications",
     "http://raa.media:8000/"
+  ],
+  "web_accessible_resources": [
+    "icon_128.png"
   ]
 }

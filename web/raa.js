@@ -28,8 +28,8 @@ var PlaybackManager = function(onRadioProgramBeginCallback, onRadioProgramEndCal
           self.cyclesInSameStatus++;
         }
       } else {
-       nextBoxId = data.nextBoxId;
-       nextBoxStartTime = moment(data.nextBoxStartTime);
+        nextBoxId = data.nextBoxId;
+        nextBoxStartTime = moment(data.nextBoxStartTime);
         // We do not have program. Determine if the status has changed
         if (self.radioHasProgram) {
           self.radioHasProgram = false;
