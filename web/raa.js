@@ -93,9 +93,9 @@ var playbackManager = new PlaybackManager(function() {
 
   // invalidate the counter
   downCounterMoment = null;
-  if (typeof downCounterIntervalId != 'undefined' || downCounterIntervalId > 0) {
-   clearInterval(downCounterIntervalId);
-   downCounterIntervalId = -1;
+  if (typeof downCounterIntervalId != 'undefined' && downCounterIntervalId > 0) {
+    clearInterval(downCounterIntervalId);
+    downCounterIntervalId = -1;
  }
  
  $('#player-bar').html(
