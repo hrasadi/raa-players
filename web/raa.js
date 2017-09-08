@@ -125,8 +125,13 @@ var playbackManager = new PlaybackManager(function() {
      downCounterMoment.subtract(1, 'second');
 
      if (downCounterMoment.asMilliseconds() < 0) {
-       $('#player-bar').html('<div class="text-center h4" style="padding-top: 10px">' +
-        'به زودی: ' + nextBoxId + '</div>');
+       if (typeof nextBoxId !== 'undefined' && nextBoxId != null) {
+          $('#player-bar').html('<div class="text-center h4" style="padding-top: 10px">' +
+            'به زودی: ' + nextBoxId + '</div>');        
+       } else { // no more programs tonight!
+          $('#player-bar').html('<div class="text-center h4" style="padding-top: 10px">' +
+            'شب بخیر! ادامه‌ی برنامه‌های رادیو از نیمه شب...');
+       }
      } else {
        var playerBarHtml = '<div class="text-center h4" style="padding-top: 10px">' + nextBoxId + ' در ';
 

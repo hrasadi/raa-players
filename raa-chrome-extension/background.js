@@ -96,7 +96,6 @@ chrome.runtime.onMessage.addListener(
             } else if (request.hasOwnProperty("getRadioPowerSwitch")) {
                 sendResponse({radioPowerSwitch: radioPowerSwitch});          
             } else if (request.hasOwnProperty("getCurrentProgram")) {
-                console.log("Hi " + JSON.stringify(playbackManager))
                 sendResponse({currentProgram: playbackManager.title});
             }
         } 
@@ -105,11 +104,19 @@ chrome.runtime.onMessage.addListener(
 
 // register for the notification buttons
 chrome.notifications.onButtonClicked.addListener(function(notificationId, buttonIdx) {
-  if (buttonIdx == 0) { // turn on radio
-    flipRadioPowerStatus();
+  if (buttonIdx == 0) { // turn on radio if it is off
+    if (!radioPowerSwitch) {
+      flipRadioPowerStatus();
+    }
   }
 }); 
 
+// register for the notification buttons
+chrome.notifications.onClicked.addListener(function(notificationId) {
+  if (!radioPowerSwitch) {
+    flipRadioPowerStatus();
+  }
+});
 
 document.addEventListener('DOMContentLoaded', function() {
     playbackManager = new PlaybackManager(function(playbackManager) {
