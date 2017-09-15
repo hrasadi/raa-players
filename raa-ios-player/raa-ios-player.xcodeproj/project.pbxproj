@@ -7,23 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		034A45F91F6B5BDB00E05123 /* PlaybackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034A45F81F6B5BDB00E05123 /* PlaybackManager.swift */; };
 		035B1A751F61D0DC00A6FB25 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035B1A741F61D0DC00A6FB25 /* AppDelegate.swift */; };
-		035B1A771F61D0DC00A6FB25 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035B1A761F61D0DC00A6FB25 /* FirstViewController.swift */; };
-		035B1A791F61D0DC00A6FB25 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035B1A781F61D0DC00A6FB25 /* SecondViewController.swift */; };
-		035B1A7C1F61D0DC00A6FB25 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 035B1A7A1F61D0DC00A6FB25 /* Main.storyboard */; };
+		035B1A771F61D0DC00A6FB25 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035B1A761F61D0DC00A6FB25 /* PlayerViewController.swift */; };
 		035B1A7E1F61D0DC00A6FB25 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 035B1A7D1F61D0DC00A6FB25 /* Assets.xcassets */; };
 		035B1A811F61D0DC00A6FB25 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 035B1A7F1F61D0DC00A6FB25 /* LaunchScreen.storyboard */; };
+		035B1A891F67221B00A6FB25 /* raa-logo-256.png in Resources */ = {isa = PBXBuildFile; fileRef = 035B1A881F67221B00A6FB25 /* raa-logo-256.png */; };
+		035B1A8D1F68777D00A6FB25 /* PlayerStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 035B1A8C1F68777D00A6FB25 /* PlayerStoryboard.storyboard */; };
+		035B1A9F1F6881F700A6FB25 /* Roya.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 035B1A9E1F6881F700A6FB25 /* Roya.ttf */; };
+		035B1AC71F68E67800A6FB25 /* ConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035B1AC61F68E67800A6FB25 /* ConfigViewController.swift */; };
+		035B1AC91F68F4C800A6FB25 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035B1AC81F68F4C800A6FB25 /* Settings.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		034A45F81F6B5BDB00E05123 /* PlaybackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaybackManager.swift; sourceTree = "<group>"; };
 		035B1A711F61D0DC00A6FB25 /* raa-ios-player.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "raa-ios-player.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		035B1A741F61D0DC00A6FB25 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		035B1A761F61D0DC00A6FB25 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
-		035B1A781F61D0DC00A6FB25 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
-		035B1A7B1F61D0DC00A6FB25 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		035B1A761F61D0DC00A6FB25 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		035B1A7D1F61D0DC00A6FB25 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		035B1A801F61D0DC00A6FB25 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		035B1A821F61D0DC00A6FB25 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		035B1A881F67221B00A6FB25 /* raa-logo-256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "raa-logo-256.png"; path = "../../workspace/raa-logo-256.png"; sourceTree = "<group>"; };
+		035B1A8C1F68777D00A6FB25 /* PlayerStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PlayerStoryboard.storyboard; sourceTree = "<group>"; };
+		035B1A9E1F6881F700A6FB25 /* Roya.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Roya.ttf; sourceTree = "<group>"; };
+		035B1AC61F68E67800A6FB25 /* ConfigViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigViewController.swift; sourceTree = "<group>"; };
+		035B1AC81F68F4C800A6FB25 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,12 +65,16 @@
 			isa = PBXGroup;
 			children = (
 				035B1A741F61D0DC00A6FB25 /* AppDelegate.swift */,
-				035B1A761F61D0DC00A6FB25 /* FirstViewController.swift */,
-				035B1A781F61D0DC00A6FB25 /* SecondViewController.swift */,
-				035B1A7A1F61D0DC00A6FB25 /* Main.storyboard */,
+				035B1A761F61D0DC00A6FB25 /* PlayerViewController.swift */,
+				035B1A8C1F68777D00A6FB25 /* PlayerStoryboard.storyboard */,
+				035B1AC61F68E67800A6FB25 /* ConfigViewController.swift */,
 				035B1A7D1F61D0DC00A6FB25 /* Assets.xcassets */,
 				035B1A7F1F61D0DC00A6FB25 /* LaunchScreen.storyboard */,
+				035B1A881F67221B00A6FB25 /* raa-logo-256.png */,
+				035B1A9E1F6881F700A6FB25 /* Roya.ttf */,
 				035B1A821F61D0DC00A6FB25 /* Info.plist */,
+				035B1AC81F68F4C800A6FB25 /* Settings.swift */,
+				034A45F81F6B5BDB00E05123 /* PlaybackManager.swift */,
 			);
 			path = "raa-ios-player";
 			sourceTree = "<group>";
@@ -100,6 +112,11 @@
 					035B1A701F61D0DC00A6FB25 = {
 						CreatedOnToolsVersion = 8.3.3;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -126,9 +143,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				035B1A8D1F68777D00A6FB25 /* PlayerStoryboard.storyboard in Resources */,
+				035B1A9F1F6881F700A6FB25 /* Roya.ttf in Resources */,
 				035B1A811F61D0DC00A6FB25 /* LaunchScreen.storyboard in Resources */,
 				035B1A7E1F61D0DC00A6FB25 /* Assets.xcassets in Resources */,
-				035B1A7C1F61D0DC00A6FB25 /* Main.storyboard in Resources */,
+				035B1A891F67221B00A6FB25 /* raa-logo-256.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,23 +158,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				035B1A791F61D0DC00A6FB25 /* SecondViewController.swift in Sources */,
 				035B1A751F61D0DC00A6FB25 /* AppDelegate.swift in Sources */,
-				035B1A771F61D0DC00A6FB25 /* FirstViewController.swift in Sources */,
+				035B1A771F61D0DC00A6FB25 /* PlayerViewController.swift in Sources */,
+				035B1AC91F68F4C800A6FB25 /* Settings.swift in Sources */,
+				034A45F91F6B5BDB00E05123 /* PlaybackManager.swift in Sources */,
+				035B1AC71F68E67800A6FB25 /* ConfigViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		035B1A7A1F61D0DC00A6FB25 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				035B1A7B1F61D0DC00A6FB25 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		035B1A7F1F61D0DC00A6FB25 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -305,6 +318,7 @@
 				035B1A871F61D0DC00A6FB25 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
