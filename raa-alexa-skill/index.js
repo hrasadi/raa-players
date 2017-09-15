@@ -5,6 +5,7 @@ const Alexa = require('alexa-sdk');
 const handlers = {
     'LaunchRequest': function () {
         this.response.audioPlayerPlay("REPLACE_ALL", "https://stream.raa.media/raa1.ogg", 112233, null, 0);
+        console.log(JSON.stringify(this.response));
         this.emit(':responseReady');
     },
     'AMAZON.StopIntent': function () {

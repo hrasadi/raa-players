@@ -12,6 +12,7 @@ var PlaybackManager = function(onRadioProgramBeginCallback, onRadioProgramEndCal
 
   this.radioHasProgram = false;
   this.title = null;
+  this.currentBox = null;
   this.currentProgram = null;
   this.currentClip = null;
   this.cyclesInSameStatus = 0;
@@ -29,7 +30,8 @@ var PlaybackManager = function(onRadioProgramBeginCallback, onRadioProgramEndCal
     $.get(raa1StatusUrl, function(data) {
       self.currentProgram = data.currentProgram; 
       if (data.isCurrentlyPlaying) {
-        currentClip = data.currentClip;
+        self.currentBox = data.currentBox;
+        self.currentClip = data.currentClip;
         /* We have program. Determine if the status has changed */
         // If radio didn't have program before
         if (!self.radioHasProgram) {
@@ -39,7 +41,7 @@ var PlaybackManager = function(onRadioProgramBeginCallback, onRadioProgramEndCal
           self.cyclesInSameStatus++;
         }
       } else {
-        nextBoxId = data.nextBoxId;
+        //self.nextBoxId = data.nextBoxId;
         //nextBoxStartTime = moment(data.nextBoxStartTime);
         // We do not have program. Determine if the status has changed
         if (self.radioHasProgram) {
@@ -137,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         now = new Date();
         today = now.getFullYear() + "-" +  (now.getMonth() + 1) + "-" + now.getDate();
-        newNotificationId = today + "-" + playbackManager.currentProgram;
+        newNotificationId = today + "-" + playbackManager.currentBox + "-" + playbackManager.currentProgram;
 
         // Make sure we do not show any notification more than once
         if (newNotificationId != currentNotificationId) {
