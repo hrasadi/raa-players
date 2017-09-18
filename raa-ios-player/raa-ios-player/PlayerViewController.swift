@@ -7,19 +7,21 @@
 //
 
 import UIKit
-import AVFoundation
 import Foundation
+import MediaPlayer
 
 class PlayerViewController: UIViewController {
-
-    var player: AVPlayer? = nil
     
     @IBOutlet weak var programList: UITableView!
+    @IBOutlet weak var playbackStatusLabel: UILabel!
+
+    var playbackCountDown: Timer? = nil;
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
-        player = AVPlayer.init(url: URL.init(string: "https://stream.raa.media/raa1.ogg")!)
+        // we should also handle MPInfoCenter callbacks
+        self.becomeFirstResponder()
     }
     
     override func viewDidLoad() {
@@ -37,6 +39,10 @@ class PlayerViewController: UIViewController {
             Settings.loadLineup()
             self.programList.reloadData()
         }
+        
+        Settings.getPlaybackManager().playbackStopCallback = onPlaybackEnd
+        Settings.getPlaybackManager().programStartCallback = onProgramStart
+
     }
 
     @IBAction func onPodcastsButtonItemClicked(_ sender: Any) {
@@ -45,18 +51,56 @@ class PlayerViewController: UIViewController {
         UIApplication.shared.open(podcastURL!);
     }
     
+    func onProgramStart(_ currentProgramTitle: String?) {
+        playbackStatusLabel.text = "در حال پخش: " + currentProgramTitle!
+    }
+    
+    func onPlaybackEnd(_ nextBoxId: String?, boxStartTime: Date?) {
+        if (nextBoxId == nil) {
+            playbackStatusLabel.text = "شب بخیر! ادامه‌ی برنامه‌های رادیو از نیمه شب..."
+        } else {
+            var counter = Int(boxStartTime!.timeIntervalSince(Date()))
+            if (self.playbackCountDown == nil) {
+                self.playbackCountDown = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+                    counter -= 1
+                    if counter == 0 {
+                        self.playbackCountDown!.invalidate()
+                        self.playbackCountDown = nil
+                        
+                        self.playbackStatusLabel.text = "به زودی: " + nextBoxId!
+                    } else {
+                        self.playbackStatusLabel.text = nextBoxId! + " در "
+                        
+                        if (counter / 3600 != 0) {
+                            self.playbackStatusLabel.text = self.playbackStatusLabel.text! + String(counter / 3600) + " ساعت و "
+                        }
+                        var remaining = counter % 3600
+                        if (remaining / 60 != 0) {
+                            self.playbackStatusLabel.text = self.playbackStatusLabel.text! + String(remaining / 60) + " دقیقه و "
+                        }
+                        remaining = remaining % 60
+                        self.playbackStatusLabel.text = self.playbackStatusLabel.text! + String(remaining) + " ثانیه "
+                    }
+                }                
+            }
+        }
+    }
+    
+    @objc override func remoteControlReceived(with event: UIEvent?) {
+        let rc: UIEventSubtype = event!.subtype
+                
+        if (rc == .remoteControlPlay) {
+            Settings.getPlaybackManager().play()
+        } else if (rc == .remoteControlPause) {
+            Settings.getPlaybackManager().stop()
+            
+            MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyPlaybackRate] = 0
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    @IBAction func onRadioPowerSwitchChanged(_ sender: UISwitch) {
-        if (sender.isOn) {
-            player!.play();
-        }
-        else {
-            player!.pause();
-        }
     }
 }
 
@@ -75,7 +119,7 @@ extension PlayerViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProgramCell", for: indexPath) as! ProgramCell
-
+        
         cell.programName.text = ((Settings.getLineup()?["array"] as! [Any])[indexPath.row] as! Dictionary)["title"]!
         cell.programName.textAlignment = .right
         cell.programName.font = UIFont(name: "B Roya", size: 15)!
@@ -104,6 +148,10 @@ extension PlayerViewController: UITableViewDataSource, UITableViewDelegate {
         cell.programTime.font = UIFont(name: "B Roya", size: 15)!
 
         return cell;
+    }
+    
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        return false
     }
     
 }

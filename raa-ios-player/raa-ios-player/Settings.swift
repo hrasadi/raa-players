@@ -11,15 +11,14 @@ import UserNotificationsUI
 import UserNotifications
 
 class Settings {
-    public static let AlwaysPlayKey = "alwaysPlay"
+    public static let BackgroundPlayKey = "backgroundPlay"
     public static let NotifyNewProgramKey = "notifyNewProgram"
     
     private var settings: UserDefaults
     private var playbackManager: PlaybackManager
     
     // Indicates the system authorization
-    private var canAlwaysPlay = true
-    private var canNotifyProgram = true
+    static var authorizedToSendNotification = true
     
     private var currentLineup: Dictionary<String, Any>?
     
