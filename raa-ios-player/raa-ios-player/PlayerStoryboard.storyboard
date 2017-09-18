@@ -28,7 +28,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="56" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hSY-yP-DWd">
-                                <rect key="frame" x="16" y="30" width="343" height="593"/>
+                                <rect key="frame" x="16" y="30" width="343" height="544"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ProgramCell" id="2YR-QY-NFG" customClass="ProgramCell" customModule="raa_ios_player" customModuleProvider="target">
@@ -38,22 +38,25 @@
                                             <rect key="frame" x="0.0" y="0.0" width="343" height="55.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="programName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DcA-Ec-Rvu">
-                                                    <rect key="frame" x="220" y="6" width="110" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="programTime" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5tl-q5-MqQ">
-                                                    <rect key="frame" x="13" y="17.5" width="102" height="21"/>
+                                                    <rect key="frame" x="13" y="18" width="102" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="programClips" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ddy-7K-9fZ">
-                                                    <rect key="frame" x="227" y="41" width="103" height="23"/>
+                                                    <rect key="frame" x="227" y="32" width="103" height="25"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="23" id="nkr-9P-7cO"/>
+                                                        <constraint firstAttribute="height" constant="25" id="NBL-XL-YNw"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="programName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DcA-Ec-Rvu">
+                                                    <rect key="frame" x="220" y="1" width="110" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="kio-Ho-UqA"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -61,12 +64,12 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="5tl-q5-MqQ" firstAttribute="centerY" secondItem="MNI-c8-QWh" secondAttribute="centerY" id="FzF-gL-Ix4"/>
-                                                <constraint firstItem="Ddy-7K-9fZ" firstAttribute="top" secondItem="DcA-Ec-Rvu" secondAttribute="bottom" constant="14" id="IkJ-gh-N9m"/>
-                                                <constraint firstItem="Ddy-7K-9fZ" firstAttribute="trailing" secondItem="DcA-Ec-Rvu" secondAttribute="trailing" id="YHw-vf-gsd"/>
-                                                <constraint firstItem="DcA-Ec-Rvu" firstAttribute="top" secondItem="MNI-c8-QWh" secondAttribute="top" constant="6" id="ZD1-nB-voG"/>
-                                                <constraint firstAttribute="trailing" secondItem="DcA-Ec-Rvu" secondAttribute="trailing" constant="13" id="fiU-0E-rld"/>
-                                                <constraint firstItem="5tl-q5-MqQ" firstAttribute="leading" secondItem="MNI-c8-QWh" secondAttribute="leading" constant="13" id="zwO-xh-USX"/>
+                                                <constraint firstItem="5tl-q5-MqQ" firstAttribute="centerY" secondItem="MNI-c8-QWh" secondAttribute="centerY" id="Lg1-eV-iFe"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="DcA-Ec-Rvu" secondAttribute="trailing" constant="5" id="Oxn-1e-p2T"/>
+                                                <constraint firstItem="Ddy-7K-9fZ" firstAttribute="top" secondItem="DcA-Ec-Rvu" secondAttribute="bottom" constant="10" id="PMU-8z-01M"/>
+                                                <constraint firstItem="DcA-Ec-Rvu" firstAttribute="top" secondItem="MNI-c8-QWh" secondAttribute="top" constant="1" id="adX-Ss-6IQ"/>
+                                                <constraint firstItem="5tl-q5-MqQ" firstAttribute="leading" secondItem="MNI-c8-QWh" secondAttribute="leadingMargin" constant="5" id="ddQ-Dr-Smu"/>
+                                                <constraint firstItem="DcA-Ec-Rvu" firstAttribute="trailing" secondItem="Ddy-7K-9fZ" secondAttribute="trailing" id="fwu-8V-vht"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -96,20 +99,43 @@
                                     <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="anG-pg-Dd5"/>
                                 </items>
                             </toolbar>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iZK-J8-jH3">
+                                <rect key="frame" x="0.0" y="582" width="375" height="41"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gEt-K8-J8O">
+                                        <rect key="frame" x="3" y="13" width="369" height="15"/>
+                                        <fontDescription key="fontDescription" name="BRoya" family="B Roya" pointSize="15"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <constraints>
+                                    <constraint firstItem="gEt-K8-J8O" firstAttribute="centerX" secondItem="iZK-J8-jH3" secondAttribute="centerX" id="302-TR-dE6"/>
+                                    <constraint firstAttribute="trailing" secondItem="gEt-K8-J8O" secondAttribute="trailing" constant="3" id="fl4-nO-A1L"/>
+                                    <constraint firstItem="gEt-K8-J8O" firstAttribute="top" secondItem="iZK-J8-jH3" secondAttribute="top" constant="13" id="fpa-Mk-MxN"/>
+                                    <constraint firstItem="gEt-K8-J8O" firstAttribute="centerY" secondItem="iZK-J8-jH3" secondAttribute="centerY" id="sms-cV-bb0"/>
+                                    <constraint firstItem="gEt-K8-J8O" firstAttribute="leading" secondItem="iZK-J8-jH3" secondAttribute="leading" constant="3" id="wbj-8J-VpX"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="hSY-yP-DWd" firstAttribute="top" secondItem="EaC-H2-JqR" secondAttribute="topMargin" constant="30" id="4yF-s4-W5o"/>
-                            <constraint firstAttribute="trailing" secondItem="Iq9-cr-9AD" secondAttribute="trailing" id="Mhm-dX-zQa"/>
-                            <constraint firstItem="hSY-yP-DWd" firstAttribute="leading" secondItem="EaC-H2-JqR" secondAttribute="leadingMargin" id="aNc-4g-e8y"/>
-                            <constraint firstItem="Iq9-cr-9AD" firstAttribute="bottom" secondItem="jd4-3j-k1b" secondAttribute="top" id="aZo-83-czG"/>
-                            <constraint firstItem="Iq9-cr-9AD" firstAttribute="leading" secondItem="EaC-H2-JqR" secondAttribute="leading" id="bqM-mn-VHj"/>
-                            <constraint firstItem="Iq9-cr-9AD" firstAttribute="top" secondItem="hSY-yP-DWd" secondAttribute="bottom" id="de8-bG-TTS"/>
-                            <constraint firstItem="hSY-yP-DWd" firstAttribute="trailing" secondItem="EaC-H2-JqR" secondAttribute="trailingMargin" id="kHR-NI-xjJ"/>
+                            <constraint firstItem="Iq9-cr-9AD" firstAttribute="top" secondItem="iZK-J8-jH3" secondAttribute="bottom" id="4Z4-gq-IWL"/>
+                            <constraint firstItem="Iq9-cr-9AD" firstAttribute="bottom" secondItem="jd4-3j-k1b" secondAttribute="top" id="59e-of-PqA"/>
+                            <constraint firstItem="hSY-yP-DWd" firstAttribute="leading" secondItem="EaC-H2-JqR" secondAttribute="leadingMargin" id="DoZ-Gk-alq"/>
+                            <constraint firstItem="iZK-J8-jH3" firstAttribute="top" secondItem="hSY-yP-DWd" secondAttribute="bottom" constant="8" symbolic="YES" id="HBS-fu-Sh6"/>
+                            <constraint firstItem="hSY-yP-DWd" firstAttribute="centerX" secondItem="iZK-J8-jH3" secondAttribute="centerX" id="NsX-ZC-lGg"/>
+                            <constraint firstItem="hSY-yP-DWd" firstAttribute="top" secondItem="EaC-H2-JqR" secondAttribute="topMargin" constant="30" id="QGK-0R-zIJ"/>
+                            <constraint firstItem="iZK-J8-jH3" firstAttribute="leading" secondItem="Iq9-cr-9AD" secondAttribute="leading" id="hdC-Ee-6eW"/>
+                            <constraint firstAttribute="trailing" secondItem="iZK-J8-jH3" secondAttribute="trailing" id="iE6-ZU-cwH"/>
+                            <constraint firstItem="iZK-J8-jH3" firstAttribute="leading" secondItem="EaC-H2-JqR" secondAttribute="leading" id="jmn-cN-PCB"/>
+                            <constraint firstItem="iZK-J8-jH3" firstAttribute="trailing" secondItem="Iq9-cr-9AD" secondAttribute="trailing" id="me1-Mg-xur"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="برنامه‌های امروز" id="V1l-T2-cwa"/>
                     <connections>
+                        <outlet property="playbackStatusLabel" destination="gEt-K8-J8O" id="QKm-XN-oxg"/>
                         <outlet property="programList" destination="hSY-yP-DWd" id="ynm-r5-r0Y"/>
                     </connections>
                 </viewController>
@@ -125,8 +151,37 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <label key="tableFooterView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uMB-8X-zof">
+                            <rect key="frame" x="0.0" y="205.5" width="375" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <attributedString key="attributedText">
+                                <fragment content="۲۰۱۷ - رادیو اتو-اسعد - برای اطلاع موارد حقوقی به سایت ">
+                                    <attributes>
+                                        <color key="NSColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <font key="NSFont" size="12" name="BRoya"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content="raa.media">
+                                    <attributes>
+                                        <color key="NSColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <font key="NSFont" size="11" name="Helvetica"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                    </attributes>
+                                </fragment>
+                                <fragment content=" مراجعه کنید">
+                                    <attributes>
+                                        <color key="NSColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <font key="NSFont" size="12" name="BRoya"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                    </attributes>
+                                </fragment>
+                            </attributedString>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <sections>
-                            <tableViewSection headerTitle="تنظیمات پخش" id="613-hc-U4D">
+                            <tableViewSection headerTitle=" تنظیمات پخش" id="613-hc-U4D">
+                                <string key="footerTitle"> SS اجازه‌ی ارسال اعلان غیرفعال شده است. برای فعال‌سازی دوباره  Settings &gt; Raa &gt; Notifications &gt; Allow Notifications را انتخاب کنید.</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="xff-bk-bKL">
                                         <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
@@ -135,17 +190,17 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="پخش خودکار برنامه‌ها" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qA6-1a-0Hv">
-                                                    <rect key="frame" x="234.5" y="13" width="119.5" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="پخش برنامه‌ها در پس زمینه" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qA6-1a-0Hv">
+                                                    <rect key="frame" x="201.5" y="13" width="152.5" height="21"/>
                                                     <fontDescription key="fontDescription" name="BRoya" family="B Roya" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5T9-yW-XFe">
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5T9-yW-XFe" userLabel="Background Play Switch">
                                                     <rect key="frame" x="21" y="6" width="51" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <connections>
-                                                        <action selector="alwaysPlaySwitchValueChange:" destination="ZIt-4p-cbf" eventType="valueChanged" id="zRg-9o-Wv1"/>
+                                                        <action selector="backgroundPlaySwitchValueChange:" destination="ZIt-4p-cbf" eventType="valueChanged" id="5cQ-rU-vKz"/>
                                                     </connections>
                                                 </switch>
                                             </subviews>
@@ -194,7 +249,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="تنظیمات" id="vQo-Ct-1HI"/>
                     <connections>
-                        <outlet property="alwaysPlaySwitch" destination="5T9-yW-XFe" id="H7H-sm-V55"/>
+                        <outlet property="backgroundPlaySwitch" destination="5T9-yW-XFe" id="d36-ED-fYy"/>
                         <outlet property="notifyNewProgramSwitch" destination="pyd-z5-Wds" id="tGL-4O-nHm"/>
                     </connections>
                 </tableViewController>

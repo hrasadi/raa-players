@@ -17,25 +17,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (granted, error) in
             // Enable or disable features based on authorization.
+            if !granted {
+                Settings.authorizedToSendNotification = false
+                print("Permission not granted to show notifications")
+            } else {
+                Settings.authorizedToSendNotification = true
+            }
         }
+        
+        // Register Notification delegates
+        Settings.getPlaybackManager().registerNotificationDelegate()
         
         return true
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
+        // Override point for customization after application launch.
+
         // We want to fetch status
-        // XXX How about push notifications?
         application.setMinimumBackgroundFetchInterval(30)
 
-        // Override point for customization after application launch.
         return true
     }
     
     func application(_ application: UIApplication,
                      performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
 
-        Settings.getPlaybackManager().loadStatus()
+        // Check for status (with notifications turned on - if allowed by user)
+        Settings.getPlaybackManager().loadStatus(Settings.getValue(Settings.NotifyNewProgramKey) ?? false)
         
         completionHandler(.newData)
     }
@@ -49,7 +58,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         
-        Settings.getPlaybackManager().deactivateTimer()
+        Settings.getPlaybackManager().deactivate()
+        application.endReceivingRemoteControlEvents()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -58,12 +68,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-
-        Settings.getPlaybackManager().activateTimer()
+        
+        // And receive media player commands
+        
+        UNUserNotificationCenter.current().getNotificationSettings() { ns in
+            if ns.alertSetting == .enabled {
+                Settings.authorizedToSendNotification = true
+            } else {
+                Settings.authorizedToSendNotification = false
+            }
+        }
+        
+        Settings.getPlaybackManager().activate()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        application.endReceivingRemoteControlEvents()
     }
 }
 
