@@ -147,9 +147,9 @@ class PlaybackManager : NSObject {
     
     func populateMediaInfoCenterNowPlaying() {
         let image = UIImage(named: "raa-logo-256.png")!
-        if (currentProgram != nil && currentClip != nil) {
-            mpInfoCenter.nowPlayingInfo = [MPMediaItemPropertyAlbumTitle: currentClip!,
-                                           MPMediaItemPropertyTitle: currentProgram!,
+        if (currentProgram != nil) {
+            mpInfoCenter.nowPlayingInfo = [MPMediaItemPropertyAlbumTitle: currentClip ?? "",
+                                           MPMediaItemPropertyTitle: (currentProgram! != "BLANK") ? currentProgram! : "بخش بعدی برنامه‌ها به زودی",
                                            MPMediaItemPropertyArtist: "رادیو اتو-اسعد",
                                            MPMediaItemPropertyArtwork: MPMediaItemArtwork(boundsSize: image.size) { sz in return image
                                             },
@@ -168,9 +168,9 @@ class PlaybackManager : NSObject {
         if let data = try? Data.init(contentsOf: URL(string: "http://raa.media/lineups/status.json")!) {
             let status = try? JSONSerialization.jsonObject(with: data, options: []) as! Dictionary<String, Any>
             
-            var isCurrentlyPlaying_new = status?["isCurrentlyPlaying"] as? Bool ?? false
+            let isCurrentlyPlaying_new = status?["isCurrentlyPlaying"] as? Bool ?? false
 
-            var currentBox_new = status?["currentBox"] as? String
+            let currentBox_new = status?["currentBox"] as? String
             let currentProgram_new = status?["currentProgram"] as? String
             let currentClip_new = status?["currentClip"] as? String
 
