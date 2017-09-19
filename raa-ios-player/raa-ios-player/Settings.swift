@@ -26,6 +26,14 @@ class Settings {
     
     private init() {
         settings = UserDefaults.standard
+        // Populate default settings (Yes to all features!)
+        if (settings.object(forKey: Settings.BackgroundPlayKey) == nil) {
+            settings.set(true, forKey: Settings.BackgroundPlayKey)
+        }
+        if (settings.object(forKey: Settings.NotifyNewProgramKey) == nil) {
+            settings.set(true, forKey: Settings.NotifyNewProgramKey)
+        }
+        
         playbackManager = PlaybackManager()
     }
     
