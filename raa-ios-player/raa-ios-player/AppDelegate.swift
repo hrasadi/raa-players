@@ -8,6 +8,8 @@
 
 import UIKit
 import UserNotifications
+import AVFoundation
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,45 +17,71 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
+        
+        _ = Settings.startup()
+        
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (granted, error) in
             // Enable or disable features based on authorization.
             if !granted {
                 Settings.authorizedToSendNotification = false
                 print("Permission not granted to show notifications")
             } else {
+                // Register for push notifications
+                DispatchQueue.main.async() {
+                    UIApplication.shared.registerForRemoteNotifications()
+                }               
                 Settings.authorizedToSendNotification = true
             }
         }
-        
-        // Register Notification delegates
-        Settings.getPlaybackManager().registerNotificationDelegate()
-        
         return true
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-        // We want to fetch status
-        application.setMinimumBackgroundFetchInterval(30)
-
         return true
     }
     
-    func application(_ application: UIApplication,
-                     performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-
-        // Check for status (with notifications turned on - if allowed by user)
-        Settings.getPlaybackManager().loadStatus(Settings.getValue(Settings.NotifyNewProgramKey) ?? false)
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        // Convert token to string
+        let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
         
-        completionHandler(.newData)
+        // Print it to console
+        print("APNs device token: \(deviceTokenString)")
+        
+        // Persist it in your backend in case it's new
+        let task = URLSession.shared.dataTask(with: URL(string: "http://raa.media:7799/registerDevice/ios/" + deviceTokenString)!) { data, response, error in
+            guard error == nil else {
+                print("Error while registering APN device token: " + error!.localizedDescription)
+                return
+            }
+            print("Registered APN token successfully!")
+        }
+        task.resume()
     }
-        
+    
+    // Called when APNs failed to register the device for push notifications
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        // Print the error to console (you should alert the user that registration failed)
+        print("APNs registration failed: \(error)")
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+        self.application(application, didReceiveRemoteNotification: userInfo) {_ in 
+            // Do nothing
+        }
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        print("Salam")
+    }
+    
     func applicationWillResignActive(_ application: UIApplication) {
+        // When user closes app window
+        Settings.getPlaybackManager().deactivate()
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        Settings.getPlaybackManager().deactivate()
-        application.endReceivingRemoteControlEvents()
+        // Each time we enter background, we reserve a task for use of notification delegates
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -68,11 +96,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 Settings.authorizedToSendNotification = false
             }
         }
-        
+        Settings.loadLineup()
         Settings.getPlaybackManager().activate()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
+        Settings.getPlaybackManager().shutDown();
         application.endReceivingRemoteControlEvents()
     }
 }

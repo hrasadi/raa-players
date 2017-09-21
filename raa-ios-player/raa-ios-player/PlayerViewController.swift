@@ -20,39 +20,49 @@ class PlayerViewController: UIViewController {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
+//        NotificationCenter.default.addObserver(self, selector: #selector(reloadLineup), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+        
         // we should also handle MPInfoCenter callbacks
         self.becomeFirstResponder()
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        let attributes: [String: AnyObject] = [NSFontAttributeName:UIFont(name: "BRoya", size: 18)!]
-        let appearance = UIBarButtonItem.appearance()
-        appearance.setTitleTextAttributes(attributes, for: .normal)
-        
+
         programList.delegate = self
         programList.dataSource = self
         
+        Settings.getPlaybackManager().playbackStopCallback = onPlaybackEnd
+        Settings.getPlaybackManager().programStartCallback = onProgramStart
+    }
+    
+    func reloadLineup() {
         DispatchQueue.main.async {
             Settings.loadLineup()
             self.programList.reloadData()
         }
-        
-        Settings.getPlaybackManager().playbackStopCallback = onPlaybackEnd
-        Settings.getPlaybackManager().programStartCallback = onProgramStart
-
     }
 
     @IBAction func onPodcastsButtonItemClicked(_ sender: Any) {
-        let podcastURL = URL(string: "pcast://itunes.apple.com/us/podcast/%D8%B1%D8%A7%D8%AF%DB%8C%D9%88-%D8%A7%D8%AA%D9%88-%D8%A7%D8%B3%D8%B9%D8%AF/id1266849225?mt=2")
+        let podcastURL = URL(string: "https://itunes.apple.com/us/podcast/%D8%B1%D8%A7%D8%AF%DB%8C%D9%88-%D8%A7%D8%AA%D9%88-%D8%A7%D8%B3%D8%B9%D8%AF/id1266849225?mt=2")
         
         UIApplication.shared.open(podcastURL!);
     }
     
     func onProgramStart(_ currentProgramTitle: String?) {
+        // In some cases, the playbackCountDown might not be invalidated properly (because of time skew, etc). If we are informed of a playback start, we should also invalidate any remaining playbackCountDown timers.
+        self.playbackCountDown?.invalidate()
+        self.playbackCountDown = nil
+        
+        // Update the status label
         playbackStatusLabel.text = "در حال پخش: " + currentProgramTitle!
+        
+        // Good time to redraw the program list as well
+        self.programList.reloadData()
     }
     
     func onPlaybackEnd(_ nextBoxId: String?, boxStartTime: Date?) {
@@ -80,10 +90,14 @@ class PlayerViewController: UIViewController {
                         }
                         remaining = remaining % 60
                         self.playbackStatusLabel.text = self.playbackStatusLabel.text! + String(remaining) + " ثانیه "
+                        
+                        self.playbackStatusLabel.text = Settings.convertToPersianLocaleString(self.playbackStatusLabel.text)
                     }
                 }                
             }
         }
+        // Good time to redraw the program list as well
+        self.programList.reloadData()
     }
     
     @objc override func remoteControlReceived(with event: UIEvent?) {
@@ -122,7 +136,7 @@ extension PlayerViewController: UITableViewDataSource, UITableViewDelegate {
         
         cell.programName.text = ((Settings.getLineup()?["array"] as! [Any])[indexPath.row] as! Dictionary)["title"]!
         cell.programName.textAlignment = .right
-        cell.programName.font = UIFont(name: "B Roya", size: 15)!
+        cell.programName.font = UIFont(name: ".SF UI Text", size: 15)!
 
         
         // Get rid of HTML tags
@@ -131,21 +145,23 @@ extension PlayerViewController: UITableViewDataSource, UITableViewDelegate {
             
             let attrStr = try NSAttributedString(
                 data: clips.data(using: String.Encoding.unicode, allowLossyConversion: true)!,
-                options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType],
+                options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html],
                 documentAttributes: nil)
             cell.programClips.text = attrStr.string
-        } catch _ {
-            
+        } catch let e {
+            NSLog(e.localizedDescription)
         }
+        
         cell.programClips.textAlignment = .right
-        cell.programClips.font = UIFont(name: "B Roya", size: 11)!
-
-        cell.programTime.text =
+        cell.programClips.font = UIFont(name: ".SF UI Text", size: 12)!
+        cell.programClips.lineBreakMode = .byTruncatingTail
+            
+        cell.programTime.text = Settings.convertToPersianLocaleString(
             ((Settings.getLineup()?["array"] as! [Any])[indexPath.row] as! Dictionary)["startTime"]!
             + "-" +
-            ((Settings.getLineup()?["array"] as! [Any])[indexPath.row] as! Dictionary)["endTime"]!
+            ((Settings.getLineup()?["array"] as! [Any])[indexPath.row] as! Dictionary)["endTime"]!)
         cell.programTime.textAlignment = .right
-        cell.programTime.font = UIFont(name: "B Roya", size: 15)!
+        cell.programTime.font = UIFont(name: ".SF UI Text", size: 14)!
 
         return cell;
     }

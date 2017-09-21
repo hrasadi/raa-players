@@ -22,19 +22,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="58h-nz-D2T">
-                                <rect key="frame" x="177.5" y="423.5" width="20" height="20"/>
-                            </activityIndicatorView>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="raa-logo-256.png" translatesAutoresizingMaskIntoConstraints="NO" id="HUO-Qo-hJv">
                                 <rect key="frame" x="29" y="120" width="316" height="256"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="58h-nz-D2T" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="100" id="4dy-d2-ePn"/>
                             <constraint firstItem="HUO-Qo-hJv" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="OVD-gD-ggd"/>
                             <constraint firstItem="HUO-Qo-hJv" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="100" id="PTg-ik-UsJ"/>
-                            <constraint firstItem="58h-nz-D2T" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="RgB-Re-zuY"/>
                             <constraint firstItem="HUO-Qo-hJv" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="13" id="Yk5-Wd-scs"/>
                         </constraints>
                     </view>

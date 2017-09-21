@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="z7s-u8-EUj">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="z7s-u8-EUj">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="Roya.ttf">
-            <string>BRoya</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--PlayerView-->
         <scene sceneID="Ekv-Eo-5cH">
@@ -27,25 +22,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="56" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hSY-yP-DWd">
-                                <rect key="frame" x="16" y="30" width="343" height="544"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="65" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hSY-yP-DWd">
+                                <rect key="frame" x="16" y="94" width="343" height="478"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ProgramCell" id="2YR-QY-NFG" customClass="ProgramCell" customModule="raa_ios_player" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="343" height="56"/>
+                                        <rect key="frame" x="0.0" y="28" width="343" height="65"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2YR-QY-NFG" id="MNI-c8-QWh">
-                                            <rect key="frame" x="0.0" y="0.0" width="343" height="55.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="64.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="programTime" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5tl-q5-MqQ">
-                                                    <rect key="frame" x="13" y="18" width="102" height="21"/>
+                                                    <rect key="frame" x="13" y="22" width="102" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="programClips" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ddy-7K-9fZ">
-                                                    <rect key="frame" x="227" y="32" width="103" height="25"/>
+                                                    <rect key="frame" x="13" y="40" width="317" height="25"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="25" id="NBL-XL-YNw"/>
                                                     </constraints>
@@ -64,12 +59,14 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="Ddy-7K-9fZ" firstAttribute="leading" secondItem="MNI-c8-QWh" secondAttribute="leadingMargin" constant="5" id="6c8-3r-0eC"/>
                                                 <constraint firstItem="5tl-q5-MqQ" firstAttribute="centerY" secondItem="MNI-c8-QWh" secondAttribute="centerY" id="Lg1-eV-iFe"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="DcA-Ec-Rvu" secondAttribute="trailing" constant="5" id="Oxn-1e-p2T"/>
-                                                <constraint firstItem="Ddy-7K-9fZ" firstAttribute="top" secondItem="DcA-Ec-Rvu" secondAttribute="bottom" constant="10" id="PMU-8z-01M"/>
+                                                <constraint firstItem="Ddy-7K-9fZ" firstAttribute="top" secondItem="DcA-Ec-Rvu" secondAttribute="bottom" constant="18" id="PMU-8z-01M"/>
                                                 <constraint firstItem="DcA-Ec-Rvu" firstAttribute="top" secondItem="MNI-c8-QWh" secondAttribute="top" constant="1" id="adX-Ss-6IQ"/>
                                                 <constraint firstItem="5tl-q5-MqQ" firstAttribute="leading" secondItem="MNI-c8-QWh" secondAttribute="leadingMargin" constant="5" id="ddQ-Dr-Smu"/>
                                                 <constraint firstItem="DcA-Ec-Rvu" firstAttribute="trailing" secondItem="Ddy-7K-9fZ" secondAttribute="trailing" id="fwu-8V-vht"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Ddy-7K-9fZ" secondAttribute="trailing" constant="5" id="kVy-uk-7Q7"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -100,11 +97,11 @@
                                 </items>
                             </toolbar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iZK-J8-jH3">
-                                <rect key="frame" x="0.0" y="582" width="375" height="41"/>
+                                <rect key="frame" x="0.0" y="580" width="375" height="43"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gEt-K8-J8O">
-                                        <rect key="frame" x="3" y="13" width="369" height="15"/>
-                                        <fontDescription key="fontDescription" name="BRoya" family="B Roya" pointSize="15"/>
+                                        <rect key="frame" x="3" y="13" width="369" height="17"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -151,32 +148,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        <label key="tableFooterView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uMB-8X-zof">
+                        <label key="tableFooterView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="۲۰۱۷ - رادیو اتو-اسعد - برای اطلاع موارد حقوقی به سایت raa.media مراجعه کنید" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uMB-8X-zof">
                             <rect key="frame" x="0.0" y="205.5" width="375" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <attributedString key="attributedText">
-                                <fragment content="۲۰۱۷ - رادیو اتو-اسعد - برای اطلاع موارد حقوقی به سایت ">
-                                    <attributes>
-                                        <color key="NSColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                        <font key="NSFont" size="12" name="BRoya"/>
-                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                    </attributes>
-                                </fragment>
-                                <fragment content="raa.media">
-                                    <attributes>
-                                        <color key="NSColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                        <font key="NSFont" size="11" name="Helvetica"/>
-                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                    </attributes>
-                                </fragment>
-                                <fragment content=" مراجعه کنید">
-                                    <attributes>
-                                        <color key="NSColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                        <font key="NSFont" size="12" name="BRoya"/>
-                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                    </attributes>
-                                </fragment>
-                            </attributedString>
+                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <sections>
@@ -191,8 +167,8 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="پخش برنامه‌ها در پس زمینه" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qA6-1a-0Hv">
-                                                    <rect key="frame" x="201.5" y="13" width="152.5" height="21"/>
-                                                    <fontDescription key="fontDescription" name="BRoya" family="B Roya" pointSize="17"/>
+                                                    <rect key="frame" x="195.5" y="13" width="158.5" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -219,8 +195,8 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="اعلام شروع برنامه‌ جدید" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dS8-oL-YQ8">
-                                                    <rect key="frame" x="222" y="13" width="132" height="21"/>
-                                                    <fontDescription key="fontDescription" name="BRoya" family="B Roya" pointSize="17"/>
+                                                    <rect key="frame" x="214.5" y="13" width="139.5" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -263,10 +239,10 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="z7s-u8-EUj" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="wFW-1M-2f1">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textAttributes key="titleTextAttributes">
-                            <fontDescription key="fontDescription" name="BRoya" family="B Roya" pointSize="20"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
                         </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>

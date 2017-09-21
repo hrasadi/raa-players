@@ -64,37 +64,50 @@ class PlaybackManager : NSObject {
         }
     }
     
-    let notificationCenter = UNUserNotificationCenter.current()
-
     override init() {
         super.init()
-                
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZ"
         coarseDateFormatter.dateFormat = "yyyy-MM-dd"
-        
-        // Register notification categories and actions
-        let listenAction = UNNotificationAction(identifier: "LISTEN_ACTION",
-                                                title: "گوش می‌دهم",
-                                                options: UNNotificationActionOptions(rawValue: 0))
-
-        let generalCategory = UNNotificationCategory(identifier: "GENERAL",
-                                                     actions: [listenAction],
-                                                     intentIdentifiers: [],
-                                                     options: .customDismissAction)
-        
-        // Register the notification category
-        notificationCenter.setNotificationCategories([generalCategory])
-        
+                        
         // And also configure AudioSession to show on control center
         do {
-            try audioSession.setCategory(AVAudioSessionCategoryPlayback, with: [AVAudioSessionCategoryOptions.allowBluetooth])
+            try audioSession.setCategory(AVAudioSessionCategoryPlayback, with: [AVAudioSessionCategoryOptions.allowBluetooth, AVAudioSessionCategoryOptions.mixWithOthers, AVAudioSessionCategoryOptions.duckOthers])
+            NotificationCenter.default.addObserver(self,
+                                           selector: #selector(handleAVInterruption),
+                                           name: .AVAudioSessionInterruption,
+                                           object: nil)
         } catch let e {
             print("Error while configuring AudioSession. Error is: " + e.localizedDescription)
         }
     }
-    
-    func registerNotificationDelegate() {        
-        UNUserNotificationCenter.current().delegate = self
+        
+    @objc func handleAVInterruption(notification: Notification) {
+        guard let userInfo = notification.userInfo,
+            let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
+            let type = AVAudioSessionInterruptionType(rawValue: typeValue) else {
+                return
+        }
+        if type == .began {
+            // Interruption began, take appropriate actions
+            player?.pause()
+        }
+        else if type == .ended {
+            if let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt {
+                let options = AVAudioSessionInterruptionOptions(rawValue: optionsValue)
+                if options.contains(.shouldResume) {
+                    do {
+                        try audioSession.setActive(true)
+                        player?.play()
+                    } catch let e {
+                        print("Error happened while starting playback: " + e.localizedDescription)
+                    }
+                } else {
+                    // Interruption Ended - playback should NOT resume
+                    self.stop()
+                    unpopulateMediaInfoCenterNowPlaying()
+                }
+            }
+        }
     }
     
     /*
@@ -102,14 +115,10 @@ class PlaybackManager : NSObject {
                         Example is when user opens the control center drawer on top of the active app and then closes it. iOS will call activate only on drawer closing. We need to handle this case also
      */
     func activate() {
-        
-        // This might not the case if playback has been started by clicking notification
-        if (player == nil) {
-            self.play()
-        } 
-        
         // Run once
-        loadStatus()
+        loadStatus(true)
+        
+        self.play()
         
         if (activeTimer == nil) {
             activeTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(self.loadStatus), userInfo: nil, repeats: true)
@@ -132,11 +141,47 @@ class PlaybackManager : NSObject {
     }
     
     func play() {
-        player = AVPlayer.init(url: URL.init(string: "https://stream.raa.media/raa1.ogg")!)
+        if (player == nil) {
+            //player = AVPlayer.init(url: URL.init(string: "https://stream.raa.media/raa1.ogg")!)
+            let playerItem = AVPlayerItem(asset: AVURLAsset(url: URL(string: "https://stream.raa.media/raa1.ogg")!))
+            playerItem.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.new, context: nil)
+            player = AVPlayer(playerItem: playerItem)
+
+//            let when = DispatchTime.now() + 5 // change 2 to desired number of seconds
+            self.player?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.initial, context: nil)
+//            DispatchQueue.main.asyncAfter(deadline: when) {
+//                NSLog("SSSSZZZZ Background time remaining = \(UIApplication.shared.backgroundTimeRemaining) seconds")
+//                self.player?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.initial, context: nil)
+//                // Your code with delay
+//            }
+            //NSLog("SSSSZZZZ \(player?.status.rawValue)")
+        }
+//        NSLog("SSSSZZZZ PLAYER IS SET time remaining = \(UIApplication.shared.backgroundTimeRemaining) seconds")
+
         // Always play while active
-        player?.play()
+        //player?.play()
         
         populateMediaInfoCenterNowPlaying()
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+//        NSLog("SSSSZZZZ Type of sender is: \(type(of: object))")
+        if object as? AVPlayer == player && keyPath == "status" {
+//            NSLog("SSSSZZZZ PLAYER" + String(player?.status.rawValue ?? 4))
+            if player?.status == .unknown {
+                NSLog("SSSSZZZZ " + "Unknown state")
+                //player?.play()
+            } else if player?.status == .readyToPlay {
+//                NSLog("SSSSZZZZ played")
+                player?.play()
+                player?.removeObserver(self, forKeyPath: "status")
+            } 
+//        } else if object as? AVPlayerItem != nil {
+//            NSLog("SSSSZZZZ ITEM: " + keyPath!)
+//            if keyPath == "status" {
+//                NSLog("SSSSZZZZ ITEM" + String((object as! AVPlayerItem).status.rawValue))
+//            }
+        }
     }
     
     func stop(unpopulateMediaInfoCenter: Bool = false) {
@@ -144,7 +189,15 @@ class PlaybackManager : NSObject {
         player?.pause()
         player = nil
     }
-    
+
+    func shutDown() {
+        do {
+            try audioSession.setActive(false)
+        } catch let e {
+            print("Error while deactivating the audio session. Inner exception is: " + e.localizedDescription)
+        }
+    }
+
     func populateMediaInfoCenterNowPlaying() {
         let image = UIImage(named: "raa-logo-256.png")!
         if (currentProgram != nil) {
@@ -164,7 +217,7 @@ class PlaybackManager : NSObject {
         mpInfoCenter.nowPlayingInfo = nil
     }
 
-    @objc func loadStatus(_ sendNotification: Bool = false) {
+    @objc func loadStatus(_ forceUpdateUI: Bool = false) {
         if let data = try? Data.init(contentsOf: URL(string: "http://raa.media/lineups/status.json")!) {
             let status = try? JSONSerialization.jsonObject(with: data, options: []) as! Dictionary<String, Any>
             
@@ -184,26 +237,23 @@ class PlaybackManager : NSObject {
             if isCurrentlyPlaying_new {
                 // Is this a new program?
                 // Note that we also cover the transition of playback start by knowing the fact that 'currentProgram' in the case of no program is 'BLANK'
-                if currentProgram_new != currentProgram || currentBox_new != currentBox {
+                if currentProgram_new != currentProgram || currentBox_new != currentBox || forceUpdateUI {
                     // Update player bar in foreground mode
                     if onProgramStartCallback != nil {
                         onProgramStartCallback!(currentProgram_new!)
                     } else {
                        unsentProgramStartMessage = currentProgram_new
                     }
-
-                    // Do notify if in backgroud
-                    if (sendNotification) {
-                        createNotification(currentProgram_new!, programBox: currentBox_new!)
-                    }
                 }
-            } else if !isCurrentlyPlaying_new && isCurrentlyPlaying_new != isCurrentlyPlaying {
-                // If playback stopped
-                // Update player bar
-                if onPlaybackStopCallback != nil {
-                   onPlaybackStopCallback!(nextBoxId_new, nextBoxStartTime_new)
-                } else {
-                    unsentPlaybackStopMessage = (nextBoxId: nextBoxId_new, nextBoxStartTime: nextBoxStartTime_new)
+            } else {
+                if (!isCurrentlyPlaying_new && isCurrentlyPlaying_new != isCurrentlyPlaying) || forceUpdateUI {
+                    // If playback stopped
+                    // Update player bar
+                    if onPlaybackStopCallback != nil {
+                        onPlaybackStopCallback!(nextBoxId_new, nextBoxStartTime_new)
+                    } else {
+                        unsentPlaybackStopMessage = (nextBoxId: nextBoxId_new, nextBoxStartTime: nextBoxStartTime_new)
+                    }
                 }
             }
 
@@ -217,47 +267,6 @@ class PlaybackManager : NSObject {
             
             populateMediaInfoCenterNowPlaying()
         }
-    }
-    
-    func createNotification(_ programName: String, programBox: String) {
-        let content = UNMutableNotificationContent()
-        content.body = NSString.localizedUserNotificationString(forKey: "در حال پخش: " + programName, arguments: nil)
-
-        // We only offer 'immediate listening' only in cases that they allow us to perform background playback
-        if (Settings.getValue(Settings.BackgroundPlayKey) ?? false) {
-            content.categoryIdentifier = "GENERAL"
-        }
-        
-        let notificationId = coarseDateFormatter.string(from: Date()) + "-" + programBox + "-" + programName
-        let noficationRequest = UNNotificationRequest(identifier: notificationId, content: content, trigger: UNTimeIntervalNotificationTrigger(timeInterval: 1.0, repeats: false))
-        
-        notificationCenter.add(noficationRequest, withCompletionHandler: { (error) in
-            if error != nil {
-                // Something went wrong
-                print("error while submitting notification")
-            }
-        })
-    }
-    
+    }    
 }
 
-extension PlaybackManager: UNUserNotificationCenterDelegate {
-    func userNotificationCenter(_: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        let actionIdentifier = response.actionIdentifier
-
-        switch actionIdentifier {
-        case "LISTEN_ACTION":
-            do {
-                try audioSession.setActive(true)
-                self.play()
-            } catch let e {
-                print("Error happened while starting playback: " + e.localizedDescription)
-            }
-            
-        default:
-            break;
-        }
-        completionHandler()
-   
-    }
-}

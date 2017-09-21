@@ -14,13 +14,17 @@ class Settings {
     public static let BackgroundPlayKey = "backgroundPlay"
     public static let NotifyNewProgramKey = "notifyNewProgram"
     
-    private var settings: UserDefaults
-    private var playbackManager: PlaybackManager
-    
     // Indicates the system authorization
-    static var authorizedToSendNotification = true
+    public static var authorizedToSendNotification = true
+    public static var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
     
+    private var settings: UserDefaults
+    private var playbackManager: PlaybackManager = PlaybackManager()
+    private var notificationManager: NotificationManager = NotificationManager()
+
     private var currentLineup: Dictionary<String, Any>?
+
+    let persianNumberFormatter: NumberFormatter = NumberFormatter()
     
     private static let instance = Settings()
     
@@ -34,7 +38,11 @@ class Settings {
             settings.set(true, forKey: Settings.NotifyNewProgramKey)
         }
         
-        playbackManager = PlaybackManager()
+        persianNumberFormatter.locale = Locale(identifier: "fa_IR")
+    }
+    
+    class func startup() -> Settings {
+        return instance
     }
     
     class func getValue(_ key: String) -> Bool? {
@@ -63,6 +71,21 @@ class Settings {
 
     class func getPlaybackManager() -> PlaybackManager {
         return instance.playbackManager;
+    }
+    
+    class func getNotificationManager() -> NotificationManager {
+        return instance.notificationManager
+    }
+    
+    class func convertToPersianLocaleString(_ str: String?) -> String? {
+        if (str == nil) {
+            return nil;
+        }
+        var result: String = str!
+        for i in 0...9 {
+            result = result.replacingOccurrences(of: String(i), with: instance.persianNumberFormatter.string(from: NSNumber(value: i))!)
+        }        
+        return result
     }
 
 }
