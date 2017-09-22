@@ -73,23 +73,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         // Do update the current status of program playback
-        if let raa = userInfo["raa"] as? NSDictionary {
-            Settings.getPlaybackManager().isCurrentlyPlaying = (raa["isCurrentlyPlaying"] as? Bool) ?? false
-            Settings.getPlaybackManager().currentBox = raa["currentBox"] as? String
-            Settings.getPlaybackManager().currentProgram = raa["currentProgram"] as? String
-            Settings.getPlaybackManager().currentClip = raa["currentClip"] as? String
-            Settings.getPlaybackManager().nextBoxId = raa["nextBoxId"] as? String
-            
-            //Settings.getPlaybackManager().populateMediaInfoCenterNowPlaying()
-        }
-        
         if let aps = userInfo["aps"] as? NSDictionary {
-            if let alert = aps["alert"] as? NSString {
-                if alert.length == 0 {
-                    // It's a silent notification. This means we need to stop playback
-                    Settings.getPlaybackManager().stop()
-                    Settings.getPlaybackManager().unpopulateMediaInfoCenterNowPlaying()
-                }
+            if let alert = aps["alert"] as? NSString, alert.length > 0 {
+                // Update the status
+                Settings.getPlaybackManager().loadStatus()
+            } else {
+                // It's a silent notification. This means we need to stop playback
+                Settings.getPlaybackManager().stop()
+                Settings.getPlaybackManager().unpopulateMediaInfoCenterNowPlaying()
             }
         }
     }
