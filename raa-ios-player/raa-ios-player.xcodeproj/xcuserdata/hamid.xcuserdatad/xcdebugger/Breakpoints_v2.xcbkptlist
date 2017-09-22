@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "raa-ios-player/NotificationManager.swift"
-            timestampString = "527717192.223107"
+            timestampString = "527748412.471024"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "31"
@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "raa-ios-player/AppDelegate.swift"
-            timestampString = "527717192.223238"
+            timestampString = "527748412.471215"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "33"
@@ -42,7 +42,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "raa-ios-player/PlaybackManager.swift"
-            timestampString = "527717192.22692"
+            timestampString = "527748412.471304"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "85"
@@ -58,7 +58,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "raa-ios-player/NotificationManager.swift"
-            timestampString = "527717192.230303"
+            timestampString = "527748412.471376"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "40"
@@ -70,15 +70,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "raa-ios-player/AppDelegate.swift"
-            timestampString = "527717192.230451"
+            timestampString = "527748412.471495"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "75"
-            endingLineNumber = "75"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
             landmarkName = "application(_:didReceiveRemoteNotification:fetchCompletionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -86,49 +86,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "raa-ios-player/AppDelegate.swift"
-            timestampString = "527717209.050414"
+            filePath = "raa-ios-player/PlaybackManager.swift"
+            timestampString = "527748412.471546"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
-            landmarkName = "application(_:didReceiveRemoteNotification:)"
+            startingLineNumber = "178"
+            endingLineNumber = "178"
+            landmarkName = "populateMediaInfoCenterNowPlaying()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "raa_ios_player.AppDelegate.application(__ObjC.UIApplication, didReceiveRemoteNotification: Swift.Dictionary&lt;Swift.AnyHashable, Any&gt;) -&gt; ()"
-                  moduleName = "raa-ios-player"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hamid/dev/personal-workspace/raa/raa-ios-player/raa-ios-player/AppDelegate.swift"
-                  timestampString = "527717209.318675"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "69"
-                  endingLineNumber = "69"
-                  offsetFromSymbolStart = "36">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (__C.UIBackgroundFetchResult) -&gt; () in raa_ios_player.AppDelegate.application(__ObjC.UIApplication, didReceiveRemoteNotification: Swift.Dictionary&lt;Swift.AnyHashable, Any&gt;) -&gt; ()"
-                  moduleName = "raa-ios-player"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hamid/dev/personal-workspace/raa/raa-ios-player/raa-ios-player/AppDelegate.swift"
-                  timestampString = "527717209.320358"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "71"
-                  endingLineNumber = "71"
-                  offsetFromSymbolStart = "8">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
