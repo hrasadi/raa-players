@@ -19,16 +19,16 @@ class PlaybackManager : NSObject {
 
     var player: AVPlayer? = nil
 
-    private var isCurrentlyPlaying: Bool?
+    var isCurrentlyPlaying: Bool?
 
     // When playback in progress
-    private var currentBox: String?
-    private var currentProgram: String?
-    private var currentClip: String?
+    var currentBox: String?
+    var currentProgram: String?
+    var currentClip: String?
     
     // When playback not in progress
-    private var nextBoxId: String?
-    private var nextBoxStartTime: Date?
+    var nextBoxId: String?
+    var nextBoxStartTime: Date?
     
     private var activeTimer: Timer?
     private let dateFormatter = DateFormatter()
@@ -142,45 +142,21 @@ class PlaybackManager : NSObject {
     
     func play() {
         if (player == nil) {
-            //player = AVPlayer.init(url: URL.init(string: "https://stream.raa.media/raa1.ogg")!)
             let playerItem = AVPlayerItem(asset: AVURLAsset(url: URL(string: "https://stream.raa.media/raa1.ogg")!))
-            playerItem.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.new, context: nil)
             player = AVPlayer(playerItem: playerItem)
 
-//            let when = DispatchTime.now() + 5 // change 2 to desired number of seconds
             self.player?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.initial, context: nil)
-//            DispatchQueue.main.asyncAfter(deadline: when) {
-//                NSLog("SSSSZZZZ Background time remaining = \(UIApplication.shared.backgroundTimeRemaining) seconds")
-//                self.player?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.initial, context: nil)
-//                // Your code with delay
-//            }
-            //NSLog("SSSSZZZZ \(player?.status.rawValue)")
         }
-//        NSLog("SSSSZZZZ PLAYER IS SET time remaining = \(UIApplication.shared.backgroundTimeRemaining) seconds")
-
-        // Always play while active
-        //player?.play()
         
         populateMediaInfoCenterNowPlaying()
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-//        NSLog("SSSSZZZZ Type of sender is: \(type(of: object))")
         if object as? AVPlayer == player && keyPath == "status" {
-//            NSLog("SSSSZZZZ PLAYER" + String(player?.status.rawValue ?? 4))
-            if player?.status == .unknown {
-                NSLog("SSSSZZZZ " + "Unknown state")
-                //player?.play()
-            } else if player?.status == .readyToPlay {
-//                NSLog("SSSSZZZZ played")
+            if player?.status == .readyToPlay {
                 player?.play()
                 player?.removeObserver(self, forKeyPath: "status")
             } 
-//        } else if object as? AVPlayerItem != nil {
-//            NSLog("SSSSZZZZ ITEM: " + keyPath!)
-//            if keyPath == "status" {
-//                NSLog("SSSSZZZZ ITEM" + String((object as! AVPlayerItem).status.rawValue))
-//            }
         }
     }
     
@@ -210,6 +186,22 @@ class PlaybackManager : NSObject {
             
             // listen info center events
             UIApplication.shared.beginReceivingRemoteControlEvents()
+            
+            MPRemoteCommandCenter.shared().pauseCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
+                self.stop()
+                self.mpInfoCenter.nowPlayingInfo?[MPNowPlayingInfoPropertyPlaybackRate] = 0
+                return .success
+            }
+            MPRemoteCommandCenter.shared().stopCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
+                self.stop()
+                self.mpInfoCenter.nowPlayingInfo?[MPNowPlayingInfoPropertyPlaybackRate] = 0
+                return .success
+            }
+            MPRemoteCommandCenter.shared().playCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
+                self.play()
+                return .success
+            }
+
         }
     }
     
