@@ -100,17 +100,17 @@ class PlayerViewController: UIViewController {
         self.programList.reloadData()
     }
     
-//    @objc override func remoteControlReceived(with event: UIEvent?) {
-//        let rc: UIEventSubtype = event!.subtype
-//                
-//        if (rc == .remoteControlPlay) {
-//            Settings.getPlaybackManager().play()
-//        } else if (rc == .remoteControlPause) {
-//            Settings.getPlaybackManager().stop()
-//            
-//            MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyPlaybackRate] = 0
-//        }
-//    }
+    @objc override func remoteControlReceived(with event: UIEvent?) {
+        let rc: UIEventSubtype = event!.subtype
+        
+        if (rc == .remoteControlPlay) {
+            Settings.getPlaybackManager().play()
+        } else if (rc == .remoteControlPause) {
+            Settings.getPlaybackManager().stop()
+            
+            MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPNowPlayingInfoPropertyPlaybackRate] = 0
+        }
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

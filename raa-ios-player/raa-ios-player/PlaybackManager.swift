@@ -186,22 +186,6 @@ class PlaybackManager : NSObject {
             
             // listen info center events
             UIApplication.shared.beginReceivingRemoteControlEvents()
-            
-            MPRemoteCommandCenter.shared().pauseCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
-                self.stop()
-                self.mpInfoCenter.nowPlayingInfo?[MPNowPlayingInfoPropertyPlaybackRate] = 0
-                return .success
-            }
-            MPRemoteCommandCenter.shared().stopCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
-                self.stop()
-                self.mpInfoCenter.nowPlayingInfo?[MPNowPlayingInfoPropertyPlaybackRate] = 0
-                return .success
-            }
-            MPRemoteCommandCenter.shared().playCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
-                self.play()
-                return .success
-            }
-
         }
     }
     
