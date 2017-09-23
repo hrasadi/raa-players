@@ -19,9 +19,7 @@ class PlayerViewController: UIViewController {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
-//        NotificationCenter.default.addObserver(self, selector: #selector(reloadLineup), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
-        
+                
         // we should also handle MPInfoCenter callbacks
         self.becomeFirstResponder()
     }
@@ -70,30 +68,32 @@ class PlayerViewController: UIViewController {
             playbackStatusLabel.text = "شب بخیر! ادامه‌ی برنامه‌های رادیو از نیمه شب..."
         } else {
             var counter = Int(boxStartTime!.timeIntervalSince(Date()))
-            if (self.playbackCountDown == nil) {
-                self.playbackCountDown = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-                    counter -= 1
-                    if counter == 0 {
-                        self.playbackCountDown!.invalidate()
-                        self.playbackCountDown = nil
-                        
-                        self.playbackStatusLabel.text = "به زودی: " + nextBoxId!
-                    } else {
-                        self.playbackStatusLabel.text = nextBoxId! + " در "
-                        
-                        if (counter / 3600 != 0) {
-                            self.playbackStatusLabel.text = self.playbackStatusLabel.text! + String(counter / 3600) + " ساعت و "
-                        }
-                        var remaining = counter % 3600
-                        if (remaining / 60 != 0) {
-                            self.playbackStatusLabel.text = self.playbackStatusLabel.text! + String(remaining / 60) + " دقیقه و "
-                        }
-                        remaining = remaining % 60
-                        self.playbackStatusLabel.text = self.playbackStatusLabel.text! + String(remaining) + " ثانیه "
-                        
-                        self.playbackStatusLabel.text = Settings.convertToPersianLocaleString(self.playbackStatusLabel.text)
+            if (self.playbackCountDown != nil) {
+                self.playbackCountDown!.invalidate()
+                self.playbackCountDown = nil
+            }
+            self.playbackCountDown = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+                counter -= 1
+                if counter == 0 {
+                    self.playbackCountDown!.invalidate()
+                    self.playbackCountDown = nil
+                    
+                    self.playbackStatusLabel.text = "به زودی: " + nextBoxId!
+                } else {
+                    self.playbackStatusLabel.text = nextBoxId! + " در "
+                    
+                    if (counter / 3600 != 0) {
+                        self.playbackStatusLabel.text = self.playbackStatusLabel.text! + String(counter / 3600) + " ساعت و "
                     }
-                }                
+                    var remaining = counter % 3600
+                    if (remaining / 60 != 0) {
+                        self.playbackStatusLabel.text = self.playbackStatusLabel.text! + String(remaining / 60) + " دقیقه و "
+                    }
+                    remaining = remaining % 60
+                    self.playbackStatusLabel.text = self.playbackStatusLabel.text! + String(remaining) + " ثانیه "
+                    
+                    self.playbackStatusLabel.text = Settings.convertToPersianLocaleString(self.playbackStatusLabel.text)
+                }
             }
         }
         // Good time to redraw the program list as well

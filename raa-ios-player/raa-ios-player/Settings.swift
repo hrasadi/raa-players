@@ -26,7 +26,7 @@ class Settings {
 
     let persianNumberFormatter: NumberFormatter = NumberFormatter()
     
-    private static let instance = Settings()
+    private static var instance = Settings()
     
     private init() {
         settings = UserDefaults.standard
@@ -42,6 +42,8 @@ class Settings {
     }
     
     class func startup() -> Settings {
+        // To make sure we have a clean slate, just instantiate a new instance
+        instance = Settings()
         return instance
     }
     

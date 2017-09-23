@@ -79,6 +79,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 Settings.getPlaybackManager().loadStatus()
             } else {
                 // It's a silent notification. This means we need to stop playback
+                do {
+                    try Settings.getPlaybackManager().audioSession.setActive(true)
+                } catch _ {                    
+                }
                 Settings.getPlaybackManager().stop()
                 Settings.getPlaybackManager().unpopulateMediaInfoCenterNowPlaying()
             }
