@@ -19,14 +19,9 @@ class ConfigViewController : UITableViewController {
         
         backgroundPlaySwitch.isOn = Settings.getValue(Settings.BackgroundPlayKey)!
         
-        if (!Settings.authorizedToSendNotification) {
-            notifyNewProgramSwitch.isEnabled = false
-            // Show table footer (see below)
-        } else {
-            notifyNewProgramSwitch.isEnabled = true
-            // Hide the help label
-        }
-        notifyNewProgramSwitch.isOn = Settings.getValue(Settings.NotifyNewProgramKey)!
+        // We don't let them change the notification settings from here!
+        notifyNewProgramSwitch.isEnabled = false
+        notifyNewProgramSwitch.isOn = (Settings.authorizedToSendNotification)
     }
     
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
@@ -39,21 +34,16 @@ class ConfigViewController : UITableViewController {
     override func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
         let footer = view as! UITableViewHeaderFooterView
         
-        if (!Settings.authorizedToSendNotification) {
-            footer.textLabel?.textAlignment = .right
-        } else {
-            footer.textLabel?.text = ""
-        }
+        footer.textLabel?.textAlignment = .right 
+    }
+    
+    override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        return false
     }
     
     @IBAction func backgroundPlaySwitchValueChange(_ sender: Any) {
         Settings.setValue(Settings.BackgroundPlayKey, newValue: (sender as! UISwitch).isOn)
         
     }
-    
-    @IBAction func notifyNewProgramSwitchValueChange(_ sender: Any) {
-        Settings.setValue(Settings.NotifyNewProgramKey, newValue: (sender as! UISwitch).isOn)
-    }
-    
 }
 

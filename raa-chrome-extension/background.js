@@ -1,8 +1,8 @@
 var radioStream = null;
 var radioPowerSwitch = false;
-var raa1Url = "http://raa.media:8000/raa1.ogg";
+var raa1Url = "https://stream.raa.media/raa1.ogg";
 
-var raa1StatusUrl = 'http://raa.media/lineups/status.json';
+var raa1StatusUrl = 'https://raa.media/lineups/status.json';
 
 var currentNotificationId = null;
 

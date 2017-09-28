@@ -12,7 +12,6 @@ import UserNotifications
 
 class Settings {
     public static let BackgroundPlayKey = "backgroundPlay"
-    public static let NotifyNewProgramKey = "notifyNewProgram"
     
     // Indicates the system authorization
     public static var authorizedToSendNotification = true
@@ -33,9 +32,6 @@ class Settings {
         // Populate default settings (Yes to all features!)
         if (settings.object(forKey: Settings.BackgroundPlayKey) == nil) {
             settings.set(true, forKey: Settings.BackgroundPlayKey)
-        }
-        if (settings.object(forKey: Settings.NotifyNewProgramKey) == nil) {
-            settings.set(true, forKey: Settings.NotifyNewProgramKey)
         }
         
         persianNumberFormatter.locale = Locale(identifier: "fa_IR")
@@ -60,7 +56,7 @@ class Settings {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYY-MM-dd"
         
-        let lineupFileUrlString = "http://raa.media/lineups/lineup-" + dateFormatter.string(from: date) + ".json"
+        let lineupFileUrlString = "https://raa.media/lineups/lineup-" + dateFormatter.string(from: date) + ".json"
         
         if let data = try? Data.init(contentsOf: URL(string: lineupFileUrlString)!) {
             instance.currentLineup = try? JSONSerialization.jsonObject(with: data, options: []) as! Dictionary<String, Any>

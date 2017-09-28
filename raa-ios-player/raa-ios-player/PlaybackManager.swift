@@ -180,8 +180,7 @@ class PlaybackManager : NSObject {
             mpInfoCenter.nowPlayingInfo = [MPMediaItemPropertyAlbumTitle: currentClip ?? "",
                                            MPMediaItemPropertyTitle: (currentProgram! != "BLANK") ? currentProgram! : "بخش بعدی برنامه‌ها به زودی",
                                            MPMediaItemPropertyArtist: "رادیو اتو-اسعد",
-                                           MPMediaItemPropertyArtwork: MPMediaItemArtwork(boundsSize: image.size) { sz in return image
-                                            },
+                                           MPMediaItemPropertyArtwork: MPMediaItemArtwork(boundsSize: image.size) { sz in return image },
                                            MPNowPlayingInfoPropertyPlaybackRate: player?.rate ?? 0]
             
             // listen info center events
@@ -194,7 +193,7 @@ class PlaybackManager : NSObject {
     }
 
     @objc func loadStatus(_ forceUpdateUI: Bool = false) {
-        if let data = try? Data.init(contentsOf: URL(string: "http://raa.media/lineups/status.json")!) {
+        if let data = try? Data.init(contentsOf: URL(string: "https://raa.media/lineups/status.json")!) {
             let status = try? JSONSerialization.jsonObject(with: data, options: []) as! Dictionary<String, Any>
             
             let isCurrentlyPlaying_new = status?["isCurrentlyPlaying"] as? Bool ?? false
