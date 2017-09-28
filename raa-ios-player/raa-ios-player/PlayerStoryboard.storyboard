@@ -157,7 +157,7 @@
                         </label>
                         <sections>
                             <tableViewSection headerTitle=" تنظیمات پخش" id="613-hc-U4D">
-                                <string key="footerTitle"> SS اجازه‌ی ارسال اعلان غیرفعال شده است. برای فعال‌سازی دوباره  Settings &gt; Raa &gt; Notifications &gt; Allow Notifications را انتخاب کنید.</string>
+                                <string key="footerTitle">برای تغییر تنظیمات اعلان‌های سیستم از منوی اصلی تنظیمات سیستم Settings &gt; Raa &gt; Notifications &gt; Allow Notifications را انتخاب کنید.</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="xff-bk-bKL">
                                         <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
@@ -203,9 +203,6 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pyd-z5-Wds">
                                                     <rect key="frame" x="21" y="6" width="51" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <connections>
-                                                        <action selector="notifyNewProgramSwitchValueChange:" destination="ZIt-4p-cbf" eventType="valueChanged" id="3Kh-sE-nUR"/>
-                                                    </connections>
                                                 </switch>
                                             </subviews>
                                             <constraints>

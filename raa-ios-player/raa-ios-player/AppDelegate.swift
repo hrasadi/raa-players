@@ -49,7 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("APNs device token: \(deviceTokenString)")
         
         // Persist it in your backend in case it's new
-        let task = URLSession.shared.dataTask(with: URL(string: "http://raa.media:7799/registerDevice/ios/" + deviceTokenString)!) { data, response, error in
+        let task = URLSession.shared.dataTask(with: URL(string: "https://api.raa.media/registerDevice/ios/" + deviceTokenString)!) { data, response, error in
             guard error == nil else {
                 print("Error while registering APN device token: " + error!.localizedDescription)
                 return
@@ -75,17 +75,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Do update the current status of program playback
         if let aps = userInfo["aps"] as? NSDictionary {
             if let alert = aps["alert"] as? NSString, alert.length > 0 {
-                // Update the status
-                Settings.getPlaybackManager().loadStatus()
+                // Update the status, UPDATE: Do not query server, show what is sent down as part of
+                // notification payload
+                //Settings.getPlaybackManager().loadStatus()
+                Settings.getPlaybackManager().currentProgram = userInfo["currentProgram"] as? String
+                Settings.getPlaybackManager().currentClip = userInfo["currentClip"] as? String
             } else {
                 // It's a silent notification. This means we need to stop playback
-                do {
-                    try Settings.getPlaybackManager().audioSession.setActive(true)
-                } catch _ {                    
-                }
+//                do {
+//                    try Settings.getPlaybackManager().audioSession.setActive(true)
+//                } catch _ {
+//                }
                 Settings.getPlaybackManager().stop()
                 Settings.getPlaybackManager().unpopulateMediaInfoCenterNowPlaying()
             }
+            
+            // Any prior notification is no longer valid (it is outdated)
+            UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         }
     }
     

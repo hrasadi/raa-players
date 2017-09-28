@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		031B02081F7D52880095369D /* ProgramStart.caf in Resources */ = {isa = PBXBuildFile; fileRef = 031B02071F7D509F0095369D /* ProgramStart.caf */; };
 		034A45F91F6B5BDB00E05123 /* PlaybackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034A45F81F6B5BDB00E05123 /* PlaybackManager.swift */; };
 		035B1A751F61D0DC00A6FB25 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035B1A741F61D0DC00A6FB25 /* AppDelegate.swift */; };
 		035B1A771F61D0DC00A6FB25 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035B1A761F61D0DC00A6FB25 /* PlayerViewController.swift */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		031B02071F7D509F0095369D /* ProgramStart.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ProgramStart.caf; sourceTree = "<group>"; };
 		034A45F81F6B5BDB00E05123 /* PlaybackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaybackManager.swift; sourceTree = "<group>"; };
 		035B1A711F61D0DC00A6FB25 /* raa-ios-player.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "raa-ios-player.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		035B1A741F61D0DC00A6FB25 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -69,14 +71,15 @@
 				03CB7D2C1F71B69B001AE710 /* raa-ios-player.entitlements */,
 				035B1A741F61D0DC00A6FB25 /* AppDelegate.swift */,
 				035B1A761F61D0DC00A6FB25 /* PlayerViewController.swift */,
-				035B1A8C1F68777D00A6FB25 /* PlayerStoryboard.storyboard */,
 				035B1AC61F68E67800A6FB25 /* ConfigViewController.swift */,
+				035B1A8C1F68777D00A6FB25 /* PlayerStoryboard.storyboard */,
 				035B1A7F1F61D0DC00A6FB25 /* LaunchScreen.storyboard */,
 				034A45F81F6B5BDB00E05123 /* PlaybackManager.swift */,
 				035FAE771F7302B100E605A0 /* NotificationManager.swift */,
 				035B1AC81F68F4C800A6FB25 /* Settings.swift */,
 				035B1A881F67221B00A6FB25 /* raa-logo-256.png */,
 				035B1A821F61D0DC00A6FB25 /* Info.plist */,
+				031B02071F7D509F0095369D /* ProgramStart.caf */,
 			);
 			path = "raa-ios-player";
 			sourceTree = "<group>";
@@ -150,6 +153,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				031B02081F7D52880095369D /* ProgramStart.caf in Resources */,
 				035B1A8D1F68777D00A6FB25 /* PlayerStoryboard.storyboard in Resources */,
 				035B1A811F61D0DC00A6FB25 /* LaunchScreen.storyboard in Resources */,
 				035B1A7E1F61D0DC00A6FB25 /* Assets.xcassets in Resources */,
@@ -299,11 +303,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "raa-ios-player/raa-ios-player.entitlements";
-				DEVELOPMENT_TEAM = YLKA663U7G;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "raa-ios-player/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "raa.raa-ios-player";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};
@@ -314,11 +322,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "raa-ios-player/raa-ios-player.entitlements";
-				DEVELOPMENT_TEAM = YLKA663U7G;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "raa-ios-player/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "raa.raa-ios-player";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};
