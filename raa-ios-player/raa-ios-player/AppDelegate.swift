@@ -75,24 +75,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Do update the current status of program playback
         if let aps = userInfo["aps"] as? NSDictionary {
             if let alert = aps["alert"] as? NSString, alert.length > 0 {
-                // Update the status, UPDATE: Do not query server, show what is sent down as part of
-                // notification payload
-                //Settings.getPlaybackManager().loadStatus()
-                Settings.getPlaybackManager().currentProgram = userInfo["currentProgram"] as? String
-                Settings.getPlaybackManager().currentClip = userInfo["currentClip"] as? String
+                // if we are alreay playing, do not show the notification
+                if (Settings.getPlaybackManager().player?.rate == 1.0) {
+                    UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+                }
+
             } else {
                 // It's a silent notification. This means we need to stop playback
-//                do {
-//                    try Settings.getPlaybackManager().audioSession.setActive(true)
-//                } catch _ {
-//                }
                 Settings.getPlaybackManager().stop()
                 Settings.getPlaybackManager().unpopulateMediaInfoCenterNowPlaying()
+                UNUserNotificationCenter.current().removeAllDeliveredNotifications()
             }
-            
-            // Any prior notification is no longer valid (it is outdated)
-            UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         }
+        completionHandler(.newData);
     }
     
     func applicationWillResignActive(_ application: UIApplication) {

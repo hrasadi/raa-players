@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "647601300360",
+    "firebase_url": "https://raa-android.firebaseio.com",
+    "project_id": "raa-android",
+    "storage_bucket": "raa-android.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:647601300360:android:57f8c74f5445c9ce",
+        "android_client_info": {
+          "package_name": "media.raa.raa_android_player"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "647601300360-d43fe90au3bngaqflq66pu75p540lrc8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUa2XdWlG1l52e7NoRbMpO2wLkQ5QiokU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
