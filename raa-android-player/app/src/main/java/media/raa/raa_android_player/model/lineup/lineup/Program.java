@@ -1,4 +1,4 @@
-package media.raa.raa_android_player.lineup;
+package media.raa.raa_android_player.model.lineup.lineup;
 
 /**
  * Represents one program in the lineup list
