@@ -1,25 +1,13 @@
 package media.raa.raa_android_player.model;
 
 import android.app.IntentService;
-import android.app.Notification;
-import android.app.PendingIntent;
-import android.app.Service;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.media.AudioManager;
+import android.content.Context;
 import android.media.MediaPlayer;
-import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationManagerCompat;
-import android.support.v4.media.MediaMetadataCompat;
-import android.support.v4.media.session.MediaControllerCompat;
-import android.support.v4.media.session.MediaSessionCompat;
-import android.support.v4.media.session.MediaSessionCompat.Callback;
-import android.support.v7.app.NotificationCompat;
+import android.util.Log;
 
-import media.raa.raa_android_player.R;
+import java.io.IOException;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -28,105 +16,129 @@ import media.raa.raa_android_player.R;
  * TODO: Customize class - update intent actions, extra parameters and static
  * helper methods.
  */
-public class PlaybackService extends Service implements MediaPlayer.OnPreparedListener {
+public class PlaybackService extends IntentService {
     private static final String STREAM_URL = "https://stream.raa.media/raa1.ogg";
 
-    public static final String ACTION_PLAY = "action_play";
-    public static final String ACTION_STOP = "action_stop";
+    // TODO: Rename actions, choose action names that describe tasks that this
+    // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
+    private static final String ACTION_START = "media.raa.raa_android_player.model.action.START";
+    private static final String ACTION_FOO = "media.raa.raa_android_player.model.action.FOO";
+    private static final String ACTION_BAZ = "media.raa.raa_android_player.model.action.BAZ";
+
+    // TODO: Rename parameters
+    private static final String EXTRA_PARAM1 = "media.raa.raa_android_player.model.extra.PARAM1";
+    private static final String EXTRA_PARAM2 = "media.raa.raa_android_player.model.extra.PARAM2";
 
     private MediaPlayer player;
-    private MediaSessionCompat session;
-    private MediaControllerCompat controller;
 
-    private NotificationCompat.Builder notificationBuilder;
-    private MediaMetadataCompat.Builder metadataBuilder;
+    public PlaybackService() {
+        super("PlaybackService");
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
 
         player = new MediaPlayer();
-        session = new MediaSessionCompat(getApplicationContext(), "RAA_SERVICE");
-        session.setFlags(
-                MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS |
-                        MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
-        session.setCallback(new MediaSessionCallback());
-        controller = session.getController();
-
-        notificationBuilder = new NotificationCompat.Builder(getApplicationContext());
-        metadataBuilder = new MediaMetadataCompat.Builder();
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
+        super.onStartCommand(intent, flags, startId);
 
-        if (intent.getAction().equals(ACTION_PLAY)) {
-            controller.getTransportControls().play();
+        if (intent.getAction().equals(ACTION_START)) {
+            play();
         }
 
-        return super.onStartCommand(intent, flags, startId);
+        return START_STICKY;
+    }
+
+    public void play() {
+        if (player == null) {
+            player = new MediaPlayer();
+            try {
+                player.setDataSource(STREAM_URL);
+                player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    @Override
+                    public void onPrepared(MediaPlayer mediaPlayer) {
+                        player.start();
+                    }
+                });
+                player.prepareAsync();
+            } catch (IOException e) {
+                Log.e("Raa", "Error while initializing player", e);
+            }
+        } else {
+            player.start();
+        }
+    }
+
+    private void stop() {
+        player.pause();
     }
 
 
-    @Nullable
+    /**
+     * Starts this service to perform action Foo with the given parameters. If
+     * the service is already performing a task this action will be queued.
+     *
+     * @see IntentService
+     */
+    // TODO: Customize helper method
+    public static void startActionFoo(Context context, String param1, String param2) {
+        Intent intent = new Intent(context, PlaybackService.class);
+        intent.setAction(ACTION_FOO);
+        intent.putExtra(EXTRA_PARAM1, param1);
+        intent.putExtra(EXTRA_PARAM2, param2);
+        context.startService(intent);
+    }
+
+    /**
+     * Starts this service to perform action Baz with the given parameters. If
+     * the service is already performing a task this action will be queued.
+     *
+     * @see IntentService
+     */
+    // TODO: Customize helper method
+    public static void startActionBaz(Context context, String param1, String param2) {
+        Intent intent = new Intent(context, PlaybackService.class);
+        intent.setAction(ACTION_BAZ);
+        intent.putExtra(EXTRA_PARAM1, param1);
+        intent.putExtra(EXTRA_PARAM2, param2);
+        context.startService(intent);
+    }
+
     @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-
-    @Override
-    public boolean onUnbind(Intent intent) {
-        session.release();
-        return super.onUnbind(intent);
-    }
-
-    private Notification createNotification() {
-
-        metadataBuilder.putText(MediaMetadataCompat.METADATA_KEY_ALBUM, "Salam");
-        session.setMetadata(metadataBuilder.build());
-        session.setActive(true);
-
-        Intent intent = new Intent(getApplicationContext(), PlaybackService.class);
-        intent.setAction(ACTION_PLAY);
-        PendingIntent pendingIntent = PendingIntent.getService(getApplicationContext(), 1, intent, 0);
-
-        notificationBuilder.setStyle(new NotificationCompat.MediaStyle())
-                .setContentText("salam")
-                .setSmallIcon(R.drawable.ic_podcast_black_24dp)
-                .addAction(new NotificationCompat.Action(R.drawable.ic_podcast_black_24dp, "Salam", pendingIntent));
-
-        return notificationBuilder.build();
-    }
-
-    @Override
-    public void onPrepared(MediaPlayer mediaPlayer) {
-        mediaPlayer.start();
-    }
-
-    private class MediaSessionCallback extends Callback {
-
-        @Override
-        public void onPlay() {
-
-            AudioManager am = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
-            // Request audio focus for playback, this registers the afChangeListener
-            int result = am.requestAudioFocus(null, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
-
-            if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-                // Set the session active  (and update metadata and state)
-                session.setActive(true);
-
-                PlaybackService.this.startService(new Intent(getApplicationContext(), PlaybackService.class).setAction(ACTION_PLAY));
-//                // start the player (custom call)
-//                player.start();
-                PlaybackService.this.startForeground(1223, createNotification());
+    protected void onHandleIntent(Intent intent) {
+        if (intent != null) {
+            final String action = intent.getAction();
+            if (ACTION_FOO.equals(action)) {
+                final String param1 = intent.getStringExtra(EXTRA_PARAM1);
+                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
+                handleActionFoo(param1, param2);
+            } else if (ACTION_BAZ.equals(action)) {
+                final String param1 = intent.getStringExtra(EXTRA_PARAM1);
+                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
+                handleActionBaz(param1, param2);
             }
         }
-//
-//        @Override
-//        public void onStop() {
-//            PlaybackService.this.player.stop();
-//            PlaybackService.this.stopForeground(false);
-//        }
+    }
+
+    /**
+     * Handle action Foo in the provided background thread with the provided
+     * parameters.
+     */
+    private void handleActionFoo(String param1, String param2) {
+        // TODO: Handle action Foo
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    /**
+     * Handle action Baz in the provided background thread with the provided
+     * parameters.
+     */
+    private void handleActionBaz(String param1, String param2) {
+        // TODO: Handle action Baz
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 }
