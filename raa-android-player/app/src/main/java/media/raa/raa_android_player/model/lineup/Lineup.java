@@ -1,4 +1,4 @@
-package media.raa.raa_android_player.lineup;
+package media.raa.raa_android_player.model.lineup;
 
 import android.os.AsyncTask;
 import android.text.Html;
@@ -19,14 +19,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import media.raa.raa_android_player.model.StringHelper;
+
 public class Lineup {
 
     private List<Program> currentLineup;
+
+    private LineupLoadedCallback onLineupLoadedCallback;
 
     public Lineup() {
         this.reloadLineup();
     }
 
+    @SuppressWarnings("WeakerAccess")
     public void reloadLineup() {
         currentLineup = new ArrayList<>();
         LineupLoader loader = new LineupLoader();
@@ -35,6 +40,10 @@ public class Lineup {
 
     public List<Program> getCurrentLineup() {
         return currentLineup;
+    }
+
+    public void setOnLineupLoadedCallback(LineupLoadedCallback callback) {
+        this.onLineupLoadedCallback = callback;
     }
 
     private class LineupLoader extends AsyncTask<String, String, Void> {
@@ -75,20 +84,31 @@ public class Lineup {
         protected void onPostExecute(Void v) {
             //parse JSON data
             try {
-                JSONArray programsArray = new JSONObject(result).getJSONArray("array");
-                for (int i = 0; i < programsArray.length(); i++) {
-                    JSONObject programJSON = programsArray.getJSONObject(i);
+                if (result != null) {
+                    JSONArray programsArray = new JSONObject(result).getJSONArray("array");
+                    for (int i = 0; i < programsArray.length(); i++) {
+                        JSONObject programJSON = programsArray.getJSONObject(i);
 
-                    String title = programJSON.getString("title");
-                    String description = Html.fromHtml(programJSON.getString("description")).toString();
-                    String startTime = programJSON.getString("startTime");
-                    String endTime = programJSON.getString("endTime");
+                        String title = programJSON.getString("title");
+                        String description = Html.fromHtml(programJSON.getString("description")).toString();
+                        String startTime = StringHelper.convertToPersianLocaleString(programJSON.getString("startTime"));
+                        String endTime = StringHelper.convertToPersianLocaleString(programJSON.getString("endTime"));
 
-                    currentLineup.add(new Program(startTime + " - " + endTime, title, description));
-                } // End Loop
+                        currentLineup.add(new Program(endTime + " - " + startTime, title, description));
+                    }
+
+                    // Notify the view
+                    if (onLineupLoadedCallback != null) {
+                        onLineupLoadedCallback.act();
+                    }
+                }
             } catch (JSONException e) {
                 Log.e("Raa", "Error: " + e.toString());
             }
         }
+    }
+
+    public interface LineupLoadedCallback {
+        void act();
     }
 }

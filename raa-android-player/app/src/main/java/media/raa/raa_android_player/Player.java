@@ -9,9 +9,10 @@ import android.view.MenuItem;
 
 import java.util.Locale;
 
-import media.raa.raa_android_player.lineup.Program;
+import media.raa.raa_android_player.model.lineup.lineup.Program;
+import media.raa.raa_android_player.view.lineup.LineupFragment;
 
-public class Player extends AppCompatActivity implements LineupFragment.OnListFragmentInteractionListener {
+public class Player extends AppCompatActivity implements media.raa.raa_android_player.view.lineup.LineupFragment.LineupFragment.OnListFragmentInteractionListener {
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -21,7 +22,7 @@ public class Player extends AppCompatActivity implements LineupFragment.OnListFr
             RaaContext.getInstance().getLineup();
             switch (item.getItemId()) {
                 case R.id.navigation_lineup:
-                    LineupFragment fragment = LineupFragment.newInstance();
+                    media.raa.raa_android_player.view.lineup.LineupFragment.LineupFragment fragment = LineupFragment.LineupFragment.newInstance();
                     FragmentManager fragmentManager = getSupportFragmentManager();
                     fragmentManager.beginTransaction()
                             .replace(R.id.application_frame, fragment).commit(); //
