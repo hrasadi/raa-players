@@ -1,9 +1,6 @@
 package media.raa.raa_android_player.model;
 
-import android.content.Intent;
-
 import media.raa.raa_android_player.model.lineup.Lineup;
-import media.raa.raa_android_player.view.Player;
 
 /**
  * Singleton container
@@ -16,8 +13,6 @@ public class RaaContext {
 
     static {
         instance = new RaaContext();
-        playbackService = new PlaybackService();
-//        playbackService.startService();
     }
 
     public static RaaContext getInstance() {
@@ -25,18 +20,13 @@ public class RaaContext {
     }
 
     private Lineup currentLineup;
-    private PlaybackManager playbackManager;
 
     private RaaContext() {
         currentLineup = new Lineup();
-        playbackManager = new PlaybackManager();
     }
 
     public Lineup getLineup() {
         return currentLineup;
     }
 
-    public PlaybackManager getPlaybackManager() {
-        return playbackManager;
-    }
 }

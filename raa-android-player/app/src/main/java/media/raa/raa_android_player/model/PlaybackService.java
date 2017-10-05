@@ -1,13 +1,26 @@
 package media.raa.raa_android_player.model;
 
 import android.app.IntentService;
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Intent;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.media.MediaMetadataCompat;
+import android.support.v4.media.session.MediaControllerCompat;
+import android.support.v4.media.session.MediaSessionCompat;
+import android.support.v7.app.NotificationCompat;
 
 import java.io.IOException;
+
+import media.raa.raa_android_player.R;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -16,129 +29,165 @@ import java.io.IOException;
  * TODO: Customize class - update intent actions, extra parameters and static
  * helper methods.
  */
-public class PlaybackService extends IntentService {
+public class PlaybackService extends Service implements MediaPlayer.OnPreparedListener {
+
     private static final String STREAM_URL = "https://stream.raa.media/raa1.ogg";
 
-    // TODO: Rename actions, choose action names that describe tasks that this
-    // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
-    private static final String ACTION_START = "media.raa.raa_android_player.model.action.START";
-    private static final String ACTION_FOO = "media.raa.raa_android_player.model.action.FOO";
-    private static final String ACTION_BAZ = "media.raa.raa_android_player.model.action.BAZ";
+    public static final String ACTION_PLAY = "action_play";
+    public static final String ACTION_STOP = "action_stop";
+    public static final String ACTION_UPDATE_METADATA = "action_update_metadata";
 
-    // TODO: Rename parameters
-    private static final String EXTRA_PARAM1 = "media.raa.raa_android_player.model.extra.PARAM1";
-    private static final String EXTRA_PARAM2 = "media.raa.raa_android_player.model.extra.PARAM2";
+    private static final int RAA_SERVICE_FOREGROUND_ID = 3399;
+    private static final int RAA_SERVICE_NOTIFICATION_ID = 1;
 
     private MediaPlayer player;
+    private MediaSessionCompat session;
+    private MediaControllerCompat controller;
 
-    public PlaybackService() {
-        super("PlaybackService");
-    }
+    private NotificationCompat.Builder notificationBuilder;
+    private NotificationManagerCompat notificationManager;
+    private MediaMetadataCompat.Builder metadataBuilder;
+
+
+    private boolean isInForeground = false;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
         player = new MediaPlayer();
+        session = new MediaSessionCompat(getApplicationContext(), "RAA_SERVICE");
+        session.setFlags(
+                MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS |
+                        MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
+        session.setCallback(new PlaybackService.MediaSessionCallback());
+        controller = session.getController();
+
+        notificationBuilder = new NotificationCompat.Builder(getApplicationContext());
+        notificationManager = NotificationManagerCompat.from(getApplicationContext());
+
+        metadataBuilder = new MediaMetadataCompat.Builder();
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 
     @Override
-    public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
-        super.onStartCommand(intent, flags, startId);
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        onHandleIntent(intent);
 
-        if (intent.getAction().equals(ACTION_START)) {
-            play();
-        }
-
-        return START_STICKY;
+        return super.onStartCommand(intent, flags, startId);
     }
 
-    public void play() {
-        if (player == null) {
-            player = new MediaPlayer();
-            try {
-                player.setDataSource(STREAM_URL);
-                player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                    @Override
-                    public void onPrepared(MediaPlayer mediaPlayer) {
-                        player.start();
-                    }
-                });
-                player.prepareAsync();
-            } catch (IOException e) {
-                Log.e("Raa", "Error while initializing player", e);
-            }
-        } else {
-            player.start();
-        }
-    }
-
-    private void stop() {
-        player.pause();
-    }
-
-
-    /**
-     * Starts this service to perform action Foo with the given parameters. If
-     * the service is already performing a task this action will be queued.
-     *
-     * @see IntentService
-     */
-    // TODO: Customize helper method
-    public static void startActionFoo(Context context, String param1, String param2) {
-        Intent intent = new Intent(context, PlaybackService.class);
-        intent.setAction(ACTION_FOO);
-        intent.putExtra(EXTRA_PARAM1, param1);
-        intent.putExtra(EXTRA_PARAM2, param2);
-        context.startService(intent);
-    }
-
-    /**
-     * Starts this service to perform action Baz with the given parameters. If
-     * the service is already performing a task this action will be queued.
-     *
-     * @see IntentService
-     */
-    // TODO: Customize helper method
-    public static void startActionBaz(Context context, String param1, String param2) {
-        Intent intent = new Intent(context, PlaybackService.class);
-        intent.setAction(ACTION_BAZ);
-        intent.putExtra(EXTRA_PARAM1, param1);
-        intent.putExtra(EXTRA_PARAM2, param2);
-        context.startService(intent);
-    }
-
-    @Override
-    protected void onHandleIntent(Intent intent) {
+    protected void onHandleIntent(@Nullable Intent intent) {
         if (intent != null) {
-            final String action = intent.getAction();
-            if (ACTION_FOO.equals(action)) {
-                final String param1 = intent.getStringExtra(EXTRA_PARAM1);
-                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
-                handleActionFoo(param1, param2);
-            } else if (ACTION_BAZ.equals(action)) {
-                final String param1 = intent.getStringExtra(EXTRA_PARAM1);
-                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
-                handleActionBaz(param1, param2);
+            if (intent.getAction().equals(ACTION_PLAY)) {
+                updateMetadata();
+                controller.getTransportControls().play();
+            } else if (intent.getAction().equals(ACTION_STOP)) {
+                controller.getTransportControls().stop();
+            } else if (intent.getAction().equals(ACTION_UPDATE_METADATA)) {
+                updateMetadata();
+                notificationManager.notify(RAA_SERVICE_NOTIFICATION_ID, createNotification());
             }
         }
     }
 
-    /**
-     * Handle action Foo in the provided background thread with the provided
-     * parameters.
-     */
-    private void handleActionFoo(String param1, String param2) {
-        // TODO: Handle action Foo
-        throw new UnsupportedOperationException("Not yet implemented");
+    private void updateMetadata() {
+        // Update the meta data
+        metadataBuilder.putText(MediaMetadataCompat.METADATA_KEY_ARTIST, "رادیو اتو-اسعد")
+                .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART,
+                        BitmapFactory.decodeResource(getResources(), R.mipmap.ic_logo))
+                .putText(MediaMetadataCompat.METADATA_KEY_ALBUM,
+                        (RaaContext.getInstance().getLineup().getCurrentProgram() != null ?
+                                RaaContext.getInstance().getLineup().getCurrentProgram().programClips : ""))
+                .putText(MediaMetadataCompat.METADATA_KEY_TITLE,
+                        (RaaContext.getInstance().getLineup().getCurrentProgram() != null ?
+                                RaaContext.getInstance().getLineup().getCurrentProgram().programName:
+                                "بخش بعدی برنامه\u200Cها به زودی"));
+
+        session.setMetadata(metadataBuilder.build());
     }
 
-    /**
-     * Handle action Baz in the provided background thread with the provided
-     * parameters.
-     */
-    private void handleActionBaz(String param1, String param2) {
-        // TODO: Handle action Baz
-        throw new UnsupportedOperationException("Not yet implemented");
+    public Notification createNotification() {
+        String actionToDisplay = ACTION_PLAY; // not playing
+        int actionToDisplayIcon = R.drawable.ic_play_arrow_black_24dp;
+        String actionLabel = "PLAY";
+        if (player != null && player.isPlaying()) {
+            actionToDisplay = ACTION_STOP;
+            actionToDisplayIcon = R.drawable.ic_stop_black_24dp;
+            actionLabel = "STOP";
+        }
+
+        Intent intent = new Intent(getApplicationContext(), PlaybackService.class);
+        intent.setAction(actionToDisplay);
+        PendingIntent pendingIntent = PendingIntent.getService(getApplicationContext(),
+                RAA_SERVICE_NOTIFICATION_ID, intent, 0);
+
+        notificationBuilder.setStyle(new NotificationCompat.MediaStyle())
+                .setOngoing(true)
+                .setContentTitle(controller.getMetadata().getString(MediaMetadataCompat.METADATA_KEY_TITLE))
+                .setContentText(controller.getMetadata().getString(MediaMetadataCompat.METADATA_KEY_ALBUM))
+                .setSmallIcon(R.drawable.ic_raa_logo_round_24dp)
+                .addAction(new NotificationCompat.Action(actionToDisplayIcon, actionLabel, pendingIntent));
+
+        return notificationBuilder.build();
     }
+
+    @Override
+    public void onPrepared(MediaPlayer mediaPlayer) {
+        mediaPlayer.start();
+    }
+
+    private class MediaSessionCallback extends MediaSessionCompat.Callback {
+
+        @Override
+        public void onPlay() {
+
+            // If we are already playing do nothing!
+            if (player != null && player.isPlaying()) {
+                return;
+            }
+
+            AudioManager am = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+            // Request audio focus for playback, this registers the afChangeListener
+            int result = am.requestAudioFocus(null, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+
+            if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                // Set the session active  (and update metadata and state)
+                session.setActive(true);
+
+                player = new MediaPlayer();
+                try {
+                    player.setDataSource(STREAM_URL);
+                    player.prepare();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                player.start();
+            }
+
+            if (!isInForeground) {
+                isInForeground = true;
+                startForeground(RAA_SERVICE_FOREGROUND_ID, createNotification());
+            }
+        }
+
+        @Override
+        public void onStop() {
+            if (player != null) {
+                player.stop();
+            }
+            player = null;
+
+            isInForeground = false;
+
+            stopForeground(false);
+            stopSelf();
+        }
+    }
+
 }
