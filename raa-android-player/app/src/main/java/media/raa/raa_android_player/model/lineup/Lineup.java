@@ -24,6 +24,7 @@ import media.raa.raa_android_player.model.StringHelper;
 public class Lineup {
 
     private List<Program> currentLineup;
+    private Program currentProgram;
 
     private LineupLoadedCallback onLineupLoadedCallback;
 
@@ -44,6 +45,12 @@ public class Lineup {
 
     public void setOnLineupLoadedCallback(LineupLoadedCallback callback) {
         this.onLineupLoadedCallback = callback;
+    }
+
+    public Program getCurrentProgram() {
+        // TODO
+        currentProgram = new Program("10-12", "برنامه‌ی تستی", "تست ۱، تست ۲");
+        return currentProgram;
     }
 
     private class LineupLoader extends AsyncTask<String, String, Void> {

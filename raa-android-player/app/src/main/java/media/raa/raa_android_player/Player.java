@@ -1,4 +1,4 @@
-package media.raa.raa_android_player.view;
+package media.raa.raa_android_player;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -11,11 +11,12 @@ import android.view.MenuItem;
 
 import java.util.Locale;
 
-import media.raa.raa_android_player.R;
-import media.raa.raa_android_player.model.RaaContext;
+import media.raa.raa_android_player.model.PlaybackService;
 import media.raa.raa_android_player.view.lineup.LineupFragment;
 import media.raa.raa_android_player.model.lineup.Program;
 import media.raa.raa_android_player.view.settings.SettingsFragment;
+
+import static media.raa.raa_android_player.model.PlaybackService.ACTION_PLAY;
 
 public class Player extends AppCompatActivity implements LineupFragment.OnListFragmentInteractionListener, SettingsFragment.OnFragmentInteractionListener {
 
@@ -56,16 +57,21 @@ public class Player extends AppCompatActivity implements LineupFragment.OnListFr
         //noinspection ConstantConditions
         this.getSupportActionBar().setTitle(getString(R.string.app_title));
 
-        //
-        getApplicationContext();
-
         // Show the lineup by default
         navigationView = (BottomNavigationView) findViewById(R.id.navigation);
         navigationView.setSelectedItemId(R.id.navigation_lineup);
         navigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         displayLineupFragment();
 
-        RaaContext.getInstance().getPlaybackManager().play();
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        startService(new Intent(getApplicationContext(), PlaybackService.class).setAction(ACTION_PLAY));
+
+        super.onResume();
     }
 
     private void displayLineupFragment() {
