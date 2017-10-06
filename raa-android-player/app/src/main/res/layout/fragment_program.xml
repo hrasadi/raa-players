@@ -30,8 +30,7 @@
             android:layout_marginEnd="@dimen/text_margin"
             android:layout_marginStart="@dimen/text_margin"
             android:layout_marginBottom="@dimen/text_margin"
-            android:layout_marginTop="0dp"
-            android:textAppearance="?attr/textAppearanceListItemSmall" />
+            android:layout_marginTop="0dp"/>
 
     </LinearLayout>
 </LinearLayout>

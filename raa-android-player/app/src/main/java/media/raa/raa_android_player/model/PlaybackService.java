@@ -1,15 +1,14 @@
 package media.raa.raa_android_player.model;
 
-import android.app.IntentService;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Intent;
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationManagerCompat;
@@ -17,24 +16,25 @@ import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v7.app.NotificationCompat;
+import android.widget.RemoteViews;
 
 import java.io.IOException;
 
 import media.raa.raa_android_player.R;
 
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
+
 /**
- * An {@link IntentService} subclass for handling asynchronous task requests in
- * a service on a separate handler thread.
- * <p>
- * TODO: Customize class - update intent actions, extra parameters and static
- * helper methods.
- */
-public class PlaybackService extends Service implements MediaPlayer.OnPreparedListener {
+ * Playback manager class implemented in the form of an Android IntentService.
+  */
+public class PlaybackService extends Service {
 
     private static final String STREAM_URL = "https://stream.raa.media/raa1.ogg";
 
     public static final String ACTION_PLAY = "action_play";
     public static final String ACTION_STOP = "action_stop";
+    public static final String ACTION_PAUSE = "action_pause";
     public static final String ACTION_UPDATE_METADATA = "action_update_metadata";
 
     private static final int RAA_SERVICE_FOREGROUND_ID = 3399;
@@ -55,7 +55,6 @@ public class PlaybackService extends Service implements MediaPlayer.OnPreparedLi
     public void onCreate() {
         super.onCreate();
 
-        player = new MediaPlayer();
         session = new MediaSessionCompat(getApplicationContext(), "RAA_SERVICE");
         session.setFlags(
                 MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS |
@@ -82,31 +81,44 @@ public class PlaybackService extends Service implements MediaPlayer.OnPreparedLi
         return super.onStartCommand(intent, flags, startId);
     }
 
-    protected void onHandleIntent(@Nullable Intent intent) {
-        if (intent != null) {
-            if (intent.getAction().equals(ACTION_PLAY)) {
-                updateMetadata();
-                controller.getTransportControls().play();
-            } else if (intent.getAction().equals(ACTION_STOP)) {
-                controller.getTransportControls().stop();
-            } else if (intent.getAction().equals(ACTION_UPDATE_METADATA)) {
-                updateMetadata();
-                notificationManager.notify(RAA_SERVICE_NOTIFICATION_ID, createNotification());
-            }
+    protected void onHandleIntent(@Nullable Intent i) {
+        if (i != null) {
+            final Intent intent = i;
+            // create a new thread
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    if (intent.getAction().equals(ACTION_PLAY)) {
+                        updateMetadata();
+                        controller.getTransportControls().play();
+                    } else if (intent.getAction().equals(ACTION_STOP)) {
+                        controller.getTransportControls().stop();
+                    } else if (intent.getAction().equals(ACTION_PAUSE)) {
+                        updateMetadata();
+                        controller.getTransportControls().pause();
+                    }  else if (intent.getAction().equals(ACTION_UPDATE_METADATA)) {
+                        updateMetadata();
+                        notificationManager.notify(RAA_SERVICE_FOREGROUND_ID, createNotification());
+                    }
+                }
+            });
         }
     }
 
     private void updateMetadata() {
-        // Update the meta data
+        // force read status from server
+        RaaContext.getInstance().getCurrentStatus(true);
+
+        // Now update the UI
         metadataBuilder.putText(MediaMetadataCompat.METADATA_KEY_ARTIST, "رادیو اتو-اسعد")
                 .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART,
-                        BitmapFactory.decodeResource(getResources(), R.mipmap.ic_logo))
+                        BitmapFactory.decodeResource(getResources(), R.drawable.ic_raa_logo))
                 .putText(MediaMetadataCompat.METADATA_KEY_ALBUM,
-                        (RaaContext.getInstance().getLineup().getCurrentProgram() != null ?
-                                RaaContext.getInstance().getLineup().getCurrentProgram().programClips : ""))
+                        (RaaContext.getInstance().getCurrentStatus(false).getCurrentProgram() != null ?
+                                RaaContext.getInstance().getCurrentStatus(false).getCurrentProgram().programClips : ""))
                 .putText(MediaMetadataCompat.METADATA_KEY_TITLE,
-                        (RaaContext.getInstance().getLineup().getCurrentProgram() != null ?
-                                RaaContext.getInstance().getLineup().getCurrentProgram().programName:
+                        (RaaContext.getInstance().getCurrentStatus(false).getCurrentProgram() != null ?
+                                RaaContext.getInstance().getCurrentStatus(false).getCurrentProgram().programName:
                                 "بخش بعدی برنامه\u200Cها به زودی"));
 
         session.setMetadata(metadataBuilder.build());
@@ -114,32 +126,40 @@ public class PlaybackService extends Service implements MediaPlayer.OnPreparedLi
 
     public Notification createNotification() {
         String actionToDisplay = ACTION_PLAY; // not playing
-        int actionToDisplayIcon = R.drawable.ic_play_arrow_black_24dp;
-        String actionLabel = "PLAY";
+        int actionToDisplayIcon = R.drawable.ic_play_button;
+        int shouldDisplayPauseButton = INVISIBLE;
         if (player != null && player.isPlaying()) {
             actionToDisplay = ACTION_STOP;
-            actionToDisplayIcon = R.drawable.ic_stop_black_24dp;
-            actionLabel = "STOP";
+            actionToDisplayIcon = R.drawable.ic_stop_button;
+            shouldDisplayPauseButton = VISIBLE;
         }
 
-        Intent intent = new Intent(getApplicationContext(), PlaybackService.class);
-        intent.setAction(actionToDisplay);
-        PendingIntent pendingIntent = PendingIntent.getService(getApplicationContext(),
-                RAA_SERVICE_NOTIFICATION_ID, intent, 0);
+        Intent stopStartIntent = new Intent(getApplicationContext(), PlaybackService.class);
+        stopStartIntent.setAction(actionToDisplay);
+        PendingIntent stopStartPendingIntent = PendingIntent.getService(getApplicationContext(),
+                RAA_SERVICE_NOTIFICATION_ID, stopStartIntent, 0);
 
-        notificationBuilder.setStyle(new NotificationCompat.MediaStyle())
+        Intent pauseIntent = new Intent(getApplicationContext(), PlaybackService.class);
+        pauseIntent.setAction(ACTION_PAUSE);
+        PendingIntent pausePendingIntent = PendingIntent.getService(getApplicationContext(),
+                RAA_SERVICE_NOTIFICATION_ID, pauseIntent, 0);
+
+        RemoteViews remoteWidget = new RemoteViews(getApplicationContext().getPackageName(), R.layout.notification_media_controller);
+        remoteWidget.setOnClickPendingIntent(R.id.notification_action_start_stop, stopStartPendingIntent);
+        remoteWidget.setOnClickPendingIntent(R.id.notification_action_pause, pausePendingIntent);
+
+        remoteWidget.setImageViewResource(R.id.notification_action_start_stop, actionToDisplayIcon);
+        remoteWidget.setViewVisibility(R.id.notification_action_pause, shouldDisplayPauseButton);
+
+        remoteWidget.setTextViewText(R.id.notification_program_name_text, controller.getMetadata().getString(MediaMetadataCompat.METADATA_KEY_TITLE));
+        remoteWidget.setTextViewText(R.id.notification_program_clips_text, controller.getMetadata().getString(MediaMetadataCompat.METADATA_KEY_ALBUM));
+
+        notificationBuilder
                 .setOngoing(true)
-                .setContentTitle(controller.getMetadata().getString(MediaMetadataCompat.METADATA_KEY_TITLE))
-                .setContentText(controller.getMetadata().getString(MediaMetadataCompat.METADATA_KEY_ALBUM))
                 .setSmallIcon(R.drawable.ic_raa_logo_round_24dp)
-                .addAction(new NotificationCompat.Action(actionToDisplayIcon, actionLabel, pendingIntent));
+                .setContent(remoteWidget);
 
         return notificationBuilder.build();
-    }
-
-    @Override
-    public void onPrepared(MediaPlayer mediaPlayer) {
-        mediaPlayer.start();
     }
 
     private class MediaSessionCallback extends MediaSessionCompat.Callback {
@@ -160,12 +180,16 @@ public class PlaybackService extends Service implements MediaPlayer.OnPreparedLi
                 // Set the session active  (and update metadata and state)
                 session.setActive(true);
 
-                player = new MediaPlayer();
-                try {
-                    player.setDataSource(STREAM_URL);
-                    player.prepare();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                // player != null of user paused the stream
+                if (player == null) {
+                    player = new MediaPlayer();
+                    try {
+                        player.setDataSource(STREAM_URL);
+                        // We are already running in a dedicated thread, so do this synchronously
+                        player.prepare();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
                 player.start();
             }
@@ -173,7 +197,17 @@ public class PlaybackService extends Service implements MediaPlayer.OnPreparedLi
             if (!isInForeground) {
                 isInForeground = true;
                 startForeground(RAA_SERVICE_FOREGROUND_ID, createNotification());
+            } else { // it is already in foreground, so only update the notification
+                notificationManager.notify(RAA_SERVICE_FOREGROUND_ID, createNotification());
             }
+        }
+
+        @Override
+        public void onPause() {
+            player.pause();
+            // Note: the onPause handler is called in an asynchronous manner. Therefore
+            // we cannot call notify from outside this handler
+            notificationManager.notify(RAA_SERVICE_FOREGROUND_ID, createNotification());
         }
 
         @Override
@@ -182,6 +216,9 @@ public class PlaybackService extends Service implements MediaPlayer.OnPreparedLi
                 player.stop();
             }
             player = null;
+
+            session.setActive(false);
+            session.release();
 
             isInForeground = false;
 

@@ -13,18 +13,15 @@ import media.raa.raa_android_player.model.lineup.Program;
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link Program} and makes a call to the
- * specified {@link LineupFragment.OnListFragmentInteractionListener}.
+ * {@link RecyclerView.Adapter} that can display a {@link Program}
  */
 @SuppressWarnings("WeakerAccess")
 public class ProgramRecyclerViewAdapter extends RecyclerView.Adapter<ProgramRecyclerViewAdapter.ViewHolder> {
 
     private final List<Program> mValues;
-    private final LineupFragment.OnListFragmentInteractionListener mListener;
 
-    public ProgramRecyclerViewAdapter(Lineup lineup, LineupFragment.OnListFragmentInteractionListener listener) {
+    public ProgramRecyclerViewAdapter(Lineup lineup) {
         mValues = lineup.getCurrentLineup();
-        mListener = listener;
     }
 
     @Override
@@ -40,17 +37,6 @@ public class ProgramRecyclerViewAdapter extends RecyclerView.Adapter<ProgramRecy
         holder.mProgramTimeView.setText(mValues.get(position).programTime);
         holder.mProgramNameView.setText(mValues.get(position).programName);
         holder.mProgramClipsView.setText(mValues.get(position).programClips);
-
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
-                }
-            }
-        });
     }
 
     @Override

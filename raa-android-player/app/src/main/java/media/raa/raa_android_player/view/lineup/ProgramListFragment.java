@@ -12,29 +12,17 @@ import android.view.ViewGroup;
 
 import media.raa.raa_android_player.R;
 import media.raa.raa_android_player.model.RaaContext;
-import media.raa.raa_android_player.model.lineup.Lineup;
-import media.raa.raa_android_player.model.lineup.Program;
 
-public class LineupFragment extends Fragment {
+public class ProgramListFragment extends Fragment {
 
     private static final int ColumnCount = 1;
-    private OnListFragmentInteractionListener mListener;
 
-    private ProgramRecyclerViewAdapter programRecyclerAdapter;
-
-    public LineupFragment() {
-        // If the lineup is not received yet, register a callback
-        RaaContext.getInstance().getLineup().setOnLineupLoadedCallback(new Lineup.LineupLoadedCallback() {
-            @Override
-            public void act() {
-                programRecyclerAdapter.notifyDataSetChanged();
-            }
-        });
+    public ProgramListFragment() {
     }
 
     @SuppressWarnings("unused")
-    public static LineupFragment newInstance() {
-        return new LineupFragment();
+    public static ProgramListFragment newInstance() {
+        return new ProgramListFragment();
     }
 
     @Override
@@ -59,7 +47,8 @@ public class LineupFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, ColumnCount));
             }
 
-            programRecyclerAdapter = new ProgramRecyclerViewAdapter(RaaContext.getInstance().getLineup(), mListener);
+            // lineup must be set now
+            ProgramRecyclerViewAdapter programRecyclerAdapter = new ProgramRecyclerViewAdapter(RaaContext.getInstance().getCurrentLineup(false));
             recyclerView.setAdapter(programRecyclerAdapter);
         }
         return view;
@@ -68,21 +57,11 @@ public class LineupFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
-    public interface OnListFragmentInteractionListener {
-        void onListFragmentInteraction(Program item);
-    }
 }

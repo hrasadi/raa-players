@@ -1,6 +1,5 @@
 package media.raa.raa_android_player.model.lineup;
 
-import android.os.AsyncTask;
 import android.text.Html;
 import android.util.Log;
 
@@ -24,98 +23,78 @@ import media.raa.raa_android_player.model.StringHelper;
 public class Lineup {
 
     private List<Program> currentLineup;
-    private Program currentProgram;
-
-    private LineupLoadedCallback onLineupLoadedCallback;
 
     public Lineup() {
-        this.reloadLineup();
+        reloadLineup();
+    }
+
+    public Lineup get(boolean forceUpdate) {
+        if (forceUpdate) {
+            reloadLineup();
+        }
+        return this;
     }
 
     @SuppressWarnings("WeakerAccess")
-    public void reloadLineup() {
+    private void reloadLineup() {
         currentLineup = new ArrayList<>();
-        LineupLoader loader = new LineupLoader();
-        loader.execute();
+
+        String serverResponse = readServerLineup();
+        parseServerLineup(serverResponse);
     }
 
     public List<Program> getCurrentLineup() {
         return currentLineup;
     }
 
-    public void setOnLineupLoadedCallback(LineupLoadedCallback callback) {
-        this.onLineupLoadedCallback = callback;
-    }
+    private String readServerLineup() {
+        String serverResponse = null;
 
-    public Program getCurrentProgram() {
-        // TODO
-        currentProgram = new Program("10-12", "برنامه‌ی تستی", "تست ۱، تست ۲");
-        return currentProgram;
-    }
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
-    private class LineupLoader extends AsyncTask<String, String, Void> {
-        String result;
+        String lineupFileUrlString = "https://raa.media/lineups/lineup-" +
+                dateFormatter.format(new Date()) + ".json";
 
-        @Override
-        protected Void doInBackground(String... params) {
+        try {
+            URL url = new URL(lineupFileUrlString);
+            URLConnection urlConnection = url.openConnection();
+            InputStream inputStream = urlConnection.getInputStream();
 
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            BufferedReader bReader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"), 8);
+            StringBuilder sBuilder = new StringBuilder();
 
-            String lineupFileUrlString = "https://raa.media/lineups/lineup-" +
-                    dateFormatter.format(new Date()) + ".json";
-
-            try {
-                URL url = new URL(lineupFileUrlString);
-                URLConnection urlConnection = url.openConnection();
-                InputStream inputStream = urlConnection.getInputStream();
-
-                BufferedReader bReader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"), 8);
-                StringBuilder sBuilder = new StringBuilder();
-
-                String line = null;
-                while ((line = bReader.readLine()) != null) {
-                    sBuilder.append(line).append("\n");
-                }
-
-                inputStream.close();
-                result = sBuilder.toString();
-
-            } catch (Exception e) {
-                Log.e("Raa", "Error converting result " + e.toString());
+            String line = null;
+            while ((line = bReader.readLine()) != null) {
+                sBuilder.append(line).append("\n");
             }
 
-            return null;
+            inputStream.close();
+            serverResponse = sBuilder.toString();
+
+        } catch (Exception e) {
+            Log.e("Raa", "Error converting result " + e.toString());
         }
 
-        @Override
-        protected void onPostExecute(Void v) {
-            //parse JSON data
-            try {
-                if (result != null) {
-                    JSONArray programsArray = new JSONObject(result).getJSONArray("array");
-                    for (int i = 0; i < programsArray.length(); i++) {
-                        JSONObject programJSON = programsArray.getJSONObject(i);
-
-                        String title = programJSON.getString("title");
-                        String description = Html.fromHtml(programJSON.getString("description")).toString();
-                        String startTime = StringHelper.convertToPersianLocaleString(programJSON.getString("startTime"));
-                        String endTime = StringHelper.convertToPersianLocaleString(programJSON.getString("endTime"));
-
-                        currentLineup.add(new Program(endTime + " - " + startTime, title, description));
-                    }
-
-                    // Notify the view
-                    if (onLineupLoadedCallback != null) {
-                        onLineupLoadedCallback.act();
-                    }
-                }
-            } catch (JSONException e) {
-                Log.e("Raa", "Error: " + e.toString());
-            }
-        }
+        return serverResponse;
     }
 
-    public interface LineupLoadedCallback {
-        void act();
+    private void parseServerLineup(String serverResponse) {
+        try {
+            if (serverResponse != null) {
+                JSONArray programsArray = new JSONObject(serverResponse).getJSONArray("array");
+                for (int i = 0; i < programsArray.length(); i++) {
+                    JSONObject programJSON = programsArray.getJSONObject(i);
+
+                    String title = programJSON.getString("title");
+                    String description = Html.fromHtml(programJSON.getString("description")).toString();
+                    String startTime = StringHelper.convertToPersianLocaleString(programJSON.getString("startTime"));
+                    String endTime = StringHelper.convertToPersianLocaleString(programJSON.getString("endTime"));
+
+                    currentLineup.add(new Program(endTime + " - " + startTime, title, description));
+                }
+            }
+        } catch (JSONException e) {
+            Log.e("Raa", "Error: " + e.toString());
+        }
     }
 }

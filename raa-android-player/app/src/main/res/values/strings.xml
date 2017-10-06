@@ -6,6 +6,11 @@
     <string name="title_settings">تنظیمات</string>
     <string name="title_podcast">پادکست</string>
 
+    <!-- Notification strings -->
+    <string name="start_stop_action_description">توقف/شروع</string>
+    <string name="pause_action_description">قطع</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="label_loading">چند لحظه لطفا...</string>
 </resources>
