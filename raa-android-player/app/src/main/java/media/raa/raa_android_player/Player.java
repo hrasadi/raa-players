@@ -15,18 +15,19 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import java.util.Locale;
 
 import media.raa.raa_android_player.model.PlaybackService;
+import media.raa.raa_android_player.model.RaaContext;
 import media.raa.raa_android_player.view.lineup.LineupContainerFragment;
 import media.raa.raa_android_player.view.settings.SettingsFragment;
 
 import static media.raa.raa_android_player.model.PlaybackService.ACTION_PLAY;
 import static media.raa.raa_android_player.model.PlaybackService.ACTION_STOP;
 
-public class Player extends AppCompatActivity implements SettingsFragment.OnFragmentInteractionListener {
+public class Player extends AppCompatActivity implements SettingsFragment.OnSettingsFragmentInteractionListener {
 
     BottomNavigationView navigationView;
 
-    LineupContainerFragment lineupContainerFragment = LineupContainerFragment.newInstance();
-    SettingsFragment settingsFragment = SettingsFragment.newInstance();
+    LineupContainerFragment lineupContainerFragment;
+    SettingsFragment settingsFragment;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -54,6 +55,9 @@ public class Player extends AppCompatActivity implements SettingsFragment.OnFrag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Init the RaaContext
+        RaaContext.initializeInstance(this);
+
         GoogleApiAvailability.getInstance().makeGooglePlayServicesAvailable(this);
 
         // Set application language
@@ -64,6 +68,9 @@ public class Player extends AppCompatActivity implements SettingsFragment.OnFrag
         // Action bar setup
         //noinspection ConstantConditions
         this.getSupportActionBar().setTitle(getString(R.string.app_title));
+
+        lineupContainerFragment = LineupContainerFragment.newInstance();
+        settingsFragment = SettingsFragment.newInstance();
 
         // Show the lineup by default
         navigationView = (BottomNavigationView) findViewById(R.id.navigation);
@@ -87,20 +94,29 @@ public class Player extends AppCompatActivity implements SettingsFragment.OnFrag
         Intent intent = new Intent(getApplicationContext(), PlaybackService.class);
         intent.setAction(ACTION_PLAY);
         startService(intent);
+
+        // set app status for foreground
+        RaaContext.getInstance().setApplicationForeground();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
 
-        // If notifications are not allowed, playback will be stopped upon quit
-        if (!NotificationManagerCompat.from(getApplicationContext()).areNotificationsEnabled()) {
+        // If system notifications are not allowed, we cannot show the service controls,
+        // therefore playback will be stopped upon quit
+        // Also if user changed the settings to prevent background play
+        if (!NotificationManagerCompat.from(getApplicationContext()).areNotificationsEnabled()
+            || !RaaContext.getInstance().canPlayInBackground()) {
             // If user does not allow notification, stop the service
             Intent intent = new Intent(getApplicationContext(), PlaybackService.class);
             intent.setAction(ACTION_STOP);
             // Stop the playback
             startService(intent);
         }
+
+        // set app status for background
+        RaaContext.getInstance().setApplicationBackground();
     }
 
     private void displayLineupFragment() {
@@ -127,7 +143,12 @@ public class Player extends AppCompatActivity implements SettingsFragment.OnFrag
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
+    public void onCanPlaybackInBackgroundChange(boolean newValue) {
+        RaaContext.getInstance().setPlayInBackground(newValue);
+    }
 
+    @Override
+    public void onCanSendNotificationsChange(boolean newValue) {
+        RaaContext.getInstance().setSendNotifications(newValue);
     }
 }

@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -13,12 +14,13 @@ import com.google.firebase.messaging.RemoteMessage;
 import media.raa.raa_android_player.Player;
 import media.raa.raa_android_player.R;
 import media.raa.raa_android_player.model.PlaybackService;
+import media.raa.raa_android_player.model.RaaContext;
 
 import static media.raa.raa_android_player.model.PlaybackService.ACTION_PLAY;
+import static media.raa.raa_android_player.model.PlaybackService.ACTION_STOP;
+import static media.raa.raa_android_player.model.PlaybackService.ACTION_UPDATE_METADATA;
 
 public class NotificationService extends FirebaseMessagingService {
-
-    private static final String ACTION_LISTEN = "action_listen";
 
     public static final int RAA_CURRENTLY_PLAYING_NOTIFICATION_ID = 2;
 
@@ -37,16 +39,42 @@ public class NotificationService extends FirebaseMessagingService {
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             if (remoteMessage.getData().containsKey("alert")) {
-                String alertText = remoteMessage.getData().get("alert");
-                notificationManager.notify(RAA_CURRENTLY_PLAYING_NOTIFICATION_ID,
-                        createNotification(alertText));
+                // New program
+                handleNewProgram(remoteMessage.getData().get("alert"));
             } else { // silent notification, stop playback and remove all notifications
-                // todo
+                handlePlaybackEnd();
             }
         }
     }
 
-    public Notification createNotification(String alertText) {
+    private void handleNewProgram(String newProgramAlert) {
+        if (RaaContext.getInstance().isApplicationForeground() || PlaybackService.isPlaybackServiceActive()) {
+            initiateMetadataUpdate();
+        } else {
+            if (RaaContext.getInstance().canSendNotifications()) {
+                notificationManager.notify(RAA_CURRENTLY_PLAYING_NOTIFICATION_ID,
+                        createNotification(newProgramAlert));
+            }
+        }
+    }
+
+    private void handlePlaybackEnd() {
+        // remove all notifications (if any)
+        notificationManager.cancel(RAA_CURRENTLY_PLAYING_NOTIFICATION_ID);
+
+        if (RaaContext.getInstance().isApplicationForeground()) {
+            // only update the metadata
+            initiateMetadataUpdate();
+        } else {
+            // If in background, stop playback
+            Intent stopIntent = new Intent(getApplicationContext(), PlaybackService.class);
+            stopIntent.setAction(ACTION_STOP);
+            startService(stopIntent);
+        }
+
+    }
+
+    private Notification createNotification(String alertText) {
         Intent playIntent = new Intent(getApplicationContext(), PlaybackService.class);
         playIntent.setAction(ACTION_PLAY);
         PendingIntent playPendingIntent = PendingIntent.getService(getApplicationContext(),
@@ -59,11 +87,18 @@ public class NotificationService extends FirebaseMessagingService {
         notificationBuilder
                 .setAutoCancel(true)
                 .setSmallIcon(R.drawable.ic_raa_logo_round_24dp)
-                .setContentTitle("رادیو اتو-اسعد")
-                .setContentText(alertText)
+                .setSound(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.program_start))
+                .setContentTitle(alertText)
                 .setContentIntent(appPendingIntent)
                 .addAction(R.drawable.ic_raa_logo_round_24dp, "گوش می‌دهم", playPendingIntent);
 
         return notificationBuilder.build();
+    }
+
+    private void initiateMetadataUpdate() {
+        // We are already in the app. So we only need to update the metadata
+        Intent updateMetadataIntent = new Intent(getApplicationContext(), PlaybackService.class);
+        updateMetadataIntent.setAction(ACTION_UPDATE_METADATA);
+        startService(updateMetadataIntent);
     }
 }

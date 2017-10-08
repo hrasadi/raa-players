@@ -109,10 +109,12 @@ public class RemotePlaybackStatus {
                     currentProgram = status.getString("currentProgram");
                     currentClip = status.getString("currentClip");
                 } else {
-                    nextBoxId = status.getString("nextBoxId");
-                    // OMG! How hard this conversion is in Java
-                    nextBoxStartTime = DateTimeUtils.toDate(OffsetDateTime
-                            .parse(status.getString("nextBoxStartTime")).toInstant());
+                    if (status.has(nextBoxId)) {
+                        nextBoxId = status.getString("nextBoxId");
+                        // OMG! Look how hard this conversion is in Java
+                        nextBoxStartTime = DateTimeUtils.toDate(OffsetDateTime
+                                .parse(status.getString("nextBoxStartTime")).toInstant());
+                    }
                     currentProgram = null;
                     currentClip = null;
                 }
@@ -121,8 +123,4 @@ public class RemotePlaybackStatus {
             Log.e("Raa", "Error: " + e.toString());
         }
     }
-
-
-    // Methods: 1- receive push notification
-    // 2- read server status
 }
