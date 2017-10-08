@@ -10,6 +10,8 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.google.android.gms.common.GoogleApiAvailability;
+
 import java.util.Locale;
 
 import media.raa.raa_android_player.model.PlaybackService;
@@ -52,6 +54,8 @@ public class Player extends AppCompatActivity implements SettingsFragment.OnFrag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        GoogleApiAvailability.getInstance().makeGooglePlayServicesAvailable(this);
+
         // Set application language
         Locale locale = new Locale("fa_IR");
         this.getResources().getConfiguration().setLocale(locale);
@@ -69,6 +73,8 @@ public class Player extends AppCompatActivity implements SettingsFragment.OnFrag
     @Override
     protected void onResume() {
         super.onResume();
+
+        GoogleApiAvailability.getInstance().makeGooglePlayServicesAvailable(this);
 
         // Create a new instance each time application comes to foreground
         lineupContainerFragment = LineupContainerFragment.newInstance();
@@ -94,8 +100,6 @@ public class Player extends AppCompatActivity implements SettingsFragment.OnFrag
             intent.setAction(ACTION_STOP);
             // Stop the playback
             startService(intent);
-            // Kill service
-            stopService(intent);
         }
     }
 

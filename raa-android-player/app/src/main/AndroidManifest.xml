@@ -17,6 +17,7 @@
             android:label="@string/app_label">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -25,6 +26,20 @@
             android:name=".model.PlaybackService"
             android:enabled="true"
             android:exported="false" />
+
+        <service android:name=".model.notification.MessagingInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".model.notification.NotificationService"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

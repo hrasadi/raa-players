@@ -24,6 +24,7 @@ import media.raa.raa_android_player.R;
 
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
+import static media.raa.raa_android_player.model.notification.NotificationService.RAA_CURRENTLY_PLAYING_NOTIFICATION_ID;
 
 /**
  * Playback manager class implemented in the form of an Android IntentService.
@@ -90,6 +91,8 @@ public class PlaybackService extends Service {
                 public void run() {
                     if (intent.getAction().equals(ACTION_PLAY)) {
                         updateMetadata();
+                        // cancel new program notification (if any)
+                        notificationManager.cancel(RAA_CURRENTLY_PLAYING_NOTIFICATION_ID);
                         controller.getTransportControls().play();
                     } else if (intent.getAction().equals(ACTION_STOP)) {
                         controller.getTransportControls().stop();
@@ -114,11 +117,11 @@ public class PlaybackService extends Service {
                 .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART,
                         BitmapFactory.decodeResource(getResources(), R.drawable.ic_raa_logo))
                 .putText(MediaMetadataCompat.METADATA_KEY_ALBUM,
-                        (RaaContext.getInstance().getCurrentStatus(false).getCurrentProgram() != null ?
-                                RaaContext.getInstance().getCurrentStatus(false).getCurrentProgram().programClips : ""))
+                        (RaaContext.getInstance().getCurrentStatus(false).getCurrentClip() != null ?
+                                RaaContext.getInstance().getCurrentStatus(false).getCurrentClip() : ""))
                 .putText(MediaMetadataCompat.METADATA_KEY_TITLE,
                         (RaaContext.getInstance().getCurrentStatus(false).getCurrentProgram() != null ?
-                                RaaContext.getInstance().getCurrentStatus(false).getCurrentProgram().programName:
+                                RaaContext.getInstance().getCurrentStatus(false).getCurrentProgram():
                                 "بخش بعدی برنامه\u200Cها به زودی"));
 
         session.setMetadata(metadataBuilder.build());
@@ -214,8 +217,9 @@ public class PlaybackService extends Service {
         public void onStop() {
             if (player != null) {
                 player.stop();
+                player.release();
+                player = null;
             }
-            player = null;
 
             session.setActive(false);
             session.release();

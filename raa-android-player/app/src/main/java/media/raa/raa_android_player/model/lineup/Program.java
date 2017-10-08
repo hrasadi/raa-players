@@ -1,7 +1,7 @@
 package media.raa.raa_android_player.model.lineup;
 
 /**
- * Represents one program in the lineup list
+ * Represents one program in the lineup
  * Created by hamid on 9/30/17.
  */
 
