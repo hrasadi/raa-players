@@ -6,6 +6,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
@@ -16,6 +17,7 @@ import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v7.app.NotificationCompat;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import java.io.IOException;
@@ -50,7 +52,7 @@ public class PlaybackService extends Service {
     private MediaMetadataCompat.Builder metadataBuilder;
 
 
-    private boolean isInForeground = false;
+    private static boolean isInForeground = false;
 
     @Override
     public void onCreate() {
@@ -187,6 +189,7 @@ public class PlaybackService extends Service {
                 if (player == null) {
                     player = new MediaPlayer();
                     try {
+                        player.setAudioStreamType(AudioManager.STREAM_MUSIC);
                         player.setDataSource(STREAM_URL);
                         // We are already running in a dedicated thread, so do this synchronously
                         player.prepare();
@@ -229,6 +232,10 @@ public class PlaybackService extends Service {
             stopForeground(false);
             stopSelf();
         }
+    }
+
+    public static boolean isPlaybackServiceActive() {
+        return isInForeground;
     }
 
 }

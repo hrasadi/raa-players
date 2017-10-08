@@ -2,12 +2,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layoutDirection="rtl"
     tools:context=".view.settings.SettingsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/playback_settings"
+            android:layout_marginBottom="@dimen/text_margin"/>
+
+        <Switch
+            android:id="@+id/can_play_in_background_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/permission_play_in_background" />
+
+        <Switch
+            android:id="@+id/can_send_nitifications_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/permission_send_notifications" />
+
+        <TextView
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/raa_media_copyright"
+            android:layout_margin="@dimen/text_margin"
+            android:textSize="12sp"
+            android:textAlignment="center"/>
+    </LinearLayout>
 
 </FrameLayout>

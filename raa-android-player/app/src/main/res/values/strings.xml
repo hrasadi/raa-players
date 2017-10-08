@@ -5,12 +5,15 @@
     <string name="title_lineup">جدول پخش</string>
     <string name="title_settings">تنظیمات</string>
     <string name="title_podcast">پادکست</string>
+    <string name="label_loading">چند لحظه لطفا…</string>
 
     <!-- Notification strings -->
     <string name="start_stop_action_description">توقف/شروع</string>
     <string name="pause_action_description">قطع</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="label_loading">چند لحظه لطفا...</string>
+    <!-- Settings string -->
+    <string name="playback_settings">تنظیمات پخش</string>
+    <string name="permission_play_in_background">پخش برنامه‌ها در پس‌زمینه</string>
+    <string name="permission_send_notifications">اعلام شروع برنامه‌ی جدید</string>
+    <string name="raa_media_copyright">۲۰۱۷ - رادیو اتو-اسعد - برای اطلاع از موارد حقوقی به سایت raa.media مراجعه کنید.</string>
 </resources>
