@@ -35,7 +35,6 @@ public class Lineup {
         return this;
     }
 
-    @SuppressWarnings("WeakerAccess")
     private void reloadLineup() {
         currentLineup = new ArrayList<>();
 
@@ -63,7 +62,7 @@ public class Lineup {
             BufferedReader bReader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"), 8);
             StringBuilder sBuilder = new StringBuilder();
 
-            String line = null;
+            String line;
             while ((line = bReader.readLine()) != null) {
                 sBuilder.append(line).append("\n");
             }
@@ -86,6 +85,7 @@ public class Lineup {
                     JSONObject programJSON = programsArray.getJSONObject(i);
 
                     String title = programJSON.getString("title");
+                    @SuppressWarnings("deprecation")
                     String description = Html.fromHtml(programJSON.getString("description")).toString();
                     String startTime = StringHelper.convertToPersianLocaleString(programJSON.getString("startTime"));
                     String endTime = StringHelper.convertToPersianLocaleString(programJSON.getString("endTime"));
