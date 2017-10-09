@@ -48,10 +48,10 @@ public class NotificationService extends FirebaseMessagingService {
     }
 
     private void handleNewProgram(String newProgramAlert) {
-        if (RaaContext.getInstance().isApplicationForeground() || PlaybackService.isPlaybackServiceActive()) {
+        if (RaaContext.getInstance(this).isApplicationForeground() || PlaybackService.isPlaybackServiceActive()) {
             initiateMetadataUpdate();
         } else {
-            if (RaaContext.getInstance().canSendNotifications()) {
+            if (RaaContext.getInstance(this).canSendNotifications()) {
                 notificationManager.notify(RAA_CURRENTLY_PLAYING_NOTIFICATION_ID,
                         createNotification(newProgramAlert));
             }
@@ -62,7 +62,7 @@ public class NotificationService extends FirebaseMessagingService {
         // remove all notifications (if any)
         notificationManager.cancel(RAA_CURRENTLY_PLAYING_NOTIFICATION_ID);
 
-        if (RaaContext.getInstance().isApplicationForeground()) {
+        if (RaaContext.getInstance(this).isApplicationForeground()) {
             // only update the metadata
             initiateMetadataUpdate();
         } else {
