@@ -3,6 +3,7 @@ package media.raa.raa_android_player.model;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import media.raa.raa_android_player.model.lineup.Lineup;
 import media.raa.raa_android_player.model.lineup.RemotePlaybackStatus;
@@ -16,9 +17,9 @@ public class RaaContext {
     private static RaaContext instance;
     private static PlaybackService playbackService;
 
-    public static void initializeInstance(Activity appContext) {
+    public static void initializeInstance(Context context) {
         instance = new RaaContext();
-        instance.settings = appContext.getPreferences(Context.MODE_PRIVATE);
+        instance.settings = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     public static RaaContext getInstance() {
@@ -29,11 +30,18 @@ public class RaaContext {
         return instance;
     }
 
+    public static RaaContext getInstance(Context context) {
+        if (instance == null && context != null) {
+            initializeInstance(context);
+        }
+        return getInstance();
+    }
+
     private SharedPreferences settings;
     private Lineup currentLineup;
     private RemotePlaybackStatus currentStatus;
 
-    private boolean isApplicationForeground = true;
+    private boolean isApplicationForeground = false;
 
     private RaaContext() {
 
