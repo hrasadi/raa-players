@@ -48,7 +48,8 @@ public class NotificationService extends FirebaseMessagingService {
     }
 
     private void handleNewProgram(String newProgramAlert) {
-        if (RaaContext.getInstance(this).isApplicationForeground() || PlaybackService.isPlaybackServiceActive()) {
+        if (RaaContext.getInstance(this).isApplicationForeground() ||
+                PlaybackService.isPlaybackServiceActive()) {
             initiateMetadataUpdate();
         } else {
             if (RaaContext.getInstance(this).canSendNotifications()) {
@@ -66,10 +67,13 @@ public class NotificationService extends FirebaseMessagingService {
             // only update the metadata
             initiateMetadataUpdate();
         } else {
-            // If in background, stop playback
-            Intent stopIntent = new Intent(getApplicationContext(), PlaybackService.class);
-            stopIntent.setAction(ACTION_STOP);
-            startService(stopIntent);
+            // If in background, stop playback (only if it is already playing, this is to support
+            // Android 8.0 changes)
+            if (PlaybackService.isPlaybackServiceActive()) {
+                Intent stopIntent = new Intent(getApplicationContext(), PlaybackService.class);
+                stopIntent.setAction(ACTION_STOP);
+                startService(stopIntent);
+            }
         }
 
     }
