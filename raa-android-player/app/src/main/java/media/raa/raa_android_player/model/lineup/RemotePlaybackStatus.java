@@ -109,7 +109,7 @@ public class RemotePlaybackStatus {
                     currentProgram = status.getString("currentProgram");
                     currentClip = status.getString("currentClip");
                 } else {
-                    if (status.has(nextBoxId)) {
+                    if (status.has("nextBoxId")) {
                         nextBoxId = status.getString("nextBoxId");
                         // OMG! Look how hard this conversion is in Java
                         nextBoxStartTime = DateTimeUtils.toDate(OffsetDateTime

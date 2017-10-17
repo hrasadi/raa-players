@@ -1,12 +1,13 @@
 package media.raa.raa_android_player.model;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationManagerCompat;
 
 import media.raa.raa_android_player.model.lineup.Lineup;
 import media.raa.raa_android_player.model.lineup.RemotePlaybackStatus;
+import media.raa.raa_android_player.model.lineup.RemotePlaybackStatusCheckingPolicy;
 
 /**
  * Singleton container of Raa common
@@ -18,8 +19,7 @@ public class RaaContext {
     private static PlaybackService playbackService;
 
     public static void initializeInstance(Context context) {
-        instance = new RaaContext();
-        instance.settings = PreferenceManager.getDefaultSharedPreferences(context);
+        instance = new RaaContext(context);
     }
 
     public static RaaContext getInstance() {
@@ -41,9 +41,20 @@ public class RaaContext {
     private Lineup currentLineup;
     private RemotePlaybackStatus currentStatus;
 
+    private RemotePlaybackStatusCheckingPolicy statusCheckingPolicy;
+
     private boolean isApplicationForeground = false;
 
-    private RaaContext() {
+    private RaaContext(Context context) {
+        // Load settings from preference store
+        this.settings = PreferenceManager.getDefaultSharedPreferences(context);
+
+        // If notifications are disabled, fallback to timer (in foreground mode only)
+        if (NotificationManagerCompat.from(context).areNotificationsEnabled()) {
+            statusCheckingPolicy = new RemotePlaybackStatusCheckingPolicy.ReceiveRemoteNotification();
+        } else {
+            statusCheckingPolicy = new RemotePlaybackStatusCheckingPolicy.PollServerStatus(context);
+        }
 
     }
 
@@ -72,10 +83,14 @@ public class RaaContext {
 
     public void setApplicationForeground() {
         isApplicationForeground = true;
+
+        statusCheckingPolicy.init();
     }
 
     public void setApplicationBackground() {
         isApplicationForeground = false;
+
+        statusCheckingPolicy.stop();
     }
 
     public boolean isApplicationForeground() {

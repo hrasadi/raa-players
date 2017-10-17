@@ -1,27 +1,27 @@
 package media.raa.raa_android_player.model;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v7.app.NotificationCompat;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import java.io.IOException;
 
+import media.raa.raa_android_player.Player;
 import media.raa.raa_android_player.R;
 
 import static android.view.View.INVISIBLE;
@@ -40,17 +40,18 @@ public class PlaybackService extends Service {
     public static final String ACTION_PAUSE = "action_pause";
     public static final String ACTION_UPDATE_METADATA = "action_update_metadata";
 
-    private static final int RAA_SERVICE_FOREGROUND_ID = 3399;
-    private static final int RAA_SERVICE_NOTIFICATION_ID = 1;
+    private static final int RAA_SERVICE_FOREGROUND_ID = 1;
+    private static final int RAA_SERVICE_NOTIFICATION_ID = 1565;
 
     private MediaPlayer player;
     private MediaSessionCompat session;
     private MediaControllerCompat controller;
 
     private NotificationCompat.Builder notificationBuilder;
-    private NotificationManagerCompat notificationManager;
-    private MediaMetadataCompat.Builder metadataBuilder;
+    private NotificationManager notificationManager;
+    private LocalBroadcastManager broadcaster;
 
+    private MediaMetadataCompat.Builder metadataBuilder;
 
     private static boolean isInForeground = false;
 
@@ -66,7 +67,10 @@ public class PlaybackService extends Service {
         controller = session.getController();
 
         notificationBuilder = new NotificationCompat.Builder(getApplicationContext());
-        notificationManager = NotificationManagerCompat.from(getApplicationContext());
+        notificationManager = ((NotificationManager) getApplicationContext()
+                .getSystemService(Context.NOTIFICATION_SERVICE));
+
+        broadcaster = LocalBroadcastManager.getInstance(this);
 
         metadataBuilder = new MediaMetadataCompat.Builder();
     }
@@ -103,8 +107,11 @@ public class PlaybackService extends Service {
                         controller.getTransportControls().pause();
                     }  else if (intent.getAction().equals(ACTION_UPDATE_METADATA)) {
                         updateMetadata();
+                        // todo encapsulate this logic
                         notificationManager.notify(RAA_SERVICE_FOREGROUND_ID, createNotification());
                     }
+                    // In any case, update the player bar
+                    notifyUI();
                 }
             });
         }
@@ -167,6 +174,14 @@ public class PlaybackService extends Service {
         return notificationBuilder.build();
     }
 
+    // This will notify the UI (to update the playback status of the bar)
+    private void notifyUI() {
+        if (RaaContext.getInstance().isApplicationForeground()) {
+            Intent metadataUpdateIntent = new Intent(Player.PLAYER_BAR_EVENT);
+            broadcaster.sendBroadcast(metadataUpdateIntent);
+        }
+    }
+
     private class MediaSessionCallback extends MediaSessionCompat.Callback {
 
         @Override
@@ -210,7 +225,9 @@ public class PlaybackService extends Service {
 
         @Override
         public void onPause() {
-            player.pause();
+            player.stop();
+            player.release();
+            player = null;
             // Note: the onPause handler is called in an asynchronous manner. Therefore
             // we cannot call notify from outside this handler
             notificationManager.notify(RAA_SERVICE_FOREGROUND_ID, createNotification());

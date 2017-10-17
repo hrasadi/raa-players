@@ -7,9 +7,13 @@
     <string name="title_podcast">پادکست</string>
     <string name="label_loading">چند لحظه لطفا…</string>
 
+    <string name="status_program_finish">شب بخیر! ادامه‌ی برنامه‌های رادیو از نیمه شب…</string>
+    <string name="status_now_playing">در حال پخش: %1$s</string>
+
     <!-- Notification strings -->
     <string name="start_stop_action_description">توقف/شروع</string>
     <string name="pause_action_description">قطع</string>
+
 
     <!-- Settings string -->
     <string name="playback_settings">تنظیمات پخش</string>
