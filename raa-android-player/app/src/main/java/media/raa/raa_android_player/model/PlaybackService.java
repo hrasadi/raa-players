@@ -225,9 +225,11 @@ public class PlaybackService extends Service {
 
         @Override
         public void onPause() {
-            player.stop();
-            player.release();
-            player = null;
+            if (player != null) {
+                player.stop();
+                player.release();
+                player = null;
+            }
             // Note: the onPause handler is called in an asynchronous manner. Therefore
             // we cannot call notify from outside this handler
             notificationManager.notify(RAA_SERVICE_FOREGROUND_ID, createNotification());
