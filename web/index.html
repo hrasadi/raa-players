@@ -3,14 +3,18 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="apple-itunes-app" content="app-id=1287230296">
+
     <title>
         رادیو اتو اسعد
     </title>
     <link rel="icon" href="favicon.png" type="image/png">
 
-    <link rel="stylesheet" href="stylesheet.css" type="text/css" charset="utf-8" />
-    <link href="bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="bootstrap-rtl.min.css">
+    <link rel="stylesheet" href="assets/stylesheet.css" type="text/css" charset="utf-8" />
+    <link rel="stylesheet" href="vendor/bootstrap.min.css" />
+    <link rel="stylesheet" href="vendor/bootstrap-rtl.min.css">
+    <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
 </head>
 <body>
     <div class="container-fluid">
@@ -23,6 +27,22 @@
             <a class="btn btn-primary btn-lg" data-toggle="modal" data-target="#howtoListenModal">
                 چه طور گوش کنیم؟
             </a>
+        </div>
+
+        <div>
+            <ul class="fa-ul text-center social-links">
+                <li>
+                    <a href="https://t.me/raa_media" target="_blank">
+                        <span class="fa fa-telegram fa-2x social-item"></span>
+                    </a>
+                    <a href="https://www.facebook.com/raa.media" target="_blank">
+                        <span class="fa fa-facebook-square fa-2x social-item"></span>                    
+                    </a>
+                    <a href="https://twitter.com/raa_media" target="_blank">
+                        <span class="fa fa-twitter fa-2x social-item"></span>
+                    </a>
+                </li>
+            </ul>
         </div>
         <audio id="player" autoplay>
             <source src="https://stream.raa.media/raa1.ogg" type="audio/mpeg">
@@ -75,9 +95,9 @@
 
 
     <script src="vendor/jquery-2.1.4.min.js"></script>
-    <script src="bootstrap.min.js"></script>
+    <script src="vendor/bootstrap.min.js"></script>
     <script src="raa.min.js"></script>
-    <script src="moment.min.js"></script>
+    <script src="vendor/moment.min.js"></script>
     <script type="text/javascript">
         var todayFormatted = function() {
             var formattedDate = new Date();

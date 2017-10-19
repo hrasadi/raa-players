@@ -25,8 +25,19 @@ body {
   margin-top: 40px;
 }
 
-.chrome-extension {
+.social-links {
   margin-top: 30px;
+}
+
+.social-links .social-item
+{
+  margin: 10px;
+  color: black;
+  text-decoration: none;
+}
+
+.social-links a:hover {
+  text-decoration: none;  
 }
 
 p.program-title {
