@@ -33,7 +33,7 @@ public class LineupContainerFragment extends Fragment {
                     // View already loaded, lets replace
                     ProgramListFragment fragment = new ProgramListFragment();
                     getFragmentManager().beginTransaction()
-                            .replace(R.id.application_frame, fragment).commit();
+                            .replace(R.id.application_frame, fragment).commitAllowingStateLoss();
                 }
                 lineupLoaded = true;
             }
