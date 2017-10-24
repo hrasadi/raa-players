@@ -25,6 +25,19 @@ body {
   margin-top: 40px;
 }
 
+.players-table {
+
+}
+
+.players-table th {
+  border: none !important;
+}
+
+.players-table td {
+  vertical-align: middle !important;
+  border: none !important;
+}
+
 .social-links {
   margin-top: 30px;
 }
