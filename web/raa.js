@@ -1,4 +1,4 @@
-var raa1Url = "https://stream.raa.media/raa1.ogg";
+var raa1Url = "https://api.raa.media/linkgenerator/live.mp3?src=aHR0cHM6Ly9zdHJlYW0ucmFhLm1lZGlhL3JhYTEub2dn";
 var raa1StatusUrl = 'https://raa.media/lineups/status.json';
 
 var PlaybackManager = function(onRadioProgramBeginCallback, onRadioProgramEndCallback) {
