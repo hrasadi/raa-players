@@ -16,7 +16,6 @@ import media.raa.raa_android_player.model.lineup.RemotePlaybackStatusCheckingPol
 
 public class RaaContext {
     private static RaaContext instance;
-    private static PlaybackService playbackService;
 
     public static void initializeInstance(Context context) {
         instance = new RaaContext(context);
@@ -55,7 +54,6 @@ public class RaaContext {
         } else {
             statusCheckingPolicy = new RemotePlaybackStatusCheckingPolicy.PollServerStatus(context);
         }
-
     }
 
     /**

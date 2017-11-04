@@ -22,21 +22,18 @@ public class LineupContainerFragment extends Fragment {
     }
 
     public LineupContainerFragment() {
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                // Force the lineup to update
-                RaaContext.getInstance().getCurrentLineup(true);
+        AsyncTask.execute(() -> {
+            // Force the lineup to update
+            RaaContext.getInstance().getCurrentLineup(true);
 
-                if (getFragmentManager() != null) { // It is already shown. Update
-                    // OK. the lineup is loaded, lets replace everything!
-                    // View already loaded, lets replace
-                    ProgramListFragment fragment = new ProgramListFragment();
-                    getFragmentManager().beginTransaction()
-                            .replace(R.id.application_frame, fragment).commitAllowingStateLoss();
-                }
-                lineupLoaded = true;
+            if (getFragmentManager() != null) { // It is already shown. Update
+                // OK. the lineup is loaded, lets replace everything!
+                // View already loaded, lets replace
+                ProgramListFragment fragment = new ProgramListFragment();
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.application_frame, fragment).commitAllowingStateLoss();
             }
+            lineupLoaded = true;
         });
     }
 

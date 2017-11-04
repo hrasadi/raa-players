@@ -20,6 +20,7 @@ import android.support.v7.app.NotificationCompat;
 import android.widget.RemoteViews;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import media.raa.raa_android_player.Player;
 import media.raa.raa_android_player.R;
@@ -73,6 +74,10 @@ public class PlaybackService extends Service {
         broadcaster = LocalBroadcastManager.getInstance(this);
 
         metadataBuilder = new MediaMetadataCompat.Builder();
+
+        // If the application is not running (and no context present) this is our chance to recreate
+        // the RaaContext
+        RaaContext.getInstance(getApplicationContext());
     }
 
     @Nullable
@@ -92,27 +97,24 @@ public class PlaybackService extends Service {
         if (i != null) {
             final Intent intent = i;
             // create a new thread
-            AsyncTask.execute(new Runnable() {
-                @Override
-                public void run() {
-                    if (intent.getAction().equals(ACTION_PLAY)) {
-                        updateMetadata();
-                        // cancel new program notification (if any)
-                        notificationManager.cancel(RAA_CURRENTLY_PLAYING_NOTIFICATION_ID);
-                        controller.getTransportControls().play();
-                    } else if (intent.getAction().equals(ACTION_STOP)) {
-                        controller.getTransportControls().stop();
-                    } else if (intent.getAction().equals(ACTION_PAUSE)) {
-                        updateMetadata();
-                        controller.getTransportControls().pause();
-                    }  else if (intent.getAction().equals(ACTION_UPDATE_METADATA)) {
-                        updateMetadata();
-                        // todo encapsulate this logic
-                        notificationManager.notify(RAA_SERVICE_FOREGROUND_ID, createNotification());
-                    }
-                    // In any case, update the player bar
-                    notifyUI();
+            AsyncTask.execute(() -> {
+                if (Objects.equals(intent.getAction(), ACTION_PLAY)) {
+                    updateMetadata();
+                    // cancel new program notification (if any)
+                    notificationManager.cancel(RAA_CURRENTLY_PLAYING_NOTIFICATION_ID);
+                    controller.getTransportControls().play();
+                } else if (Objects.equals(intent.getAction(), ACTION_STOP)) {
+                    controller.getTransportControls().stop();
+                } else if (Objects.equals(intent.getAction(), ACTION_PAUSE)) {
+                    updateMetadata();
+                    controller.getTransportControls().pause();
+                }  else if (Objects.equals(intent.getAction(), ACTION_UPDATE_METADATA)) {
+                    updateMetadata();
+                    // todo encapsulate this logic
+                    notificationManager.notify(RAA_SERVICE_FOREGROUND_ID, createNotification());
                 }
+                // In any case, update the player bar
+                notifyUI();
             });
         }
     }
@@ -194,7 +196,7 @@ public class PlaybackService extends Service {
 
             AudioManager am = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
             // Request audio focus for playback, this registers the afChangeListener
-            int result = am.requestAudioFocus(null, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+            int result = am != null ? am.requestAudioFocus(null, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN) : AudioManager.AUDIOFOCUS_NONE;
 
             if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
                 // Set the session active  (and update metadata and state)
