@@ -4,12 +4,13 @@ const Alexa = require('alexa-sdk');
 
 const handlers = {
     'LaunchRequest': function () {
-        this.response.audioPlayerPlay("REPLACE_ALL", "https://stream.raa.media/raa1.ogg", 112233, null, 0);
+        this.response.audioPlayerPlay("REPLACE_ALL", "https://api.raa.media/linkgenerator/live.mp3?src=aHR0cHM6Ly9zdHJlYW0ucmFhLm1lZGlhL3JhYTEub2dn", 112233, null, 0);
         console.log(JSON.stringify(this.response));
         this.emit(':responseReady');
     },
     'AMAZON.StopIntent': function () {
-        this.response.audioPlayerClearQueue('CLEAR_ALL').audioPlayerStop().speak('Bessalaamat!');
+//        this.response.audioPlayerStop().audioPlayerClearQueue('CLEAR_ALL').speak('Bessalaamat!');
+        this.response.audioPlayerStop().speak('Bessalaamat!');
         this.emit(':responseReady');
     },
     'AMAZON.CancelIntent': function () {
