@@ -10,7 +10,7 @@ const handlers = {
     },
     'AMAZON.StopIntent': function () {
 //        this.response.audioPlayerStop().audioPlayerClearQueue('CLEAR_ALL').speak('Bessalaamat!');
-        this.response.audioPlayerStop().speak('Bessalaamat!');
+        this.response.audioPlayerClearQueue('CLEAR_ALL').speak('Bessalaamat!');
         this.emit(':responseReady');
     },
     'AMAZON.CancelIntent': function () {

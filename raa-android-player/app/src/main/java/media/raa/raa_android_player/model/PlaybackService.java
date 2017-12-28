@@ -34,7 +34,7 @@ import static media.raa.raa_android_player.model.notification.NotificationServic
   */
 public class PlaybackService extends Service {
 
-    private static final String STREAM_URL = "https://stream.raa.media/raa1.ogg";
+    private static final String STREAM_URL = "https://api.raa.media/linkgenerator/live.mp3?src=aHR0cHM6Ly9zdHJlYW0ucmFhLm1lZGlhL3JhYTEub2dn";
 
     public static final String ACTION_PLAY = "action_play";
     public static final String ACTION_STOP = "action_stop";

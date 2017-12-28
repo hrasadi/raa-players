@@ -75,7 +75,7 @@ PlaybackManager.prototype.init = function() {
   this.loop(this, false);
   setInterval(function() {
     self.loop(self);
-  }, 10000);
+  }, 5000);
 }
 
 
