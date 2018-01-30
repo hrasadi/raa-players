@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BjL-v9-GZe">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--پخش زنده-->
+        <scene sceneID="Vpm-J4-j6W">
+            <objects>
+                <viewController id="7pc-Aj-tBg" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="vwB-bT-Rma">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="hJQ-5p-dsA">
+                                <rect key="frame" x="0.0" y="116" width="375" height="502"/>
+                                <subviews>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="2AV-An-Vj7">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="432"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <prototypes>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="liveProgramCell" id="leK-IW-D5T">
+                                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="leK-IW-D5T" id="0Pf-68-npL">
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </tableViewCellContentView>
+                                            </tableViewCell>
+                                        </prototypes>
+                                    </tableView>
+                                    <view contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="bMw-6C-Gs7" userLabel="Player" customClass="XibContainer" customModule="raa_ios_player" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="432" width="375" height="70"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="70" id="uTf-iU-y2i"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="nibName" value="Player"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="2AV-An-Vj7" firstAttribute="top" secondItem="hJQ-5p-dsA" secondAttribute="top" id="CXD-0u-YrO"/>
+                                    <constraint firstAttribute="bottom" secondItem="bMw-6C-Gs7" secondAttribute="bottom" id="KcV-Ih-nCX"/>
+                                    <constraint firstItem="2AV-An-Vj7" firstAttribute="leading" secondItem="hJQ-5p-dsA" secondAttribute="leading" id="L6J-kl-XIS"/>
+                                    <constraint firstAttribute="trailing" secondItem="2AV-An-Vj7" secondAttribute="trailing" id="YTS-3Y-KOn"/>
+                                    <constraint firstAttribute="trailing" secondItem="bMw-6C-Gs7" secondAttribute="trailing" id="feN-xW-Mj0"/>
+                                    <constraint firstItem="bMw-6C-Gs7" firstAttribute="top" secondItem="2AV-An-Vj7" secondAttribute="bottom" id="sCs-Nk-U5T"/>
+                                    <constraint firstItem="bMw-6C-Gs7" firstAttribute="leading" secondItem="hJQ-5p-dsA" secondAttribute="leading" id="sjf-L0-wTq"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="hJQ-5p-dsA" firstAttribute="trailing" secondItem="gkb-oV-lHS" secondAttribute="trailing" id="AAc-4T-Vdj"/>
+                            <constraint firstItem="hJQ-5p-dsA" firstAttribute="leading" secondItem="gkb-oV-lHS" secondAttribute="leading" id="ToY-dW-nD8"/>
+                            <constraint firstItem="hJQ-5p-dsA" firstAttribute="top" secondItem="gkb-oV-lHS" secondAttribute="top" id="nM9-AL-FAy"/>
+                            <constraint firstItem="gkb-oV-lHS" firstAttribute="bottom" secondItem="hJQ-5p-dsA" secondAttribute="bottom" id="sFV-hq-M0Q"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="gkb-oV-lHS"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="پخش زنده" id="qyz-55-AoB"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gVq-R5-4e1" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1944.8" y="-457.42128935532236"/>
+        </scene>
+        <!--خوراک-->
+        <scene sceneID="1eV-XK-RpD">
+            <objects>
+                <viewController id="IL4-PX-Snv" customClass="FeedViewController" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="nuc-6w-0iP">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="mym-hx-C8N">
+                                <rect key="frame" x="0.0" y="116" width="375" height="502"/>
+                                <subviews>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uBP-9Q-trR">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="432"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <prototypes>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="publicFeedCell" id="ZDn-j6-psN">
+                                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ZDn-j6-psN" id="50Z-en-coV">
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </tableViewCellContentView>
+                                            </tableViewCell>
+                                        </prototypes>
+                                    </tableView>
+                                    <view contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="wke-0m-Rya" customClass="XibContainer" customModule="raa_ios_player" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="432" width="375" height="70"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="70" id="f9h-bQ-h7o"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="nibName" value="Player"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="wke-0m-Rya" secondAttribute="bottom" id="AVW-zQ-QGb"/>
+                                    <constraint firstItem="uBP-9Q-trR" firstAttribute="leading" secondItem="mym-hx-C8N" secondAttribute="leading" id="aae-i7-9p7"/>
+                                    <constraint firstItem="uBP-9Q-trR" firstAttribute="top" secondItem="mym-hx-C8N" secondAttribute="top" id="gLP-n8-bxw"/>
+                                    <constraint firstItem="wke-0m-Rya" firstAttribute="top" secondItem="uBP-9Q-trR" secondAttribute="bottom" id="hNC-pq-ZoP"/>
+                                    <constraint firstAttribute="trailing" secondItem="wke-0m-Rya" secondAttribute="trailing" id="kcq-QL-ycB"/>
+                                    <constraint firstAttribute="trailing" secondItem="uBP-9Q-trR" secondAttribute="trailing" id="vAo-6R-mT5"/>
+                                    <constraint firstItem="wke-0m-Rya" firstAttribute="leading" secondItem="mym-hx-C8N" secondAttribute="leading" id="xEt-70-7ax"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="mym-hx-C8N" firstAttribute="top" secondItem="NkQ-PM-bar" secondAttribute="top" id="1NI-q7-QSq"/>
+                            <constraint firstItem="NkQ-PM-bar" firstAttribute="bottom" secondItem="mym-hx-C8N" secondAttribute="bottom" id="1mb-vW-amF"/>
+                            <constraint firstItem="mym-hx-C8N" firstAttribute="leading" secondItem="NkQ-PM-bar" secondAttribute="leading" id="PDb-ch-PFa"/>
+                            <constraint firstItem="mym-hx-C8N" firstAttribute="trailing" secondItem="NkQ-PM-bar" secondAttribute="trailing" id="WLw-iV-JTe"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="NkQ-PM-bar"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="خوراک" id="Vqb-45-tg8"/>
+                    <connections>
+                        <outlet property="player" destination="wke-0m-Rya" id="lwq-eS-FQn"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="G5M-UE-HYC" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1945" y="770"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="ig0-VE-hA1">
+            <objects>
+                <tabBarController id="BjL-v9-GZe" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="0V3-ta-B7b">
+                        <rect key="frame" x="0.0" y="975" width="768" height="49"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="Zva-Lf-MkG" kind="relationship" relationship="viewControllers" id="Fjw-kq-ctM"/>
+                        <segue destination="ckx-4Z-Z9P" kind="relationship" relationship="viewControllers" id="Rgr-7t-1Pm"/>
+                        <segue destination="LCS-o6-Omf" kind="relationship" relationship="viewControllers" id="kzG-0p-DW7"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aGN-Xc-M3Z" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="0.0" y="0.0"/>
+        </scene>
+        <!--تنظیمات-->
+        <scene sceneID="Jyk-NK-Oz2">
+            <objects>
+                <navigationController id="LCS-o6-Omf" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="تنظیمات" image="settings" id="6v7-xn-6bU"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="WuN-eM-6ae">
+                        <rect key="frame" x="0.0" y="20" width="375" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="1SV-GS-aoa" kind="relationship" relationship="rootViewController" id="yNq-36-2YH"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oJj-cz-UFh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1417" y="771"/>
+        </scene>
+        <!--تنظیمات-->
+        <scene sceneID="3sN-tg-dxk">
+            <objects>
+                <tableViewController id="1SV-GS-aoa" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Mss-7C-i8Y">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <label key="tableFooterView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="۲۰۱۷-۱۸ - رادیو اتو-اسعد - برای اطلاع از موارد حقوقی به سایت raa.media مراجعه کنید" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="P5L-hL-Ipj">
+                            <rect key="frame" x="0.0" y="188" width="375" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <sections>
+                            <tableViewSection headerTitle=" تنظیمات اعلان‌ها" id="sQx-Gd-HAW">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="R06-Mr-SmA">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="R06-Mr-SmA" id="f1O-lP-Rlj">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SCi-Gt-vWA">
+                                                    <rect key="frame" x="310" y="6" width="51" height="31"/>
+                                                </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="اعلام‌ شروع برنامه‌های شخصی شما" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dee-48-oDw">
+                                                    <rect key="frame" x="16" y="13" width="205" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="dee-48-oDw" firstAttribute="leading" secondItem="f1O-lP-Rlj" secondAttribute="leadingMargin" id="1HC-e4-76f"/>
+                                                <constraint firstItem="SCi-Gt-vWA" firstAttribute="centerY" secondItem="f1O-lP-Rlj" secondAttribute="centerY" id="CEY-Gj-iec"/>
+                                                <constraint firstItem="SCi-Gt-vWA" firstAttribute="trailing" secondItem="f1O-lP-Rlj" secondAttribute="trailingMargin" id="D3C-6f-OQb"/>
+                                                <constraint firstItem="dee-48-oDw" firstAttribute="centerY" secondItem="f1O-lP-Rlj" secondAttribute="centerY" id="SXk-U1-MXY"/>
+                                                <constraint firstItem="SCi-Gt-vWA" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="dee-48-oDw" secondAttribute="trailing" constant="89" id="ifi-PW-LMT"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="clR-d9-ABR">
+                                        <rect key="frame" x="0.0" y="72" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" semanticContentAttribute="forceRightToLeft" tableViewCell="clR-d9-ABR" id="zMu-Re-zXZ">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="jCY-ZM-wte">
+                                                    <rect key="frame" x="310" y="6" width="51" height="31"/>
+                                                </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="اعلام شروع برنامه‌‌های پخش زنده" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UO3-0J-apO">
+                                                    <rect key="frame" x="16" y="13" width="193" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="UO3-0J-apO" firstAttribute="centerY" secondItem="zMu-Re-zXZ" secondAttribute="centerY" id="Exe-ir-CgH"/>
+                                                <constraint firstItem="jCY-ZM-wte" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="UO3-0J-apO" secondAttribute="trailing" constant="101" id="TTX-KD-VBb"/>
+                                                <constraint firstItem="jCY-ZM-wte" firstAttribute="trailing" secondItem="zMu-Re-zXZ" secondAttribute="trailingMargin" id="m5z-kY-4U5"/>
+                                                <constraint firstItem="jCY-ZM-wte" firstAttribute="centerY" secondItem="zMu-Re-zXZ" secondAttribute="centerY" id="ogN-K8-OcB"/>
+                                                <constraint firstItem="UO3-0J-apO" firstAttribute="leading" secondItem="zMu-Re-zXZ" secondAttribute="leadingMargin" id="yH7-bW-dvr"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle=" تنظیمات پخش" id="ac7-U7-47O">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Y6E-3t-zuC">
+                                        <rect key="frame" x="0.0" y="144" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Y6E-3t-zuC" id="3Di-IO-Z63">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g1I-R4-WWX" userLabel="Background Play Switch">
+                                                    <rect key="frame" x="310" y="6" width="51" height="31"/>
+                                                </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="پخش برنامه‌ها در پس زمینه" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eOz-tN-YCJ">
+                                                    <rect key="frame" x="16" y="11" width="159" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="g1I-R4-WWX" firstAttribute="trailing" secondItem="3Di-IO-Z63" secondAttribute="trailingMargin" id="4iP-2s-a0h"/>
+                                                <constraint firstItem="g1I-R4-WWX" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="eOz-tN-YCJ" secondAttribute="trailing" constant="135" id="4jM-kO-OOU"/>
+                                                <constraint firstItem="eOz-tN-YCJ" firstAttribute="leading" secondItem="3Di-IO-Z63" secondAttribute="leadingMargin" id="Lk3-bP-4aD"/>
+                                                <constraint firstItem="g1I-R4-WWX" firstAttribute="centerY" secondItem="3Di-IO-Z63" secondAttribute="centerY" id="hMB-G2-t1e"/>
+                                                <constraint firstItem="eOz-tN-YCJ" firstAttribute="top" secondItem="3Di-IO-Z63" secondAttribute="topMargin" id="rNq-vg-BKb"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="1SV-GS-aoa" id="d87-8J-cN7"/>
+                            <outlet property="delegate" destination="1SV-GS-aoa" id="BMl-W5-GL9"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="تنظیمات" id="a5Y-BL-RJQ"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xM3-eD-fPA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-623.20000000000005" y="769.56521739130437"/>
+        </scene>
+        <!--خوراک-->
+        <scene sceneID="dh6-ka-5lG">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ckx-4Z-Z9P" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="خوراک" image="feed" id="0bm-uo-KxA"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="grD-pT-gmU">
+                        <rect key="frame" x="0.0" y="20" width="375" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="IL4-PX-Snv" kind="relationship" relationship="rootViewController" id="8JG-2a-gG3"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gY5-4u-tTo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1130" y="770"/>
+        </scene>
+        <!--پخش زنده-->
+        <scene sceneID="zAF-ga-mkb">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Zva-Lf-MkG" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="پخش زنده" image="live" id="YAG-Rq-hch"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="vaG-YO-nst">
+                        <rect key="frame" x="0.0" y="20" width="375" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="7pc-Aj-tBg" kind="relationship" relationship="rootViewController" id="6nl-5F-Luv"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vzQ-5R-d2g" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1129" y="-457"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="feed" width="30" height="30"/>
+        <image name="live" width="30" height="30"/>
+        <image name="settings" width="30" height="30"/>
+    </resources>
+</document>

@@ -2,122 +2,47 @@
 //  AppDelegate.swift
 //  raa-ios-player
 //
-//  Created by Hamid on 9/7/17.
-//  Copyright © 2017 Auto-asaad. All rights reserved.
+//  Created by Hamid on 1/23/18.
+//  Copyright © 2018 Auto-asaad. All rights reserved.
 //
 
 import UIKit
-import UserNotifications
-import AVFoundation
-
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
-        
-        _ = Settings.startup()
-        
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (granted, error) in
-            // Enable or disable features based on authorization.
-            if !granted {
-                Settings.authorizedToSendNotification = false
-                print("Permission not granted to show notifications")
-            } else {
-                // Register for push notifications
-                DispatchQueue.main.async() {
-                    UIApplication.shared.registerForRemoteNotifications()
-                }               
-                Settings.authorizedToSendNotification = true
-            }
-        }
-        return true
-    }
-    
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-
+        // Override point for customization after application launch.
+        UIView.appearance().semanticContentAttribute = UISemanticContentAttribute.forceRightToLeft;
+        Context.initiate()
         return true
     }
-    
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        // Convert token to string
-        let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
-        
-        // Print it to console
-        print("APNs device token: \(deviceTokenString)")
-        
-        // Persist it in your backend in case it's new
-        let task = URLSession.shared.dataTask(with: URL(string: "https://api.raa.media/registerDevice/ios/" + deviceTokenString)!) { data, response, error in
-            guard error == nil else {
-                print("Error while registering APN device token: " + error!.localizedDescription)
-                return
-            }
-            print("Registered APN token successfully!")
-        }
-        task.resume()
-    }
-    
-    // Called when APNs failed to register the device for push notifications
-    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        // Print the error to console (you should alert the user that registration failed)
-        print("APNs registration failed: \(error)")
-    }
-    
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
-        self.application(application, didReceiveRemoteNotification: userInfo) {_ in 
-            // Do nothing!
-        }
-    }
-    
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        // Do update the current status of program playback
-        if let aps = userInfo["aps"] as? NSDictionary {
-            if let alert = aps["alert"] as? NSString, alert.length > 0 {
-                // if we are alreay playing, do not show the notification
-                if (Settings.getPlaybackManager().player?.rate == 1.0) {
-                    UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-                }
 
-            } else {
-                // It's a silent notification. This means we need to stop playback
-                Settings.getPlaybackManager().stop()
-                Settings.getPlaybackManager().unpopulateMediaInfoCenterNowPlaying()
-                UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-            }
-        }
-        completionHandler(.newData);
-    }
-    
     func applicationWillResignActive(_ application: UIApplication) {
-        // When user closes app window
-        Settings.getPlaybackManager().deactivate()
+        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        // Each time we enter background, we reserve a task for use of notification delegates
+        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
+        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        // And receive media player commands
-        UNUserNotificationCenter.current().getNotificationSettings() { ns in
-            if ns.alertSetting == .enabled {
-                Settings.authorizedToSendNotification = true
-            } else {
-                Settings.authorizedToSendNotification = false
-            }
-        }
-        Settings.loadLineup()
-        Settings.getPlaybackManager().activate()
+        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        Settings.getPlaybackManager().shutDown();
-        application.endReceivingRemoteControlEvents()
+        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
+
+
 }
 
