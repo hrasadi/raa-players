@@ -11,7 +11,7 @@ import Foundation
 import CoreLocation
 
 class UserManager : NSObject, CLLocationManagerDelegate {
-    static let SERVER_URL = "http://api.raa.media:7800/registerDevice/iOS"
+    static let REGISTER_ENDPOINT = Context.SERVER_URL + "/registerDevice/iOS"
 
     private let user = User()
     
@@ -21,8 +21,8 @@ class UserManager : NSObject, CLLocationManagerDelegate {
 
     
     struct PropertyKey {
-        static let CurrentRegisteredId = "CurrentRegisteredId"
-        static let CurrentRegisteredLocationString = "CurrentRegisteredLocation"
+        static let currentRegisteredId = "CurrentRegisteredId"
+        static let currentRegisteredLocationString = "CurrentRegisteredLocation"
     }
     
     required override init() {
@@ -31,7 +31,7 @@ class UserManager : NSObject, CLLocationManagerDelegate {
         self.initLocationManager()
         
         // This is the unique device id we register in server (a generated UUID string)
-        self.user.Id = Context.Instance.settings.string(forKey: PropertyKey.CurrentRegisteredId) ?? UUID().uuidString
+        self.user.Id = Context.Instance.settings.string(forKey: PropertyKey.currentRegisteredId) ?? UUID().uuidString
         self.user.TimeZone = NSTimeZone.local.identifier
         
         self.locateDevice()
@@ -41,10 +41,10 @@ class UserManager : NSObject, CLLocationManagerDelegate {
         // Cases in which we (re)register the device
         // 1- If not registered before (no matter what)
         // 2- If device location is changed (and we know it -> LocationString is not empty)
-        if (Context.Instance.settings.string(forKey: PropertyKey.CurrentRegisteredId) == nil ||
-            (self.user.LocationString != "//" && Context.Instance.settings.string(forKey: PropertyKey.CurrentRegisteredLocationString) != self.user.LocationString)) {
+        if (Context.Instance.settings.string(forKey: PropertyKey.currentRegisteredId) == nil ||
+            (self.user.LocationString != "//" && Context.Instance.settings.string(forKey: PropertyKey.currentRegisteredLocationString) != self.user.LocationString)) {
 
-            var request = URLRequest(url: URL(string: UserManager.SERVER_URL)!)
+            var request = URLRequest(url: URL(string: UserManager.REGISTER_ENDPOINT)!)
             request.httpMethod = "POST"
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.addValue("application/json", forHTTPHeaderField: "Accept")
@@ -58,8 +58,8 @@ class UserManager : NSObject, CLLocationManagerDelegate {
                 os_log("Registered device successfully!", type: .default)
                 
                 // Save the values in settings file
-                Context.Instance.settings.set(self.user.Id, forKey: PropertyKey.CurrentRegisteredId)
-                Context.Instance.settings.set(self.user.LocationString, forKey: PropertyKey.CurrentRegisteredLocationString)
+                Context.Instance.settings.set(self.user.Id, forKey: PropertyKey.currentRegisteredId)
+                Context.Instance.settings.set(self.user.LocationString, forKey: PropertyKey.currentRegisteredLocationString)
             }
             task.resume()
         }
@@ -119,41 +119,3 @@ class UserManager : NSObject, CLLocationManagerDelegate {
     }
 }
 
-class User : Codable {
-    public var Id: String!
-    
-    // IP and DeviceType will be deduced in server-side
-    public var TimeZone: String!
-    
-    // Location data
-    public var Country: String! {
-        didSet {
-            if Country == nil {
-                Country = ""
-            }
-        }
-    }
-    public var State: String! {
-        didSet {
-            if State == nil {
-                State = ""
-            }
-        }
-    }
-    public var City: String! {
-        didSet {
-            if City == nil {
-                City = ""
-            }
-        }
-    }
-    
-    public var LocationString: String? {
-        get {
-            return self.Country + "/" + self.State + "/" + self.City
-        }
-    }
-    
-    public var Latitude: Double?
-    public var Longitude: Double?
-}

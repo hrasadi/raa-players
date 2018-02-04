@@ -17,6 +17,9 @@ class PlayerView : UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        // XIB file, please be silent and behave to the constraint your superview tell you :)
+        self.translatesAutoresizingMaskIntoConstraints = false
     }
 
     override func layoutSubviews() {

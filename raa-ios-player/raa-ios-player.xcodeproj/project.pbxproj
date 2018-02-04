@@ -10,31 +10,62 @@
 		0325645A201E5AFA00494D6E /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03256459201E5AFA00494D6E /* Context.swift */; };
 		0325645D201E5F1900494D6E /* Program.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0325645C201E5F1900494D6E /* Program.swift */; };
 		0325645F201E66D500494D6E /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0325645E201E66D500494D6E /* UserManager.swift */; };
-		0365F92420190D370061F974 /* ProgramCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0365F92320190D370061F974 /* ProgramCell.xib */; };
-		0365F92620190D490061F974 /* ProgramCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0365F92520190D490061F974 /* ProgramCard.xib */; };
+		03381CFE202504F300F179E1 /* UIModelCommunicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03381CFD202504F300F179E1 /* UIModelCommunicator.swift */; };
+		03381D002025279E00F179E1 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03381CFF2025279E00F179E1 /* Utils.swift */; };
 		0365F92B201931850061F974 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0365F92A201931850061F974 /* PlayerView.swift */; };
 		0365F92E201931F40061F974 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0365F92D201931F40061F974 /* FeedViewController.swift */; };
 		0365F931201977950061F974 /* XibContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0365F930201977950061F974 /* XibContainer.swift */; };
 		0365F9332019A5AE0061F974 /* LiveBroadcastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0365F9322019A5AE0061F974 /* LiveBroadcastViewController.swift */; };
 		0365F9352019A73F0061F974 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0365F9342019A73F0061F974 /* SettingsViewController.swift */; };
+		03A4988720225433008B56BA /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 03A4988620225433008B56BA /* Podfile */; };
+		03A4989D20239B1B008B56BA /* CardGroupSliding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A4989320239B1A008B56BA /* CardGroupSliding.swift */; };
+		03A4989E20239B1B008B56BA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A4989420239B1A008B56BA /* DetailViewController.swift */; };
+		03A4989F20239B1B008B56BA /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A4989520239B1A008B56BA /* Card.swift */; };
+		03A498A020239B1B008B56BA /* CardPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A4989620239B1B008B56BA /* CardPlayer.swift */; };
+		03A498A120239B1B008B56BA /* CardHighlight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A4989720239B1B008B56BA /* CardHighlight.swift */; };
+		03A498A220239B1B008B56BA /* Animator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A4989820239B1B008B56BA /* Animator.swift */; };
+		03A498A320239B1B008B56BA /* LayoutHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A4989920239B1B008B56BA /* LayoutHelper.swift */; };
+		03A498A420239B1B008B56BA /* CardGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A4989A20239B1B008B56BA /* CardGroup.swift */; };
+		03A498A520239B1B008B56BA /* CardArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A4989B20239B1B008B56BA /* CardArticle.swift */; };
+		03A498A72023B976008B56BA /* ProgramDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A498A62023B976008B56BA /* ProgramDetailsViewController.swift */; };
+		03A498A92023C4DD008B56BA /* FeedManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A498A82023C4DD008B56BA /* FeedManager.swift */; };
+		03A498AC2023C92E008B56BA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A498AB2023C92E008B56BA /* User.swift */; };
+		03A498B120240947008B56BA /* ProgramCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A498AF20240946008B56BA /* ProgramCard.swift */; };
+		03A498B220240947008B56BA /* PublicFeedProgramCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A498B020240947008B56BA /* PublicFeedProgramCard.swift */; };
 		03F0588C2018246A00B568E3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F0588B2018246A00B568E3 /* AppDelegate.swift */; };
 		03F058932018246A00B568E3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03F058912018246A00B568E3 /* Main.storyboard */; };
 		03F058982018246A00B568E3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03F058962018246A00B568E3 /* LaunchScreen.storyboard */; };
 		03F058A02018490100B568E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 03F0589F2018490100B568E3 /* Assets.xcassets */; };
 		03F326972018E7FE00FB054E /* Player.xib in Resources */ = {isa = PBXBuildFile; fileRef = 03F326962018E7FE00FB054E /* Player.xib */; };
+		A84FA6C84B31F79C17576F1D /* Pods_raa_ios_player.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7DB19274B8DB297AF3A4393 /* Pods_raa_ios_player.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		03256459201E5AFA00494D6E /* Context.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Context.swift; sourceTree = "<group>"; };
 		0325645C201E5F1900494D6E /* Program.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Program.swift; sourceTree = "<group>"; };
 		0325645E201E66D500494D6E /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
-		0365F92320190D370061F974 /* ProgramCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProgramCell.xib; sourceTree = "<group>"; };
-		0365F92520190D490061F974 /* ProgramCard.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProgramCard.xib; sourceTree = "<group>"; };
+		03381CFD202504F300F179E1 /* UIModelCommunicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIModelCommunicator.swift; sourceTree = "<group>"; };
+		03381CFF2025279E00F179E1 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		0365F92A201931850061F974 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		0365F92D201931F40061F974 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		0365F930201977950061F974 /* XibContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XibContainer.swift; sourceTree = "<group>"; };
 		0365F9322019A5AE0061F974 /* LiveBroadcastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveBroadcastViewController.swift; sourceTree = "<group>"; };
 		0365F9342019A73F0061F974 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		03A4988620225433008B56BA /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		03A4989320239B1A008B56BA /* CardGroupSliding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardGroupSliding.swift; sourceTree = "<group>"; };
+		03A4989420239B1A008B56BA /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		03A4989520239B1A008B56BA /* Card.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		03A4989620239B1B008B56BA /* CardPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardPlayer.swift; sourceTree = "<group>"; };
+		03A4989720239B1B008B56BA /* CardHighlight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardHighlight.swift; sourceTree = "<group>"; };
+		03A4989820239B1B008B56BA /* Animator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animator.swift; sourceTree = "<group>"; };
+		03A4989920239B1B008B56BA /* LayoutHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayoutHelper.swift; sourceTree = "<group>"; };
+		03A4989A20239B1B008B56BA /* CardGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardGroup.swift; sourceTree = "<group>"; };
+		03A4989B20239B1B008B56BA /* CardArticle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardArticle.swift; sourceTree = "<group>"; };
+		03A498A62023B976008B56BA /* ProgramDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramDetailsViewController.swift; sourceTree = "<group>"; };
+		03A498A82023C4DD008B56BA /* FeedManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedManager.swift; sourceTree = "<group>"; };
+		03A498AB2023C92E008B56BA /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		03A498AF20240946008B56BA /* ProgramCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProgramCard.swift; path = "raa-ios-player/View/Program/ProgramCard.swift"; sourceTree = SOURCE_ROOT; };
+		03A498B020240947008B56BA /* PublicFeedProgramCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PublicFeedProgramCard.swift; path = "raa-ios-player/View/Program/PublicFeedProgramCard.swift"; sourceTree = SOURCE_ROOT; };
 		03F058882018246A00B568E3 /* raa-ios-player.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "raa-ios-player.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		03F0588B2018246A00B568E3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		03F058922018246A00B568E3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -42,6 +73,9 @@
 		03F058992018246A00B568E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		03F0589F2018490100B568E3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		03F326962018E7FE00FB054E /* Player.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Player.xib; sourceTree = "<group>"; };
+		86622F52C4D8E470C7D9597C /* Pods-raa-ios-player.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-raa-ios-player.debug.xcconfig"; path = "Pods/Target Support Files/Pods-raa-ios-player/Pods-raa-ios-player.debug.xcconfig"; sourceTree = "<group>"; };
+		D7DB19274B8DB297AF3A4393 /* Pods_raa_ios_player.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_raa_ios_player.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D86EBD135C91BCAAD857AD49 /* Pods-raa-ios-player.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-raa-ios-player.release.xcconfig"; path = "Pods/Target Support Files/Pods-raa-ios-player/Pods-raa-ios-player.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A84FA6C84B31F79C17576F1D /* Pods_raa_ios_player.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,8 +93,10 @@
 		030189EC201E48160021D65F /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				0325645C201E5F1900494D6E /* Program.swift */,
+				03A498AA2023C912008B56BA /* TransportEntities */,
 				0325645E201E66D500494D6E /* UserManager.swift */,
+				03A498A82023C4DD008B56BA /* FeedManager.swift */,
+				03381CFD202504F300F179E1 /* UIModelCommunicator.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -67,8 +104,9 @@
 		0365F928201931300061F974 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				03A4988F20239B1A008B56BA /* Cards */,
+				03A4988A2022DD4B008B56BA /* Program */,
 				0365F929201931660061F974 /* Player */,
-				0365F92C2019319D0061F974 /* Program */,
 				0365F930201977950061F974 /* XibContainer.swift */,
 			);
 			path = View;
@@ -83,23 +121,50 @@
 			path = Player;
 			sourceTree = "<group>";
 		};
-		0365F92C2019319D0061F974 /* Program */ = {
-			isa = PBXGroup;
-			children = (
-				0365F92520190D490061F974 /* ProgramCard.xib */,
-				0365F92320190D370061F974 /* ProgramCell.xib */,
-			);
-			path = Program;
-			sourceTree = "<group>";
-		};
 		0365F92F201961F50061F974 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
 				0365F92D201931F40061F974 /* FeedViewController.swift */,
 				0365F9322019A5AE0061F974 /* LiveBroadcastViewController.swift */,
 				0365F9342019A73F0061F974 /* SettingsViewController.swift */,
+				03A498A62023B976008B56BA /* ProgramDetailsViewController.swift */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		03A4988A2022DD4B008B56BA /* Program */ = {
+			isa = PBXGroup;
+			children = (
+				03A498AF20240946008B56BA /* ProgramCard.swift */,
+				03A498B020240947008B56BA /* PublicFeedProgramCard.swift */,
+			);
+			name = Program;
+			path = Player;
+			sourceTree = "<group>";
+		};
+		03A4988F20239B1A008B56BA /* Cards */ = {
+			isa = PBXGroup;
+			children = (
+				03A4989320239B1A008B56BA /* CardGroupSliding.swift */,
+				03A4989420239B1A008B56BA /* DetailViewController.swift */,
+				03A4989520239B1A008B56BA /* Card.swift */,
+				03A4989620239B1B008B56BA /* CardPlayer.swift */,
+				03A4989720239B1B008B56BA /* CardHighlight.swift */,
+				03A4989820239B1B008B56BA /* Animator.swift */,
+				03A4989920239B1B008B56BA /* LayoutHelper.swift */,
+				03A4989A20239B1B008B56BA /* CardGroup.swift */,
+				03A4989B20239B1B008B56BA /* CardArticle.swift */,
+			);
+			path = Cards;
+			sourceTree = "<group>";
+		};
+		03A498AA2023C912008B56BA /* TransportEntities */ = {
+			isa = PBXGroup;
+			children = (
+				0325645C201E5F1900494D6E /* Program.swift */,
+				03A498AB2023C92E008B56BA /* User.swift */,
+			);
+			path = TransportEntities;
 			sourceTree = "<group>";
 		};
 		03F0587F2018246A00B568E3 = {
@@ -107,6 +172,9 @@
 			children = (
 				03F0588A2018246A00B568E3 /* raa-ios-player */,
 				03F058892018246A00B568E3 /* Products */,
+				330F2C71B7C7B58F6421F669 /* Pods */,
+				1723B1B0CE1C0DD38B5C1F56 /* Frameworks */,
+				03A4988620225433008B56BA /* Podfile */,
 			);
 			sourceTree = "<group>";
 		};
@@ -130,8 +198,26 @@
 				03F058962018246A00B568E3 /* LaunchScreen.storyboard */,
 				03F0589F2018490100B568E3 /* Assets.xcassets */,
 				03F058992018246A00B568E3 /* Info.plist */,
+				03381CFF2025279E00F179E1 /* Utils.swift */,
 			);
 			path = "raa-ios-player";
+			sourceTree = "<group>";
+		};
+		1723B1B0CE1C0DD38B5C1F56 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D7DB19274B8DB297AF3A4393 /* Pods_raa_ios_player.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		330F2C71B7C7B58F6421F669 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				86622F52C4D8E470C7D9597C /* Pods-raa-ios-player.debug.xcconfig */,
+				D86EBD135C91BCAAD857AD49 /* Pods-raa-ios-player.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -141,9 +227,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 03F0589C2018246A00B568E3 /* Build configuration list for PBXNativeTarget "raa-ios-player" */;
 			buildPhases = (
+				203D4B3F7E27E6CAD2BEEC10 /* [CP] Check Pods Manifest.lock */,
 				03F058842018246A00B568E3 /* Sources */,
 				03F058852018246A00B568E3 /* Frameworks */,
 				03F058862018246A00B568E3 /* Resources */,
+				EB01886DB3CA197612D0E178 /* [CP] Embed Pods Frameworks */,
+				7AEC2977D6C6251FFA802F71 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -193,16 +282,69 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0365F92420190D370061F974 /* ProgramCell.xib in Resources */,
 				03F326972018E7FE00FB054E /* Player.xib in Resources */,
 				03F058982018246A00B568E3 /* LaunchScreen.storyboard in Resources */,
 				03F058A02018490100B568E3 /* Assets.xcassets in Resources */,
-				0365F92620190D490061F974 /* ProgramCard.xib in Resources */,
+				03A4988720225433008B56BA /* Podfile in Resources */,
 				03F058932018246A00B568E3 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		203D4B3F7E27E6CAD2BEEC10 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-raa-ios-player-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7AEC2977D6C6251FFA802F71 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-raa-ios-player/Pods-raa-ios-player-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EB01886DB3CA197612D0E178 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-raa-ios-player/Pods-raa-ios-player-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Player/Player.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Player.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-raa-ios-player/Pods-raa-ios-player-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		03F058842018246A00B568E3 /* Sources */ = {
@@ -210,14 +352,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				0325645D201E5F1900494D6E /* Program.swift in Sources */,
+				03A498A72023B976008B56BA /* ProgramDetailsViewController.swift in Sources */,
+				03A498A420239B1B008B56BA /* CardGroup.swift in Sources */,
 				03F0588C2018246A00B568E3 /* AppDelegate.swift in Sources */,
+				03A498A020239B1B008B56BA /* CardPlayer.swift in Sources */,
+				03381D002025279E00F179E1 /* Utils.swift in Sources */,
+				03A498B220240947008B56BA /* PublicFeedProgramCard.swift in Sources */,
+				03A498B120240947008B56BA /* ProgramCard.swift in Sources */,
 				0365F92E201931F40061F974 /* FeedViewController.swift in Sources */,
+				03A498A520239B1B008B56BA /* CardArticle.swift in Sources */,
 				0365F931201977950061F974 /* XibContainer.swift in Sources */,
 				0325645A201E5AFA00494D6E /* Context.swift in Sources */,
+				03A498A92023C4DD008B56BA /* FeedManager.swift in Sources */,
+				03A498AC2023C92E008B56BA /* User.swift in Sources */,
+				03A498A220239B1B008B56BA /* Animator.swift in Sources */,
+				03381CFE202504F300F179E1 /* UIModelCommunicator.swift in Sources */,
 				0325645F201E66D500494D6E /* UserManager.swift in Sources */,
+				03A498A320239B1B008B56BA /* LayoutHelper.swift in Sources */,
+				03A4989F20239B1B008B56BA /* Card.swift in Sources */,
+				03A4989D20239B1B008B56BA /* CardGroupSliding.swift in Sources */,
 				0365F92B201931850061F974 /* PlayerView.swift in Sources */,
 				0365F9332019A5AE0061F974 /* LiveBroadcastViewController.swift in Sources */,
+				03A498A120239B1B008B56BA /* CardHighlight.swift in Sources */,
 				0365F9352019A73F0061F974 /* SettingsViewController.swift in Sources */,
+				03A4989E20239B1B008B56BA /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,6 +510,7 @@
 		};
 		03F0589D2018246A00B568E3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 86622F52C4D8E470C7D9597C /* Pods-raa-ios-player.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -368,6 +527,7 @@
 		};
 		03F0589E2018246A00B568E3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D86EBD135C91BCAAD857AD49 /* Pods-raa-ios-player.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

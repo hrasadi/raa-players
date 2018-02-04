@@ -1,0 +1,7 @@
+platform :ios, '11.2'
+
+use_frameworks!
+
+target 'raa-ios-player' do
+    pod 'Player'
+end
