@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "UserManager.registerDevice():UserManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "Context.Instance.settings.string(forKey: PropertyKey.CurrentRegisteredId)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

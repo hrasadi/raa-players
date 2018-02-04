@@ -1,0 +1,12 @@
+PODS:
+  - Player (0.8.4)
+
+DEPENDENCIES:
+  - Player
+
+SPEC CHECKSUMS:
+  Player: e45514e9e5fb8ff18f50eb2ba6f84dac9b6a0024
+
+PODFILE CHECKSUM: 52eef3dfce00872d94e1c32de6e9162c03e52cc1
+
+COCOAPODS: 1.4.0
