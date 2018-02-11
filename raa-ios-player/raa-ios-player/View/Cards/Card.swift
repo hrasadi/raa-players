@@ -63,7 +63,7 @@ import UIKit
      */
     @IBInspectable public var backgroundImage: UIImage? {
         didSet{
-            self.backgroundIV.image = backgroundImage
+            //self.backgroundIV.image = backgroundImage
         }
     }
     /**
@@ -128,6 +128,8 @@ import UIKit
     var insets = CGFloat()
     var isPresenting = false
     
+    var backgroundImageView = UIImageView()
+    
     //MARK: - View Life Cycle
     
     public override init(frame: CGRect) {
@@ -169,11 +171,18 @@ import UIKit
         self.layer.shadowOffset = CGSize.zero
         self.layer.shadowRadius = shadowBlur
         self.layer.cornerRadius = cardRadius
+
+        backgroundImageView = UIImageView(frame: originalFrame)
+        backgroundImageView.image = backgroundImage
+        backgroundImageView.alpha = 0.7
+        backgroundImageView.contentMode = .scaleAspectFit
         
-        backgroundIV.image = backgroundImage
+        backgroundIV.addSubview(backgroundImageView)
+        backgroundIV.sendSubview(toBack: backgroundImageView)
+
         backgroundIV.layer.cornerRadius = self.layer.cornerRadius
         backgroundIV.clipsToBounds = true
-        backgroundIV.contentMode = .scaleAspectFill
+        //backgroundIV.contentMode = .scaleAspectFill
         
         backgroundIV.frame.origin = bounds.origin
         backgroundIV.frame.size = CGSize(width: bounds.width, height: bounds.height)
@@ -183,7 +192,18 @@ import UIKit
     
     //MARK: - Layout
     
-    func layout(animating: Bool = true){ }
+    func layout(animating: Bool = true) {        
+        let gimme = LayoutHelper(rect: backgroundIV.bounds)
+
+        let widthRatio = backgroundImageView.bounds.size.width / (backgroundImageView.image?.size.width)!
+        let heightRatio = backgroundImageView.bounds.size.height / (backgroundImageView.image?.size.height)!
+        let scale = min(widthRatio, heightRatio)
+        let imageWidth = scale * (backgroundImageView.image?.size.width)!
+        let imageHeight = scale * (backgroundImageView.image?.size.height)!
+        backgroundImageView.frame = CGRect(x: 0, y: 0, width: imageWidth, height: imageHeight)
+        
+        backgroundImageView.frame.origin = CGPoint(x: gimme.RevX(0, width: backgroundImageView.bounds.width), y: 0)
+    }
     
     
     //MARK: - Actions
@@ -194,12 +214,11 @@ import UIKit
         if let vc = superVC {
             vc.present(self.detailVC, animated: true, completion: nil)
         } else {
-            
             resetAnimated()
         }
     }
 
-    
+
     //MARK: - Animations
     
     private func pushBackAnimated() {
@@ -259,6 +278,10 @@ extension Card: UIGestureRecognizerDelegate {
             originalFrame = superview.convert(self.frame, to: nil)
         }
         pushBackAnimated()
+    }
+    
+    override open func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        resetAnimated()
     }
 }
 

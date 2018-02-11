@@ -8,16 +8,27 @@
 
 import Foundation
 
-class UICommunicator {
+class UICommunicator : NSObject {
     
-    var uiListener: ModelCommunicator?
+    private var listeners: [ModelCommunicator]! = []
 
     func registerEventListener(listenerObject: ModelCommunicator) {
-        uiListener = listenerObject
+        listeners.append(listenerObject)
+    }
+    
+    func deregisterEventListener(listenerObject: ModelCommunicator) {
+        for (index, listener) in listeners.enumerated() {
+            if (listenerObject.hashCode() == listener.hashCode()) {
+                listeners.remove(at: index)
+                break
+            }
+        }
     }
     
     func notifyModelUpdate() {
-        uiListener?.modelUpdated(data: pullData())
+        for listener in listeners {
+            listener.modelUpdated(data: pullData())
+        }
     }
 
     func pullData() -> Any? { return nil }
@@ -25,4 +36,5 @@ class UICommunicator {
 
 protocol ModelCommunicator {
     func modelUpdated(data: Any?)
+    func hashCode() -> Int
 }

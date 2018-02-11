@@ -9,6 +9,12 @@
 import Foundation
 import UIKit
 
+class LiveBroadcastContainerViewController : PlayerViewController {
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+}
+
 class LiveBroadcastViewController : UIViewController {
     
     @IBOutlet var programCardTableView: UITableView?

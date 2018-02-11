@@ -11,13 +11,20 @@ import UIKit
 
 @IBDesignable
 class PlayerView : UIView {
+    @IBOutlet weak var itemTitle: UILabel!
+    @IBOutlet weak var itemSubtitle: UILabel!
+    @IBOutlet weak var itemThumbnail: UIImageView!
+    @IBOutlet weak var playbackState: UIButton!
+    
+    public var delegate: PlayerViewDelegate?
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+                
         // XIB file, please be silent and behave to the constraint your superview tell you :)
         self.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -34,4 +41,13 @@ class PlayerView : UIView {
         self.addSubview(lineView)
         self.sendSubview(toBack: lineView)
     }
+    
+    @IBAction func playButtonClicked(_ sender: Any) {
+        self.delegate?.onPlayPauseButtonClicked()
+    }
 }
+
+protocol PlayerViewDelegate {
+    func onPlayPauseButtonClicked()
+}
+

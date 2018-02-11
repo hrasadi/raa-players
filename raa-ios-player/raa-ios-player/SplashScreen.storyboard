@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="6EI-4V-rkD">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Splash Screen View Controller-->
+        <scene sceneID="ZPR-lm-9PY">
+            <objects>
+                <viewController id="6EI-4V-rkD" customClass="SplashScreenViewController" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Xid-Ui-Lnj">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="raa-logo-256" translatesAutoresizingMaskIntoConstraints="NO" id="ZzD-sP-4Gh">
+                                <rect key="frame" x="211" y="574" width="139" height="68"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="68" id="V8e-bv-Nnm"/>
+                                    <constraint firstAttribute="width" constant="139" id="nrJ-hf-M0c"/>
+                                </constraints>
+                            </imageView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="eBy-Bm-ssv">
+                                <rect key="frame" x="177" y="323.5" width="20" height="20"/>
+                            </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="اندکی صبر..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jTH-tr-l66">
+                                <rect key="frame" x="151.5" y="353.5" width="70" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.97636479139999999" green="0.97653168440000004" blue="0.9763541818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="YDO-5V-uGy" firstAttribute="trailing" secondItem="ZzD-sP-4Gh" secondAttribute="trailing" constant="25" id="1ZN-cs-63i"/>
+                            <constraint firstItem="eBy-Bm-ssv" firstAttribute="centerY" secondItem="Xid-Ui-Lnj" secondAttribute="centerY" id="2mo-v4-sfr"/>
+                            <constraint firstItem="jTH-tr-l66" firstAttribute="top" secondItem="eBy-Bm-ssv" secondAttribute="bottom" constant="10" id="RrA-Sp-35o"/>
+                            <constraint firstItem="YDO-5V-uGy" firstAttribute="bottom" secondItem="ZzD-sP-4Gh" secondAttribute="bottom" constant="25" id="eWc-Br-LRf"/>
+                            <constraint firstItem="eBy-Bm-ssv" firstAttribute="centerX" secondItem="jTH-tr-l66" secondAttribute="centerX" id="hJM-re-LfS"/>
+                            <constraint firstItem="eBy-Bm-ssv" firstAttribute="centerX" secondItem="Xid-Ui-Lnj" secondAttribute="centerX" id="pgk-Ud-651"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="YDO-5V-uGy"/>
+                    </view>
+                    <connections>
+                        <outlet property="loadingStatusLbl" destination="jTH-tr-l66" id="2aK-km-bMv"/>
+                        <segue destination="GnW-2D-3cI" kind="showDetail" identifier="loadingComplete" action="showViewController:sender:" id="8Ey-0H-ZiE"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="R1W-7g-hrM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="292" y="-162.3688155922039"/>
+        </scene>
+        <!--Main-->
+        <scene sceneID="cTA-CZ-SZY">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="Main" storyboardName="Main" id="GnW-2D-3cI" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Gis-zZ-pf9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="862" y="-163"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="raa-logo-256" width="798" height="256"/>
+    </resources>
+</document>

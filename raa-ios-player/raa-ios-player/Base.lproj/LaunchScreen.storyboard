@@ -14,22 +14,22 @@
         <scene sceneID="EHf-IW-A2E">
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                    <view key="view" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="raa-logo-256" translatesAutoresizingMaskIntoConstraints="NO" id="OUw-7M-066">
                                 <rect key="frame" x="25" y="574" width="139" height="68"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="139" id="EGI-fY-hkR"/>
-                                    <constraint firstAttribute="height" constant="68" id="ln1-6j-sK1"/>
+                                    <constraint firstAttribute="width" constant="139" id="IZ3-7x-YH6"/>
+                                    <constraint firstAttribute="height" constant="68" id="VUY-J4-I5c"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.97636479139999999" green="0.97653168440000004" blue="0.9763541818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="OUw-7M-066" secondAttribute="bottom" constant="25" id="BGC-Fi-Hml"/>
-                            <constraint firstItem="OUw-7M-066" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="25" id="fjP-Dj-755"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="OUw-7M-066" secondAttribute="trailing" constant="25" id="6HS-bh-f9K"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="OUw-7M-066" secondAttribute="bottom" constant="25" id="ume-Wg-uUP"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

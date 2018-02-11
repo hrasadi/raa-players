@@ -8,10 +8,16 @@
 
 import Foundation
 import UIKit
+import os
+
+class FeedContainerViewController : PlayerViewController {
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+}
 
 class FeedViewController : UIViewController {
 
-    @IBOutlet var player: PlayerView!;
     @IBOutlet var publicFeedProgramCardTableView: UITableView?
 
     private var publicFeedData: [PublicFeedEntry]?
@@ -27,7 +33,7 @@ class FeedViewController : UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad();
-
+        
         Context.Instance.feedManager.registerEventListener(listenerObject: self)
         (self.publicFeedData, self.personalFeedData) = Context.Instance.feedManager.pullData() as! ([PublicFeedEntry]?, Any?)
 
@@ -38,18 +44,24 @@ class FeedViewController : UIViewController {
     }
 }
 
+extension FeedViewController : FeedCardDelegate {
+    func onPlayButtonClicked(_ requestedFeedEntryId: String) {
+        Context.Instance.playbackManager.playFeed(requestedFeedEntryId)
+    }
+}
+
 extension FeedViewController : ModelCommunicator {
     func modelUpdated(data: Any?) {
         (self.publicFeedData, self.personalFeedData) = data as! ([PublicFeedEntry]?, Any?)
         publicFeedProgramCardTableView?.reloadData()
     }
-}
-
-extension FeedViewController : UITableViewDelegate {
     
+    func hashCode() -> Int {
+        return ObjectIdentifier(self).hashValue
+    }
 }
 
-extension FeedViewController : UITableViewDataSource {
+extension FeedViewController : UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return Defaults.CELL_HEIGHT
@@ -60,7 +72,6 @@ extension FeedViewController : UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         // Table view cells are reused and should be dequeued using a cell identifier.
         let cellIdentifier = "publicFeedCell"
         
@@ -69,17 +80,23 @@ extension FeedViewController : UITableViewDataSource {
         }
         
         let feedEntry = publicFeedData?[indexPath.row]
-        
+        let entryProgramInfo = Context.Instance.programInfoDirectoryManager.programInfoDirectory?.ProgramInfos[(feedEntry?.ProgramObject?.ProgramId)!]
+
         let programDetails = storyboard?.instantiateViewController(withIdentifier: "ProgramContent") as! ProgramDetailsViewController
         programDetails.program = feedEntry?.ProgramObject
         cell.card?.shouldPresent(programDetails, from: self)
 
+        cell.card?.feedEntryId = feedEntry?.Id
+        
+        if (feedEntry?.ProgramObject?.Title != nil) {
+            cell.card?.programTitle = (feedEntry?.ProgramObject?.Title)!
+        }
+        
         if (feedEntry?.ReleaseTimestamp != nil) {
             let releaseDate = Date(timeIntervalSince1970: (feedEntry?.ReleaseTimestamp)!)
             cell.card?.timeValue1 = Utils.convertToPersianLocaleString(Utils.getHourOfDayString(from: releaseDate)) ?? (cell.card?.timeValue1)!
             cell.card?.timeSubValue1 = Utils.convertToPersianLocaleString(Utils.getRelativeDayName(releaseDate)) ?? (cell.card?.timeSubValue1)!
         }
-
 
         if (feedEntry?.ExpirationTimestamp != nil) {
             let expirationDate = Date(timeIntervalSince1970: (feedEntry?.ExpirationTimestamp)!)
@@ -87,9 +104,19 @@ extension FeedViewController : UITableViewDataSource {
             cell.card?.timeSubValue2 = Utils.convertToPersianLocaleString(Utils.getRelativeDayName(expirationDate)) ?? (cell.card?.timeSubValue2)!
         }
 
-        cell.card?.backgroundImage = #imageLiteral(resourceName: "default-thumbnail")
+        if (entryProgramInfo?.Banner != nil) {
+            let bannerUrl = URL(string: entryProgramInfo!.Banner!)!
+            let data = try? Data(contentsOf: bannerUrl)
+            if (data != nil) {
+                    cell.card?.backgroundImage = UIImage(data: data!)
+            } else {
+                cell.card?.backgroundImage = #imageLiteral(resourceName: "default-thumbnail")
+            }
+        } else {
+            cell.card?.backgroundImage = #imageLiteral(resourceName: "default-thumbnail")
+        }
         
-        // Fetches the appropriate meal for the data source layout.
+        cell.card?.feedDelegate = self
         
         return cell
     }

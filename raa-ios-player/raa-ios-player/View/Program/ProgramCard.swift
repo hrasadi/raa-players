@@ -13,6 +13,9 @@ import UIKit
 class ProgramCard : Card {
     var blurV = UIVisualEffectView()
     var vibrancyV = UIVisualEffectView()
+
+    private var programTitleLbl = UILabel()
+    private var programSubtitleLbl = UILabel()
     
     private var timeTitle1Lbl = UILabel()
     private var timeValue1Lbl = UILabel()
@@ -21,6 +24,18 @@ class ProgramCard : Card {
     private var timeValue2Lbl = UILabel()
     private var timeSubValue2Lbl = UILabel()
 
+    public var programTitle: String = "برنامه" {
+        didSet {
+            programTitleLbl.text = programTitle
+        }
+    }
+
+    public var programSubtitle: String = "توضیحات برنامه" {
+        didSet {
+            programSubtitleLbl.text = programSubtitle
+        }
+    }
+    
     @IBInspectable public var timeTitle1: String = "از" {
         didSet {
             timeTitle1Lbl.text = timeTitle1
@@ -57,6 +72,9 @@ class ProgramCard : Card {
         }
     }
     
+    @IBInspectable public var programTitleSize: CGFloat = 16
+    @IBInspectable public var programSubtitleSize: CGFloat = 13
+
     @IBInspectable public var timeTitleSize: CGFloat = 12
     @IBInspectable public var timeValueSize: CGFloat = 20
     @IBInspectable public var timeSubValueSize: CGFloat = 10
@@ -80,6 +98,9 @@ class ProgramCard : Card {
     override func initialize() {
         super.initialize()
         
+        backgroundIV.addSubview(programTitleLbl);
+        backgroundIV.addSubview(programSubtitleLbl);
+        
         vibrancyV = UIVisualEffectView(effect: UIVibrancyEffect(blurEffect: UIBlurEffect(style: blurEffect)))
         backgroundIV.addSubview(blurV)
         blurV.contentView.addSubview(vibrancyV)
@@ -93,6 +114,28 @@ class ProgramCard : Card {
     
     override open func draw(_ rect: CGRect) {
         super.draw(rect)
+
+        // Main section
+        programTitleLbl.text = programTitle
+        programTitleLbl.textColor = textColor
+        programTitleLbl.font = UIFont.systemFont(ofSize: programTitleSize, weight: .medium)
+        //programTitleLbl.lineHeight(0.70)
+        programTitleLbl.adjustsFontSizeToFitWidth = true
+        programTitleLbl.minimumScaleFactor = 0.1
+        programTitleLbl.lineBreakMode = .byTruncatingTail
+        programTitleLbl.numberOfLines = 1
+        backgroundIV.bringSubview(toFront: programTitleLbl)
+
+        programSubtitleLbl.text = programSubtitle
+        programSubtitleLbl.textColor = textColor
+        programSubtitleLbl.font = UIFont.systemFont(ofSize: programSubtitleSize, weight: .light)
+        programSubtitleLbl.lineHeight(0.70)
+        programSubtitleLbl.adjustsFontSizeToFitWidth = true
+        programSubtitleLbl.minimumScaleFactor = 0.1
+        programSubtitleLbl.lineBreakMode = .byTruncatingTail
+        programSubtitleLbl.numberOfLines = 1
+        backgroundIV.bringSubview(toFront: programSubtitleLbl)
+
         
         let blur = UIBlurEffect(style: blurEffect)
         blurV.effect = blur
@@ -164,6 +207,12 @@ class ProgramCard : Card {
         super.layout(animating: animating)
         
         let gimme = LayoutHelper(rect: backgroundIV.bounds)
+        
+        programTitleLbl.frame.size = CGSize(width: gimme.X(70) - 30, height: 20)
+        programTitleLbl.frame.origin = CGPoint(x: gimme.RevX(0, width: programTitleLbl.bounds.size.width) - 20, y: 30)
+        
+        programSubtitleLbl.sizeToFit()
+        programSubtitleLbl.frame.origin = CGPoint(x: gimme.RevX(0, width: programSubtitleLbl.bounds.size.width) - 20, y: programTitleLbl.frame.maxY + 10)
         
         blurV.frame = CGRect(x: 0,
                              y: 0,

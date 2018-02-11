@@ -18,9 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         UIView.appearance().semanticContentAttribute = UISemanticContentAttribute.forceRightToLeft;
 
-        // Startup services and managers, download data from server
-        Context.initiateManagers()
-
         return true
     }
 

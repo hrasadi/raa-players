@@ -30,14 +30,18 @@ class Context {
         if instance == nil {
             instance = Context()
             
+            instance?.playbackManager = PlaybackManager()
             instance?.userManager = UserManager()
             instance?.feedManager = FeedManager()
+            instance?.programInfoDirectoryManager = ProgramInfoDirectoryManager()
         }
     }
         
     public let settings = UserDefaults.standard
+    public var playbackManager: PlaybackManager!
     public var userManager: UserManager!
     public var feedManager: FeedManager!
+    public var programInfoDirectoryManager: ProgramInfoDirectoryManager!
 
     // TODO: Move these to respective classes
     private struct PropertyKey {

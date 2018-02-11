@@ -11,7 +11,7 @@ import UIKit
 
 @IBDesignable
 class XibContainer : UIView {
-    var contentView:UIView?
+    var contentView: UIView?
     @IBInspectable var nibName:String?
     
     override func awakeFromNib() {

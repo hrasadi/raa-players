@@ -11,19 +11,19 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--پخش زنده-->
+        <!--Live Broadcast View Controller-->
         <scene sceneID="Vpm-J4-j6W">
             <objects>
                 <viewController id="7pc-Aj-tBg" customClass="LiveBroadcastViewController" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="vwB-bT-Rma">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="424"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="hJQ-5p-dsA">
-                                <rect key="frame" x="0.0" y="116" width="375" height="502"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="424"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="2AV-An-Vj7">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="432"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="424"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="liveProgramCell" rowHeight="150" id="leK-IW-D5T" customClass="ProgramCardTableViewCell" customModule="raa_ios_player" customModuleProvider="target">
@@ -51,25 +51,11 @@
                                             </tableViewCell>
                                         </prototypes>
                                     </tableView>
-                                    <view contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="bMw-6C-Gs7" userLabel="Player" customClass="XibContainer" customModule="raa_ios_player" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="432" width="375" height="70"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="70" id="uTf-iU-y2i"/>
-                                        </constraints>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="string" keyPath="nibName" value="Player"/>
-                                        </userDefinedRuntimeAttributes>
-                                    </view>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="2AV-An-Vj7" firstAttribute="top" secondItem="hJQ-5p-dsA" secondAttribute="top" id="CXD-0u-YrO"/>
-                                    <constraint firstAttribute="bottom" secondItem="bMw-6C-Gs7" secondAttribute="bottom" id="KcV-Ih-nCX"/>
                                     <constraint firstItem="2AV-An-Vj7" firstAttribute="leading" secondItem="hJQ-5p-dsA" secondAttribute="leading" id="L6J-kl-XIS"/>
                                     <constraint firstAttribute="trailing" secondItem="2AV-An-Vj7" secondAttribute="trailing" id="YTS-3Y-KOn"/>
-                                    <constraint firstAttribute="trailing" secondItem="bMw-6C-Gs7" secondAttribute="trailing" id="feN-xW-Mj0"/>
-                                    <constraint firstItem="bMw-6C-Gs7" firstAttribute="top" secondItem="2AV-An-Vj7" secondAttribute="bottom" id="sCs-Nk-U5T"/>
-                                    <constraint firstItem="bMw-6C-Gs7" firstAttribute="leading" secondItem="hJQ-5p-dsA" secondAttribute="leading" id="sjf-L0-wTq"/>
                                 </constraints>
                             </stackView>
                         </subviews>
@@ -82,25 +68,24 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="gkb-oV-lHS"/>
                     </view>
-                    <navigationItem key="navigationItem" title="پخش زنده" id="qyz-55-AoB"/>
                     <connections>
                         <outlet property="programCardTableView" destination="2AV-An-Vj7" id="FzR-W8-Llr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gVq-R5-4e1" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1944.8" y="-457.42128935532236"/>
+            <point key="canvasLocation" x="3029.5999999999999" y="-457.42128935532236"/>
         </scene>
-        <!--خوراک-->
+        <!--Feed View Controller-->
         <scene sceneID="1eV-XK-RpD">
             <objects>
                 <viewController id="IL4-PX-Snv" customClass="FeedViewController" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nuc-6w-0iP">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="432"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="mym-hx-C8N">
-                                <rect key="frame" x="0.0" y="116" width="375" height="502"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="432"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uBP-9Q-trR">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="432"/>
@@ -131,25 +116,11 @@
                                             </tableViewCell>
                                         </prototypes>
                                     </tableView>
-                                    <view contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="wke-0m-Rya" customClass="XibContainer" customModule="raa_ios_player" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="432" width="375" height="70"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="70" id="f9h-bQ-h7o"/>
-                                        </constraints>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="string" keyPath="nibName" value="Player"/>
-                                        </userDefinedRuntimeAttributes>
-                                    </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="wke-0m-Rya" secondAttribute="bottom" id="AVW-zQ-QGb"/>
                                     <constraint firstItem="uBP-9Q-trR" firstAttribute="leading" secondItem="mym-hx-C8N" secondAttribute="leading" id="aae-i7-9p7"/>
                                     <constraint firstItem="uBP-9Q-trR" firstAttribute="top" secondItem="mym-hx-C8N" secondAttribute="top" id="gLP-n8-bxw"/>
-                                    <constraint firstItem="wke-0m-Rya" firstAttribute="top" secondItem="uBP-9Q-trR" secondAttribute="bottom" id="hNC-pq-ZoP"/>
-                                    <constraint firstAttribute="trailing" secondItem="wke-0m-Rya" secondAttribute="trailing" id="kcq-QL-ycB"/>
                                     <constraint firstAttribute="trailing" secondItem="uBP-9Q-trR" secondAttribute="trailing" id="vAo-6R-mT5"/>
-                                    <constraint firstItem="wke-0m-Rya" firstAttribute="leading" secondItem="mym-hx-C8N" secondAttribute="leading" id="xEt-70-7ax"/>
                                 </constraints>
                             </stackView>
                         </subviews>
@@ -162,15 +133,60 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="NkQ-PM-bar"/>
                     </view>
-                    <navigationItem key="navigationItem" title="خوراک" id="Vqb-45-tg8"/>
                     <connections>
-                        <outlet property="player" destination="wke-0m-Rya" id="lwq-eS-FQn"/>
                         <outlet property="publicFeedProgramCardTableView" destination="uBP-9Q-trR" id="Mn4-a8-jbH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G5M-UE-HYC" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1945" y="770"/>
+            <point key="canvasLocation" x="3030" y="665"/>
+        </scene>
+        <!--پخش زنده-->
+        <scene sceneID="kAa-yi-cNl">
+            <objects>
+                <viewController id="sHx-AM-Cpd" customClass="LiveBroadcastContainerViewController" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="IGs-XH-HVa">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YEV-0v-BSa" userLabel="Player" customClass="XibContainer" customModule="raa_ios_player" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="548" width="375" height="70"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="70" id="jSC-1g-V7K"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="nibName" value="Player"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ufm-PR-9OF">
+                                <rect key="frame" x="0.0" y="116" width="375" height="424"/>
+                                <connections>
+                                    <segue destination="7pc-Aj-tBg" kind="embed" id="Qg0-NP-WWN"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="YEV-0v-BSa" firstAttribute="leading" secondItem="IgG-Cn-Fdv" secondAttribute="leading" id="N62-YQ-z2n"/>
+                            <constraint firstItem="ufm-PR-9OF" firstAttribute="top" secondItem="IgG-Cn-Fdv" secondAttribute="top" id="Ncs-68-drI"/>
+                            <constraint firstItem="YEV-0v-BSa" firstAttribute="top" secondItem="ufm-PR-9OF" secondAttribute="bottom" id="RZI-Z1-Bs5"/>
+                            <constraint firstItem="IgG-Cn-Fdv" firstAttribute="trailing" secondItem="ufm-PR-9OF" secondAttribute="trailing" id="mB9-V6-2N5"/>
+                            <constraint firstItem="IgG-Cn-Fdv" firstAttribute="bottom" secondItem="YEV-0v-BSa" secondAttribute="bottom" id="mcd-Zp-Xac"/>
+                            <constraint firstItem="YEV-0v-BSa" firstAttribute="trailing" secondItem="IgG-Cn-Fdv" secondAttribute="trailing" id="qEL-us-3aW"/>
+                            <constraint firstItem="ufm-PR-9OF" firstAttribute="leading" secondItem="IgG-Cn-Fdv" secondAttribute="leading" id="szm-Sl-Yb0"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="IgG-Cn-Fdv"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="پخش زنده" id="8sq-7M-rjp"/>
+                    <connections>
+                        <outlet property="playerHeightConstraint" destination="jSC-1g-V7K" id="Xb8-Ky-E8Y"/>
+                        <outlet property="playerViewContainer" destination="YEV-0v-BSa" id="4tV-Y4-XKn"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wkI-FW-EaW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2184.8000000000002" y="-457.42128935532236"/>
         </scene>
         <!--Program Details View Controller-->
         <scene sceneID="adv-ol-FgV">
@@ -205,12 +221,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ebZ-rd-ZJp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2813.5999999999999" y="161.46926536731635"/>
+            <point key="canvasLocation" x="-1418" y="0.0"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Main Tab Bar Controller-->
         <scene sceneID="ig0-VE-hA1">
             <objects>
-                <tabBarController id="BjL-v9-GZe" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="MainTabBar" id="BjL-v9-GZe" customClass="MainTabBarController" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" id="0V3-ta-B7b">
                         <rect key="frame" x="0.0" y="975" width="768" height="49"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -252,7 +268,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <label key="tableFooterView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="۲۰۱۷-۱۸ - رادیو اتو-اسعد - برای اطلاع از موارد حقوقی به سایت raa.media مراجعه کنید" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="P5L-hL-Ipj">
+                        <label key="tableFooterView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="۲۰۱۷-۱۸ - رادیو اتو-اسعد - برای اطلاع از موارد حقوقی به سایت raa.media مراجعه کنید" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="P5L-hL-Ipj">
                             <rect key="frame" x="0.0" y="188" width="375" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -370,12 +386,59 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="IL4-PX-Snv" kind="relationship" relationship="rootViewController" id="8JG-2a-gG3"/>
+                        <segue destination="FNJ-HX-hPY" kind="relationship" relationship="rootViewController" id="FhG-dB-Bhh"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gY5-4u-tTo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1130" y="770"/>
+        </scene>
+        <!--خوراک-->
+        <scene sceneID="47x-9f-EBQ">
+            <objects>
+                <viewController id="FNJ-HX-hPY" customClass="FeedContainerViewController" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="mXN-I9-U6h">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q2w-J4-Ofc" userLabel="Player" customClass="XibContainer" customModule="raa_ios_player" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="548" width="375" height="70"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="70" id="crY-xv-HhJ"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="nibName" value="Player"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wcl-Lu-Lus">
+                                <rect key="frame" x="0.0" y="116" width="375" height="432"/>
+                                <connections>
+                                    <segue destination="IL4-PX-Snv" kind="embed" id="zET-mU-H6v"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Q2w-J4-Ofc" firstAttribute="top" secondItem="Wcl-Lu-Lus" secondAttribute="bottom" id="GNE-ym-Og5"/>
+                            <constraint firstItem="Q2w-J4-Ofc" firstAttribute="leading" secondItem="bbq-Ye-erw" secondAttribute="leading" id="JEh-76-XCE"/>
+                            <constraint firstItem="Q2w-J4-Ofc" firstAttribute="bottom" secondItem="bbq-Ye-erw" secondAttribute="bottom" id="SPY-kF-oco"/>
+                            <constraint firstItem="bbq-Ye-erw" firstAttribute="trailing" secondItem="Q2w-J4-Ofc" secondAttribute="trailing" id="ftm-gK-4BS"/>
+                            <constraint firstItem="Wcl-Lu-Lus" firstAttribute="top" secondItem="bbq-Ye-erw" secondAttribute="top" id="p8r-Iq-3b8"/>
+                            <constraint firstItem="Wcl-Lu-Lus" firstAttribute="leading" secondItem="bbq-Ye-erw" secondAttribute="leading" id="pu7-dv-kQd"/>
+                            <constraint firstItem="bbq-Ye-erw" firstAttribute="trailing" secondItem="Wcl-Lu-Lus" secondAttribute="trailing" id="tpr-VF-jHl"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="bbq-Ye-erw"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="خوراک" id="lKW-bV-1tA"/>
+                    <connections>
+                        <outlet property="playerHeightConstraint" destination="crY-xv-HhJ" id="pRk-tp-6z9"/>
+                        <outlet property="playerViewContainer" destination="Q2w-J4-Ofc" id="P7T-2Q-1r4"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1UZ-qW-UNt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2185" y="770"/>
         </scene>
         <!--پخش زنده-->
         <scene sceneID="zAF-ga-mkb">
@@ -389,7 +452,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="7pc-Aj-tBg" kind="relationship" relationship="rootViewController" id="6nl-5F-Luv"/>
+                        <segue destination="sHx-AM-Cpd" kind="relationship" relationship="rootViewController" id="ehN-Sw-Nyt"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vzQ-5R-d2g" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -399,7 +462,7 @@
     </scenes>
     <resources>
         <image name="feed" width="24" height="24"/>
-        <image name="live" width="24" height="24"/>
+        <image name="live" width="18" height="18"/>
         <image name="settings" width="24" height="24"/>
     </resources>
 </document>

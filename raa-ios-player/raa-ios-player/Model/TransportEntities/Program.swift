@@ -28,7 +28,24 @@ class CProgram : Codable {
     
     var StartTime: Date?
     var EndTime: Date?
+
+    var Show: CShow?
+    
+    class CShow : Codable {
+        
+        var Clips: [CClip]?
+        
+        class CClip : Codable {
+            
+            var Media: CMedia?
+            
+            class CMedia : Codable {
+                var Path: String?
+            }
+        }
+    }
 }
+
 
 class PersonalProgram : CProgram {
     
@@ -43,12 +60,11 @@ class PublicFeedEntry : Codable {
         }
     }
 
-    var Program: String? {
-        didSet {
-            self.ProgramObject = try! JSONDecoder().decode(CProgram.self, from: (self.Program?.data(using: String.Encoding.utf8))!)
-        }
+    var Program: String?
+
+    var ProgramObject: CProgram? {
+        return try! JSONDecoder().decode(CProgram.self, from: (self.Program?.data(using: String.Encoding.utf8))!)
     }
-    var ProgramObject: CProgram?
     
     var Upvotes: Int! {
         didSet {

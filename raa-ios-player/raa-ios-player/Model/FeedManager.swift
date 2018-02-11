@@ -10,7 +10,7 @@ import os
 import Foundation
 
 class FeedManager : UICommunicator {
-    static let PUBLIC_FEED_ENDPOINT = Context.SERVER_URL + "/publicfeed"
+    static let PUBLIC_FEED_ENDPOINT = Context.SERVER_URL + "/publicFeed"
 
     private var jsonDecoder = JSONDecoder()
     
@@ -44,9 +44,21 @@ class FeedManager : UICommunicator {
         task.resume()
     }
     
+    func lookupPublicFeedEntry(_ publicFeedEntryId: String) -> PublicFeedEntry? {
+        if self.publicFeed == nil {
+            return nil
+        }
+        
+        for entry in self.publicFeed! {
+            if entry.Id == publicFeedEntryId {
+                return entry
+            }
+        }
+        return nil
+    }
+    
     override func pullData() -> Any? {
         return (self.publicFeed, self.personalFeed)
     }
-
 }
 

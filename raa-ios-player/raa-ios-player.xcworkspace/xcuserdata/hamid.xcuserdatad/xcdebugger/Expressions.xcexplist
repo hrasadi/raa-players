@@ -3,10 +3,65 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "UserManager.registerDevice():UserManager.swift">
+         contextName = "FeedViewController.init(coder:):FeedViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "Context.Instance.settings.string(forKey: PropertyKey.CurrentRegisteredId)">
+               value = "Context.Instance.feedManager">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlayerViewController.updatePlayerView():PlayerViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "playbackState">
+            </PersistentString>
+            <PersistentString
+               value = "Context.Instance.feedManager.pullData()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static Utils.getHourOfDayString(from:):Utils.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "hoursOnlyDateFormatter.dateFormat">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ProgramCard.layout(animating:):ProgramCard.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "CGSize(width: gimme.X(70) - 30, height: 20)">
+            </PersistentString>
+            <PersistentString
+               value = "programTitleLbl.sizeThatFits(CGSize(width: gimme.X(70) - 30, height: 20))">
+            </PersistentString>
+            <PersistentString
+               value = "programTitleLbl.frame.size">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "nano_free_definite_size:(null)">
+         <PersistentStrings>
+            <PersistentString
+               value = "backgroundImageView.image">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Card.layout(animating:):Card.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "backgroundImageView.image.preferredPresentationSizeForItemProvider">
+            </PersistentString>
+            <PersistentString
+               value = "backgroundImageView.image?.preferredPresentationSizeForItemProvider">
+            </PersistentString>
+            <PersistentString
+               value = "backgroundImageView.bounds">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
