@@ -39,6 +39,7 @@
 		03E07EFE2030CF3700B4677B /* SplashScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E07EFD2030CF3700B4677B /* SplashScreenViewController.swift */; };
 		03E07F002030D0A900B4677B /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03E07EFF2030D0A900B4677B /* SplashScreen.storyboard */; };
 		03E07F022030E44A00B4677B /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E07F012030E44A00B4677B /* MainTabBarController.swift */; };
+		03E07F0420314C8100B4677B /* LiveBroadcastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E07F0320314C8100B4677B /* LiveBroadcastManager.swift */; };
 		03F0588C2018246A00B568E3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F0588B2018246A00B568E3 /* AppDelegate.swift */; };
 		03F058932018246A00B568E3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03F058912018246A00B568E3 /* Main.storyboard */; };
 		03F058982018246A00B568E3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03F058962018246A00B568E3 /* LaunchScreen.storyboard */; };
@@ -80,6 +81,7 @@
 		03E07EFD2030CF3700B4677B /* SplashScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenViewController.swift; sourceTree = "<group>"; };
 		03E07EFF2030D0A900B4677B /* SplashScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
 		03E07F012030E44A00B4677B /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		03E07F0320314C8100B4677B /* LiveBroadcastManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveBroadcastManager.swift; sourceTree = "<group>"; };
 		03F058882018246A00B568E3 /* raa-ios-player.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "raa-ios-player.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		03F0588B2018246A00B568E3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		03F058922018246A00B568E3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -108,9 +110,10 @@
 			isa = PBXGroup;
 			children = (
 				03A498AA2023C912008B56BA /* TransportEntities */,
-				0325645E201E66D500494D6E /* UserManager.swift */,
+				03E07F0320314C8100B4677B /* LiveBroadcastManager.swift */,
 				03A498A82023C4DD008B56BA /* FeedManager.swift */,
 				03CB4E68202E5D32006ECD08 /* ProgramInfoDirectoryManager.swift */,
+				0325645E201E66D500494D6E /* UserManager.swift */,
 				03CB4E6C202F7762006ECD08 /* PlaybackManager.swift */,
 				03381CFD202504F300F179E1 /* UIModelCommunicator.swift */,
 			);
@@ -392,6 +395,7 @@
 				03381CFE202504F300F179E1 /* UIModelCommunicator.swift in Sources */,
 				03CB4E69202E5D32006ECD08 /* ProgramInfoDirectoryManager.swift in Sources */,
 				0325645F201E66D500494D6E /* UserManager.swift in Sources */,
+				03E07F0420314C8100B4677B /* LiveBroadcastManager.swift in Sources */,
 				03A498A320239B1B008B56BA /* LayoutHelper.swift in Sources */,
 				03CB4E6B202E5DD5006ECD08 /* ProgramInfo.swift in Sources */,
 				03A4989F20239B1B008B56BA /* Card.swift in Sources */,

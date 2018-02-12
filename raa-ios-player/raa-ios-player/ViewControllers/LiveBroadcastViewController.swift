@@ -60,7 +60,7 @@ extension LiveBroadcastViewController : UITableViewDataSource {
         let groupCardContent = storyboard?.instantiateViewController(withIdentifier: "ProgramContent")
         cell.card?.shouldPresent(groupCardContent, from: self)
 
-        cell.card?.backgroundImage = #imageLiteral(resourceName: "default-thumbnail")
+        cell.card?.backgroundImage = #imageLiteral(resourceName: "default-banner")
         
         // Fetches the appropriate meal for the data source layout.
         

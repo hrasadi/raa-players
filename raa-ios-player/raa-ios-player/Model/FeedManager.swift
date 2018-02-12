@@ -15,7 +15,7 @@ class FeedManager : UICommunicator {
     private var jsonDecoder = JSONDecoder()
     
     public var publicFeed: [PublicFeedEntry]?
-    public var personalFeed: [PersonalProgram]?
+    public var personalFeed: [PersonalFeedEntry]?
 
     override init() {
         super.init()

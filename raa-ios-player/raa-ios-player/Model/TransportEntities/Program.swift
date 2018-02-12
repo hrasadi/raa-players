@@ -46,8 +46,11 @@ class CProgram : Codable {
     }
 }
 
+class LiveProgram : CProgram {
+    
+}
 
-class PersonalProgram : CProgram {
+class PersonalFeedEntry : Codable {
     
 }
 
@@ -76,9 +79,5 @@ class PublicFeedEntry : Codable {
 
     var ReleaseTimestamp: Double?
     var ExpirationTimestamp: Double?
-    
-}
-
-class LiveProgram : CProgram {
     
 }
