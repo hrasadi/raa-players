@@ -11,7 +11,7 @@ import os
 import UIKit
 
 class ProgramInfoDirectoryManager : UICommunicator {
-    static let PINFO_DIR_ENDPOINT = Context.SERVER_URL + "/programInfoDirectory"
+    static let PINFO_DIR_ENDPOINT = Context.API_URL_PREFIX + "/programInfoDirectory"
 
     private var jsonDecoder = JSONDecoder()
 
@@ -50,25 +50,25 @@ class ProgramInfoDirectoryManager : UICommunicator {
         if self.programInfoDirectory != nil {
             DispatchQueue.global().async {
                 for pinfo in self.programInfoDirectory!.ProgramInfos {
-                    pinfo.value.thumbnailImage = self.getImage(pinfo.value.Thumbnail, defaultImage: #imageLiteral(resourceName: "default-thumbnail"))
-                    pinfo.value.bannerImage = self.getImage(pinfo.value.Thumbnail, defaultImage: #imageLiteral(resourceName: "default-banner"))
+                    pinfo.value.thumbnailImageData = self.getImageData(pinfo.value.Thumbnail)
+                    pinfo.value.bannerImageData = self.getImageData(pinfo.value.Banner)
                 }
                 completionHandler()
             }
         }
     }
     
-    private func getImage(_ urlString: String?, defaultImage: UIImage!) -> UIImage! {
-        var result = defaultImage
+    private func getImageData(_ urlString: String?) -> Data? {
+        var result: Data? = nil
 
         if urlString != nil {
             let url = URL(string: urlString!)!
             let data = try? Data(contentsOf: url)
             if (data != nil) {
-                result = UIImage(data: data!)
+                result = data
             }
         }
-        return result!
+        return result
     }
     
     override func pullData() -> Any? {

@@ -13,6 +13,8 @@ import UIKit
 
 class PlaybackManager : UICommunicator {
 
+    static let LIVE_STREAM_URL = Context.LIVE_STREAM_URL_PREFIX + "/raa1.ogg"
+    
     let audioSession = AVAudioSession.sharedInstance()
     var player: AVPlayer? = nil
     
@@ -25,35 +27,64 @@ class PlaybackManager : UICommunicator {
         playbackState = PlaybackState()
     }
 
-    // Messages from item list controllers
-    
-    public func playLiveBroadcast() {
+    // Calls from item list controllers
+    public func playLiveBroadcast(_ currentProgram: CProgram) {
+        os_log("Requested live playback")
         
+        self.playbackState?.enable = true
+        self.playbackState?.playing = true
+        self.playbackState?.itemTitle = ""
+        self.playbackState?.itemSubtitle = ""
+
+        doPlay(PlaybackManager.LIVE_STREAM_URL)
+
+        // Try to fetch info regarding the program being played
+        self.updateLiveProgramPlaybackState(currentProgram)
     }
-    
-    public func playPersonalFeed() {
+
+    public func updateLiveProgramPlaybackState(_ program: CProgram) {
+        let programInfo = Context.Instance.programInfoDirectoryManager.programInfoDirectory?.ProgramInfos[(program.ProgramId)!]
         
+        self.playbackState?.itemTitle = program.Title
+        self.playbackState?.itemThumbnail = UIImage(data: programInfo?.thumbnailImageData ?? ProgramInfo.defaultThumbnailImageData)
+        self.notifyModelUpdate()
     }
     
     public func playFeed(_ feedEntryId: String) {
         os_log("Requested playback of %@", type: .default, feedEntryId)
         
-        let requestedFeedEntry = Context.Instance.feedManager.lookupPublicFeedEntry(feedEntryId)
-        
-        if requestedFeedEntry != nil {
-            self.playbackState?.enable = true
-            self.playbackState?.playing = true
-            self.playbackState?.itemTitle = requestedFeedEntry?.ProgramObject?.Title
-            //self.playbackState?.itemSubtitle = requestedFeedEntry?.ProgramObject.
-            
-            doPlay((requestedFeedEntry!.ProgramObject?.Show?.Clips?[0].Media?.Path)!)
-            
-            self.notifyModelUpdate()
+        let publicFeedEntry = Context.Instance.feedManager.lookupPublicFeedEntry(feedEntryId)
+        if publicFeedEntry != nil {
+            self.play(programId: (publicFeedEntry!.ProgramObject?.ProgramId)!, title: publicFeedEntry!.ProgramObject?.Title, subtitle: publicFeedEntry!.ProgramObject?.Subtitle, mediaPath: (publicFeedEntry!.ProgramObject?.Show?.Clips?[0].Media?.Path)!)
+            return
+        } else {
+            let personalFeedEntry = Context.Instance.feedManager.lookupPersonalFeedEntry(feedEntryId)
+            if personalFeedEntry != nil {
+                self.play(programId: (personalFeedEntry!.ProgramObject?.ProgramId)!, title: personalFeedEntry!.ProgramObject?.Title, subtitle: personalFeedEntry!.ProgramObject?.Subtitle, mediaPath: (personalFeedEntry!.ProgramObject?.Show?.Clips?[0].Media?.Path)!)
+                return
+            }
         }
+
+        // We should never come here
+        os_log("This is a bug, we have an entry that is neither personal or public", type: .error)
     }
     
-    // Messages from playbackController
+    private func play(programId id: String, title: String?, subtitle: String?, mediaPath: String) {
+        self.playbackState?.enable = true
+        self.playbackState?.playing = true
+        self.playbackState?.itemTitle = title
+        self.playbackState?.itemSubtitle = subtitle
+        
+        let entryProgramInfo = Context.Instance.programInfoDirectoryManager.programInfoDirectory?.ProgramInfos[id]
+        
+        self.playbackState?.itemThumbnail = UIImage(data: entryProgramInfo?.thumbnailImageData ?? ProgramInfo.defaultThumbnailImageData)
+        
+        doPlay(mediaPath)
+        
+        self.notifyModelUpdate()
+    }
     
+    // Calls from PlaybackController
     public func togglePlaybackState() {
         if (self.playbackState?.playing == true) {
             self.playbackState?.playing = false
@@ -67,7 +98,8 @@ class PlaybackManager : UICommunicator {
         
         self.notifyModelUpdate()
     }
-    
+
+    // Private methods
     private func doPlay(_ mediaPath: String) {
         if player != nil {
             // stop the previous player and let it get released by system

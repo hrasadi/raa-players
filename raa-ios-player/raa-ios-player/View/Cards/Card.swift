@@ -63,7 +63,8 @@ import UIKit
      */
     @IBInspectable public var backgroundImage: UIImage? {
         didSet{
-            //self.backgroundIV.image = backgroundImage
+            // Make room for the new image
+            self.backgroundImageView.removeFromSuperview()
         }
     }
     /**
@@ -122,9 +123,13 @@ import UIKit
     //Private Vars
     fileprivate var tap = UITapGestureRecognizer()
     fileprivate var detailVC = DetailViewController()
+
     var superVC: UIViewController?
     var originalFrame = CGRect.zero
     var backgroundIV = UIImageView()
+
+    fileprivate var grayoutMask = UIView()
+    
     var insets = CGFloat()
     var isPresenting = false
     
@@ -143,7 +148,6 @@ import UIKit
     }
     
     func initialize() {
-        
         // Tap gesture init
         self.addGestureRecognizer(tap)
         tap.delegate = self
@@ -160,6 +164,13 @@ import UIKit
             backgroundIV.backgroundColor = UIColor.white
             super.backgroundColor = UIColor.clear
         }
+        
+        self.addSubview(grayoutMask)
+        self.bringSubview(toFront: grayoutMask)
+        grayoutMask.alpha = 0.3
+        grayoutMask.backgroundColor = UIColor.gray
+
+        self.enable()
     }
     
     override open func draw(_ rect: CGRect) {
@@ -172,6 +183,7 @@ import UIKit
         self.layer.shadowRadius = shadowBlur
         self.layer.cornerRadius = cardRadius
 
+        // Remove everything first
         backgroundImageView = UIImageView(frame: originalFrame)
         backgroundImageView.image = backgroundImage
         backgroundImageView.alpha = 0.7
@@ -182,11 +194,17 @@ import UIKit
 
         backgroundIV.layer.cornerRadius = self.layer.cornerRadius
         backgroundIV.clipsToBounds = true
-        //backgroundIV.contentMode = .scaleAspectFill
         
         backgroundIV.frame.origin = bounds.origin
         backgroundIV.frame.size = CGSize(width: bounds.width, height: bounds.height)
         contentInset = 6
+
+        // gray layer is out there waiting
+        grayoutMask.layer.cornerRadius = self.layer.cornerRadius
+        grayoutMask.clipsToBounds = true
+
+        grayoutMask.frame.origin = bounds.origin
+        grayoutMask.frame.size = CGSize(width: bounds.width, height: bounds.height)
     }
     
     
@@ -207,6 +225,18 @@ import UIKit
     
     
     //MARK: - Actions
+    
+    func disable() {
+        backgroundIV.alpha = 0.1
+        grayoutMask.isHidden = false
+        tap.cancelsTouchesInView = true
+    }
+    
+    func enable() {
+        backgroundIV.alpha = 1.0
+        grayoutMask.isHidden = true
+        tap.cancelsTouchesInView = false
+    }
     
     @objc func cardTapped() {
         self.delegate?.cardDidTapInside?(card: self)

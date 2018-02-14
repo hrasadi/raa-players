@@ -20,7 +20,38 @@ class SplashScreenViewController : UIViewController {
         // Startup services and managers, download data from server
         Context.initiateManagers()
         
-        tryDownloadingPublicFeed()
+        tryDownloadingLiveLineup()
+    }
+    
+    func tryDownloadingLiveLineup() {
+        loadingStatusLbl.text = "اول ببینیم رادیو چی داره..."
+        
+        class InterimLiveLineupListener : ModelCommunicator {
+            private var parent: SplashScreenViewController!
+            
+            init(parent: SplashScreenViewController) {
+                self.parent = parent
+            }
+            
+            func modelUpdated(data: Any?) {
+                Context.Instance.liveBroadcastManager.deregisterEventListener(listenerObject: self)
+                self.parent.tryDownloadingPublicFeed()
+            }
+            
+            func hashCode() -> Int {
+                return ObjectIdentifier(self).hashValue
+            }
+        }
+        
+        let listener = InterimLiveLineupListener(parent: self)
+        Context.Instance.liveBroadcastManager.registerEventListener(listenerObject: listener)
+        
+        // if data is already loaded
+        let data = Context.Instance.liveBroadcastManager.pullData()
+        if (data != nil) {
+            Context.Instance.liveBroadcastManager.deregisterEventListener(listenerObject: listener)
+            self.tryDownloadingPublicFeed()
+        }
     }
     
     func tryDownloadingPublicFeed() {

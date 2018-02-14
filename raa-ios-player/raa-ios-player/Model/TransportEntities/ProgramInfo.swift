@@ -10,28 +10,12 @@ import Foundation
 import UIKit
 
 class ProgramInfo : Codable {
-    var ProgramId: String! {
-        didSet {
-            if ProgramId == nil {
-                ProgramId = ""
-            }
-        }
-    }
-    var Title: String! {
-        didSet {
-            if Title == nil {
-                Title = ""
-            }
-        }
-    }
+    var ProgramId: String! = ""
+    var Title: String! = ""
     var About: String?
     var Thumbnail: String?
     var Banner: String?
 
-    // Non-coding properties
-    var thumbnailImage: UIImage? = nil
-    var bannerImage: UIImage? = nil
-    
     private enum CodingKeys: String, CodingKey {
         case ProgramId
         case Title
@@ -39,6 +23,17 @@ class ProgramInfo : Codable {
         case Thumbnail
         case Banner
     }
+
+    // Non-coding properties
+    static let defaultThumbnailImageData: Data! = {
+        return UIImagePNGRepresentation(#imageLiteral(resourceName: "default-thumbnail"))
+    }()
+    static let defaultBannerImageData: Data! = {
+        return UIImagePNGRepresentation(#imageLiteral(resourceName: "default-banner"))
+    }()
+
+    var thumbnailImageData: Data? = nil
+    var bannerImageData: Data? = nil
 }
 
 class ProgramInfoDirectory : Codable {

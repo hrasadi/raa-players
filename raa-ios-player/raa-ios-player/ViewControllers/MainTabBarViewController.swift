@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 
-class MainTabBarController : UITabBarController {
+class MainTabBarViewController : UITabBarController {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }

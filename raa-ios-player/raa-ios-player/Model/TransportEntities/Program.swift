@@ -9,34 +9,17 @@
 import Foundation
 
 class CProgram : Codable {
-    
-    var ProgramId: String! {
-        didSet {
-            if ProgramId == nil {
-                ProgramId = ""
-            }
-        }
-    }
-    
-    var Title: String! {
-        didSet {
-            if Title == nil {
-                Title = ""
-            }
-        }
-    }
-    
-    var StartTime: Date?
-    var EndTime: Date?
-
+    var ProgramId: String! = ""
+    var CanonicalIdPath: String! = ""
+    var Title: String?
+    var Subtitle: String?
     var Show: CShow?
+    var Metadata: CMetadata?
     
     class CShow : Codable {
-        
         var Clips: [CClip]?
         
         class CClip : Codable {
-            
             var Media: CMedia?
             
             class CMedia : Codable {
@@ -44,40 +27,9 @@ class CProgram : Codable {
             }
         }
     }
-}
-
-class LiveProgram : CProgram {
-    
-}
-
-class PersonalFeedEntry : Codable {
-    
-}
-
-class PublicFeedEntry : Codable {
-    var Id: String! {
-        didSet {
-            if Id == nil {
-                Id = ""
-            }
-        }
+    class CMetadata : Codable {
+        var StartTime: String?
+        var EndTime: String?
     }
-
-    var Program: String?
-
-    var ProgramObject: CProgram? {
-        return try! JSONDecoder().decode(CProgram.self, from: (self.Program?.data(using: String.Encoding.utf8))!)
-    }
-    
-    var Upvotes: Int! {
-        didSet {
-            if Upvotes == nil {
-                Upvotes = 0
-            }
-        }
-    }
-
-    var ReleaseTimestamp: Double?
-    var ExpirationTimestamp: Double?
-    
 }
+

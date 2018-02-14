@@ -11,9 +11,9 @@ import Foundation
 import CoreLocation
 
 class UserManager : NSObject, CLLocationManagerDelegate {
-    static let REGISTER_ENDPOINT = Context.SERVER_URL + "/registerDevice/iOS"
+    static let REGISTER_ENDPOINT = Context.API_URL_PREFIX + "/registerDevice/iOS"
 
-    private let user = User()
+    public let user = User()
     
     private var locationManager = CLLocationManager()
     private var geocoder = CLGeocoder()

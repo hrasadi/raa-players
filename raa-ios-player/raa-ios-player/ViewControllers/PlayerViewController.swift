@@ -46,6 +46,7 @@ class PlayerViewController : UIViewController {
             if self.playbackState!.playing == true {
                 self.playerView?.playbackState.setImage(#imageLiteral(resourceName: "pause"), for: UIControlState.normal)
                 self.playerView?.itemTitle.text = self.playbackState?.itemTitle
+                self.playerView?.itemSubtitle.text = self.playbackState?.itemSubtitle
             } else {
                 self.playerView?.playbackState.setImage(#imageLiteral(resourceName: "play"), for: UIControlState.normal)
             }

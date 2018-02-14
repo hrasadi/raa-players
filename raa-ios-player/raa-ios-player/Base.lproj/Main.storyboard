@@ -26,14 +26,14 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="424"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="liveProgramCell" rowHeight="150" id="leK-IW-D5T" customClass="ProgramCardTableViewCell" customModule="raa_ios_player" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="liveProgramCell" rowHeight="150" id="leK-IW-D5T" customClass="LiveBroadcastProgramCardTableViewCell" customModule="raa_ios_player" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="375" height="150"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="leK-IW-D5T" id="0Pf-68-npL">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="150"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <view contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="vds-Rt-spk" userLabel="ProgramCard" customClass="ProgramCard" customModule="raa_ios_player" customModuleProvider="target">
+                                                        <view contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="vds-Rt-spk" userLabel="ProgramCard" customClass="LiveBroadcastProgramCard" customModule="raa_ios_player" customModuleProvider="target">
                                                             <rect key="frame" x="5" y="5" width="365" height="140"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </view>
@@ -46,7 +46,7 @@
                                                     </constraints>
                                                 </tableViewCellContentView>
                                                 <connections>
-                                                    <outlet property="card" destination="vds-Rt-spk" id="C6R-XS-76p"/>
+                                                    <outlet property="card" destination="vds-Rt-spk" id="eDc-jR-JB8"/>
                                                 </connections>
                                             </tableViewCell>
                                         </prototypes>
@@ -69,7 +69,7 @@
                         <viewLayoutGuide key="safeArea" id="gkb-oV-lHS"/>
                     </view>
                     <connections>
-                        <outlet property="programCardTableView" destination="2AV-An-Vj7" id="FzR-W8-Llr"/>
+                        <outlet property="liveBroadcastProgramCardTableView" destination="2AV-An-Vj7" id="FzR-W8-Llr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gVq-R5-4e1" sceneMemberID="firstResponder"/>
@@ -91,14 +91,14 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="432"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="publicFeedCell" rowHeight="150" id="ZDn-j6-psN" customClass="PublicFeedProgramCardTableViewCell" customModule="raa_ios_player" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="feedCell" rowHeight="150" id="ZDn-j6-psN" customClass="FeedEntryCardTableViewCell" customModule="raa_ios_player" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="375" height="150"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ZDn-j6-psN" id="50Z-en-coV">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="150"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <view contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="G8p-IT-IM9" customClass="PublicFeedProgramCard" customModule="raa_ios_player" customModuleProvider="target">
+                                                        <view contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="G8p-IT-IM9" customClass="FeedEntryProgramCard" customModule="raa_ios_player" customModuleProvider="target">
                                                             <rect key="frame" x="5" y="5" width="365" height="140"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </view>
@@ -134,7 +134,7 @@
                         <viewLayoutGuide key="safeArea" id="NkQ-PM-bar"/>
                     </view>
                     <connections>
-                        <outlet property="publicFeedProgramCardTableView" destination="uBP-9Q-trR" id="Mn4-a8-jbH"/>
+                        <outlet property="feedTableView" destination="uBP-9Q-trR" id="Mn4-a8-jbH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G5M-UE-HYC" sceneMemberID="firstResponder"/>
@@ -223,10 +223,10 @@
             </objects>
             <point key="canvasLocation" x="-1418" y="0.0"/>
         </scene>
-        <!--Main Tab Bar Controller-->
+        <!--Main-->
         <scene sceneID="ig0-VE-hA1">
             <objects>
-                <tabBarController storyboardIdentifier="MainTabBar" id="BjL-v9-GZe" customClass="MainTabBarController" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="MainTabBar" id="BjL-v9-GZe" userLabel="Main" customClass="MainTabBarViewController" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" id="0V3-ta-B7b">
                         <rect key="frame" x="0.0" y="975" width="768" height="49"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -268,7 +268,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <label key="tableFooterView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="۲۰۱۷-۱۸ - رادیو اتو-اسعد - برای اطلاع از موارد حقوقی به سایت raa.media مراجعه کنید" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="P5L-hL-Ipj">
+                        <label key="tableFooterView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="۲۰۱۷-۱۸ - رادیو اتو-اسعد - برای اطلاع از موارد حقوقی به سایت raa.media مراجعه کنید" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="P5L-hL-Ipj">
                             <rect key="frame" x="0.0" y="188" width="375" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="10"/>

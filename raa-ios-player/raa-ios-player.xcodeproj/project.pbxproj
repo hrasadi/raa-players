@@ -17,6 +17,8 @@
 		0365F931201977950061F974 /* XibContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0365F930201977950061F974 /* XibContainer.swift */; };
 		0365F9332019A5AE0061F974 /* LiveBroadcastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0365F9322019A5AE0061F974 /* LiveBroadcastViewController.swift */; };
 		0365F9352019A73F0061F974 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0365F9342019A73F0061F974 /* SettingsViewController.swift */; };
+		03701089203286F200FDE4ED /* LiveBroadcastStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03701088203286F200FDE4ED /* LiveBroadcastStatus.swift */; };
+		038BBD922032AE7F0031A56E /* LiveBroadcastProgramCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038BBD912032AE7F0031A56E /* LiveBroadcastProgramCard.swift */; };
 		03A4988720225433008B56BA /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 03A4988620225433008B56BA /* Podfile */; };
 		03A4989D20239B1B008B56BA /* CardGroupSliding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A4989320239B1A008B56BA /* CardGroupSliding.swift */; };
 		03A4989E20239B1B008B56BA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A4989420239B1A008B56BA /* DetailViewController.swift */; };
@@ -31,14 +33,15 @@
 		03A498A92023C4DD008B56BA /* FeedManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A498A82023C4DD008B56BA /* FeedManager.swift */; };
 		03A498AC2023C92E008B56BA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A498AB2023C92E008B56BA /* User.swift */; };
 		03A498B120240947008B56BA /* ProgramCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A498AF20240946008B56BA /* ProgramCard.swift */; };
-		03A498B220240947008B56BA /* PublicFeedProgramCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A498B020240947008B56BA /* PublicFeedProgramCard.swift */; };
+		03A498B220240947008B56BA /* FeedEntryProgramCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A498B020240947008B56BA /* FeedEntryProgramCard.swift */; };
+		03A932932033EDCE00B931B1 /* FeedEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A932922033EDCE00B931B1 /* FeedEntry.swift */; };
 		03CB4E69202E5D32006ECD08 /* ProgramInfoDirectoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CB4E68202E5D32006ECD08 /* ProgramInfoDirectoryManager.swift */; };
 		03CB4E6B202E5DD5006ECD08 /* ProgramInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CB4E6A202E5DD5006ECD08 /* ProgramInfo.swift */; };
 		03CB4E6D202F7762006ECD08 /* PlaybackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CB4E6C202F7762006ECD08 /* PlaybackManager.swift */; };
 		03E07EFC202F890C00B4677B /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E07EFB202F890C00B4677B /* PlayerViewController.swift */; };
 		03E07EFE2030CF3700B4677B /* SplashScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E07EFD2030CF3700B4677B /* SplashScreenViewController.swift */; };
 		03E07F002030D0A900B4677B /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03E07EFF2030D0A900B4677B /* SplashScreen.storyboard */; };
-		03E07F022030E44A00B4677B /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E07F012030E44A00B4677B /* MainTabBarController.swift */; };
+		03E07F022030E44A00B4677B /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E07F012030E44A00B4677B /* MainTabBarViewController.swift */; };
 		03E07F0420314C8100B4677B /* LiveBroadcastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E07F0320314C8100B4677B /* LiveBroadcastManager.swift */; };
 		03F0588C2018246A00B568E3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F0588B2018246A00B568E3 /* AppDelegate.swift */; };
 		03F058932018246A00B568E3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03F058912018246A00B568E3 /* Main.storyboard */; };
@@ -59,6 +62,8 @@
 		0365F930201977950061F974 /* XibContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XibContainer.swift; sourceTree = "<group>"; };
 		0365F9322019A5AE0061F974 /* LiveBroadcastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveBroadcastViewController.swift; sourceTree = "<group>"; };
 		0365F9342019A73F0061F974 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		03701088203286F200FDE4ED /* LiveBroadcastStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveBroadcastStatus.swift; sourceTree = "<group>"; };
+		038BBD912032AE7F0031A56E /* LiveBroadcastProgramCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveBroadcastProgramCard.swift; sourceTree = "<group>"; };
 		03A4988620225433008B56BA /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		03A4989320239B1A008B56BA /* CardGroupSliding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardGroupSliding.swift; sourceTree = "<group>"; };
 		03A4989420239B1A008B56BA /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -73,14 +78,15 @@
 		03A498A82023C4DD008B56BA /* FeedManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedManager.swift; sourceTree = "<group>"; };
 		03A498AB2023C92E008B56BA /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		03A498AF20240946008B56BA /* ProgramCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProgramCard.swift; path = "raa-ios-player/View/Program/ProgramCard.swift"; sourceTree = SOURCE_ROOT; };
-		03A498B020240947008B56BA /* PublicFeedProgramCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PublicFeedProgramCard.swift; path = "raa-ios-player/View/Program/PublicFeedProgramCard.swift"; sourceTree = SOURCE_ROOT; };
+		03A498B020240947008B56BA /* FeedEntryProgramCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedEntryProgramCard.swift; path = "raa-ios-player/View/Program/FeedEntryProgramCard.swift"; sourceTree = SOURCE_ROOT; };
+		03A932922033EDCE00B931B1 /* FeedEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedEntry.swift; sourceTree = "<group>"; };
 		03CB4E68202E5D32006ECD08 /* ProgramInfoDirectoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramInfoDirectoryManager.swift; sourceTree = "<group>"; };
 		03CB4E6A202E5DD5006ECD08 /* ProgramInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramInfo.swift; sourceTree = "<group>"; };
 		03CB4E6C202F7762006ECD08 /* PlaybackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackManager.swift; sourceTree = "<group>"; };
 		03E07EFB202F890C00B4677B /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		03E07EFD2030CF3700B4677B /* SplashScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenViewController.swift; sourceTree = "<group>"; };
 		03E07EFF2030D0A900B4677B /* SplashScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
-		03E07F012030E44A00B4677B /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		03E07F012030E44A00B4677B /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		03E07F0320314C8100B4677B /* LiveBroadcastManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveBroadcastManager.swift; sourceTree = "<group>"; };
 		03F058882018246A00B568E3 /* raa-ios-player.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "raa-ios-player.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		03F0588B2018246A00B568E3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -144,7 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				03E07EFD2030CF3700B4677B /* SplashScreenViewController.swift */,
-				03E07F012030E44A00B4677B /* MainTabBarController.swift */,
+				03E07F012030E44A00B4677B /* MainTabBarViewController.swift */,
 				0365F92D201931F40061F974 /* FeedViewController.swift */,
 				0365F9322019A5AE0061F974 /* LiveBroadcastViewController.swift */,
 				03E07EFB202F890C00B4677B /* PlayerViewController.swift */,
@@ -158,7 +164,8 @@
 			isa = PBXGroup;
 			children = (
 				03A498AF20240946008B56BA /* ProgramCard.swift */,
-				03A498B020240947008B56BA /* PublicFeedProgramCard.swift */,
+				038BBD912032AE7F0031A56E /* LiveBroadcastProgramCard.swift */,
+				03A498B020240947008B56BA /* FeedEntryProgramCard.swift */,
 			);
 			name = Program;
 			path = Player;
@@ -185,7 +192,9 @@
 			children = (
 				0325645C201E5F1900494D6E /* Program.swift */,
 				03CB4E6A202E5DD5006ECD08 /* ProgramInfo.swift */,
+				03A932922033EDCE00B931B1 /* FeedEntry.swift */,
 				03A498AB2023C92E008B56BA /* User.swift */,
+				03701088203286F200FDE4ED /* LiveBroadcastStatus.swift */,
 			);
 			path = TransportEntities;
 			sourceTree = "<group>";
@@ -382,12 +391,14 @@
 				03F0588C2018246A00B568E3 /* AppDelegate.swift in Sources */,
 				03A498A020239B1B008B56BA /* CardPlayer.swift in Sources */,
 				03381D002025279E00F179E1 /* Utils.swift in Sources */,
-				03A498B220240947008B56BA /* PublicFeedProgramCard.swift in Sources */,
+				03A498B220240947008B56BA /* FeedEntryProgramCard.swift in Sources */,
 				03E07EFC202F890C00B4677B /* PlayerViewController.swift in Sources */,
 				03A498B120240947008B56BA /* ProgramCard.swift in Sources */,
 				0365F92E201931F40061F974 /* FeedViewController.swift in Sources */,
+				03701089203286F200FDE4ED /* LiveBroadcastStatus.swift in Sources */,
 				03A498A520239B1B008B56BA /* CardArticle.swift in Sources */,
 				0365F931201977950061F974 /* XibContainer.swift in Sources */,
+				03A932932033EDCE00B931B1 /* FeedEntry.swift in Sources */,
 				0325645A201E5AFA00494D6E /* Context.swift in Sources */,
 				03A498A92023C4DD008B56BA /* FeedManager.swift in Sources */,
 				03A498AC2023C92E008B56BA /* User.swift in Sources */,
@@ -405,7 +416,8 @@
 				0365F9332019A5AE0061F974 /* LiveBroadcastViewController.swift in Sources */,
 				03A498A120239B1B008B56BA /* CardHighlight.swift in Sources */,
 				0365F9352019A73F0061F974 /* SettingsViewController.swift in Sources */,
-				03E07F022030E44A00B4677B /* MainTabBarController.swift in Sources */,
+				038BBD922032AE7F0031A56E /* LiveBroadcastProgramCard.swift in Sources */,
+				03E07F022030E44A00B4677B /* MainTabBarViewController.swift in Sources */,
 				03E07EFE2030CF3700B4677B /* SplashScreenViewController.swift in Sources */,
 				03A4989E20239B1B008B56BA /* DetailViewController.swift in Sources */,
 			);

@@ -23,14 +23,14 @@
                         <constraint firstAttribute="height" constant="80" id="UCb-IG-7Wr"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="برنامه" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bZo-lC-vSR">
-                    <rect key="frame" x="95" y="621" width="40" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="برنامه" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.10000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="bZo-lC-vSR">
+                    <rect key="frame" x="95" y="621" width="230" height="21"/>
                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8XU-4E-s0a">
-                    <rect key="frame" x="95" y="652" width="0.0" height="0.0"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.10000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="8XU-4E-s0a">
+                    <rect key="frame" x="95" y="652" width="210" height="0.0"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -49,13 +49,14 @@
             <color key="backgroundColor" red="0.92281779056325752" green="0.93421060279243351" blue="0.93421060279243351" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="dnT-CU-60K" firstAttribute="trailing" secondItem="k8V-4q-pYU" secondAttribute="trailing" constant="10" id="25v-no-p9Z"/>
+                <constraint firstItem="k8V-4q-pYU" firstAttribute="leading" secondItem="bZo-lC-vSR" secondAttribute="trailing" constant="10" id="2mI-yI-BLo"/>
                 <constraint firstItem="dnT-CU-60K" firstAttribute="bottom" secondItem="OAg-Qd-D8I" secondAttribute="bottom" constant="5" id="4de-Km-uM3"/>
                 <constraint firstItem="dnT-CU-60K" firstAttribute="bottom" secondItem="k8V-4q-pYU" secondAttribute="bottom" constant="18" id="KPV-Xu-VfL"/>
                 <constraint firstItem="dnT-CU-60K" firstAttribute="bottom" secondItem="8XU-4E-s0a" secondAttribute="bottom" constant="15" id="QnT-3C-pjw"/>
                 <constraint firstItem="8XU-4E-s0a" firstAttribute="leading" secondItem="OAg-Qd-D8I" secondAttribute="trailing" constant="10" id="W1z-ua-qmP"/>
+                <constraint firstItem="k8V-4q-pYU" firstAttribute="leading" secondItem="8XU-4E-s0a" secondAttribute="trailing" constant="30" id="fYs-tl-Jcq"/>
                 <constraint firstItem="bZo-lC-vSR" firstAttribute="leading" secondItem="OAg-Qd-D8I" secondAttribute="trailing" constant="10" id="moK-GM-jOG"/>
                 <constraint firstItem="OAg-Qd-D8I" firstAttribute="leading" secondItem="dnT-CU-60K" secondAttribute="leading" constant="5" id="o0P-GC-YkZ"/>
-                <constraint firstItem="dnT-CU-60K" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="8XU-4E-s0a" secondAttribute="trailing" constant="50" id="q8M-Ql-Mf9"/>
                 <constraint firstItem="8XU-4E-s0a" firstAttribute="top" secondItem="bZo-lC-vSR" secondAttribute="bottom" constant="10" id="xtM-5P-TDX"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="dnT-CU-60K"/>

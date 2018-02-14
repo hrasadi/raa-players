@@ -23,6 +23,22 @@ class ProgramCard : Card {
     private var timeTitle2Lbl = UILabel()
     private var timeValue2Lbl = UILabel()
     private var timeSubValue2Lbl = UILabel()
+    
+    var actionBtn = UIButton()
+    var actionBtnBackgroundColor = UIColor(red: 47/255, green: 133/255, blue: 116/255, alpha: 1)
+
+    @IBInspectable public var programTitleSize: CGFloat = 16
+    @IBInspectable public var programSubtitleSize: CGFloat = 13
+    
+    @IBInspectable public var timeTitleSize: CGFloat = 12
+    @IBInspectable public var timeValueSize: CGFloat = 20
+    @IBInspectable public var timeSubValueSize: CGFloat = 10
+    
+    @IBInspectable public var blurEffect: UIBlurEffectStyle = .extraLight {
+        didSet{
+            blurV.effect = UIBlurEffect(style: blurEffect)
+        }
+    }
 
     public var programTitle: String = "برنامه" {
         didSet {
@@ -72,19 +88,17 @@ class ProgramCard : Card {
         }
     }
     
-    @IBInspectable public var programTitleSize: CGFloat = 16
-    @IBInspectable public var programSubtitleSize: CGFloat = 13
-
-    @IBInspectable public var timeTitleSize: CGFloat = 12
-    @IBInspectable public var timeValueSize: CGFloat = 20
-    @IBInspectable public var timeSubValueSize: CGFloat = 10
-
-    @IBInspectable public var blurEffect: UIBlurEffectStyle = .extraLight {
-        didSet{
-            blurV.effect = UIBlurEffect(style: blurEffect)
+    var buttonText = "پخش"
+    var actionable: Bool = false {
+        didSet {
+            if actionable {
+                actionBtn.isHidden = false
+            } else {
+                actionBtn.isHidden = true
+            }
         }
     }
-
+    
     override public init(frame: CGRect) {
         super.init(frame: frame)
         initialize()
@@ -108,8 +122,10 @@ class ProgramCard : Card {
         blurV.contentView.addSubview(timeTitle2Lbl)
         blurV.contentView.addSubview(timeValue1Lbl)
         blurV.contentView.addSubview(timeValue2Lbl)
-        blurV.contentView.addSubview(timeSubValue1Lbl)
-        blurV.contentView.addSubview(timeSubValue2Lbl)
+        
+        self.actionBtn.addTarget(self, action: #selector(actionButtonTapped), for: UIControlEvents.touchUpInside)
+        self.actionBtn.addTarget(self, action: #selector(actionButtonTouchDown), for: UIControlEvents.touchDown)
+        backgroundIV.addSubview(actionBtn)
     }
     
     override open func draw(_ rect: CGRect) {
@@ -119,7 +135,6 @@ class ProgramCard : Card {
         programTitleLbl.text = programTitle
         programTitleLbl.textColor = textColor
         programTitleLbl.font = UIFont.systemFont(ofSize: programTitleSize, weight: .medium)
-        //programTitleLbl.lineHeight(0.70)
         programTitleLbl.adjustsFontSizeToFitWidth = true
         programTitleLbl.minimumScaleFactor = 0.1
         programTitleLbl.lineBreakMode = .byTruncatingTail
@@ -129,14 +144,12 @@ class ProgramCard : Card {
         programSubtitleLbl.text = programSubtitle
         programSubtitleLbl.textColor = textColor
         programSubtitleLbl.font = UIFont.systemFont(ofSize: programSubtitleSize, weight: .light)
-        programSubtitleLbl.lineHeight(0.70)
         programSubtitleLbl.adjustsFontSizeToFitWidth = true
         programSubtitleLbl.minimumScaleFactor = 0.1
         programSubtitleLbl.lineBreakMode = .byTruncatingTail
         programSubtitleLbl.numberOfLines = 1
         backgroundIV.bringSubview(toFront: programSubtitleLbl)
 
-        
         let blur = UIBlurEffect(style: blurEffect)
         blurV.effect = blur
         
@@ -161,6 +174,8 @@ class ProgramCard : Card {
         timeValue1Lbl.numberOfLines = 1
         blurV.contentView.bringSubview(toFront: timeValue1Lbl)
 
+        timeSubValue1Lbl.removeFromSuperview()
+        timeSubValue1Lbl = UILabel()
         timeSubValue1Lbl.text = timeSubValue1
         timeSubValue1Lbl.textColor = textColor
         timeSubValue1Lbl.font = UIFont.systemFont(ofSize: timeSubValueSize, weight: .medium)
@@ -168,6 +183,7 @@ class ProgramCard : Card {
         timeSubValue1Lbl.minimumScaleFactor = 0.1
         timeSubValue1Lbl.lineBreakMode = .byTruncatingTail
         timeSubValue1Lbl.numberOfLines = 1
+        blurV.contentView.addSubview(timeSubValue1Lbl)
         blurV.contentView.bringSubview(toFront: timeSubValue1Lbl)
 
         // LINE 2
@@ -191,6 +207,8 @@ class ProgramCard : Card {
         timeValue2Lbl.numberOfLines = 1
         blurV.contentView.bringSubview(toFront: timeValue2Lbl)
 
+        timeSubValue2Lbl.removeFromSuperview()
+        timeSubValue2Lbl = UILabel()
         timeSubValue2Lbl.text = timeSubValue2
         timeSubValue2Lbl.textColor = textColor
         timeSubValue2Lbl.font = UIFont.systemFont(ofSize: timeSubValueSize, weight: .medium)
@@ -198,7 +216,13 @@ class ProgramCard : Card {
         timeSubValue2Lbl.minimumScaleFactor = 0.1
         timeSubValue2Lbl.lineBreakMode = .byTruncatingTail
         timeSubValue2Lbl.numberOfLines = 1
+        blurV.contentView.addSubview(timeSubValue2Lbl)
         blurV.contentView.bringSubview(toFront: timeSubValue2Lbl)
+
+
+        // Action button
+        actionBtn.backgroundColor = UIColor.clear
+        actionBtn.clipsToBounds = true
 
         layout()
     }
@@ -211,7 +235,7 @@ class ProgramCard : Card {
         programTitleLbl.frame.size = CGSize(width: gimme.X(70) - 30, height: 20)
         programTitleLbl.frame.origin = CGPoint(x: gimme.RevX(0, width: programTitleLbl.bounds.size.width) - 20, y: 30)
         
-        programSubtitleLbl.sizeToFit()
+        programSubtitleLbl.frame.size = CGSize(width: gimme.X(70) - 30, height: 20)
         programSubtitleLbl.frame.origin = CGPoint(x: gimme.RevX(0, width: programSubtitleLbl.bounds.size.width) - 20, y: programTitleLbl.frame.maxY + 10)
         
         blurV.frame = CGRect(x: 0,
@@ -240,6 +264,27 @@ class ProgramCard : Card {
 
         timeTitle1Lbl.sizeToFit()
         timeTitle1Lbl.frame.origin = CGPoint(x: blurVGimme.RevX(0, width: timeTitle1Lbl.bounds.size.width) - 10, y: timeValue1Lbl.frame.origin.y - timeTitle1Lbl.bounds.size.height)
+        
+        actionBtn.frame = CGRect(x: blurV.bounds.width,
+                                 y: gimme.RevY(0, height: 32),
+                                 width: backgroundIV.bounds.width - blurV.bounds.width,
+                                 height: 32)
+    }
+    
+    @objc func actionButtonTouchDown() {
+        self.actionBtn.isHighlighted = true
+    }
+    
+    @objc func actionButtonTapped() {
+        self.actionBtn.isHighlighted = false
+        
+        UIView.animate(withDuration: 0.1, animations: {
+            self.actionBtn.backgroundColor = UIColor.black
+        }) { _ in
+            UIView.animate(withDuration: 0.1, animations: {
+                self.actionBtn.backgroundColor = self.actionBtnBackgroundColor
+            })
+        }
     }
 }
 

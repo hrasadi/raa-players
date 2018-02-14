@@ -24,24 +24,28 @@ class Context {
         }
     }
     
-    public static let SERVER_URL = "http://api.raa.media:7800"
-    
+    public static let API_URL_PREFIX = "http://api.raa.media:7800"
+    public static let LIVE_INFO_URL_PREFIX = "https://raa.media/live"
+    public static let LIVE_STREAM_URL_PREFIX = "https://stream.raa.media/raa1.ogg"
+
     public static func initiateManagers() {
         if instance == nil {
             instance = Context()
             
-            instance?.playbackManager = PlaybackManager()
             instance?.userManager = UserManager()
-            instance?.feedManager = FeedManager()
             instance?.programInfoDirectoryManager = ProgramInfoDirectoryManager()
+            instance?.feedManager = FeedManager()
+            instance?.liveBroadcastManager = LiveBroadcastManager()
+            instance?.playbackManager = PlaybackManager()
         }
     }
         
-    public let settings = UserDefaults.standard
-    public var playbackManager: PlaybackManager!
     public var userManager: UserManager!
-    public var feedManager: FeedManager!
     public var programInfoDirectoryManager: ProgramInfoDirectoryManager!
+    public var feedManager: FeedManager!
+    public var liveBroadcastManager: LiveBroadcastManager!
+    public var playbackManager: PlaybackManager!
+    public let settings = UserDefaults.standard
 
     // TODO: Move these to respective classes
     private struct PropertyKey {
@@ -50,6 +54,4 @@ class Context {
         static let PersonalProgramPushNotification = "personalProgramPushNotification"
         static let LiveProgramPushNotification = "liveProgramPushNotification"
     }
-    
-
 }
