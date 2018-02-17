@@ -20,7 +20,9 @@ class FeedManager : UICommunicator {
 
     override init() {
         super.init()
-        
+    }
+    
+    func initiate() {
         self.loadPublicFeed()
         self.loadPersonalFeed()
     }

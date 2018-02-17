@@ -1,12 +1,26 @@
 PODS:
   - Player (0.8.4)
+  - PromiseKit (6.0.1):
+    - PromiseKit/CorePromise (= 6.0.1)
+    - PromiseKit/Foundation (= 6.0.1)
+    - PromiseKit/UIKit (= 6.0.1)
+  - PromiseKit/CoreLocation (6.0.1):
+    - PromiseKit/CorePromise
+  - PromiseKit/CorePromise (6.0.1)
+  - PromiseKit/Foundation (6.0.1):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (6.0.1):
+    - PromiseKit/CorePromise
 
 DEPENDENCIES:
   - Player
+  - PromiseKit (~> 6.0)
+  - PromiseKit/CoreLocation
 
 SPEC CHECKSUMS:
   Player: e45514e9e5fb8ff18f50eb2ba6f84dac9b6a0024
+  PromiseKit: 18fcba8db2b15c3887ba8acb3e9a328702be3f93
 
-PODFILE CHECKSUM: 52eef3dfce00872d94e1c32de6e9162c03e52cc1
+PODFILE CHECKSUM: 06c6932cab7dad27d7506fcfeae22c7b72bb9535
 
 COCOAPODS: 1.4.0

@@ -145,9 +145,10 @@ class ProgramCard : Card {
         programSubtitleLbl.textColor = textColor
         programSubtitleLbl.font = UIFont.systemFont(ofSize: programSubtitleSize, weight: .light)
         programSubtitleLbl.adjustsFontSizeToFitWidth = true
-        programSubtitleLbl.minimumScaleFactor = 0.1
+        programSubtitleLbl.minimumScaleFactor = 0.3
         programSubtitleLbl.lineBreakMode = .byTruncatingTail
-        programSubtitleLbl.numberOfLines = 1
+        programSubtitleLbl.textAlignment = .right
+        programSubtitleLbl.numberOfLines = 2
         backgroundIV.bringSubview(toFront: programSubtitleLbl)
 
         let blur = UIBlurEffect(style: blurEffect)

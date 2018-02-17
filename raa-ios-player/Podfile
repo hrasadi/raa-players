@@ -4,4 +4,6 @@ use_frameworks!
 
 target 'raa-ios-player' do
     pod 'Player'
+    pod 'PromiseKit', '~> 6.0'
+    pod 'PromiseKit/CoreLocation'
 end

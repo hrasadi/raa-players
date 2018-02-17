@@ -74,7 +74,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gVq-R5-4e1" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3029.5999999999999" y="-457.42128935532236"/>
+            <point key="canvasLocation" x="1802" y="-460"/>
         </scene>
         <!--Feed View Controller-->
         <scene sceneID="1eV-XK-RpD">
@@ -139,7 +139,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G5M-UE-HYC" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3030" y="665"/>
+            <point key="canvasLocation" x="1802" y="852"/>
         </scene>
         <!--پخش زنده-->
         <scene sceneID="kAa-yi-cNl">
@@ -186,7 +186,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wkI-FW-EaW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2184.8000000000002" y="-457.42128935532236"/>
+            <point key="canvasLocation" x="1129" y="-460"/>
         </scene>
         <!--Program Details View Controller-->
         <scene sceneID="adv-ol-FgV">
@@ -221,7 +221,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ebZ-rd-ZJp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1418" y="0.0"/>
+            <point key="canvasLocation" x="-817" y="-1"/>
         </scene>
         <!--Main-->
         <scene sceneID="ig0-VE-hA1">
@@ -240,7 +240,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aGN-Xc-M3Z" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="0.0" y="0.0"/>
+            <point key="canvasLocation" x="-213" y="-2"/>
         </scene>
         <!--تنظیمات-->
         <scene sceneID="Jyk-NK-Oz2">
@@ -258,18 +258,18 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oJj-cz-UFh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1417" y="771"/>
+            <point key="canvasLocation" x="-965" y="853"/>
         </scene>
         <!--تنظیمات-->
         <scene sceneID="3sN-tg-dxk">
             <objects>
-                <tableViewController id="1SV-GS-aoa" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Mss-7C-i8Y">
+                <tableViewController id="1SV-GS-aoa" customClass="SettingsViewController" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Mss-7C-i8Y">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <label key="tableFooterView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="۲۰۱۷-۱۸ - رادیو اتو-اسعد - برای اطلاع از موارد حقوقی به سایت raa.media مراجعه کنید" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="P5L-hL-Ipj">
-                            <rect key="frame" x="0.0" y="188" width="375" height="44"/>
+                        <label key="tableFooterView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="۲۰۱۷-۱۸ - رادیو اتو-اسعد - برای اطلاع از موارد حقوقی به سایت raa.media مراجعه کنید" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="P5L-hL-Ipj">
+                            <rect key="frame" x="0.0" y="232" width="375" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                             <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
@@ -285,22 +285,21 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SCi-Gt-vWA">
-                                                    <rect key="frame" x="310" y="6" width="51" height="31"/>
-                                                </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="اعلام‌ شروع برنامه‌های شخصی شما" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dee-48-oDw">
-                                                    <rect key="frame" x="16" y="13" width="205" height="18"/>
+                                                    <rect key="frame" x="21" y="13" width="205" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oSi-lE-cFP">
+                                                    <rect key="frame" x="306" y="7" width="51" height="31"/>
+                                                </switch>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="dee-48-oDw" firstAttribute="leading" secondItem="f1O-lP-Rlj" secondAttribute="leadingMargin" id="1HC-e4-76f"/>
-                                                <constraint firstItem="SCi-Gt-vWA" firstAttribute="centerY" secondItem="f1O-lP-Rlj" secondAttribute="centerY" id="CEY-Gj-iec"/>
-                                                <constraint firstItem="SCi-Gt-vWA" firstAttribute="trailing" secondItem="f1O-lP-Rlj" secondAttribute="trailingMargin" id="D3C-6f-OQb"/>
+                                                <constraint firstAttribute="trailing" secondItem="oSi-lE-cFP" secondAttribute="trailing" constant="20" id="LkZ-Ca-9Z3"/>
+                                                <constraint firstItem="dee-48-oDw" firstAttribute="leading" secondItem="f1O-lP-Rlj" secondAttribute="leadingMargin" constant="5" id="NTh-rg-Bj6"/>
                                                 <constraint firstItem="dee-48-oDw" firstAttribute="centerY" secondItem="f1O-lP-Rlj" secondAttribute="centerY" id="SXk-U1-MXY"/>
-                                                <constraint firstItem="SCi-Gt-vWA" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="dee-48-oDw" secondAttribute="trailing" constant="89" id="ifi-PW-LMT"/>
+                                                <constraint firstItem="oSi-lE-cFP" firstAttribute="centerY" secondItem="f1O-lP-Rlj" secondAttribute="centerY" id="y8e-zy-axI"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -311,22 +310,46 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="jCY-ZM-wte">
-                                                    <rect key="frame" x="310" y="6" width="51" height="31"/>
-                                                </switch>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="اعلام شروع برنامه‌‌های پخش زنده" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UO3-0J-apO">
-                                                    <rect key="frame" x="16" y="13" width="193" height="18"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="اعلام‌ شروع برنامه‌های عمومی" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UO3-0J-apO">
+                                                    <rect key="frame" x="21" y="13" width="175" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sq7-sS-ouP">
+                                                    <rect key="frame" x="306" y="6.5" width="51" height="31"/>
+                                                </switch>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="UO3-0J-apO" firstAttribute="centerY" secondItem="zMu-Re-zXZ" secondAttribute="centerY" id="Exe-ir-CgH"/>
-                                                <constraint firstItem="jCY-ZM-wte" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="UO3-0J-apO" secondAttribute="trailing" constant="101" id="TTX-KD-VBb"/>
-                                                <constraint firstItem="jCY-ZM-wte" firstAttribute="trailing" secondItem="zMu-Re-zXZ" secondAttribute="trailingMargin" id="m5z-kY-4U5"/>
-                                                <constraint firstItem="jCY-ZM-wte" firstAttribute="centerY" secondItem="zMu-Re-zXZ" secondAttribute="centerY" id="ogN-K8-OcB"/>
-                                                <constraint firstItem="UO3-0J-apO" firstAttribute="leading" secondItem="zMu-Re-zXZ" secondAttribute="leadingMargin" id="yH7-bW-dvr"/>
+                                                <constraint firstAttribute="trailing" secondItem="sq7-sS-ouP" secondAttribute="trailing" constant="20" id="aVG-d7-x9T"/>
+                                                <constraint firstItem="sq7-sS-ouP" firstAttribute="centerY" secondItem="zMu-Re-zXZ" secondAttribute="centerY" id="qPD-39-6tf"/>
+                                                <constraint firstItem="UO3-0J-apO" firstAttribute="leading" secondItem="zMu-Re-zXZ" secondAttribute="leadingMargin" constant="5" id="y6x-fS-5Mk"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="rPH-KH-d3d">
+                                        <rect key="frame" x="0.0" y="116" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" semanticContentAttribute="forceRightToLeft" tableViewCell="rPH-KH-d3d" id="O7z-Ik-F0S">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="اعلام شروع برنامه‌‌های پخش زنده" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qSD-GW-Oqj">
+                                                    <rect key="frame" x="21" y="13" width="193" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T47-6e-rzE">
+                                                    <rect key="frame" x="306" y="6.5" width="51" height="31"/>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="qSD-GW-Oqj" firstAttribute="centerY" secondItem="O7z-Ik-F0S" secondAttribute="centerY" id="MnS-Fb-mNt"/>
+                                                <constraint firstAttribute="trailing" secondItem="T47-6e-rzE" secondAttribute="trailing" constant="20" id="c3K-kf-507"/>
+                                                <constraint firstItem="T47-6e-rzE" firstAttribute="centerY" secondItem="O7z-Ik-F0S" secondAttribute="centerY" id="edm-k9-1oH"/>
+                                                <constraint firstItem="qSD-GW-Oqj" firstAttribute="leading" secondItem="O7z-Ik-F0S" secondAttribute="leadingMargin" constant="5" id="zv2-Oe-DQJ"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -335,28 +358,27 @@
                             <tableViewSection headerTitle=" تنظیمات پخش" id="ac7-U7-47O">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Y6E-3t-zuC">
-                                        <rect key="frame" x="0.0" y="144" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="188" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Y6E-3t-zuC" id="3Di-IO-Z63">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g1I-R4-WWX" userLabel="Background Play Switch">
-                                                    <rect key="frame" x="310" y="6" width="51" height="31"/>
-                                                </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="پخش برنامه‌ها در پس زمینه" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eOz-tN-YCJ">
-                                                    <rect key="frame" x="16" y="11" width="159" height="18"/>
+                                                    <rect key="frame" x="21" y="13" width="159" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yu7-gU-LXu">
+                                                    <rect key="frame" x="310" y="6.5" width="51" height="31"/>
+                                                </switch>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="g1I-R4-WWX" firstAttribute="trailing" secondItem="3Di-IO-Z63" secondAttribute="trailingMargin" id="4iP-2s-a0h"/>
-                                                <constraint firstItem="g1I-R4-WWX" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="eOz-tN-YCJ" secondAttribute="trailing" constant="135" id="4jM-kO-OOU"/>
-                                                <constraint firstItem="eOz-tN-YCJ" firstAttribute="leading" secondItem="3Di-IO-Z63" secondAttribute="leadingMargin" id="Lk3-bP-4aD"/>
-                                                <constraint firstItem="g1I-R4-WWX" firstAttribute="centerY" secondItem="3Di-IO-Z63" secondAttribute="centerY" id="hMB-G2-t1e"/>
-                                                <constraint firstItem="eOz-tN-YCJ" firstAttribute="top" secondItem="3Di-IO-Z63" secondAttribute="topMargin" id="rNq-vg-BKb"/>
+                                                <constraint firstItem="eOz-tN-YCJ" firstAttribute="centerY" secondItem="3Di-IO-Z63" secondAttribute="centerY" id="QP1-gW-fih"/>
+                                                <constraint firstItem="eOz-tN-YCJ" firstAttribute="leading" secondItem="3Di-IO-Z63" secondAttribute="leadingMargin" constant="5" id="VVb-xd-fbm"/>
+                                                <constraint firstAttribute="trailing" secondItem="yu7-gU-LXu" secondAttribute="trailing" constant="20" id="kam-uk-dyf"/>
+                                                <constraint firstItem="yu7-gU-LXu" firstAttribute="centerY" secondItem="3Di-IO-Z63" secondAttribute="centerY" id="nw8-W7-zwm"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -369,10 +391,16 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="تنظیمات" id="a5Y-BL-RJQ"/>
+                    <connections>
+                        <outlet property="notifyOnLiveProgram" destination="T47-6e-rzE" id="XAC-kC-88d"/>
+                        <outlet property="notifyOnPersonalProgram" destination="oSi-lE-cFP" id="ICa-Bg-mRn"/>
+                        <outlet property="notifyOnPublicProgram" destination="sq7-sS-ouP" id="dGC-6e-9eh"/>
+                        <outlet property="playInBackground" destination="yu7-gU-LXu" id="EHx-Ca-jWV"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xM3-eD-fPA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-623.20000000000005" y="769.56521739130437"/>
+            <point key="canvasLocation" x="-262" y="852"/>
         </scene>
         <!--خوراک-->
         <scene sceneID="dh6-ka-5lG">
@@ -391,7 +419,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gY5-4u-tTo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1130" y="770"/>
+            <point key="canvasLocation" x="432" y="853"/>
         </scene>
         <!--خوراک-->
         <scene sceneID="47x-9f-EBQ">
@@ -438,7 +466,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1UZ-qW-UNt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2185" y="770"/>
+            <point key="canvasLocation" x="1129" y="853"/>
         </scene>
         <!--پخش زنده-->
         <scene sceneID="zAF-ga-mkb">
@@ -457,7 +485,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vzQ-5R-d2g" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1129" y="-457"/>
+            <point key="canvasLocation" x="432" y="-459"/>
         </scene>
     </scenes>
     <resources>

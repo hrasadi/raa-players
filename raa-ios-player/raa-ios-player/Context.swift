@@ -37,6 +37,11 @@ class Context {
             instance?.feedManager = FeedManager()
             instance?.liveBroadcastManager = LiveBroadcastManager()
             instance?.playbackManager = PlaybackManager()
+            
+            // additional initiate functions
+            instance?.userManager.initiate()
+            instance?.feedManager.initiate()
+            instance?.liveBroadcastManager.initiate()
         }
     }
         
@@ -46,12 +51,4 @@ class Context {
     public var liveBroadcastManager: LiveBroadcastManager!
     public var playbackManager: PlaybackManager!
     public let settings = UserDefaults.standard
-
-    // TODO: Move these to respective classes
-    private struct PropertyKey {
-        // Config from settings page
-        static let BackgroundPlayback = "backgroundPlayback"
-        static let PersonalProgramPushNotification = "personalProgramPushNotification"
-        static let LiveProgramPushNotification = "liveProgramPushNotification"
-    }
 }

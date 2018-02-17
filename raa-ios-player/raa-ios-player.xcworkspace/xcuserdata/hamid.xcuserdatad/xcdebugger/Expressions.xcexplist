@@ -47,6 +47,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "closure #2 in UserManager.initiate():UserManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "result[0] == Result&lt;Bool&gt;.fulfilled(true)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "ProgramCard.draw(_:):ProgramCard.swift">
       </ContextState>
       <ContextState

@@ -47,10 +47,20 @@ class LiveBroadcastViewController : UIViewController {
     
     func scrollToCurrentProgram() {
         let indexPath = NSIndexPath(item: Context.Instance.liveBroadcastManager.getMostRecentProgramIndex() ?? 0, section: 0)
-        self.liveBroadcastProgramCardTableView?.scrollToRow(at: indexPath as IndexPath, at: UITableViewScrollPosition.middle, animated: true)
+
+        // The delay is to address a bug in iOS
+        // See: https://stackoverflow.com/questions/38611617/scrolltorowatindexpath-not-scrolling-correctly-to-the-bottom-on-ios-8
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.liveBroadcastProgramCardTableView?.scrollToRow(at: indexPath as IndexPath, at: UITableViewScrollPosition.middle, animated: true)
+        }
     }
     
     func updateTablePlayableStates() {
+        // Logic mismatch with server
+        if Context.Instance.liveBroadcastManager.getMostRecentProgramIndex() == nil {
+            return
+        }
+        
         let newActionableCellIndex = (Context.Instance.liveBroadcastManager.liveBroadcastStatus?.IsCurrentlyPlaying!)! ? Context.Instance.liveBroadcastManager.getMostRecentProgramIndex()! : Context.Instance.liveBroadcastManager.getMostRecentProgramIndex()! + 1
 
         if (currentActionableCellIndexPath?.row != newActionableCellIndex) {

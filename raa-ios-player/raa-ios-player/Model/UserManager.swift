@@ -9,113 +9,87 @@
 import os
 import Foundation
 import CoreLocation
+import PromiseKit
 
-class UserManager : NSObject, CLLocationManagerDelegate {
+class UserManager {
     static let REGISTER_ENDPOINT = Context.API_URL_PREFIX + "/registerDevice/iOS"
 
-    public let user = User()
-    
-    private var locationManager = CLLocationManager()
-    private var geocoder = CLGeocoder()
     private var jsonEncoder = JSONEncoder()
+    private var jsonDecoder = JSONDecoder()
+    public var locationManager = LocationManager()
+    public var notificationManager = NotificationManager()
 
+    public var user: User = User()
     
     struct PropertyKey {
-        static let currentRegisteredId = "CurrentRegisteredId"
-        static let currentRegisteredLocationString = "CurrentRegisteredLocation"
+        static var user = "User"
     }
     
-    required override init() {
-        super.init()
+    public func initiate() {
+        self.loadUser()
+        self.locationManager.initiate()
+        self.notificationManager.initiate()
         
-        self.initLocationManager()
-        
-        // This is the unique device id we register in server (a generated UUID string)
-        self.user.Id = Context.Instance.settings.string(forKey: PropertyKey.currentRegisteredId) ?? UUID().uuidString
-        self.user.TimeZone = NSTimeZone.local.identifier
-        
-        self.locateDevice()
+        firstly {
+            when(resolved: self.locationManager.locateDevice(), self.notificationManager.requestNotificationAuthorization())
+            }.done { result in
+                if result[0] == Result<Bool>.fulfilled(true) || result[1] == Result<Bool>.fulfilled(true) {
+                    // register if either token or locations got updated
+                    self.registerUser()
+                    Context.Instance.settings.set(try! self.jsonEncoder.encode(self.user), forKey: PropertyKey.user)
+                }
+            }.catch { error in
+                os_log("Error while obtaining device location %@", type: .error, error.localizedDescription)
+        }
     }
-    
-    private func registerDevice() {
+
+    private func registerUser() {
         // Cases in which we (re)register the device
         // 1- If not registered before (no matter what)
         // 2- If device location is changed (and we know it -> LocationString is not empty)
-        if (Context.Instance.settings.string(forKey: PropertyKey.currentRegisteredId) == nil ||
-            (self.user.LocationString != "//" && Context.Instance.settings.string(forKey: PropertyKey.currentRegisteredLocationString) != self.user.LocationString)) {
-
-            var request = URLRequest(url: URL(string: UserManager.REGISTER_ENDPOINT)!)
-            request.httpMethod = "POST"
-            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.addValue("application/json", forHTTPHeaderField: "Accept")
-            request.httpBody = try! self.jsonEncoder.encode(self.user)
-            
-            let task = URLSession.shared.dataTask(with: request) { data, response, error in
-                guard error == nil else {
-                    os_log("Error while registering device: %@", type: .error, error!.localizedDescription)
-                    return
-                }
-                os_log("Registered device successfully!", type: .default)
-                
-                // Save the values in settings file
-                Context.Instance.settings.set(self.user.Id, forKey: PropertyKey.currentRegisteredId)
-                Context.Instance.settings.set(self.user.LocationString, forKey: PropertyKey.currentRegisteredLocationString)
-            }
-            task.resume()
-        }
-        else {
-            os_log("Device location has not changed or not accessible, don't bother re-registering with server", type: .default)
+        var request = URLRequest(url: URL(string: UserManager.REGISTER_ENDPOINT)!)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.httpBody = try! self.jsonEncoder.encode(self.user)
+        
+        firstly {
+            URLSession.shared.dataTask(.promise, with: request)
+        }.done { response in
+            os_log("Registered device successfully!", type: .default)
+        }.catch { error in
+            os_log("Error while registering device: %@", type: .error, error.localizedDescription)
         }
     }
-
     
-    private func initLocationManager() {
-        self.locationManager.delegate = self
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
-        self.locationManager.requestWhenInUseAuthorization()
-    }
-    
-    private func locateDevice() {
-        if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse && CLLocationManager.locationServicesEnabled() {
-            // Async, callback will invoked
-            self.locationManager.requestLocation()
+    private func loadUser() {
+        if Context.Instance.settings.object(forKey: PropertyKey.user) == nil {
+            self.user = User()
+            // This is the unique device id we register in server (a generated UUID string)
+            self.user.Id = UUID().uuidString
+            self.user.TimeZone = NSTimeZone.local.identifier
         } else {
-            if CLLocationManager.authorizationStatus() != .notDetermined {
-                os_log("Device location not obtainable, proceeding with device registering", type: .default)
-                registerDevice()
-            }
-            // Otherwise we wait to device location to come in
-        }
-    }
-    
-    internal func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status == CLAuthorizationStatus.authorizedWhenInUse {
-            locateDevice();
-        }
-    }
-    
-    internal func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if locations.last != nil {
-            self.user.Latitude = locations.last!.coordinate.latitude
-            self.user.Longitude = locations.last!.coordinate.longitude
-            self.geocoder.reverseGeocodeLocation(locations.last!) {
-                placemarks, error in
-                if placemarks?.last != nil {
-                    self.user.Country = placemarks?.last!.country
-                    self.user.State = placemarks?.last!.administrativeArea
-                    self.user.City = placemarks?.last!.locality
-                }
-                // Even if we cannot reverse geocode, we should register device
-                self.registerDevice()
+            do {
+                self.user = try self.jsonDecoder.decode(User.self, from: (Context.Instance.settings.object(forKey: PropertyKey.user) as! Data))
+            } catch {
+                os_log("Fatal: This data should not be corrupted. We really need to do something", type: .error)
+                // Remove this user. Hopefully next time it will be fixed by reregistering
+                Context.Instance.settings.removeObject(forKey: PropertyKey.user)
             }
         }
     }
+}
 
-    internal func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        self.locationManager.stopUpdatingLocation()
-        os_log("Error while obtaining device location %@", type: .error, error.localizedDescription)
-        // Continue with registering process
-        self.registerDevice()
+extension Result where T == Bool {
+    static public func ==(lhs: Result<Bool>, rhs: Result<Bool>) -> Bool {
+        switch (lhs, rhs) {
+        case let (.fulfilled(a), .fulfilled(b)):
+            return a == b
+        case (.rejected(_), .rejected(_)):
+            return true
+        default:
+            return false
+        }
     }
 }
 

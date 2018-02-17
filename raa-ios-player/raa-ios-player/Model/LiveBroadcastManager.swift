@@ -21,9 +21,11 @@ class LiveBroadcastManager : UICommunicator {
     
     override init() {
         super.init()
-        
+    }
+    
+    func initiate() {
         self.loadLiveLineup()
-        self.loadBroadcastStatus()
+        self.loadBroadcastStatus() 
     }
     
     func loadLiveLineup() {

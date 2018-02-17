@@ -6,7 +6,9 @@
 //  Copyright © 2018 Auto-asaad. All rights reserved.
 //
 
+import os
 import UIKit
+import PromiseKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,26 +23,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+
+        let previousNotificationToken = Context.Instance.userManager.user.NotificationToken
+        
+        // Convert token to string
+        Context.Instance.userManager.user.NotificationToken = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
+
+        // Resolve the registeration promise
+        let shouldReregister = previousNotificationToken != Context.Instance.userManager.user.NotificationToken
+        Context.Instance.userManager.notificationManager.requestNotificationAuthorizationPromiseResolver?.resolve(shouldReregister, nil as Error?)
+    }
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        Context.Instance.userManager.notificationManager.requestNotificationAuthorizationPromiseResolver?.resolve(false, error)
+        
+    }
+
     func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+        // On phone call
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        // Todo
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
 
