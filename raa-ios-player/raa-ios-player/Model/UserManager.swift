@@ -37,6 +37,8 @@ class UserManager {
                     // register if either token or locations got updated
                     self.registerUser()
                     Context.Instance.settings.set(try! self.jsonEncoder.encode(self.user), forKey: PropertyKey.user)
+                } else {
+                    os_log("User location and notification options hadn't changed. Do not re-register!", type: .default)
                 }
             }.catch { error in
                 os_log("Error while obtaining device location %@", type: .error, error.localizedDescription)
@@ -55,7 +57,7 @@ class UserManager {
         
         firstly {
             URLSession.shared.dataTask(.promise, with: request)
-        }.done { response in
+        }.done { data in
             os_log("Registered device successfully!", type: .default)
         }.catch { error in
             os_log("Error while registering device: %@", type: .error, error.localizedDescription)

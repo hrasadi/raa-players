@@ -19,6 +19,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="424"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="F2Z-jm-grt">
+                                <rect key="frame" x="0.0" y="212" width="375" height="0.0"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="hJQ-5p-dsA">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="424"/>
                                 <subviews>
@@ -70,6 +74,7 @@
                     </view>
                     <connections>
                         <outlet property="liveBroadcastProgramCardTableView" destination="2AV-An-Vj7" id="FzR-W8-Llr"/>
+                        <outlet property="spinner" destination="F2Z-jm-grt" id="pYR-9k-kQC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gVq-R5-4e1" sceneMemberID="firstResponder"/>

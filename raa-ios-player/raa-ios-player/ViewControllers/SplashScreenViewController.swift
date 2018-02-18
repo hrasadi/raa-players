@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PromiseKit
 import UIKit
 
 class SplashScreenViewController : UIViewController {
@@ -19,117 +20,30 @@ class SplashScreenViewController : UIViewController {
     override func viewDidLoad() {
         // Startup services and managers, download data from server
         Context.initiateManagers()
-        
-        tryDownloadingLiveLineup()
-    }
-    
-    func tryDownloadingLiveLineup() {
-        loadingStatusLbl.text = "اول ببینیم رادیو چی داره..."
-        
-        class InterimLiveLineupListener : ModelCommunicator {
-            private var parent: SplashScreenViewController!
-            
-            init(parent: SplashScreenViewController) {
-                self.parent = parent
-            }
-            
-            func modelUpdated(data: Any?) {
-                Context.Instance.liveBroadcastManager.deregisterEventListener(listenerObject: self)
-                self.parent.tryDownloadingPublicFeed()
-            }
-            
-            func hashCode() -> Int {
-                return ObjectIdentifier(self).hashValue
-            }
-        }
-        
-        let listener = InterimLiveLineupListener(parent: self)
-        Context.Instance.liveBroadcastManager.registerEventListener(listenerObject: listener)
-        
-        // if data is already loaded
-        let data = Context.Instance.liveBroadcastManager.pullData()
-        if (data != nil) {
-            Context.Instance.liveBroadcastManager.deregisterEventListener(listenerObject: listener)
-            self.tryDownloadingPublicFeed()
-        }
-    }
-    
-    func tryDownloadingPublicFeed() {
-        loadingStatusLbl.text = "اول ببینیم رادیو چی داره..."
 
-        class InterimFeedListener : ModelCommunicator {
-            private var parent: SplashScreenViewController!
-            
-            init(parent: SplashScreenViewController) {
-                self.parent = parent
-            }
-            
-            func modelUpdated(data: Any?) {
-                Context.Instance.feedManager.deregisterEventListener(listenerObject: self)
-                self.parent.tryDownloadingProgramInfoDirectory()
-            }
-            
-            func hashCode() -> Int {
-                return ObjectIdentifier(self).hashValue
-            }
-        }
-        
-        let listener = InterimFeedListener(parent: self)
-        Context.Instance.feedManager.registerEventListener(listenerObject: listener)
-        
-        // if data is already loaded
-        let data = Context.Instance.feedManager.pullData()
-        if (data != nil) {
-            Context.Instance.feedManager.deregisterEventListener(listenerObject: listener)
-            self.tryDownloadingProgramInfoDirectory()
-        }
-    }
-    
-    func tryDownloadingProgramInfoDirectory() {
-        loadingStatusLbl.text = "فهرست برنامه‌ها چیز جدیدی نداره؟"
+        let q = DispatchQueue.global(qos: .background)
 
-        class InterimPInfoDirectoryListener : ModelCommunicator {
-            private var parent: SplashScreenViewController!
-            
-            init(parent: SplashScreenViewController) {
-                self.parent = parent
-            }
-            
-            func modelUpdated(data: Any?) {
-                Context.Instance.feedManager.deregisterEventListener(listenerObject: self)
-                self.parent.tryDownloadingImages()
-            }
-            
-            func hashCode() -> Int {
-                return ObjectIdentifier(self).hashValue
-            }
-        }
-        
-        let listener = InterimPInfoDirectoryListener(parent: self)
-        Context.Instance.programInfoDirectoryManager.registerEventListener(listenerObject: listener)
+        self.loadingStatusLbl.text = "اول ببینیم رادیو چی داره..."
 
-        // if data is already loaded
-        let data = Context.Instance.programInfoDirectoryManager.pullData()
-        if (data != nil) {
-            Context.Instance.feedManager.deregisterEventListener(listenerObject: listener)
-            self.tryDownloadingImages()
-        }
-    }
-    
-    func tryDownloadingImages() {
-        // Load supplementary data (images, etc)
-        DispatchQueue.main.async {
-            self.loadingStatusLbl.text = "یه کم بزک دوزک..."
-        }
-        
-        Context.Instance.programInfoDirectoryManager.preloadImages() {() in
+        firstly {
+            Context.Instance.liveBroadcastManager.pullData()
+        }.then { _ -> Promise<FeedData> in
+            self.loadingStatusLbl.text = "و البته برنامه‌های مخصوص خود خود شما..."
+            return Context.Instance.feedManager.pullData()
+        }.then { _ -> Promise<ProgramInfoDirectory> in
+            self.loadingStatusLbl.text = "در آرشیو رادیو چی میگذره؟"
+            return Context.Instance.programInfoDirectoryManager.pullData()
+        }.then(on: q) { _ -> Promise<Bool> in
             DispatchQueue.main.async {
-                self.loadingStatusLbl.text = "ایول! ردیف شد."
+                self.loadingStatusLbl.text = "یه کم بزک دوزک!"
             }
-
+            return Context.Instance.programInfoDirectoryManager.preloadImages()
+        }.done { _ -> Void in
+            self.loadingStatusLbl.text = "ایول! ردیف شد."
             OperationQueue.main.addOperation({
                 self.performSegue(withIdentifier: "loadingComplete", sender: self)
             })
+        }.catch { error in
         }
     }
 }

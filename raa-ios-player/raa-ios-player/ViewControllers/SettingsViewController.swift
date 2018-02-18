@@ -21,11 +21,11 @@ class SettingsViewController : UITableViewController {
     }
     
     override func viewDidLoad() {
-        var user: User = Context.Instance.userManager.user
-        
-        self.notifyOnPersonalProgram.isOn = Bool.init(exactly: user.NotifyOnPersonalProgram! as NSNumber)!
-        self.notifyOnPublicProgram.isOn = Bool.init(exactly: user.NotifyOnPublicProgram! as NSNumber)!
-        self.notifyOnLiveProgram.isOn = Bool.init(exactly: user.NotifyOnLiveProgram! as NSNumber)!
+//        var user: User = Context.Instance.userManager.user
+//        
+//        self.notifyOnPersonalProgram.isOn = Bool.init(exactly: user.NotifyOnPersonalProgram! as NSNumber)!
+//        self.notifyOnPublicProgram.isOn = Bool.init(exactly: user.NotifyOnPublicProgram! as NSNumber)!
+//        self.notifyOnLiveProgram.isOn = Bool.init(exactly: user.NotifyOnLiveProgram! as NSNumber)!
         
         // TODO
         //self.playInBackground.isOn = (user?.PlayInBackground)!

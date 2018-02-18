@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PromiseKit
 import UIKit
 
 class LiveBroadcastContainerViewController : PlayerViewController {
@@ -16,9 +17,11 @@ class LiveBroadcastContainerViewController : PlayerViewController {
 }
 
 class LiveBroadcastViewController : UIViewController {
+    
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
     @IBOutlet var liveBroadcastProgramCardTableView: UITableView?
     
-    private var liveLineupData: [CProgram]?
+    private var liveLineupData: LiveLineupData?
     
     var playbackCountdown: Timer? = nil
     var currentActionableCellIndexPath: IndexPath? = nil
@@ -36,12 +39,25 @@ class LiveBroadcastViewController : UIViewController {
         self.liveBroadcastProgramCardTableView?.dataSource = self
         self.liveBroadcastProgramCardTableView?.delegate = self
 
-        Context.Instance.liveBroadcastManager.registerEventListener(listenerObject: self)
-        self.liveLineupData = Context.Instance.liveBroadcastManager.pullData() as? [CProgram]
-        if (self.liveLineupData != nil) {
+        self.spinner.startAnimating()
+        self.view.bringSubview(toFront: self.spinner)
+        self.spinner.center = UIScreen.main.bounds.center
+        self.spinner.setNeedsLayout()
+        
+        firstly {
+            Context.Instance.liveBroadcastManager.pullData()
+        }.done { liveLineupData in
+            self.liveLineupData = liveLineupData
+            
+            self.spinner.stopAnimating()
+            self.spinner.hidesWhenStopped = true
+            
             self.liveBroadcastProgramCardTableView?.reloadData()
             self.scrollToCurrentProgram()
             self.updateTablePlayableStates() // Change cards state
+        }.ensure {
+            Context.Instance.liveBroadcastManager.registerEventListener(listenerObject: self)
+        }.catch {_ in
         }
     }
     
@@ -61,7 +77,7 @@ class LiveBroadcastViewController : UIViewController {
             return
         }
         
-        let newActionableCellIndex = (Context.Instance.liveBroadcastManager.liveBroadcastStatus?.IsCurrentlyPlaying!)! ? Context.Instance.liveBroadcastManager.getMostRecentProgramIndex()! : Context.Instance.liveBroadcastManager.getMostRecentProgramIndex()! + 1
+        let newActionableCellIndex = (Context.Instance.liveBroadcastManager.liveLineupData.liveBroadcastStatus?.IsCurrentlyPlaying!)! ? Context.Instance.liveBroadcastManager.getMostRecentProgramIndex()! : Context.Instance.liveBroadcastManager.getMostRecentProgramIndex()! + 1
 
         if (currentActionableCellIndexPath?.row != newActionableCellIndex) {
             // Deregister old cell
@@ -85,7 +101,7 @@ class LiveBroadcastViewController : UIViewController {
 
         if (indexPath.row == self.currentActionableCellIndexPath?.row) {
             // We now have a new actionable cell. Update its playable status
-            if Context.Instance.liveBroadcastManager.liveBroadcastStatus?.IsCurrentlyPlaying! == true {
+            if Context.Instance.liveBroadcastManager.liveLineupData.liveBroadcastStatus?.IsCurrentlyPlaying! == true {
                 cell.card?.liveBroadcastPlayableState = .Playable
             } else {
                 cell.card?.liveBroadcastPlayableState = .NextInLine
@@ -97,8 +113,8 @@ class LiveBroadcastViewController : UIViewController {
     }
     
     func initiateCountdownIfNeeded() {
-        if Context.Instance.liveBroadcastManager.liveBroadcastStatus?.IsCurrentlyPlaying != nil && self.currentActionableCellIndexPath != nil {
-            if let targetDateString = Context.Instance.liveBroadcastManager?.flattenLiveLineup[(self.currentActionableCellIndexPath)!.row + 1].Metadata?.StartTime {
+        if Context.Instance.liveBroadcastManager.liveLineupData.liveBroadcastStatus?.IsCurrentlyPlaying != nil && self.currentActionableCellIndexPath != nil {
+            if let targetDateString = Context.Instance.liveBroadcastManager?.liveLineupData.flattenLiveLineup![(self.currentActionableCellIndexPath)!.row].Metadata?.StartTime {
                 
                 let targetDate = Formatter.iso8601.date(from: targetDateString)!
                 var counter = Int(targetDate.timeIntervalSince(Date()))
@@ -110,7 +126,6 @@ class LiveBroadcastViewController : UIViewController {
                 self.playbackCountdown = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
                     
                     let cell = self.liveBroadcastProgramCardTableView?.cellForRow(at: self.currentActionableCellIndexPath!) as? LiveBroadcastProgramCardTableViewCell
-                    
                     counter -= 1
                     if counter == 0 {
                         self.playbackCountdown!.invalidate()
@@ -144,7 +159,7 @@ class LiveBroadcastViewController : UIViewController {
 
 extension LiveBroadcastViewController : ModelCommunicator {
     func modelUpdated(data: Any?) {
-        self.liveLineupData = data as? [CProgram]
+        self.liveLineupData = data as? LiveLineupData
         self.liveBroadcastProgramCardTableView?.reloadData()
         self.scrollToCurrentProgram()
         self.updateTablePlayableStates() // Change cards state
@@ -156,9 +171,9 @@ extension LiveBroadcastViewController : ModelCommunicator {
     }
 }
 
-extension LiveBroadcastViewController : FeedEntryCardDelegate {
-    func onPlayButtonClicked(_ requestedFeedEntryId: String) {
-        Context.Instance.playbackManager.playFeed(requestedFeedEntryId)
+extension LiveBroadcastViewController : LiveBroadcastDelegate {
+    func onPlayButtonClicked() {
+        Context.Instance.playbackManager.playLiveBroadcast()
     }
 }
 
@@ -168,7 +183,7 @@ extension LiveBroadcastViewController : UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.liveLineupData?.count ?? 0
+        return self.liveLineupData?.flattenLiveLineup?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -179,19 +194,15 @@ extension LiveBroadcastViewController : UITableViewDelegate, UITableViewDataSour
             fatalError("The dequeued cell is not an instance of LiveBroadcastProgramCardTableViewCell.")
         }
         
-        let program = liveLineupData?[indexPath.row]
+        let program = liveLineupData?.flattenLiveLineup?[indexPath.row]
         let programInfo = Context.Instance.programInfoDirectoryManager.programInfoDirectory?.ProgramInfos[(program?.ProgramId)!]
 
         let programDetails = storyboard?.instantiateViewController(withIdentifier: "ProgramContent") as! ProgramDetailsViewController
         programDetails.program = program
         cell.card?.shouldPresent(programDetails, from: self)
 
-        if (program?.Title != nil) {
-            cell.card?.programTitle = (program?.Title)!
-        }
-        if (program?.Subtitle != nil) {
-            cell.card?.programSubtitle = (program?.Subtitle)!
-        }
+        cell.card?.programTitle = (program?.Title) ?? ""
+        cell.card?.programSubtitle = (program?.Subtitle) ?? ""
 
         if (program?.Metadata?.StartTime != nil) {
             let startDate = Formatter.iso8601.date(from: (program?.Metadata?.StartTime)!)
@@ -217,7 +228,7 @@ extension LiveBroadcastViewController : UITableViewDelegate, UITableViewDataSour
         
         cell.card?.setNeedsDisplay()
 
-        //cell.card?.feedDelegate = self
+        cell.card?.liveBroadcastDelegate = self
 
         return cell
     }

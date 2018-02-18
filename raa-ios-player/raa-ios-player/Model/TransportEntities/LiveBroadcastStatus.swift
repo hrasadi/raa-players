@@ -11,4 +11,5 @@ import Foundation
 class LiveBroadcastStatus : Codable {
     var MostRecentProgram: String?
     var IsCurrentlyPlaying: Bool?
+    var StartedProgramTitle: String?
 }

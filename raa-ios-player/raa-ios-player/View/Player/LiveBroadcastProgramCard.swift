@@ -22,6 +22,7 @@ class LiveBroadcastProgramCard : ProgramCard {
             if self.liveBroadcastPlayableState == .NextInLine {
                 let buttonText = (nextInLineCountdownValue != nil) ? ("شروع در " + nextInLineCountdownValue!) : "به زودی"
                 let btnTitle = NSAttributedString(string: buttonText, attributes: [ NSAttributedStringKey.font : UIFont.systemFont(ofSize: 16, weight: .medium), NSAttributedStringKey.foregroundColor : UIColor.white])
+                actionBtn.titleLabel?.lineBreakMode = .byTruncatingTail
                 actionBtn.setAttributedTitle(btnTitle, for: .normal)
             }
         }
@@ -85,6 +86,14 @@ class LiveBroadcastProgramCard : ProgramCard {
     
     override func layout(animating: Bool = true) {
         super.layout(animating: animating)
+    }
+
+    @objc override func actionButtonTapped() {
+        super.actionButtonTapped()
+        
+        if self.liveBroadcastDelegate != nil {
+            self.liveBroadcastDelegate!.onPlayButtonClicked()
+        }
     }
 
     enum LiveBroadcastPlayableState {

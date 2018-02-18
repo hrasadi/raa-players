@@ -6,12 +6,13 @@
 //  Copyright © 2018 Auto-asaad. All rights reserved.
 //
 
-import Foundation
 import os
+import Foundation
+import PromiseKit
 import AVFoundation
 import UIKit
 
-class PlaybackManager : UICommunicator {
+class PlaybackManager : UICommunicator<PlaybackState> {
 
     static let LIVE_STREAM_URL = Context.LIVE_STREAM_URL_PREFIX + "/raa1.ogg"
     
@@ -25,31 +26,31 @@ class PlaybackManager : UICommunicator {
         super.init()
         
         playbackState = PlaybackState()
+        
+        initAudioSession()
+    }
+    
+    private func initAudioSession() {
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, with: [AVAudioSessionCategoryOptions.allowBluetooth, AVAudioSessionCategoryOptions.mixWithOthers, AVAudioSessionCategoryOptions.duckOthers])
+            //NotificationCenter.default.addObserver(self, selector: #selector(handleAVInterruption), name: .AVAudioSessionInterruption, object: nil)
+        } catch let e {
+            print("Error while configuring AudioSession. Error is: " + e.localizedDescription)
+        }
     }
 
     // Calls from item list controllers
-    public func playLiveBroadcast(_ currentProgram: CProgram) {
-        os_log("Requested live playback")
-        
-        self.playbackState?.enable = true
-        self.playbackState?.playing = true
-        self.playbackState?.itemTitle = ""
-        self.playbackState?.itemSubtitle = ""
+    public func playLiveBroadcast() {
 
-        doPlay(PlaybackManager.LIVE_STREAM_URL)
+        os_log("Requested live playback", type: .default)
 
-        // Try to fetch info regarding the program being played
-        self.updateLiveProgramPlaybackState(currentProgram)
+        let program = Context.Instance.liveBroadcastManager.liveLineupData.flattenLiveLineup?[Context.Instance.liveBroadcastManager.getMostRecentProgramIndex()!]
+        if program != nil {
+            self.play(programId: (program?.ProgramId)!, title: (program?.Title)!, subtitle: (program?.Subtitle)!, mediaPath: PlaybackManager.LIVE_STREAM_URL)
+            return
+        }
     }
 
-    public func updateLiveProgramPlaybackState(_ program: CProgram) {
-        let programInfo = Context.Instance.programInfoDirectoryManager.programInfoDirectory?.ProgramInfos[(program.ProgramId)!]
-        
-        self.playbackState?.itemTitle = program.Title
-        self.playbackState?.itemThumbnail = UIImage(data: programInfo?.thumbnailImageData ?? ProgramInfo.defaultThumbnailImageData)
-        self.notifyModelUpdate()
-    }
-    
     public func playFeed(_ feedEntryId: String) {
         os_log("Requested playback of %@", type: .default, feedEntryId)
         
@@ -81,23 +82,32 @@ class PlaybackManager : UICommunicator {
         
         doPlay(mediaPath)
         
-        self.notifyModelUpdate()
+        self.notifyModelUpdate(data: self.playbackState!)
     }
     
     // Calls from PlaybackController
     public func togglePlaybackState() {
         if (self.playbackState?.playing == true) {
-            self.playbackState?.playing = false
-            self.doPause()
+            self.pause()
         } else {
             if playbackState != nil {
-                self.playbackState?.playing = true
-                self.doResume()
+                self.resume()
             }
         }
-        
-        self.notifyModelUpdate()
     }
+
+    public func resume() {
+        self.playbackState?.playing = true
+        self.doResume()
+        self.notifyModelUpdate(data: self.playbackState!)
+    }
+
+    public func pause() {
+        self.playbackState?.playing = false
+        self.doPause()
+        self.notifyModelUpdate(data: self.playbackState!)
+    }
+    
 
     // Private methods
     private func doPlay(_ mediaPath: String) {
@@ -133,17 +143,19 @@ class PlaybackManager : UICommunicator {
         }
     }
 
-    override func pullData() -> Any? {
-        return self.playbackState
+    override func pullData() -> Promise<PlaybackState> {
+        return Promise<PlaybackState> { seal in
+            seal.resolve(self.playbackState, nil)
+        }
     }
+}
 
-    struct PlaybackState {
-        var enable = false
-        var playing = false
-        var itemThumbnail: UIImage?
-        var itemTitle: String?
-        var itemSubtitle: String?
-    }
+struct PlaybackState {
+    var enable = false
+    var playing = false
+    var itemThumbnail: UIImage?
+    var itemTitle: String?
+    var itemSubtitle: String?
 }
 
 

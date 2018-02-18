@@ -6,54 +6,58 @@
 //  Copyright © 2018 Auto-asaad. All rights reserved.
 //
 
-import Foundation
 import os
+import Foundation
+import PromiseKit
 import UIKit
 
-class ProgramInfoDirectoryManager : UICommunicator {
+class ProgramInfoDirectoryManager : UICommunicator<ProgramInfoDirectory> {
     static let PINFO_DIR_ENDPOINT = Context.API_URL_PREFIX + "/programInfoDirectory"
 
     private var jsonDecoder = JSONDecoder()
-
+    private var programInfoResolver: Resolver<ProgramInfoDirectory>?
+    
     public var programInfoDirectory: ProgramInfoDirectory?
     
     override init() {
         super.init()
-        
+    }
+    
+    func initiate() {
         self.loadProgramInfoDirectory()
     }
 
     // Load feed from server
     func loadProgramInfoDirectory() {
-        let task = URLSession.shared.dataTask(with: URL(string: ProgramInfoDirectoryManager.PINFO_DIR_ENDPOINT)!) {
-            data, response, error in
-            guard error == nil else {
-                os_log("Error while loading program info directory: %@", type: .error, error!.localizedDescription)
-                return
+        firstly {
+            URLSession.shared.dataTask(.promise, with: URL(string: ProgramInfoDirectoryManager.PINFO_DIR_ENDPOINT)!)
+        }.done { data, respose in
+            os_log("Fetched ProgramInfo directory from server.", type: .default)
+            self.programInfoDirectory = try! self.jsonDecoder.decode(ProgramInfoDirectory.self, from: data)
+            if (self.programInfoResolver != nil) {
+                self.programInfoResolver?.resolve(self.programInfoDirectory, nil)
+                self.programInfoResolver = nil
             }
-            os_log("Fetched public feed from server.", type: .default)
-            
-            guard data != nil else {
-                return
+            self.notifyModelUpdate(data: self.programInfoDirectory!)
+        }.catch { error in
+            os_log("Error while loading program info directory: %@", type: .error, error.localizedDescription)
+            if (self.programInfoResolver != nil) {
+                self.programInfoResolver?.reject(error)
+                self.programInfoResolver = nil
             }
-            
-            self.programInfoDirectory = try! self.jsonDecoder.decode(ProgramInfoDirectory.self, from: data!)
-            
-            self.notifyModelUpdate()
         }
-        task.resume()
     }
     
-    public func preloadImages(_ completionHandler: @escaping () -> Void) {
+    public func preloadImages() -> Promise<Bool> {
         os_log("Preloading images from server...")
-        
-        if self.programInfoDirectory != nil {
-            DispatchQueue.global().async {
+
+        return Promise<Bool> { seal in
+            if self.programInfoDirectory != nil {
                 for pinfo in self.programInfoDirectory!.ProgramInfos {
                     pinfo.value.thumbnailImageData = self.getImageData(pinfo.value.Thumbnail)
                     pinfo.value.bannerImageData = self.getImageData(pinfo.value.Banner)
                 }
-                completionHandler()
+                seal.resolve(true, nil as Error?)
             }
         }
     }
@@ -71,7 +75,14 @@ class ProgramInfoDirectoryManager : UICommunicator {
         return result
     }
     
-    override func pullData() -> Any? {
-        return self.programInfoDirectory
+    override func pullData() -> Promise<ProgramInfoDirectory> {
+        return Promise<ProgramInfoDirectory> { seal in
+            if (self.programInfoDirectory != nil) {
+                seal.resolve(self.programInfoDirectory, nil)
+            } else {
+                // Someone else will resolve this
+                self.programInfoResolver = seal
+            }
+        }
     }
 }

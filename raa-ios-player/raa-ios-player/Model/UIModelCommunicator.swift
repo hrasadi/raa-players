@@ -7,8 +7,9 @@
 //
 
 import Foundation
+import PromiseKit
 
-class UICommunicator : NSObject {
+class UICommunicator<T> : NSObject {
     
     private var listeners: [ModelCommunicator]! = []
 
@@ -25,13 +26,16 @@ class UICommunicator : NSObject {
         }
     }
     
-    func notifyModelUpdate() {
+    func notifyModelUpdate(data: T) {
         for listener in listeners {
-            listener.modelUpdated(data: pullData())
+            listener.modelUpdated(data: data)
         }
     }
 
-    func pullData() -> Any? { return nil }
+    func pullData() -> Promise<T>? {
+        assert(false, "This method must be overriden by the subclass")
+        return nil
+    }
 }
 
 protocol ModelCommunicator {

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PromiseKit
 import UIKit
 import MediaPlayer
 
@@ -17,32 +18,50 @@ class PlayerViewController : UIViewController {
     
     var playerHeightWhenVisible: CGFloat!
     
-    var playbackState: PlaybackManager.PlaybackState?
+    var playbackState: PlaybackState?
     
     let mpInfoCenter: MPNowPlayingInfoCenter = MPNowPlayingInfoCenter.default()
 
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+
+        // we should also handle MPInfoCenter callbacks
+        self.becomeFirstResponder()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     override func viewDidLoad() {
+        // Start safe
+        //self.setPlayerViewVisibility(isHidden: true)
+        
         self.playerHeightWhenVisible = playerHeightConstraint.constant
         
         self.view.bringSubview(toFront: playerViewContainer)
 
+        self.playbackState = try! hang(Context.Instance.playbackManager.pullData())
+        Context.Instance.playbackManager.registerEventListener(listenerObject: self)
+
         self.playerView = playerViewContainer.contentView as? PlayerView
         self.playerView?.delegate = self
-        
-        Context.Instance.playbackManager.registerEventListener(listenerObject: self)
-        self.playbackState = Context.Instance.feedManager.pullData() as? PlaybackManager.PlaybackState
-        
+
         self.updatePlayerView()
     }
     
     func updatePlayerView() {
         if self.playbackState == nil || self.playbackState!.enable == false {
             self.setPlayerViewVisibility(isHidden: true)
+            mpInfoCenter.nowPlayingInfo = nil
+            UIApplication.shared.endReceivingRemoteControlEvents()
         } else {
             self.setPlayerViewVisibility(isHidden: false)
+            // Attach remote control
+            UIApplication.shared.beginReceivingRemoteControlEvents()
         }
 
-        if self.playbackState != nil {
+        if self.playbackState != nil && self.playbackState?.enable == true {
             if self.playbackState!.playing == true {
                 self.playerView?.playbackState.setImage(#imageLiteral(resourceName: "pause"), for: UIControlState.normal)
                 self.playerView?.itemTitle.text = self.playbackState?.itemTitle
@@ -52,6 +71,11 @@ class PlayerViewController : UIViewController {
             }
          
             self.playerView?.itemThumbnail.image = self.playbackState?.itemThumbnail
+            
+            // Register 
+            DispatchQueue.main.async {
+                self.mpInfoCenter.nowPlayingInfo = [MPMediaItemPropertyAlbumTitle: self.playerView?.itemTitle.text ?? "", MPMediaItemPropertyTitle: self.playerView?.itemSubtitle.text ?? "", MPMediaItemPropertyArtist: "رادیو اتو-اسعد", MPMediaItemPropertyArtwork: MPMediaItemArtwork(boundsSize: (self.playerView?.itemThumbnail.image?.size)!) { sz in return (self.playbackState?.itemThumbnail)! }, MPNowPlayingInfoPropertyPlaybackRate: self.playbackState!.playing ? 1 : 0]
+            }
         }
     }
     
@@ -73,6 +97,18 @@ class PlayerViewController : UIViewController {
             view.layoutIfNeeded()
         }
     }
+
+    @objc override func remoteControlReceived(with event: UIEvent?) {
+        let rc: UIEventSubtype = event!.subtype
+        
+        if (rc == .remoteControlPlay) {
+            Context.Instance.playbackManager.resume()
+            self.mpInfoCenter.nowPlayingInfo?[MPNowPlayingInfoPropertyPlaybackRate] = 1
+        } else if (rc == .remoteControlPause) {
+            Context.Instance.playbackManager.pause()
+            self.mpInfoCenter.nowPlayingInfo?[MPNowPlayingInfoPropertyPlaybackRate] = 0
+        }
+    }
 }
 
 extension PlayerViewController : PlayerViewDelegate {
@@ -84,7 +120,7 @@ extension PlayerViewController : PlayerViewDelegate {
 
 extension PlayerViewController : ModelCommunicator {
     func modelUpdated(data: Any?) {
-        self.playbackState = Context.Instance.playbackManager.pullData() as? PlaybackManager.PlaybackState
+        self.playbackState = data as? PlaybackState
         self.updatePlayerView()
     }
     

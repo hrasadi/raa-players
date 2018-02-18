@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PromiseKit
 import UIKit
 
 class ProgramDetailsViewController : UIViewController {
@@ -24,10 +25,15 @@ class ProgramDetailsViewController : UIViewController {
     
     override func viewDidLoad() {
         // Obtain data about program from ProgramInfoDirectoryManager
-        Context.Instance.programInfoDirectoryManager.registerEventListener(listenerObject: self)
-        self.programInfoDirectory = Context.Instance.programInfoDirectoryManager.pullData() as? ProgramInfoDirectory
-
-        self.reloadDecription();
+        firstly {
+            Context.Instance.programInfoDirectoryManager.pullData()
+        }.done { programInfoDirectory in
+            self.programInfoDirectory = programInfoDirectory
+            self.reloadDecription();
+        }.ensure {
+            Context.Instance.programInfoDirectoryManager.registerEventListener(listenerObject: self)
+        }.catch { _ in
+        }
     }
         
     func reloadDecription() {
@@ -44,7 +50,7 @@ class ProgramDetailsViewController : UIViewController {
 
 extension ProgramDetailsViewController : ModelCommunicator {
     func modelUpdated(data: Any?) {
-        self.programInfoDirectory = Context.Instance.programInfoDirectoryManager.pullData() as? ProgramInfoDirectory
+        self.programInfoDirectory = data as? ProgramInfoDirectory
         self.reloadDecription()
     }
     

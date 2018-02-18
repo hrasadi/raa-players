@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PromiseKit
 import UIKit
 import os
 
@@ -23,8 +24,7 @@ class FeedViewController : UIViewController {
     private static let PERSONAL_FEED_SECTION = 0
     private static let PUBLIC_FEED_SECTION = 1
 
-    private var publicFeedEntries: [PublicFeedEntry]?
-    private var personalFeedEntries: [PersonalFeedEntry]?
+    private var feedData: FeedData?
     
     struct Defaults {
         public static let CELL_HEIGHT: CGFloat = 150
@@ -36,14 +36,14 @@ class FeedViewController : UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad();
-        
-        Context.Instance.feedManager.registerEventListener(listenerObject: self)
-        (self.publicFeedEntries, self.personalFeedEntries) = Context.Instance.feedManager.pullData() as! ([PublicFeedEntry]?, [PersonalFeedEntry]?)
 
-        feedTableView?.dataSource = self
-        feedTableView?.delegate = self
-        
-        feedTableView?.reloadData()
+        // Do this syncronously as the data is already here
+        self.feedData = try! hang(Context.Instance.feedManager.pullData())
+        Context.Instance.feedManager.registerEventListener(listenerObject: self)
+
+        self.feedTableView?.dataSource = self
+        self.feedTableView?.delegate = self
+        self.feedTableView?.reloadData()
     }
 }
 
@@ -55,7 +55,7 @@ extension FeedViewController : FeedEntryCardDelegate {
 
 extension FeedViewController : ModelCommunicator {
     func modelUpdated(data: Any?) {
-        (self.publicFeedEntries, self.personalFeedEntries) = data as! ([PublicFeedEntry]?, [PersonalFeedEntry]?)
+        self.feedData = data as? FeedData
         feedTableView?.reloadData()
     }
     
@@ -89,11 +89,11 @@ extension FeedViewController : UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         if section == FeedViewController.PUBLIC_FEED_SECTION {
-            if self.publicFeedEntries == nil || self.publicFeedEntries?.count == 0 {
+            if self.feedData?.publicFeed == nil || self.feedData?.publicFeed?.count == 0 {
                 return "فعلا برنامه‌ای اینجا نیست"
             }
         } else if section == FeedViewController.PERSONAL_FEED_SECTION {
-            if self.personalFeedEntries == nil || self.personalFeedEntries?.count == 0 {
+            if self.feedData?.personalFeed == nil || self.feedData?.personalFeed?.count == 0 {
                 return "فعلا برنامه‌ای اینجا نیست"
             }
         }
@@ -111,9 +111,9 @@ extension FeedViewController : UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == FeedViewController.PUBLIC_FEED_SECTION {
-            return self.publicFeedEntries?.count ?? 0
+            return self.feedData?.publicFeed?.count ?? 0
         } else if section == FeedViewController.PERSONAL_FEED_SECTION {
-            return self.personalFeedEntries?.count ?? 0
+            return self.feedData?.personalFeed?.count ?? 0
         }
         return 0 // This should not happen
     }
@@ -135,7 +135,7 @@ extension FeedViewController : UITableViewDataSource, UITableViewDelegate {
             fatalError("The dequeued cell is not an instance of FeedEntryCardTableViewCell.")
         }
         
-        let feedEntry = personalFeedEntries?[indexPath.row]
+        let feedEntry = self.feedData?.personalFeed?[indexPath.row]
         let entryProgramInfo = Context.Instance.programInfoDirectoryManager.programInfoDirectory?.ProgramInfos[(feedEntry?.ProgramObject?.ProgramId)!]
         
         let programDetails = storyboard?.instantiateViewController(withIdentifier: "ProgramContent") as! ProgramDetailsViewController
@@ -180,7 +180,7 @@ extension FeedViewController : UITableViewDataSource, UITableViewDelegate {
             fatalError("The dequeued cell is not an instance of FeedEntryCardTableViewCell.")
         }
         
-        let feedEntry = publicFeedEntries?[indexPath.row]
+        let feedEntry = self.feedData?.publicFeed?[indexPath.row]
         let entryProgramInfo = Context.Instance.programInfoDirectoryManager.programInfoDirectory?.ProgramInfos[(feedEntry?.ProgramObject?.ProgramId)!]
         
         let programDetails = storyboard?.instantiateViewController(withIdentifier: "ProgramContent") as! ProgramDetailsViewController

@@ -8,83 +8,68 @@
 
 import os
 import Foundation
+import PromiseKit
 
-class LiveBroadcastManager : UICommunicator {
+class LiveBroadcastManager : UICommunicator<LiveLineupData> {
     static let LIVE_LINEUP_URL = Context.LIVE_INFO_URL_PREFIX + "/live-lineup.json"
     static let LIVE_BROADCAST_STATUS_URL = Context.LIVE_INFO_URL_PREFIX + "/status.json"
 
     private var jsonDecoder = JSONDecoder()
-    
-    public var liveBroadcastStatus: LiveBroadcastStatus?
-    public var liveLineup: [String : [CProgram]] = [:]
-    public var flattenLiveLineup: [CProgram] = []
-    
-    override init() {
-        super.init()
-    }
+
+    public var liveLineupData = LiveLineupData()
+    private var liveLineupDataResolver: Resolver<LiveLineupData>?
     
     func initiate() {
-        self.loadLiveLineup()
-        self.loadBroadcastStatus() 
+        firstly {
+            when(resolved: self.loadLiveLineup(), self.loadBroadcastStatus())
+        }.done { _ in
+            self.liveLineupDataResolver?.resolve(self.liveLineupData, nil)
+        }.catch { error in
+            os_log("Error while downloading live lineup, error is %@", type: .error, error.localizedDescription)
+            self.liveLineupDataResolver?.reject(error)
+        }
     }
     
-    func loadLiveLineup() {
-        let task = URLSession.shared.dataTask(with: URL(string: LiveBroadcastManager.LIVE_LINEUP_URL)!) {
-            data, response, error in
-            guard error == nil else {
-                os_log("Error while loading live lineup: %@", type: .error, error!.localizedDescription)
-                return
+    func loadLiveLineup() -> Promise<Bool> {
+        return
+            firstly {
+                URLSession.shared.dataTask(.promise, with: URL(string: LiveBroadcastManager.LIVE_LINEUP_URL)!)
+            }.flatMap { data, response in
+                os_log("Fetched live lineup from server.", type: .default)
+                self.liveLineupData.liveLineup = try! self.jsonDecoder.decode(type(of: self.liveLineupData.liveLineup), from: data)
+                self.flattenData()
+
+                return true
             }
-            os_log("Fetched live lineup from server.", type: .default)
-            
-            guard data != nil else {
-                return
-            }
-            
-            self.liveLineup = try! self.jsonDecoder.decode(type(of: self.liveLineup), from: data!)
-            self.flattenData()
-            
-            self.notifyModelUpdate()
-        }
-        task.resume()
     }
     
     private func flattenData() {
-        self.flattenLiveLineup = []
-        let sortedDates = Array(self.liveLineup.keys).sorted(by: <)
+        self.liveLineupData.flattenLiveLineup = []
+        let sortedDates = Array(self.liveLineupData.liveLineup.keys).sorted(by: <)
         for date in sortedDates {
-            self.flattenLiveLineup += self.liveLineup[date] ?? []
+            self.liveLineupData.flattenLiveLineup! += self.liveLineupData.liveLineup[date] ?? []
         }
     }
     
-    private func loadBroadcastStatus() {
-        let task = URLSession.shared.dataTask(with: URL(string: LiveBroadcastManager.LIVE_BROADCAST_STATUS_URL)!) {
-            data, response, error in
-            guard error == nil else {
-                os_log("Error while loading live status: %@", type: .error, error!.localizedDescription)
-                return
+    private func loadBroadcastStatus() -> Promise<Bool> {
+        return
+            firstly {
+              URLSession.shared.dataTask(.promise, with: URL(string: LiveBroadcastManager.LIVE_BROADCAST_STATUS_URL)!)
+            }.flatMap { data, response in
+                os_log("Fetched live status from server.", type: .default)
+                self.liveLineupData.liveBroadcastStatus = try! self.jsonDecoder.decode(LiveBroadcastStatus.self, from: data)
+                return true
             }
-            os_log("Fetched live status from server.", type: .default)
-            
-            guard data != nil else {
-                return
-            }
-            
-            self.liveBroadcastStatus = try! self.jsonDecoder.decode(LiveBroadcastStatus.self, from: data!)
-            
-            self.notifyModelUpdate()
-        }
-        task.resume()
     }
     
     func getMostRecentProgramIndex() -> Int? {
-        return self.flattenLiveLineup.index { (program) -> Bool in
-            return program.CanonicalIdPath == self.liveBroadcastStatus?.MostRecentProgram
+        return self.liveLineupData.flattenLiveLineup?.index { (program) -> Bool in
+            return program.CanonicalIdPath == self.liveLineupData.liveBroadcastStatus?.MostRecentProgram
         }
     }
     
     func isProgramOver(programIndex: Int) -> Bool {
-        if self.liveBroadcastStatus == nil {
+        if self.liveLineupData.liveBroadcastStatus == nil {
             return false
         }
         
@@ -93,7 +78,7 @@ class LiveBroadcastManager : UICommunicator {
             if programIndex < mostRecentProgramIndex! {
                 return true
             }
-            if programIndex == mostRecentProgramIndex! && self.liveBroadcastStatus?.IsCurrentlyPlaying == false {
+            if programIndex == mostRecentProgramIndex! && self.liveLineupData.liveBroadcastStatus?.IsCurrentlyPlaying == false {
                 // The most recent program is over if radio is not playing right now
                 return true
             }
@@ -101,8 +86,22 @@ class LiveBroadcastManager : UICommunicator {
         return false
     }
     
-    override func pullData() -> Any? {
-        return self.flattenLiveLineup
+    override func pullData() -> Promise<LiveLineupData> {
+        return Promise<LiveLineupData> { seal in
+            if (self.liveLineupData.flattenLiveLineup != nil && self.liveLineupData.liveBroadcastStatus != nil) {
+                seal.resolve(self.liveLineupData, nil)
+            } else {
+                // Someone else will resolve this
+                self.liveLineupDataResolver = seal
+            }
+        }
     }
 }
+
+struct LiveLineupData {
+    public var liveBroadcastStatus: LiveBroadcastStatus?
+    public var liveLineup: [String : [CProgram]] = [:]
+    public var flattenLiveLineup: [CProgram]?
+}
+
 

@@ -36,8 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        Context.Instance.userManager.notificationManager.requestNotificationAuthorizationPromiseResolver?.resolve(false, error)
-        
+        Context.Instance.userManager.notificationManager.requestNotificationAuthorizationPromiseResolver?.resolve(false, error)        
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

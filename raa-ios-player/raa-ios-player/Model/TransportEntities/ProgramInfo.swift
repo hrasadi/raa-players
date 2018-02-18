@@ -37,5 +37,5 @@ class ProgramInfo : Codable {
 }
 
 class ProgramInfoDirectory : Codable {
-    var ProgramInfos: [String: ProgramInfo]
+    var ProgramInfos: [String: ProgramInfo] = [:]
 }
