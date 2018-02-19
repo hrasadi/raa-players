@@ -43,6 +43,7 @@ class Context {
             instance?.programInfoDirectoryManager.initiate()
             instance?.feedManager.initiate()
             instance?.liveBroadcastManager.initiate()
+            instance?.playbackManager.initiate()
         }
     }
         
@@ -52,4 +53,8 @@ class Context {
     public var liveBroadcastManager: LiveBroadcastManager!
     public var playbackManager: PlaybackManager!
     public let settings = UserDefaults.standard
+    
+    // This will be true on first time app opens
+    // Use for tutorial, custom messages, etc.
+    public var isFirstExecution = false
 }

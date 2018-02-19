@@ -15,9 +15,6 @@ class ProgramDetailsViewController : UIViewController {
     @IBOutlet var programDescriptionText: UITextView?
     
     public var programInfoDirectory: ProgramInfoDirectory?
-    // The program for which we want to show the details (set in Live and Feed controllers)
-    public var program: CProgram?
-    public var programInfo: ProgramInfo?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -29,21 +26,25 @@ class ProgramDetailsViewController : UIViewController {
             Context.Instance.programInfoDirectoryManager.pullData()
         }.done { programInfoDirectory in
             self.programInfoDirectory = programInfoDirectory
-            self.reloadDecription();
         }.ensure {
             Context.Instance.programInfoDirectoryManager.registerEventListener(listenerObject: self)
         }.catch { _ in
         }
     }
         
-    func reloadDecription() {
-        // Show program details
-        if self.program != nil {
-            if self.programInfoDirectory?.ProgramInfos[self.program!.ProgramId] != nil {
-                self.programInfo = self.programInfoDirectory?.ProgramInfos[self.program!.ProgramId]
-                self.programDescriptionText?.text = self.programInfo!.About
-                self.programDescriptionText?.setNeedsDisplay()
+    override func viewDidAppear(_ animated: Bool) {
+        self.reloadDescription()
+        super.viewDidAppear(animated)
+    }
+    
+    func reloadDescription() {
+        let programId = ((self.parent as? DetailViewController)?.card as! ProgramCard).programId
+        if programId != nil {
+            self.programDescriptionText?.text = "هنوز چیزی به ذهنمون نرسیده در مورد این برنامه بنویسیم!"
+            if self.programInfoDirectory?.ProgramInfos[programId!] != nil {
+                self.programDescriptionText?.text = self.programInfoDirectory?.ProgramInfos[programId!]?.About
             }
+            self.programDescriptionText?.setNeedsDisplay()
         }
     }
 }
@@ -51,7 +52,7 @@ class ProgramDetailsViewController : UIViewController {
 extension ProgramDetailsViewController : ModelCommunicator {
     func modelUpdated(data: Any?) {
         self.programInfoDirectory = data as? ProgramInfoDirectory
-        self.reloadDecription()
+        self.reloadDescription()
     }
     
     func hashCode() -> Int {

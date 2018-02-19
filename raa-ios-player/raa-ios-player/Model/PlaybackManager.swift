@@ -19,15 +19,17 @@ class PlaybackManager : UICommunicator<PlaybackState> {
     let audioSession = AVAudioSession.sharedInstance()
     var player: AVPlayer? = nil
     
-
     var playbackState: PlaybackState? = nil
     
     override init() {
         super.init()
-        
         playbackState = PlaybackState()
-        
+    }
+    
+    func initiate() {
         initAudioSession()
+
+        Context.Instance.liveBroadcastManager.registerEventListener(listenerObject: self)
     }
     
     private func initAudioSession() {
@@ -41,9 +43,9 @@ class PlaybackManager : UICommunicator<PlaybackState> {
 
     // Calls from item list controllers
     public func playLiveBroadcast() {
-
         os_log("Requested live playback", type: .default)
-
+        self.playbackState?.programType = .Live
+        
         let program = Context.Instance.liveBroadcastManager.liveLineupData.flattenLiveLineup?[Context.Instance.liveBroadcastManager.getMostRecentProgramIndex()!]
         if program != nil {
             self.play(programId: (program?.ProgramId)!, title: (program?.Title)!, subtitle: (program?.Subtitle)!, mediaPath: PlaybackManager.LIVE_STREAM_URL)
@@ -51,8 +53,9 @@ class PlaybackManager : UICommunicator<PlaybackState> {
         }
     }
 
-    public func playFeed(_ feedEntryId: String) {
+    public func playPublicFeed(_ feedEntryId: String) {
         os_log("Requested playback of %@", type: .default, feedEntryId)
+        self.playbackState?.programType = .PublicFeed
         
         let publicFeedEntry = Context.Instance.feedManager.lookupPublicFeedEntry(feedEntryId)
         if publicFeedEntry != nil {
@@ -70,6 +73,26 @@ class PlaybackManager : UICommunicator<PlaybackState> {
         os_log("This is a bug, we have an entry that is neither personal or public", type: .error)
     }
     
+    public func playPersonalFeed(_ feedEntryId: String) {
+        os_log("Requested playback of %@", type: .default, feedEntryId)
+        self.playbackState?.programType = .PublicFeed
+        
+        let publicFeedEntry = Context.Instance.feedManager.lookupPublicFeedEntry(feedEntryId)
+        if publicFeedEntry != nil {
+            self.play(programId: (publicFeedEntry!.ProgramObject?.ProgramId)!, title: publicFeedEntry!.ProgramObject?.Title, subtitle: publicFeedEntry!.ProgramObject?.Subtitle, mediaPath: (publicFeedEntry!.ProgramObject?.Show?.Clips?[0].Media?.Path)!)
+            return
+        } else {
+            let personalFeedEntry = Context.Instance.feedManager.lookupPersonalFeedEntry(feedEntryId)
+            if personalFeedEntry != nil {
+                self.play(programId: (personalFeedEntry!.ProgramObject?.ProgramId)!, title: personalFeedEntry!.ProgramObject?.Title, subtitle: personalFeedEntry!.ProgramObject?.Subtitle, mediaPath: (personalFeedEntry!.ProgramObject?.Show?.Clips?[0].Media?.Path)!)
+                return
+            }
+        }
+        
+        // We should never come here
+        os_log("This is a bug, we have an entry that is neither personal or public", type: .error)
+    }
+    
     private func play(programId id: String, title: String?, subtitle: String?, mediaPath: String) {
         self.playbackState?.enable = true
         self.playbackState?.playing = true
@@ -80,7 +103,10 @@ class PlaybackManager : UICommunicator<PlaybackState> {
         
         self.playbackState?.itemThumbnail = UIImage(data: entryProgramInfo?.thumbnailImageData ?? ProgramInfo.defaultThumbnailImageData)
         
-        doPlay(mediaPath)
+        // Otherwise do not bother!
+        if (self.playbackState?.mediaPath != mediaPath) {
+            doPlay(mediaPath)
+        }
         
         self.notifyModelUpdate(data: self.playbackState!)
     }
@@ -108,6 +134,13 @@ class PlaybackManager : UICommunicator<PlaybackState> {
         self.notifyModelUpdate(data: self.playbackState!)
     }
     
+    public func stop() {
+        self.playbackState?.playing = false
+        self.playbackState?.enable = false
+        self.doStop()
+        self.notifyModelUpdate(data: self.playbackState!)
+    }
+    
 
     // Private methods
     private func doPlay(_ mediaPath: String) {
@@ -124,14 +157,21 @@ class PlaybackManager : UICommunicator<PlaybackState> {
     
     private func doPause() {
         if self.player != nil {
-            player?.pause()
+            self.player?.pause()
         }
     }
     
     private func doResume() {
         if self.player != nil {
-            player?.rate = 1
+            self.player?.rate = 1
         }
+    }
+    
+    private func doStop() {
+        if self.player != nil {
+            self.player!.pause()
+        }
+        self.player = nil
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -150,13 +190,37 @@ class PlaybackManager : UICommunicator<PlaybackState> {
     }
 }
 
+// Live lineup change listeners
+extension PlaybackManager: ModelCommunicator {
+    func modelUpdated(data: Any?) {
+        if (self.playbackState?.programType == .Live && (self.playbackState?.enable)!) {
+            let updatedLiveData = data as? LiveLineupData
+            if (updatedLiveData?.liveBroadcastStatus?.StartedProgramTitle != self.playbackState?.itemTitle) {
+                // Update view.
+                self.playLiveBroadcast()
+            } else if (updatedLiveData?.liveBroadcastStatus?.IsCurrentlyPlaying == false) {
+                self.pause()
+            }
+        }
+    }
+    
+    func hashCode() -> Int {
+        return ObjectIdentifier(self).hashValue
+    }
+}
+
 struct PlaybackState {
     var enable = false
+    var programType: PlaybackProgramType?
+    var mediaPath: String?
     var playing = false
     var itemThumbnail: UIImage?
     var itemTitle: String?
     var itemSubtitle: String?
+
+    enum PlaybackProgramType {
+        case Live
+        case PublicFeed
+        case PersonalFeed
+    }
 }
-
-
-

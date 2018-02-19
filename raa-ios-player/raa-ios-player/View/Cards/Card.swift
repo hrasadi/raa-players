@@ -92,6 +92,8 @@ import UIKit
             if backgroundColor != UIColor.clear { backgroundColor = UIColor.clear }
         }
     }
+    
+    var contentViewController: UIViewController?
     /**
      contentViewController  -> The view controller to present when the card is tapped
      from                   -> Your current ViewController (self)
@@ -99,8 +101,9 @@ import UIKit
     public func shouldPresent( _ contentViewController: UIViewController?, from superVC: UIViewController?, fullscreen: Bool = false) {
         if let content = contentViewController {
             self.superVC = superVC
-            detailVC.addChildViewController(content)
-            detailVC.detailView = content.view
+            //detailVC.addChildViewController(content)
+            self.contentViewController = content
+            //detailVC.detailView = content.view
             detailVC.card = self
             detailVC.delegate = self.delegate
             detailVC.isFullscreen = fullscreen
@@ -242,6 +245,11 @@ import UIKit
         self.delegate?.cardDidTapInside?(card: self)
         
         if let vc = superVC {
+            // Add child VC
+            if self.contentViewController != nil {
+                self.detailVC.addChildViewController(self.contentViewController!)
+                self.detailVC.detailView = self.contentViewController?.view
+            }
             vc.present(self.detailVC, animated: true, completion: nil)
         } else {
             resetAnimated()

@@ -25,7 +25,9 @@ class FeedViewController : UIViewController {
     private static let PUBLIC_FEED_SECTION = 1
 
     private var feedData: FeedData?
-    
+
+    private var programDetailsViewController: ProgramDetailsViewController?
+
     struct Defaults {
         public static let CELL_HEIGHT: CGFloat = 150
     }
@@ -37,6 +39,8 @@ class FeedViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad();
 
+        self.programDetailsViewController = storyboard?.instantiateViewController(withIdentifier: "ProgramContent") as? ProgramDetailsViewController
+
         // Do this syncronously as the data is already here
         self.feedData = try! hang(Context.Instance.feedManager.pullData())
         Context.Instance.feedManager.registerEventListener(listenerObject: self)
@@ -45,18 +49,32 @@ class FeedViewController : UIViewController {
         self.feedTableView?.delegate = self
         self.feedTableView?.reloadData()
     }
-}
 
-extension FeedViewController : FeedEntryCardDelegate {
-    func onPlayButtonClicked(_ requestedFeedEntryId: String) {
-        Context.Instance.playbackManager.playFeed(requestedFeedEntryId)
+    private var personalFeedDelegate = PersonalFeedDelegate()
+    private var publicFeedDelegate = PublicFeedDelegate()
+    
+    class PersonalFeedDelegate : FeedEntryCardDelegate {
+        func onPlayButtonClicked(_ requestedFeedEntryId: String) {
+            Context.Instance.playbackManager.playPersonalFeed(requestedFeedEntryId)
+        }
+    }
+    class PublicFeedDelegate : FeedEntryCardDelegate {
+        func onPlayButtonClicked(_ requestedFeedEntryId: String) {
+            Context.Instance.playbackManager.playPublicFeed(requestedFeedEntryId)
+        }
     }
 }
 
 extension FeedViewController : ModelCommunicator {
     func modelUpdated(data: Any?) {
-        self.feedData = data as? FeedData
-        feedTableView?.reloadData()
+        // This is an approximation. We should compare deeply for changes but it will need extra boiler plate.
+        // We may file a bug later on this.
+        if (data as? FeedData)?.personalFeed?.count != self.feedData?.personalFeed?.count ||
+            (data as? FeedData)?.publicFeed?.count != self.feedData?.publicFeed?.count {
+
+            self.feedData = data as? FeedData
+            feedTableView?.reloadData()
+        }
     }
     
     func hashCode() -> Int {
@@ -94,7 +112,7 @@ extension FeedViewController : UITableViewDataSource, UITableViewDelegate {
             }
         } else if section == FeedViewController.PERSONAL_FEED_SECTION {
             if self.feedData?.personalFeed == nil || self.feedData?.personalFeed?.count == 0 {
-                return "فعلا برنامه‌ای اینجا نیست"
+                return !Context.Instance.isFirstExecution ? "فعلا برنامه‌ای اینجا نیست" : "رسیدن بخیر! کمی زمان لازمه تا رادیو زمان‌بندی شما رو یاد بگیره!"
             }
         }
         return nil
@@ -138,9 +156,8 @@ extension FeedViewController : UITableViewDataSource, UITableViewDelegate {
         let feedEntry = self.feedData?.personalFeed?[indexPath.row]
         let entryProgramInfo = Context.Instance.programInfoDirectoryManager.programInfoDirectory?.ProgramInfos[(feedEntry?.ProgramObject?.ProgramId)!]
         
-        let programDetails = storyboard?.instantiateViewController(withIdentifier: "ProgramContent") as! ProgramDetailsViewController
-        programDetails.program = feedEntry?.ProgramObject
-        cell.card?.shouldPresent(programDetails, from: self)
+        cell.card?.programId = feedEntry?.ProgramObject?.ProgramId
+        cell.card?.shouldPresent(self.programDetailsViewController, from: self)
         
         cell.card?.feedEntryId = feedEntry?.Id
         
@@ -167,7 +184,7 @@ extension FeedViewController : UITableViewDataSource, UITableViewDelegate {
         
         cell.card?.setNeedsDisplay()
         
-        cell.card?.feedDelegate = self
+        cell.card?.feedDelegate = self.personalFeedDelegate
         
         return cell
     }
@@ -183,9 +200,8 @@ extension FeedViewController : UITableViewDataSource, UITableViewDelegate {
         let feedEntry = self.feedData?.publicFeed?[indexPath.row]
         let entryProgramInfo = Context.Instance.programInfoDirectoryManager.programInfoDirectory?.ProgramInfos[(feedEntry?.ProgramObject?.ProgramId)!]
         
-        let programDetails = storyboard?.instantiateViewController(withIdentifier: "ProgramContent") as! ProgramDetailsViewController
-        programDetails.program = feedEntry?.ProgramObject
-        cell.card?.shouldPresent(programDetails, from: self)
+        cell.card?.programId = feedEntry?.ProgramObject?.ProgramId
+        cell.card?.shouldPresent(self.programDetailsViewController, from: self)
         
         cell.card?.feedEntryId = feedEntry?.Id
         
@@ -212,7 +228,7 @@ extension FeedViewController : UITableViewDataSource, UITableViewDelegate {
         
         cell.card?.setNeedsDisplay()
         
-        cell.card?.feedDelegate = self
+        cell.card?.feedDelegate = self.publicFeedDelegate
         
         return cell
     }

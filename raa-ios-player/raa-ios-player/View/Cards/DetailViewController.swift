@@ -38,12 +38,6 @@ internal class DetailViewController: UIViewController {
         self.view.addSubview(blurView)
         self.view.addSubview(scrollView)
         
-        if let detail = detailView {
-            
-            scrollView.addSubview(detail)
-            detail.alpha = 0
-            detail.autoresizingMask = .flexibleWidth
-        }
         
         blurView.frame = self.view.bounds
         
@@ -79,7 +73,9 @@ internal class DetailViewController: UIViewController {
         view.insertSubview(snap, belowSubview: blurView)
         
         if let detail = detailView {
-            
+
+            scrollView.addSubview(detail)
+            detail.autoresizingMask = .flexibleWidth
             detail.alpha = 1
             detail.frame = CGRect(x: 0,
                                   y: card.backgroundIV.bounds.maxY,
@@ -103,7 +99,7 @@ internal class DetailViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         self.delegate?.cardWillCloseDetailView?(card: self.card)
-        detailView?.alpha = 0
+        detailView?.removeFromSuperview()
         snap.removeFromSuperview()
         xButton.removeFromSuperview()
     }

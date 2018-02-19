@@ -36,19 +36,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "ProgramCard.layout(animating:):ProgramCard.swift">
+         contextName = "closure #2 in UserManager.initiate():UserManager.swift">
          <PersistentStrings>
             <PersistentString
-               value = "programTitleLbl.sizeThatFits(CGSize(width: gimme.X(70) - 30, height: 20))">
-            </PersistentString>
-            <PersistentString
-               value = "programSubtitleLbl.frame.size">
-            </PersistentString>
-            <PersistentString
-               value = "CGSize(width: gimme.X(70) - 30, height: 20)">
-            </PersistentString>
-            <PersistentString
-               value = "programTitleLbl.frame.origin">
+               value = "result[0] == Result&lt;Bool&gt;.fulfilled(true)">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -56,18 +47,10 @@
          contextName = "LiveBroadcastViewController.updateTablePlayableStates():LiveBroadcastViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "newActionableCellIndex">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "LiveBroadcastViewController.initiateCountdownIfNeeded():LiveBroadcastViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "Date()">
+               value = "Context.Instance.liveBroadcastManager">
             </PersistentString>
             <PersistentString
-               value = "Context.Instance.liveBroadcastManager?.liveLineupData.flattenLiveLineup![(self.currentActionableCellIndexPath)!.row + 1]">
+               value = "currentActionableCellIndexPath">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -86,18 +69,7 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "UserManager.registerDevice():UserManager.swift">
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in LiveBroadcastViewController.initiateCountdownIfNeeded():LiveBroadcastViewController.swift">
-      </ContextState>
-      <ContextState
          contextName = "LiveBroadcastViewController.viewDidLoad():LiveBroadcastViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "UIScreen.main.bounds.center">
-            </PersistentString>
-         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "FeedViewController.init(coder:):FeedViewController.swift">
@@ -124,6 +96,23 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "ProgramCard.layout(animating:):ProgramCard.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "programTitleLbl.sizeThatFits(CGSize(width: gimme.X(70) - 30, height: 20))">
+            </PersistentString>
+            <PersistentString
+               value = "programSubtitleLbl.frame.size">
+            </PersistentString>
+            <PersistentString
+               value = "CGSize(width: gimme.X(70) - 30, height: 20)">
+            </PersistentString>
+            <PersistentString
+               value = "programTitleLbl.frame.origin">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "PlayerViewController.updatePlayerView():PlayerViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -133,9 +122,6 @@
                value = "Context.Instance.feedManager.pullData()">
             </PersistentString>
          </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in UserManager.initiate():UserManager.swift">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

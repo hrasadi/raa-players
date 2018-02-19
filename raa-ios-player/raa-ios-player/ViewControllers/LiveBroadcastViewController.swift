@@ -26,7 +26,9 @@ class LiveBroadcastViewController : UIViewController {
     var playbackCountdown: Timer? = nil
     var currentActionableCellIndexPath: IndexPath? = nil
     var currentNextInLineCountdownValue: String? = nil
-        
+
+    private var programDetailsViewController: ProgramDetailsViewController?
+
     struct Defaults {
         public static let CELL_HEIGHT: CGFloat = 150
     }
@@ -36,6 +38,10 @@ class LiveBroadcastViewController : UIViewController {
     }
     
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.programDetailsViewController = storyboard?.instantiateViewController(withIdentifier: "ProgramContent") as? ProgramDetailsViewController
+        
         self.liveBroadcastProgramCardTableView?.dataSource = self
         self.liveBroadcastProgramCardTableView?.delegate = self
 
@@ -79,14 +85,25 @@ class LiveBroadcastViewController : UIViewController {
         
         let newActionableCellIndex = (Context.Instance.liveBroadcastManager.liveLineupData.liveBroadcastStatus?.IsCurrentlyPlaying!)! ? Context.Instance.liveBroadcastManager.getMostRecentProgramIndex()! : Context.Instance.liveBroadcastManager.getMostRecentProgramIndex()! + 1
 
+        var oldActionableCell: LiveBroadcastProgramCardTableViewCell? = nil
         if (currentActionableCellIndexPath?.row != newActionableCellIndex) {
             // Deregister old cell
+            if currentActionableCellIndexPath != nil {
+                oldActionableCell = self.liveBroadcastProgramCardTableView?.cellForRow(at: currentActionableCellIndexPath!) as? LiveBroadcastProgramCardTableViewCell
+            }
             // Prepare for reassignment
             self.currentActionableCellIndexPath = nil
         }
         
         if (currentActionableCellIndexPath == nil) {
-            currentActionableCellIndexPath = IndexPath(row: newActionableCellIndex, section: 0)
+            self.currentActionableCellIndexPath = IndexPath(row: newActionableCellIndex, section: 0)
+        }
+        
+        // Grayout the old cell
+        if oldActionableCell != nil {
+            oldActionableCell?.card?.liveBroadcastPlayableState = .NotPlayable
+            oldActionableCell?.card?.disable()
+            oldActionableCell?.card?.setNeedsDisplay()
         }
         
         initiateCountdownIfNeeded()
@@ -110,6 +127,8 @@ class LiveBroadcastViewController : UIViewController {
         } else {
             cell.card?.liveBroadcastPlayableState = .NotPlayable
         }
+        
+        cell.card?.setNeedsDisplay()
     }
     
     func initiateCountdownIfNeeded() {
@@ -118,9 +137,15 @@ class LiveBroadcastViewController : UIViewController {
                 
                 let targetDate = Formatter.iso8601.date(from: targetDateString)!
                 var counter = Int(targetDate.timeIntervalSince(Date()))
-                // Start time is in the past? This should not happen (unless there is something wrong with server. However, we should not show a negative counter. Stick with 'Soon..' label.
+                // Start time is in the past? This should not happen (unless there is something wrong with server. However, we should not show a negative counter. Allow users to play stream
                 if (counter <= 0) {
                     return
+                }
+                
+                if (self.playbackCountdown != nil) {
+                    // invalidate old timers
+                    self.playbackCountdown?.invalidate()
+                    self.playbackCountdown = nil
                 }
                 
                 self.playbackCountdown = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
@@ -131,8 +156,9 @@ class LiveBroadcastViewController : UIViewController {
                         self.playbackCountdown!.invalidate()
                         self.playbackCountdown = nil
                         
-                        // display 'Soon...'
-                        cell?.card?.nextInLineCountdownValue = nil
+                        // Move card to 'Playable' State
+                        cell?.card?.liveBroadcastPlayableState = .Playable
+                        cell?.card?.setNeedsDisplay()
                         self.currentNextInLineCountdownValue = nil
                     } else {
                         var playbackCountdownString = ""
@@ -159,11 +185,20 @@ class LiveBroadcastViewController : UIViewController {
 
 extension LiveBroadcastViewController : ModelCommunicator {
     func modelUpdated(data: Any?) {
-        self.liveLineupData = data as? LiveLineupData
-        self.liveBroadcastProgramCardTableView?.reloadData()
-        self.scrollToCurrentProgram()
-        self.updateTablePlayableStates() // Change cards state
+        let needCompleteReload = (data as? LiveLineupData)?.flattenLiveLineup![0].CanonicalIdPath != self.liveLineupData?.flattenLiveLineup![0].CanonicalIdPath
+        let needStatusUpdate = (data as? LiveLineupData)?.liveBroadcastStatus?.IsCurrentlyPlaying != self.liveLineupData?.liveBroadcastStatus?.IsCurrentlyPlaying || (data as? LiveLineupData)?.liveBroadcastStatus?.MostRecentProgram != self.liveLineupData?.liveBroadcastStatus?.MostRecentProgram
 
+        self.liveLineupData = data as? LiveLineupData
+        
+        // Reload the whole table only of the lineup is completely updated
+        // (e.g. date passed)
+        if (needCompleteReload) {
+            self.liveBroadcastProgramCardTableView?.reloadData()
+            self.scrollToCurrentProgram()
+        }
+        if needStatusUpdate {
+            self.updateTablePlayableStates() // Change cards state
+        }
     }
     
     func hashCode() -> Int {
@@ -197,9 +232,8 @@ extension LiveBroadcastViewController : UITableViewDelegate, UITableViewDataSour
         let program = liveLineupData?.flattenLiveLineup?[indexPath.row]
         let programInfo = Context.Instance.programInfoDirectoryManager.programInfoDirectory?.ProgramInfos[(program?.ProgramId)!]
 
-        let programDetails = storyboard?.instantiateViewController(withIdentifier: "ProgramContent") as! ProgramDetailsViewController
-        programDetails.program = program
-        cell.card?.shouldPresent(programDetails, from: self)
+        cell.card?.programId = program?.ProgramId
+        cell.card?.shouldPresent(self.programDetailsViewController, from: self)
 
         cell.card?.programTitle = (program?.Title) ?? ""
         cell.card?.programSubtitle = (program?.Subtitle) ?? ""

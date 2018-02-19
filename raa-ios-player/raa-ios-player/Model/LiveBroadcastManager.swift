@@ -19,11 +19,17 @@ class LiveBroadcastManager : UICommunicator<LiveLineupData> {
     public var liveLineupData = LiveLineupData()
     private var liveLineupDataResolver: Resolver<LiveLineupData>?
     
+    private var lineupBroadcastStatusRefreshTimer: Timer?
+    private var liveLineupRefreshTimer: Timer?
+
     func initiate() {
         firstly {
             when(resolved: self.loadLiveLineup(), self.loadBroadcastStatus())
         }.done { _ in
             self.liveLineupDataResolver?.resolve(self.liveLineupData, nil)
+            self.liveLineupDataResolver = nil
+            
+            self.initiateRefereshTimers()
         }.catch { error in
             os_log("Error while downloading live lineup, error is %@", type: .error, error.localizedDescription)
             self.liveLineupDataResolver?.reject(error)
@@ -84,6 +90,29 @@ class LiveBroadcastManager : UICommunicator<LiveLineupData> {
             }
         }
         return false
+    }
+    
+    func initiateRefereshTimers() {
+        // Every 20 seconds
+        self.lineupBroadcastStatusRefreshTimer = Timer.scheduledTimer(withTimeInterval: 20, repeats: true) { _ in
+            firstly {
+                self.loadBroadcastStatus()
+            }.done { _ in
+                self.notifyModelUpdate(data: self.liveLineupData)
+            }.catch({ error in
+                os_log("Error while reloading live broadcast status %@", type:.error, error.localizedDescription)
+            })
+        }
+        // Every 2 hours
+        self.liveLineupRefreshTimer = Timer.scheduledTimer(withTimeInterval: 7200, repeats: true) { _ in
+            firstly {
+                self.loadLiveLineup()
+            }.done { _ in
+                self.notifyModelUpdate(data: self.liveLineupData)
+            }.catch({ error in
+                os_log("Error while reloading live lineup %@", type:.error, error.localizedDescription)
+            })
+        }
     }
     
     override func pullData() -> Promise<LiveLineupData> {

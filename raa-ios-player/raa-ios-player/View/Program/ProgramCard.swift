@@ -11,6 +11,9 @@ import UIKit
 
 @IBDesignable
 class ProgramCard : Card {
+    
+    var programId: String?
+    
     var blurV = UIVisualEffectView()
     var vibrancyV = UIVisualEffectView()
 

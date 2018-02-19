@@ -21,6 +21,9 @@ class FeedManager : UICommunicator<FeedData> {
     
     private var isLoading = false
     
+    private var publicFeedRefreshTimer: Timer?
+    private var personalFeedRefreshTimer: Timer?
+
     func initiate() {
         self.isLoading = true
 
@@ -29,9 +32,13 @@ class FeedManager : UICommunicator<FeedData> {
         }.done { _ -> Void in
             self.isLoading = false
             self.feedDataResolver?.resolve(self.feedData, nil)
+            self.feedDataResolver = nil
+            
+            self.initiateRefereshTimers()
         }.catch { error in
             os_log("Error while downloading feeds, error is %@", type: .error, error.localizedDescription)
             self.feedDataResolver?.reject(error)
+            self.feedDataResolver = nil
         }
     }
     
@@ -105,6 +112,28 @@ class FeedManager : UICommunicator<FeedData> {
         return nil
     }
 
+    func initiateRefereshTimers() {
+        // Every 5 minutes
+        self.publicFeedRefreshTimer = Timer.scheduledTimer(withTimeInterval: 300, repeats: true) { _ in
+            firstly {
+                self.loadPublicFeed()
+            }.done { _ in
+                self.notifyModelUpdate(data: self.feedData)
+            }.catch({ error in
+                os_log("Error while reloading public feed status %@", type:.error, error.localizedDescription)
+            })
+        }
+        // Every minute
+        self.publicFeedRefreshTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
+            firstly {
+                self.loadPersonalFeed()
+            }.done { _ in
+                self.notifyModelUpdate(data: self.feedData)
+            }.catch({ error in
+                os_log("Error while reloading personal feed status %@", type:.error, error.localizedDescription)
+            })
+        }
+    }
     override func pullData() -> Promise<FeedData> {
         return Promise { seal in
             if !self.isLoading {

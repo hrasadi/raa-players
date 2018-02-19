@@ -66,6 +66,9 @@ class UserManager {
     
     private func loadUser() {
         if Context.Instance.settings.object(forKey: PropertyKey.user) == nil {
+            // This is first time we are up!
+            Context.Instance.isFirstExecution = true
+            
             self.user = User()
             // This is the unique device id we register in server (a generated UUID string)
             self.user.Id = UUID().uuidString

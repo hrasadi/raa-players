@@ -33,10 +33,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Resolve the registeration promise
         let shouldReregister = previousNotificationToken != Context.Instance.userManager.user.NotificationToken
         Context.Instance.userManager.notificationManager.requestNotificationAuthorizationPromiseResolver?.resolve(shouldReregister, nil as Error?)
+        Context.Instance.userManager.notificationManager.requestNotificationAuthorizationPromiseResolver = nil
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        Context.Instance.userManager.notificationManager.requestNotificationAuthorizationPromiseResolver?.resolve(false, error)        
+        Context.Instance.userManager.notificationManager.requestNotificationAuthorizationPromiseResolver?.resolve(false, error)
+        Context.Instance.userManager.notificationManager.requestNotificationAuthorizationPromiseResolver = nil
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
