@@ -61,12 +61,7 @@ import UIKit
     /**
      The image to display in the background.
      */
-    @IBInspectable public var backgroundImage: UIImage? {
-        didSet{
-            // Make room for the new image
-            self.backgroundImageView.removeFromSuperview()
-        }
-    }
+    @IBInspectable public var backgroundImage: UIImage?
     /**
      Corner radius of the card.
      */
@@ -149,7 +144,7 @@ import UIKit
         super.init(coder: aDecoder)
         initialize()
     }
-    
+        
     func initialize() {
         // Tap gesture init
         self.addGestureRecognizer(tap)
@@ -187,10 +182,11 @@ import UIKit
         self.layer.cornerRadius = cardRadius
 
         // Remove everything first
-        backgroundImageView = UIImageView(frame: originalFrame)
-        backgroundImageView.image = backgroundImage
+        backgroundImageView.removeFromSuperview();
+        backgroundImageView = UIImageView(image: backgroundImage)
+        //backgroundImageView.image = backgroundImage
         backgroundImageView.alpha = 0.7
-        backgroundImageView.contentMode = .scaleAspectFit
+        //backgroundImageView.contentMode = .scaleAspectFill
         
         backgroundIV.addSubview(backgroundImageView)
         backgroundIV.sendSubview(toBack: backgroundImageView)
@@ -216,21 +212,22 @@ import UIKit
     func layout(animating: Bool = true) {        
         let gimme = LayoutHelper(rect: backgroundIV.bounds)
 
-        let widthRatio = backgroundImageView.bounds.size.width / (backgroundImageView.image?.size.width)!
-        let heightRatio = backgroundImageView.bounds.size.height / (backgroundImageView.image?.size.height)!
-        let scale = min(widthRatio, heightRatio)
+        //let widthRatio = backgroundIV.bounds.size.width / (backgroundImageView.image?.size.width)!
+        let heightRatio = backgroundIV.bounds.size.height / (backgroundImageView.image?.size.height)!
+        let scale = heightRatio // Fit the height, I don't case about the height
+        // let scale = min(widthRatio, heightRatio)
         let imageWidth = scale * (backgroundImageView.image?.size.width)!
         let imageHeight = scale * (backgroundImageView.image?.size.height)!
-        backgroundImageView.frame = CGRect(x: 0, y: 0, width: imageWidth, height: imageHeight)
+        backgroundImageView.frame = CGRect(x: gimme.RevX(0, width: backgroundImageView.bounds.width), y: 0, width: imageWidth, height: min(imageHeight, backgroundIV.bounds.size.width))
         
-        backgroundImageView.frame.origin = CGPoint(x: gimme.RevX(0, width: backgroundImageView.bounds.width), y: 0)
+        backgroundImageView.setNeedsDisplay()
     }
     
     
     //MARK: - Actions
     
     func disable() {
-        backgroundIV.alpha = 0.1
+        backgroundIV.alpha = 0.4
         grayoutMask.isHidden = false
         tap.cancelsTouchesInView = true
     }

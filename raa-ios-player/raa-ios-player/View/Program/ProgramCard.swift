@@ -15,7 +15,6 @@ class ProgramCard : Card {
     var programId: String?
     
     var blurV = UIVisualEffectView()
-    var vibrancyV = UIVisualEffectView()
 
     private var programTitleLbl = UILabel()
     private var programSubtitleLbl = UILabel()
@@ -118,9 +117,7 @@ class ProgramCard : Card {
         backgroundIV.addSubview(programTitleLbl);
         backgroundIV.addSubview(programSubtitleLbl);
         
-        vibrancyV = UIVisualEffectView(effect: UIVibrancyEffect(blurEffect: UIBlurEffect(style: blurEffect)))
         backgroundIV.addSubview(blurV)
-        blurV.contentView.addSubview(vibrancyV)
         blurV.contentView.addSubview(timeTitle1Lbl)
         blurV.contentView.addSubview(timeTitle2Lbl)
         blurV.contentView.addSubview(timeValue1Lbl)
@@ -129,6 +126,13 @@ class ProgramCard : Card {
         self.actionBtn.addTarget(self, action: #selector(actionButtonTapped), for: UIControlEvents.touchUpInside)
         self.actionBtn.addTarget(self, action: #selector(actionButtonTouchDown), for: UIControlEvents.touchDown)
         backgroundIV.addSubview(actionBtn)
+    }
+    
+    // Handle orientation change (redraw the labels)
+    override func layoutSubviews() {
+        self.programTitleLbl.setNeedsDisplay()
+        self.programSubtitleLbl.setNeedsDisplay()
+        super.layoutSubviews()
     }
     
     override open func draw(_ rect: CGRect) {
@@ -148,7 +152,7 @@ class ProgramCard : Card {
         programSubtitleLbl.textColor = textColor
         programSubtitleLbl.font = UIFont.systemFont(ofSize: programSubtitleSize, weight: .light)
         programSubtitleLbl.adjustsFontSizeToFitWidth = true
-        programSubtitleLbl.minimumScaleFactor = 0.3
+        programSubtitleLbl.minimumScaleFactor = 0.5
         programSubtitleLbl.lineBreakMode = .byTruncatingTail
         programSubtitleLbl.textAlignment = .right
         programSubtitleLbl.numberOfLines = 2
@@ -246,8 +250,6 @@ class ProgramCard : Card {
                              y: 0,
                              width: gimme.X(30),
                              height: backgroundIV.bounds.height)
-        
-        vibrancyV.frame = blurV.frame
         
         let blurVGimme = LayoutHelper(rect: blurV.bounds)
 

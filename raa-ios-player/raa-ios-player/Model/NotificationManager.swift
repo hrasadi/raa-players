@@ -21,6 +21,8 @@ class NotificationManager : NSObject {
     
     public var requestNotificationAuthorizationPromiseResolver: Resolver<Bool>?
     
+    private var backgroundTask: UIBackgroundTaskIdentifier? = UIBackgroundTaskInvalid
+    
     override init() {
         super.init()
     }
@@ -30,12 +32,23 @@ class NotificationManager : NSObject {
         let listenAction = UNNotificationAction(identifier: "LISTEN_ACTION",
                                                 title: "گوش می‌دهم",
                                                 options: UNNotificationActionOptions(rawValue: 0))
-        let generalCategory = UNNotificationCategory(identifier: "media.raa.general",
+        let liveCategory = UNNotificationCategory(identifier: "media.raa.Live",
                                                      actions: [listenAction],
                                                      intentIdentifiers: [],
                                                      options: .customDismissAction)
+
+        let publicCategory = UNNotificationCategory(identifier: "media.raa.Public",
+                                                  actions: [],
+                                                  intentIdentifiers: [],
+                                                  options: .customDismissAction)
+
+        let personalCategory = UNNotificationCategory(identifier: "media.raa.Personal",
+                                                        actions: [],
+                                                        intentIdentifiers: [],
+                                                        options: .customDismissAction)
+
         // Register the notification category
-        notificationCenter.setNotificationCategories([generalCategory])
+        notificationCenter.setNotificationCategories([liveCategory, publicCategory, personalCategory])
         
         notificationCenter.delegate = self
     }
@@ -70,23 +83,25 @@ extension NotificationManager: UNUserNotificationCenterDelegate {
         
         switch actionIdentifier {
         case "LISTEN_ACTION":
-//            Settings.backgroundTask = UIApplication.shared.beginBackgroundTask(withName: "RaaNotificationDelegateBackgroundTask") {
-//                // When the task is about to terminate, we should hand resources back
-//                UIApplication.shared.endBackgroundTask(Settings.backgroundTask)
-//                Settings.backgroundTask = UIBackgroundTaskInvalid;
-//            }
-//            do {
-//                Settings.getPlaybackManager().loadStatus()
-//                try Settings.getPlaybackManager().audioSession.setActive(true)
-//                Settings.getPlaybackManager().play()
-//            } catch let e {
-//                NSLog("Error happened while starting playback: " + e.localizedDescription)
-//            }
+            UIApplication.shared.beginBackgroundTask() {
+                // When the task is about to terminate, we should hand resources back
+                do {
+                    try Context.Instance.playbackManager.audioSession.setActive(true)
+                } catch {
+                    os_log("Error while deactivating audio session")
+                }
+            }
+
+            do {
+                try Context.Instance.playbackManager.audioSession.setActive(true)
+                Context.Instance.playbackManager.playLiveBroadcast()
+            } catch let e {
+                os_log("Error happened while starting playback: %@", type:.error, e.localizedDescription)
+            }
             break
         default:
             break
         }
-        
         completionHandler()
     }
 }

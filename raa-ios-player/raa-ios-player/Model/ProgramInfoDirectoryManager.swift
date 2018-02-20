@@ -12,13 +12,13 @@ import PromiseKit
 import UIKit
 
 class ProgramInfoDirectoryManager : UICommunicator<ProgramInfoDirectory> {
-    static let PINFO_DIR_ENDPOINT = Context.API_URL_PREFIX + "/programInfoDirectory"
-
     private var jsonDecoder = JSONDecoder()
     private var programInfoResolver: Resolver<ProgramInfoDirectory>?
     
     public var programInfoDirectory: ProgramInfoDirectory?
     
+    private var isLoading = false
+
     override init() {
         super.init()
     }
@@ -29,22 +29,46 @@ class ProgramInfoDirectoryManager : UICommunicator<ProgramInfoDirectory> {
 
     // Load feed from server
     func loadProgramInfoDirectory() {
+        self.isLoading = true
+        
         firstly {
-            URLSession.shared.dataTask(.promise, with: URL(string: ProgramInfoDirectoryManager.PINFO_DIR_ENDPOINT)!)
-        }.done { data, respose in
-            os_log("Fetched ProgramInfo directory from server.", type: .default)
-            self.programInfoDirectory = try! self.jsonDecoder.decode(ProgramInfoDirectory.self, from: data)
-            if (self.programInfoResolver != nil) {
-                self.programInfoResolver?.resolve(self.programInfoDirectory, nil)
-                self.programInfoResolver = nil
-            }
-            self.notifyModelUpdate(data: self.programInfoDirectory!)
+            when(resolved: self.loadProgramInfo(), self.loadArchiveDirectory())
+        }.done { _ -> Void in
+            self.isLoading = false
+            self.programInfoResolver?.resolve(self.programInfoDirectory, nil)
+            self.programInfoResolver = nil
         }.catch { error in
+            self.isLoading = false
+            
             os_log("Error while loading program info directory: %@", type: .error, error.localizedDescription)
-            if (self.programInfoResolver != nil) {
-                self.programInfoResolver?.reject(error)
-                self.programInfoResolver = nil
+            self.programInfoResolver?.reject(error)
+            self.programInfoResolver = nil
+        }
+    }
+    
+    func loadProgramInfo() -> Promise<Bool> {
+        let PINFO_DIR_ENDPOINT = Context.API_URL_PREFIX + "/programInfoDirectory"
+
+        return
+            firstly {
+                URLSession.shared.dataTask(.promise, with: URL(string: PINFO_DIR_ENDPOINT)!)
+            }.flatMap{ data, response in
+                os_log("Fetched ProgramInfo directory from server.", type: .default)
+                self.programInfoDirectory = try! self.jsonDecoder.decode(ProgramInfoDirectory.self, from: data)
+                return true
             }
+    }
+
+    func loadArchiveDirectory() -> Promise<Bool> {
+        let ARCHIVE_DIR_ENDPOINT = Context.ARCHIVE_URL_PREFIX + "/raa1-archive.json"
+
+        return
+            firstly {
+                URLSession.shared.dataTask(.promise, with: URL(string: ARCHIVE_DIR_ENDPOINT)!)
+            }.flatMap{ data, response in
+                os_log("Fetched Archive directory from server.", type: .default)
+                self.programInfoDirectory?.Archive = try! self.jsonDecoder.decode([String: String].self, from: data)
+                return true
         }
     }
     
@@ -77,7 +101,7 @@ class ProgramInfoDirectoryManager : UICommunicator<ProgramInfoDirectory> {
     
     override func pullData() -> Promise<ProgramInfoDirectory> {
         return Promise<ProgramInfoDirectory> { seal in
-            if (self.programInfoDirectory != nil) {
+            if !self.isLoading {
                 seal.resolve(self.programInfoDirectory, nil)
             } else {
                 // Someone else will resolve this

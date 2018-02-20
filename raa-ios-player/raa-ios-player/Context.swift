@@ -25,8 +25,10 @@ class Context {
     }
     
     public static let API_URL_PREFIX = "http://api.raa.media:7800"
-    public static let LIVE_INFO_URL_PREFIX = "https://raa.media/live"
     public static let LIVE_STREAM_URL_PREFIX = "https://stream.raa.media"
+    public static let ARCHIVE_URL_PREFIX = "https://raa.media/archive"
+    public static let RSS_URL_PREFIX = "https://raa.media/rss"
+    public static let LIVE_INFO_URL_PREFIX = "https://raa.media/live"
 
     public static func initiateManagers() {
         if instance == nil {

@@ -14,7 +14,7 @@ import UIKit
 
 class PlaybackManager : UICommunicator<PlaybackState> {
 
-    static let LIVE_STREAM_URL = Context.LIVE_STREAM_URL_PREFIX + "/raa1.ogg"
+    static let LIVE_STREAM_URL = Context.LIVE_STREAM_URL_PREFIX + "/raa1_new.ogg"
     
     let audioSession = AVAudioSession.sharedInstance()
     var player: AVPlayer? = nil
@@ -35,20 +35,24 @@ class PlaybackManager : UICommunicator<PlaybackState> {
     private func initAudioSession() {
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, with: [AVAudioSessionCategoryOptions.allowBluetooth, AVAudioSessionCategoryOptions.mixWithOthers, AVAudioSessionCategoryOptions.duckOthers])
-            //NotificationCenter.default.addObserver(self, selector: #selector(handleAVInterruption), name: .AVAudioSessionInterruption, object: nil)
+            
+            NotificationCenter.default.addObserver(self, selector: #selector(handleAVInterruption), name: .AVAudioSessionInterruption, object: nil)
+
+            NotificationCenter.default.addObserver(self, selector: #selector(handleMediaServiceReset), name: .AVAudioSessionMediaServicesWereReset, object: nil)
+
         } catch let e {
             print("Error while configuring AudioSession. Error is: " + e.localizedDescription)
         }
     }
 
     // Calls from item list controllers
-    public func playLiveBroadcast() {
+    public func playLiveBroadcast(_ forceRestartStream: Bool = false) {
         os_log("Requested live playback", type: .default)
         self.playbackState?.programType = .Live
         
         let program = Context.Instance.liveBroadcastManager.liveLineupData.flattenLiveLineup?[Context.Instance.liveBroadcastManager.getMostRecentProgramIndex()!]
         if program != nil {
-            self.play(programId: (program?.ProgramId)!, title: (program?.Title)!, subtitle: (program?.Subtitle)!, mediaPath: PlaybackManager.LIVE_STREAM_URL)
+            self.play(programId: (program?.ProgramId)!, title: (program?.Title)!, subtitle: (program?.Subtitle)!, mediaPath: PlaybackManager.LIVE_STREAM_URL, forceRestartStream: forceRestartStream)
             return
         }
     }
@@ -93,7 +97,7 @@ class PlaybackManager : UICommunicator<PlaybackState> {
         os_log("This is a bug, we have an entry that is neither personal or public", type: .error)
     }
     
-    private func play(programId id: String, title: String?, subtitle: String?, mediaPath: String) {
+    private func play(programId id: String, title: String?, subtitle: String?, mediaPath: String, forceRestartStream: Bool = true) {
         self.playbackState?.enable = true
         self.playbackState?.playing = true
         self.playbackState?.itemTitle = title
@@ -104,7 +108,7 @@ class PlaybackManager : UICommunicator<PlaybackState> {
         self.playbackState?.itemThumbnail = UIImage(data: entryProgramInfo?.thumbnailImageData ?? ProgramInfo.defaultThumbnailImageData)
         
         // Otherwise do not bother!
-        if (self.playbackState?.mediaPath != mediaPath) {
+        if (self.playbackState?.mediaPath != mediaPath || forceRestartStream) {
             doPlay(mediaPath)
         }
         
@@ -180,6 +184,38 @@ class PlaybackManager : UICommunicator<PlaybackState> {
                 player?.play()
                 player?.removeObserver(self, forKeyPath: "status")
             }
+        }
+    }
+    
+    @objc func handleAVInterruption(notification: Notification) {
+        guard let userInfo = notification.userInfo,
+            let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
+            let type = AVAudioSessionInterruptionType(rawValue: typeValue) else {
+                return
+        }
+        if type == .began {
+            // Interruption began, take appropriate actions
+            self.pause()
+        }
+        else if type == .ended {
+            if let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt {
+                let options = AVAudioSessionInterruptionOptions(rawValue: optionsValue)
+                if options.contains(.shouldResume) {
+                    self.resume()
+                } else {
+                    // Interruption Ended - playback should NOT resume
+                    self.stop()
+                }
+            }
+        }
+    }
+    
+    @objc func handleMediaServiceReset() {
+        // We restart our stream only if in live mode
+        // Later, we should think of adding support for feeds but this requires
+        // seeking to the position in the file when we left off
+        if self.playbackState?.programType == .Live {
+            self.playLiveBroadcast(true)
         }
     }
 

@@ -38,4 +38,5 @@ class ProgramInfo : Codable {
 
 class ProgramInfoDirectory : Codable {
     var ProgramInfos: [String: ProgramInfo] = [:]
+    var Archive: [String: String]?
 }

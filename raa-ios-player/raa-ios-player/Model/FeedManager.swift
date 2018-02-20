@@ -36,6 +36,8 @@ class FeedManager : UICommunicator<FeedData> {
             
             self.initiateRefereshTimers()
         }.catch { error in
+            self.isLoading = false
+            
             os_log("Error while downloading feeds, error is %@", type: .error, error.localizedDescription)
             self.feedDataResolver?.reject(error)
             self.feedDataResolver = nil
@@ -139,7 +141,6 @@ class FeedManager : UICommunicator<FeedData> {
             if !self.isLoading {
                 seal.resolve(self.feedData, nil)
             } else {
-                print("Not Resolved in place")
                 // This will be resolved later
                 self.feedDataResolver = seal
             }

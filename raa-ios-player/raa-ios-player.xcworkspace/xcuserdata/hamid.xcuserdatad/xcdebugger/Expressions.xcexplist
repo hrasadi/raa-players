@@ -3,10 +3,19 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "static Utils.getHourOfDayString(from:):Utils.swift">
+         contextName = "ProgramCard.layout(animating:):ProgramCard.swift">
          <PersistentStrings>
             <PersistentString
-               value = "hoursOnlyDateFormatter.dateFormat">
+               value = "programTitleLbl.sizeThatFits(CGSize(width: gimme.X(70) - 30, height: 20))">
+            </PersistentString>
+            <PersistentString
+               value = "programSubtitleLbl.frame.size">
+            </PersistentString>
+            <PersistentString
+               value = "CGSize(width: gimme.X(70) - 30, height: 20)">
+            </PersistentString>
+            <PersistentString
+               value = "programTitleLbl.bounds">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -22,16 +31,10 @@
          contextName = "Card.layout(animating:):Card.swift">
          <PersistentStrings>
             <PersistentString
-               value = "backgroundImageView.image?.preferredPresentationSizeForItemProvider">
+               value = "(backgroundImageView.image?.size.width)">
             </PersistentString>
             <PersistentString
-               value = "backgroundImageView.bounds">
-            </PersistentString>
-            <PersistentString
-               value = "backgroundImageView.image.preferredPresentationSizeForItemProvider">
-            </PersistentString>
-            <PersistentString
-               value = "backgroundImageView.image">
+               value = "self.backgroundImage.size">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -69,6 +72,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "closure #3 in LocationManager.locateDevice():LocationManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "Context.Instance.userManager.user">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "LiveBroadcastViewController.viewDidLoad():LiveBroadcastViewController.swift">
       </ContextState>
       <ContextState
@@ -96,23 +107,6 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "ProgramCard.layout(animating:):ProgramCard.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "programTitleLbl.sizeThatFits(CGSize(width: gimme.X(70) - 30, height: 20))">
-            </PersistentString>
-            <PersistentString
-               value = "programSubtitleLbl.frame.size">
-            </PersistentString>
-            <PersistentString
-               value = "CGSize(width: gimme.X(70) - 30, height: 20)">
-            </PersistentString>
-            <PersistentString
-               value = "programTitleLbl.frame.origin">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "PlayerViewController.updatePlayerView():PlayerViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -120,6 +114,14 @@
             </PersistentString>
             <PersistentString
                value = "Context.Instance.feedManager.pullData()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static Utils.getHourOfDayString(from:):Utils.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "hoursOnlyDateFormatter.dateFormat">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

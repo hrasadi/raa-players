@@ -201,32 +201,28 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="right" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4La-Mx-uor">
-                                <rect key="frame" x="5" y="30" width="365" height="627"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" editable="NO" textAlignment="right" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aiP-LD-vty">
+                                <rect key="frame" x="15" y="40" width="345" height="33"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <accessibilityTraits key="traits" notEnabled="YES"/>
-                                </accessibility>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="4La-Mx-uor" firstAttribute="top" secondItem="TN4-gd-xld" secondAttribute="top" constant="10" id="1du-Z6-1mZ"/>
-                            <constraint firstItem="4La-Mx-uor" firstAttribute="leading" secondItem="TN4-gd-xld" secondAttribute="leading" constant="5" id="6BY-KJ-HLi"/>
-                            <constraint firstItem="TN4-gd-xld" firstAttribute="bottom" secondItem="4La-Mx-uor" secondAttribute="bottom" constant="10" id="9sV-Q7-qJJ"/>
-                            <constraint firstItem="TN4-gd-xld" firstAttribute="trailing" secondItem="4La-Mx-uor" secondAttribute="trailing" constant="5" id="pMw-aP-m56"/>
+                            <constraint firstItem="aiP-LD-vty" firstAttribute="top" secondItem="TN4-gd-xld" secondAttribute="top" constant="20" id="Fhc-2C-865"/>
+                            <constraint firstItem="TN4-gd-xld" firstAttribute="trailing" secondItem="aiP-LD-vty" secondAttribute="trailing" constant="15" id="Kfd-4P-dtb"/>
+                            <constraint firstItem="aiP-LD-vty" firstAttribute="leading" secondItem="TN4-gd-xld" secondAttribute="leading" constant="15" id="oF6-i3-QTQ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="TN4-gd-xld"/>
                     </view>
                     <connections>
-                        <outlet property="programDescriptionText" destination="4La-Mx-uor" id="kQN-FB-PI2"/>
+                        <outlet property="programDescriptionText" destination="aiP-LD-vty" id="tEp-nk-XCM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ebZ-rd-ZJp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-817" y="-1"/>
+            <point key="canvasLocation" x="-820" y="-2.2488755622188905"/>
         </scene>
         <!--Main-->
         <scene sceneID="ig0-VE-hA1">

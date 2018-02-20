@@ -34,7 +34,6 @@ class ProgramDetailsViewController : UIViewController {
         
     override func viewDidAppear(_ animated: Bool) {
         self.reloadDescription()
-        super.viewDidAppear(animated)
     }
     
     func reloadDescription() {
@@ -43,8 +42,9 @@ class ProgramDetailsViewController : UIViewController {
             self.programDescriptionText?.text = "هنوز چیزی به ذهنمون نرسیده در مورد این برنامه بنویسیم!"
             if self.programInfoDirectory?.ProgramInfos[programId!] != nil {
                 self.programDescriptionText?.text = self.programInfoDirectory?.ProgramInfos[programId!]?.About
+                //programDescriptionText?.translatesAutoresizingMaskIntoConstraints = true
+                programDescriptionText?.sizeToFit()
             }
-            self.programDescriptionText?.setNeedsDisplay()
         }
     }
 }

@@ -29,6 +29,10 @@ class LiveBroadcastViewController : UIViewController {
 
     private var programDetailsViewController: ProgramDetailsViewController?
 
+    // Redraw the whole
+    private static let FULL_REDRAW_PERIOD: TimeInterval = 3600
+    private var lastFullRedrawnTimestamp: TimeInterval?
+    
     struct Defaults {
         public static let CELL_HEIGHT: CGFloat = 150
     }
@@ -40,11 +44,30 @@ class LiveBroadcastViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.fullRedraw()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        let currentDate = Date().timeIntervalSince1970
+
+        if self.lastFullRedrawnTimestamp != nil {
+            if currentDate - self.lastFullRedrawnTimestamp! > LiveBroadcastViewController.FULL_REDRAW_PERIOD {
+                self.fullRedraw()
+            }
+        }
+        
+        // Always referesh the countdown timer
+        self.initiateCountdownIfNeeded()
+    }
+    
+    private func fullRedraw() {
+        self.lastFullRedrawnTimestamp = Date().timeIntervalSince1970
+        
         self.programDetailsViewController = storyboard?.instantiateViewController(withIdentifier: "ProgramContent") as? ProgramDetailsViewController
         
         self.liveBroadcastProgramCardTableView?.dataSource = self
         self.liveBroadcastProgramCardTableView?.delegate = self
-
+        
         self.spinner.startAnimating()
         self.view.bringSubview(toFront: self.spinner)
         self.spinner.center = UIScreen.main.bounds.center
@@ -52,18 +75,18 @@ class LiveBroadcastViewController : UIViewController {
         
         firstly {
             Context.Instance.liveBroadcastManager.pullData()
-        }.done { liveLineupData in
-            self.liveLineupData = liveLineupData
-            
-            self.spinner.stopAnimating()
-            self.spinner.hidesWhenStopped = true
-            
-            self.liveBroadcastProgramCardTableView?.reloadData()
-            self.scrollToCurrentProgram()
-            self.updateTablePlayableStates() // Change cards state
-        }.ensure {
-            Context.Instance.liveBroadcastManager.registerEventListener(listenerObject: self)
-        }.catch {_ in
+            }.done { liveLineupData in
+                self.liveLineupData = liveLineupData
+                
+                self.spinner.stopAnimating()
+                self.spinner.hidesWhenStopped = true
+                
+                self.liveBroadcastProgramCardTableView?.reloadData()
+                self.scrollToCurrentProgram()
+                self.updateTablePlayableStates() // Change cards state
+            }.ensure {
+                Context.Instance.liveBroadcastManager.registerEventListener(listenerObject: self)
+            }.catch {_ in
         }
     }
     
@@ -85,12 +108,10 @@ class LiveBroadcastViewController : UIViewController {
         
         let newActionableCellIndex = (Context.Instance.liveBroadcastManager.liveLineupData.liveBroadcastStatus?.IsCurrentlyPlaying!)! ? Context.Instance.liveBroadcastManager.getMostRecentProgramIndex()! : Context.Instance.liveBroadcastManager.getMostRecentProgramIndex()! + 1
 
-        var oldActionableCell: LiveBroadcastProgramCardTableViewCell? = nil
-        if (currentActionableCellIndexPath?.row != newActionableCellIndex) {
-            // Deregister old cell
-            if currentActionableCellIndexPath != nil {
-                oldActionableCell = self.liveBroadcastProgramCardTableView?.cellForRow(at: currentActionableCellIndexPath!) as? LiveBroadcastProgramCardTableViewCell
-            }
+        var oldActionableCellRow: Int? = nil
+        if (self.currentActionableCellIndexPath?.row != newActionableCellIndex) {
+            // Save it
+            oldActionableCellRow = self.currentActionableCellIndexPath?.row
             // Prepare for reassignment
             self.currentActionableCellIndexPath = nil
         }
@@ -99,11 +120,18 @@ class LiveBroadcastViewController : UIViewController {
             self.currentActionableCellIndexPath = IndexPath(row: newActionableCellIndex, section: 0)
         }
         
-        // Grayout the old cell
-        if oldActionableCell != nil {
-            oldActionableCell?.card?.liveBroadcastPlayableState = .NotPlayable
-            oldActionableCell?.card?.disable()
-            oldActionableCell?.card?.setNeedsDisplay()
+        // Grayout the old cells (all that was prior to the current active cell)
+        let currentCellIndexPathRow = self.currentActionableCellIndexPath?.row
+        if oldActionableCellRow != nil && currentCellIndexPathRow != nil {
+            for cellRow in oldActionableCellRow!..<currentCellIndexPathRow! {
+                let cellIndexPath = IndexPath(row: cellRow, section: (self.currentActionableCellIndexPath?.section)!)
+                let timeoutedCell = self.liveBroadcastProgramCardTableView?.cellForRow(at: cellIndexPath) as? LiveBroadcastProgramCardTableViewCell
+                if timeoutedCell != nil {
+                    timeoutedCell?.card?.liveBroadcastPlayableState = .NotPlayable
+                    timeoutedCell?.card?.disable()
+                    timeoutedCell?.card?.setNeedsDisplay()
+                }
+            }
         }
         
         initiateCountdownIfNeeded()
