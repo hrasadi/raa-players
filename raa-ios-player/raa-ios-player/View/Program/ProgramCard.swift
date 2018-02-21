@@ -30,7 +30,7 @@ class ProgramCard : Card {
     var actionBtnBackgroundColor = UIColor(red: 47/255, green: 133/255, blue: 116/255, alpha: 1)
 
     @IBInspectable public var programTitleSize: CGFloat = 16
-    @IBInspectable public var programSubtitleSize: CGFloat = 13
+    @IBInspectable public var programSubtitleSize: CGFloat = 14
     
     @IBInspectable public var timeTitleSize: CGFloat = 12
     @IBInspectable public var timeValueSize: CGFloat = 20
@@ -150,7 +150,7 @@ class ProgramCard : Card {
 
         programSubtitleLbl.text = programSubtitle
         programSubtitleLbl.textColor = textColor
-        programSubtitleLbl.font = UIFont.systemFont(ofSize: programSubtitleSize, weight: .light)
+        programSubtitleLbl.font = UIFont.systemFont(ofSize: programSubtitleSize, weight: .regular)
         programSubtitleLbl.adjustsFontSizeToFitWidth = true
         programSubtitleLbl.minimumScaleFactor = 0.5
         programSubtitleLbl.lineBreakMode = .byTruncatingTail

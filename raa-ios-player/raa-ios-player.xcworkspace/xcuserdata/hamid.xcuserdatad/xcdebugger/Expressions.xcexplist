@@ -28,6 +28,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "closure #2 in UserManager.initiate():UserManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "result[0] == Result&lt;Bool&gt;.fulfilled(true)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "Card.layout(animating:):Card.swift">
          <PersistentStrings>
             <PersistentString
@@ -39,14 +47,6 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #2 in UserManager.initiate():UserManager.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "result[0] == Result&lt;Bool&gt;.fulfilled(true)">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "LiveBroadcastViewController.updateTablePlayableStates():LiveBroadcastViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -54,6 +54,30 @@
             </PersistentString>
             <PersistentString
                value = "currentActionableCellIndexPath">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "DetailViewController.buildSnapshot():DetailViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.view.bounds">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Animator.animateTransition(using:):Animator.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "card.originalFrame">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #7 in Animator.animateTransition(using:):Animator.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "detailVC.view.frame">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

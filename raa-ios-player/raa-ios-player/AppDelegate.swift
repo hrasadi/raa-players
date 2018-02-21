@@ -30,9 +30,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Convert token to string
         Context.Instance.userManager.user.NotificationToken = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
 
-        os_log("Old token was %@", type:.default, previousNotificationToken!)
-        os_log("new token is %@", type:.default, Context.Instance.userManager.user.NotificationToken!)
-
         
         // Resolve the registeration promise
         let shouldReregister = previousNotificationToken != Context.Instance.userManager.user.NotificationToken

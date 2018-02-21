@@ -170,7 +170,7 @@ import UIKit
 
         self.enable()
     }
-    
+        
     override open func draw(_ rect: CGRect) {
         super.draw(rect)
         originalFrame = rect
@@ -184,9 +184,7 @@ import UIKit
         // Remove everything first
         backgroundImageView.removeFromSuperview();
         backgroundImageView = UIImageView(image: backgroundImage)
-        //backgroundImageView.image = backgroundImage
-        backgroundImageView.alpha = 0.7
-        //backgroundImageView.contentMode = .scaleAspectFill
+        backgroundImageView.alpha = 0.4
         
         backgroundIV.addSubview(backgroundImageView)
         backgroundIV.sendSubview(toBack: backgroundImageView)
@@ -206,7 +204,6 @@ import UIKit
         grayoutMask.frame.size = CGSize(width: bounds.width, height: bounds.height)
     }
     
-    
     //MARK: - Layout
     
     func layout(animating: Bool = true) {        
@@ -214,6 +211,7 @@ import UIKit
 
         //let widthRatio = backgroundIV.bounds.size.width / (backgroundImageView.image?.size.width)!
         let heightRatio = backgroundIV.bounds.size.height / (backgroundImageView.image?.size.height)!
+
         let scale = heightRatio // Fit the height, I don't case about the height
         // let scale = min(widthRatio, heightRatio)
         let imageWidth = scale * (backgroundImageView.image?.size.width)!
