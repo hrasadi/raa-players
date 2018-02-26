@@ -23,6 +23,7 @@ class UserManager {
     
     struct PropertyKey {
         static var user = "User"
+        static var media = "PlaybackState"
     }
     
     public func initiate() {
@@ -36,7 +37,6 @@ class UserManager {
                 if result[0] == Result<Bool>.fulfilled(true) || result[1] == Result<Bool>.fulfilled(true) {
                     // register if either token or locations got updated
                     self.registerUser()
-                    Context.Instance.settings.set(try! self.jsonEncoder.encode(self.user), forKey: PropertyKey.user)
                 } else {
                     os_log("User location and notification options hadn't changed. Do not re-register!", type: .default)
                 }
@@ -45,7 +45,7 @@ class UserManager {
         }
     }
 
-    private func registerUser() {
+    func registerUser() {
         // Cases in which we (re)register the device
         // 1- If not registered before (no matter what)
         // 2- If device location is changed (and we know it -> LocationString is not empty)
@@ -59,6 +59,8 @@ class UserManager {
             URLSession.shared.dataTask(.promise, with: request)
         }.done { data in
             os_log("Registered device successfully!", type: .default)
+            // Save user preferences locally too
+            Context.Instance.settings.set(try! self.jsonEncoder.encode(self.user), forKey: PropertyKey.user)
         }.catch { error in
             os_log("Error while registering device: %@", type: .error, error.localizedDescription)
         }

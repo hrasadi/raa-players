@@ -14,6 +14,8 @@ class FeedManager : UICommunicator<FeedData> {
     static let PUBLIC_FEED_ENDPOINT = Context.API_URL_PREFIX + "/publicFeed"
     static let PERSONAL_FEED_ENDPOINT = Context.API_URL_PREFIX + "/personalFeed"
 
+    static let PERSONAL_ENTRIES_FROM_FUTURE_TO_SHOW = 1
+    
     private var jsonDecoder = JSONDecoder()
 
     public var feedData = FeedData()
@@ -85,6 +87,27 @@ class FeedManager : UICommunicator<FeedData> {
                     }
                     return false
                 })
+                
+                // Now filter, do not show more than 2 feen entries from the future
+                if self.feedData.personalFeed != nil {
+                    var filterItemIndex = 0
+                    let now = Date().timeIntervalSince1970
+                    var futureEntriesIncluded = 0
+
+                    for i in 0..<self.feedData.personalFeed!.count {
+                        let entry = self.feedData.personalFeed![i]
+                        // Entry starts in future
+                        if entry.ReleaseTimestamp != nil && entry.ReleaseTimestamp! > now {
+                            futureEntriesIncluded += 1
+                            if futureEntriesIncluded > FeedManager.PERSONAL_ENTRIES_FROM_FUTURE_TO_SHOW { // Number of entries to show from future
+                                filterItemIndex = i
+                                break
+                            }
+                        }
+                    }
+                    // Filter array
+                    self.feedData.personalFeed = Array(self.feedData.personalFeed![..<filterItemIndex])
+                }
                 return true
             }
     }
@@ -126,7 +149,7 @@ class FeedManager : UICommunicator<FeedData> {
             })
         }
         // Every minute
-        self.publicFeedRefreshTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
+        self.personalFeedRefreshTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
             firstly {
                 self.loadPersonalFeed()
             }.done { _ in

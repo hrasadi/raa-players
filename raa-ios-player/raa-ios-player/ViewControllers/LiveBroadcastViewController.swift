@@ -29,7 +29,7 @@ class LiveBroadcastViewController : UIViewController {
 
     private var programDetailsViewController: ProgramDetailsViewController?
 
-    // Redraw the whole
+    // Redraw the whole view
     private static let FULL_REDRAW_PERIOD: TimeInterval = 3600
     private var lastFullRedrawnTimestamp: TimeInterval?
     
@@ -43,7 +43,26 @@ class LiveBroadcastViewController : UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+
+        self.fullRedraw()
+    }
+
+    // FIXES A BUG THAT LAYOUTS TABLE WRONG IN IOS 10
+    func fixTableViewInsets() {
+        let zContentInsets = UIEdgeInsets.zero
+        liveBroadcastProgramCardTableView?.contentInset = zContentInsets
+        liveBroadcastProgramCardTableView?.scrollIndicatorInsets = zContentInsets
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        fixTableViewInsets()
+    }
+    // END BUG FIX
+
+    @objc func rotated() {
         self.fullRedraw()
     }
     
@@ -163,7 +182,7 @@ class LiveBroadcastViewController : UIViewController {
         if Context.Instance.liveBroadcastManager.liveLineupData.liveBroadcastStatus?.IsCurrentlyPlaying != nil && self.currentActionableCellIndexPath != nil {
             if let targetDateString = Context.Instance.liveBroadcastManager?.liveLineupData.flattenLiveLineup![(self.currentActionableCellIndexPath)!.row].Metadata?.StartTime {
                 
-                let targetDate = Formatter.iso8601.date(from: targetDateString)!
+                let targetDate = Formatter.dateFromISO8601(from: targetDateString)!
                 var counter = Int(targetDate.timeIntervalSince(Date()))
                 // Start time is in the past? This should not happen (unless there is something wrong with server. However, we should not show a negative counter. Allow users to play stream
                 if (counter <= 0) {
@@ -267,13 +286,13 @@ extension LiveBroadcastViewController : UITableViewDelegate, UITableViewDataSour
         cell.card?.programSubtitle = (program?.Subtitle) ?? ""
 
         if (program?.Metadata?.StartTime != nil) {
-            let startDate = Formatter.iso8601.date(from: (program?.Metadata?.StartTime)!)
+            let startDate = Formatter.dateFromISO8601(from: (program?.Metadata?.StartTime)!)
             cell.card?.timeValue1 = Utils.convertToPersianLocaleString(Utils.getHourOfDayString(from: startDate)) ?? (cell.card?.timeValue1)!
             cell.card?.timeSubValue1 = Utils.convertToPersianLocaleString(Utils.getRelativeDayName(startDate)) ?? (cell.card?.timeSubValue1)!
         }
 
         if (program?.Metadata?.EndTime != nil) {
-            let endDate = Formatter.iso8601.date(from: (program?.Metadata?.EndTime)!)
+            let endDate = Formatter.dateFromISO8601(from: (program?.Metadata?.EndTime)!)
             cell.card?.timeValue2 = Utils.convertToPersianLocaleString(Utils.getHourOfDayString(from: endDate)) ?? (cell.card?.timeValue2)!
             cell.card?.timeSubValue2 = Utils.convertToPersianLocaleString(Utils.getRelativeDayName(endDate)) ?? (cell.card?.timeSubValue2)!
         }
@@ -297,9 +316,16 @@ extension LiveBroadcastViewController : UITableViewDelegate, UITableViewDataSour
 }
 
 extension Formatter {
-    static let iso8601: ISO8601DateFormatter = {
-        let formatter = ISO8601DateFormatter()
-        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-        return formatter
-    }()
+    static let isoFormatter = ISO8601DateFormatter()
+
+    static func dateFromISO8601(from dateString: String) -> Date? {
+        var mdateString = dateString
+        
+        if #available(iOS 11.0, *) {
+            isoFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        } else { // support for iOS10
+            mdateString = dateString.replacingOccurrences(of: "\\.\\d+", with: "", options: .regularExpression)
+        }
+        return isoFormatter.date(from: mdateString)
+    }
 }

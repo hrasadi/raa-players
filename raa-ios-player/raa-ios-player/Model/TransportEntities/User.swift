@@ -45,7 +45,23 @@ class User : Codable, Comparable {
  
     public var NotificationToken: String?
     
-    public var NotifyOnPersonalProgram: Int?
-    public var NotifyOnPublicProgram: Int?
-    public var NotifyOnLiveProgram: Int?
+    public var NotifyOnPersonalProgram: Int = 1
+    public var NotifyOnPublicProgram: Int = 1
+    public var NotifyOnLiveProgram: Int = 0
+
+    public var NotificationExcludedPublicPrograms: String?
+    private var _notificationExcludedPublicProgramsObject: [String: Bool] = [: ]
+    public var NotificationExcludedPublicProgramsObject: [String: Bool] {
+        set {
+            newValue.forEach { (k,v) in self._notificationExcludedPublicProgramsObject[k] = v }
+            self.NotificationExcludedPublicPrograms = String(data: try! JSONEncoder().encode(self._notificationExcludedPublicProgramsObject), encoding: .utf8)
+        }
+        
+        get {
+            if self.NotificationExcludedPublicPrograms != nil {
+                self._notificationExcludedPublicProgramsObject = try! JSONDecoder().decode([String: Bool].self, from: (self.NotificationExcludedPublicPrograms?.data(using: String.Encoding.utf8))!)
+            }
+            return self._notificationExcludedPublicProgramsObject
+        }
+    }
 }

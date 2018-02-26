@@ -35,7 +35,6 @@ class PlayerViewController : UIViewController {
     
     override func viewDidLoad() {
         // Start safe
-        //self.setPlayerViewVisibility(isHidden: true)
         
         self.playerHeightWhenVisible = playerHeightConstraint.constant
         
@@ -64,12 +63,12 @@ class PlayerViewController : UIViewController {
         if self.playbackState != nil && self.playbackState?.enable == true {
             if self.playbackState!.playing == true {
                 self.playerView?.playbackState.setImage(#imageLiteral(resourceName: "pause"), for: UIControlState.normal)
-                self.playerView?.itemTitle.text = self.playbackState?.itemTitle
-                self.playerView?.itemSubtitle.text = self.playbackState?.itemSubtitle
             } else {
                 self.playerView?.playbackState.setImage(#imageLiteral(resourceName: "play"), for: UIControlState.normal)
             }
          
+            self.playerView?.itemTitle.text = self.playbackState?.itemTitle
+            self.playerView?.itemSubtitle.text = self.playbackState?.itemSubtitle
             self.playerView?.itemThumbnail.image = self.playbackState?.itemThumbnail
             
             // Register 

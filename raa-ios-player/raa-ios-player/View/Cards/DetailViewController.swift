@@ -143,7 +143,13 @@ internal class DetailViewController: UIViewController {
     
     }
     
-    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        coordinator.animate(alongsideTransition: nil, completion: { _ in
+            self.dismissVC() // allow the underlying view redraw itself
+        })
+        super.viewWillTransition(to: size, with: coordinator)
+    }
+
     //MARK: - Actions
     
     @objc func dismissVC(){

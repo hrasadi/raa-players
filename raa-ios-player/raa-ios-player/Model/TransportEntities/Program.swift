@@ -14,6 +14,7 @@ class CProgram : Codable {
     var Title: String?
     var Subtitle: String?
     var Show: CShow?
+    var PreShow: CShow?
     var Metadata: CMetadata?
     
     class CShow : Codable {
@@ -24,6 +25,7 @@ class CProgram : Codable {
             
             class CMedia : Codable {
                 var Path: String?
+                var Duration: Double?
             }
         }
     }

@@ -43,7 +43,7 @@ class NotificationManager : NSObject {
                                                   options: .customDismissAction)
 
         let personalCategory = UNNotificationCategory(identifier: "media.raa.Personal",
-                                                        actions: [],
+                                                        actions: [listenAction],
                                                         intentIdentifiers: [],
                                                         options: .customDismissAction)
 
@@ -52,7 +52,7 @@ class NotificationManager : NSObject {
         
         notificationCenter.delegate = self
     }
-    
+        
     public func requestNotificationAuthorization() -> Promise<Bool> {
         return Promise<Bool> { seal in
             UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (granted, error) in
@@ -80,6 +80,7 @@ extension NotificationManager: UNUserNotificationCenterDelegate {
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
         let actionIdentifier = response.actionIdentifier
+        let category = response.notification.request.content.categoryIdentifier
         
         switch actionIdentifier {
         case "LISTEN_ACTION":
@@ -87,16 +88,18 @@ extension NotificationManager: UNUserNotificationCenterDelegate {
                 // When the task is about to terminate, we should hand resources back
                 do {
                     try Context.Instance.playbackManager.audioSession.setActive(true)
+
+                    if category == "media.raa.Live" {
+                        Context.Instance.playbackManager.playLiveBroadcast()
+                    } else if category == "media.raa.Personal" {
+                        // Play personal feed
+                        let userInfo = response.notification.request.content.userInfo
+                        // TODO
+                        //Context.Instance.playbackManager.playPersonalFeed()
+                    }
                 } catch {
                     os_log("Error while deactivating audio session")
                 }
-            }
-
-            do {
-                try Context.Instance.playbackManager.audioSession.setActive(true)
-                Context.Instance.playbackManager.playLiveBroadcast()
-            } catch let e {
-                os_log("Error happened while starting playback: %@", type:.error, e.localizedDescription)
             }
             break
         default:

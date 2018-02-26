@@ -12,7 +12,7 @@ import PromiseKit
 import AVFoundation
 import UIKit
 
-class PlaybackManager : UICommunicator<PlaybackState> {
+class PlaybackManager : UICommunicator<PlaybackState>, AVAudioPlayerDelegate {
 
     static let LIVE_STREAM_URL = Context.LIVE_STREAM_URL_PREFIX + "/raa1_new.ogg"
     
@@ -20,6 +20,7 @@ class PlaybackManager : UICommunicator<PlaybackState> {
     var player: AVPlayer? = nil
     
     var playbackState: PlaybackState? = nil
+    var personalFeedPlaybackState: PersonalFeedPlaybackState? = nil
     
     override init() {
         super.init()
@@ -64,40 +65,78 @@ class PlaybackManager : UICommunicator<PlaybackState> {
         let publicFeedEntry = Context.Instance.feedManager.lookupPublicFeedEntry(feedEntryId)
         if publicFeedEntry != nil {
             self.play(programId: (publicFeedEntry!.ProgramObject?.ProgramId)!, title: publicFeedEntry!.ProgramObject?.Title, subtitle: publicFeedEntry!.ProgramObject?.Subtitle, mediaPath: (publicFeedEntry!.ProgramObject?.Show?.Clips?[0].Media?.Path)!)
-            return
         } else {
-            let personalFeedEntry = Context.Instance.feedManager.lookupPersonalFeedEntry(feedEntryId)
-            if personalFeedEntry != nil {
-                self.play(programId: (personalFeedEntry!.ProgramObject?.ProgramId)!, title: personalFeedEntry!.ProgramObject?.Title, subtitle: personalFeedEntry!.ProgramObject?.Subtitle, mediaPath: (personalFeedEntry!.ProgramObject?.Show?.Clips?[0].Media?.Path)!)
-                return
-            }
+            // We should never come here
+            os_log("This is a bug, we have a key but cannot find entry for it", type: .error)
         }
+    }
 
-        // We should never come here
-        os_log("This is a bug, we have an entry that is neither personal or public", type: .error)
+    public func playArchiveEntry(_ archiveEntry: ArchiveEntry?) {
+        if (archiveEntry == nil) {
+            // We should never come here
+            os_log("This is a bug, we have received a null archive entry to play", type: .error)
+            return
+        }
+        
+        os_log("Requested playback of %@", type: .default, (archiveEntry?.Program?.CanonicalIdPath)!)
+        self.playbackState?.programType = .Archive
+        
+        self.play(programId: (archiveEntry!.Program?.ProgramId)!, title: archiveEntry!.Program?.Title, subtitle: archiveEntry!.Program?.Subtitle, mediaPath: (archiveEntry!.Program?.Show?.Clips?[0].Media?.Path)!)
     }
     
     public func playPersonalFeed(_ feedEntryId: String) {
         os_log("Requested playback of %@", type: .default, feedEntryId)
-        self.playbackState?.programType = .PublicFeed
+        self.playbackState?.programType = .PersonalFeed
         
-        let publicFeedEntry = Context.Instance.feedManager.lookupPublicFeedEntry(feedEntryId)
-        if publicFeedEntry != nil {
-            self.play(programId: (publicFeedEntry!.ProgramObject?.ProgramId)!, title: publicFeedEntry!.ProgramObject?.Title, subtitle: publicFeedEntry!.ProgramObject?.Subtitle, mediaPath: (publicFeedEntry!.ProgramObject?.Show?.Clips?[0].Media?.Path)!)
-            return
+        let personalFeedEntry = Context.Instance.feedManager.lookupPersonalFeedEntry(feedEntryId)
+        if personalFeedEntry != nil {
+            self.personalFeedPlaybackState = PersonalFeedPlaybackState()
+
+            self.personalFeedPlaybackState?.personalFeedEntry = personalFeedEntry
+
+            // Decide what to play
+            let (isPlayingPreShow, pos) = self.calculatePersonalEntryPlaybackPosition(personalFeedEntry!)
+            self.personalFeedPlaybackState?.isPlayingPreShow = isPlayingPreShow
+            let mediaPath = isPlayingPreShow ? personalFeedEntry!.ProgramObject?.PreShow?.Clips?[0].Media?.Path : personalFeedEntry!.ProgramObject?.Show?.Clips?[0].Media?.Path
+            
+            self.play(programId: (personalFeedEntry!.ProgramObject?.ProgramId)!, title: personalFeedEntry!.ProgramObject?.Title, subtitle: personalFeedEntry!.ProgramObject?.Subtitle, mediaPath: mediaPath!, seekPosition: CMTimeMakeWithSeconds(pos, 1000))
         } else {
-            let personalFeedEntry = Context.Instance.feedManager.lookupPersonalFeedEntry(feedEntryId)
-            if personalFeedEntry != nil {
-                self.play(programId: (personalFeedEntry!.ProgramObject?.ProgramId)!, title: personalFeedEntry!.ProgramObject?.Title, subtitle: personalFeedEntry!.ProgramObject?.Subtitle, mediaPath: (personalFeedEntry!.ProgramObject?.Show?.Clips?[0].Media?.Path)!)
-                return
-            }
+            // We should never come here
+            os_log("This is a bug, we have a key but cannot find entry for it", type: .error)
         }
-        
-        // We should never come here
-        os_log("This is a bug, we have an entry that is neither personal or public", type: .error)
     }
     
-    private func play(programId id: String, title: String?, subtitle: String?, mediaPath: String, forceRestartStream: Bool = true) {
+    func calculatePersonalEntryPlaybackPosition(_ personalFeedEntry: PersonalFeedEntry) -> (Bool, Double) {
+        let preShowDuration = personalFeedEntry.ProgramObject?.PreShow?.Clips![0].Media!.Duration ?? 0
+        let showStartTimestamp = personalFeedEntry.ReleaseTimestamp! + preShowDuration
+        
+        let now = Date().timeIntervalSince1970
+        // Show is already started
+        if now > showStartTimestamp {
+            return (false, now - showStartTimestamp)
+        } else {
+            return (true, now - personalFeedEntry.ReleaseTimestamp!)
+        }
+    }
+    
+    @objc func itemDidFinishPlaying() {
+        if self.playbackState?.programType == .PersonalFeed && self.personalFeedPlaybackState != nil{
+            if self.personalFeedPlaybackState!.isPlayingPreShow {
+                self.personalFeedPlaybackState!.isPlayingPreShow = false
+                let personalFeedEntry = self.personalFeedPlaybackState!.personalFeedEntry
+                // Switch to show, no questions asked!
+                self.play(programId: (personalFeedEntry!.ProgramObject?.ProgramId)!, title: personalFeedEntry!.ProgramObject?.Title, subtitle: personalFeedEntry!.ProgramObject?.Subtitle, mediaPath: (personalFeedEntry!.ProgramObject?.Show?.Clips?[0].Media?.Path)!)
+            } else {
+                // Playback is finished, close the player 
+                self.stop()
+            }
+        } else {
+            // Done! close the player (for all types of programs)
+            self.stop()
+        }
+    }
+    
+    private func play(programId id: String, title: String?, subtitle: String?, mediaPath: String, forceRestartStream: Bool = true, seekPosition: CMTime = kCMTimeZero) {
         self.playbackState?.enable = true
         self.playbackState?.playing = true
         self.playbackState?.itemTitle = title
@@ -109,7 +148,7 @@ class PlaybackManager : UICommunicator<PlaybackState> {
         
         // Otherwise do not bother!
         if (self.playbackState?.mediaPath != mediaPath || forceRestartStream) {
-            doPlay(mediaPath)
+            doPlay(mediaPath, seekPosition: seekPosition)
         }
         
         self.notifyModelUpdate(data: self.playbackState!)
@@ -145,17 +184,18 @@ class PlaybackManager : UICommunicator<PlaybackState> {
         self.notifyModelUpdate(data: self.playbackState!)
     }
     
-
     // Private methods
-    private func doPlay(_ mediaPath: String) {
+    private func doPlay(_ mediaPath: String, seekPosition: CMTime = kCMTimeZero) {
         if player != nil {
             // stop the previous player and let it get released by system
             player!.pause()
         }
-        
+
         let playerItem = AVPlayerItem(asset: AVURLAsset(url: URL(string: mediaPath)!))
         player = AVPlayer(playerItem: playerItem)
+        player?.seek(to: seekPosition)
         
+        NotificationCenter.default.addObserver(self, selector:#selector(itemDidFinishPlaying), name:NSNotification.Name.AVPlayerItemDidPlayToEndTime, object:playerItem);
         self.player?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.initial, context: nil)
     }
     
@@ -245,6 +285,12 @@ extension PlaybackManager: ModelCommunicator {
     }
 }
 
+struct PersonalFeedPlaybackState {
+    var personalFeedEntry: PersonalFeedEntry?
+    // Flag used only in personal feeds
+    var isPlayingPreShow: Bool = false
+}
+
 struct PlaybackState {
     var enable = false
     var programType: PlaybackProgramType?
@@ -258,5 +304,6 @@ struct PlaybackState {
         case Live
         case PublicFeed
         case PersonalFeed
+        case Archive
     }
 }

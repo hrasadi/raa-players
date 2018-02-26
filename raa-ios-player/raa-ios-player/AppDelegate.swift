@@ -24,7 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-
         let previousNotificationToken = Context.Instance.userManager.user.NotificationToken
         
         // Convert token to string
@@ -33,8 +32,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Resolve the registeration promise
         let shouldReregister = previousNotificationToken != Context.Instance.userManager.user.NotificationToken
-        Context.Instance.userManager.notificationManager.requestNotificationAuthorizationPromiseResolver?.resolve(shouldReregister, nil as Error?)
-        Context.Instance.userManager.notificationManager.requestNotificationAuthorizationPromiseResolver = nil
+        
+        if Context.Instance.userManager.notificationManager.requestNotificationAuthorizationPromiseResolver != nil {
+            Context.Instance.userManager.notificationManager.requestNotificationAuthorizationPromiseResolver?.resolve(shouldReregister, nil as Error?)
+            Context.Instance.userManager.notificationManager.requestNotificationAuthorizationPromiseResolver = nil
+        } else if shouldReregister {
+            // Force register
+            Context.Instance.userManager.registerUser()
+        }
+        
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {

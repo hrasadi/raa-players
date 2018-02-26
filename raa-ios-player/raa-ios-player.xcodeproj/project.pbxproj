@@ -41,11 +41,18 @@
 		03CB4E69202E5D32006ECD08 /* ProgramInfoDirectoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CB4E68202E5D32006ECD08 /* ProgramInfoDirectoryManager.swift */; };
 		03CB4E6B202E5DD5006ECD08 /* ProgramInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CB4E6A202E5DD5006ECD08 /* ProgramInfo.swift */; };
 		03CB4E6D202F7762006ECD08 /* PlaybackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CB4E6C202F7762006ECD08 /* PlaybackManager.swift */; };
+		03D90129204131AA0064908E /* ProgramArchiveEntryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D90128204131AA0064908E /* ProgramArchiveEntryCard.swift */; };
+		03D9012B204211190064908E /* ArchiveEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D9012A204211190064908E /* ArchiveEntry.swift */; };
+		03DDFB6B203E201C006C1F8F /* BackwardCompatibleNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DDFB6A203E201C006C1F8F /* BackwardCompatibleNavigationController.swift */; };
 		03E07EFC202F890C00B4677B /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E07EFB202F890C00B4677B /* PlayerViewController.swift */; };
 		03E07EFE2030CF3700B4677B /* SplashScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E07EFD2030CF3700B4677B /* SplashScreenViewController.swift */; };
 		03E07F002030D0A900B4677B /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03E07EFF2030D0A900B4677B /* SplashScreen.storyboard */; };
 		03E07F022030E44A00B4677B /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E07F012030E44A00B4677B /* MainTabBarViewController.swift */; };
 		03E07F0420314C8100B4677B /* LiveBroadcastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E07F0320314C8100B4677B /* LiveBroadcastManager.swift */; };
+		03ECCB83203F880D00EEF417 /* PublicProgramNotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03ECCB82203F880D00EEF417 /* PublicProgramNotificationViewController.swift */; };
+		03ECCB8520408ADA00EEF417 /* ArchiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03ECCB8420408ADA00EEF417 /* ArchiveViewController.swift */; };
+		03ECCB872040BD0C00EEF417 /* ArchiveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03ECCB862040BD0C00EEF417 /* ArchiveManager.swift */; };
+		03ECCB89204123BC00EEF417 /* ProgramArchiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03ECCB88204123BC00EEF417 /* ProgramArchiveViewController.swift */; };
 		03F0588C2018246A00B568E3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F0588B2018246A00B568E3 /* AppDelegate.swift */; };
 		03F058932018246A00B568E3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03F058912018246A00B568E3 /* Main.storyboard */; };
 		03F058982018246A00B568E3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03F058962018246A00B568E3 /* LaunchScreen.storyboard */; };
@@ -90,11 +97,18 @@
 		03CB4E68202E5D32006ECD08 /* ProgramInfoDirectoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramInfoDirectoryManager.swift; sourceTree = "<group>"; };
 		03CB4E6A202E5DD5006ECD08 /* ProgramInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramInfo.swift; sourceTree = "<group>"; };
 		03CB4E6C202F7762006ECD08 /* PlaybackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackManager.swift; sourceTree = "<group>"; };
+		03D90128204131AA0064908E /* ProgramArchiveEntryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramArchiveEntryCard.swift; sourceTree = "<group>"; };
+		03D9012A204211190064908E /* ArchiveEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveEntry.swift; sourceTree = "<group>"; };
+		03DDFB6A203E201C006C1F8F /* BackwardCompatibleNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackwardCompatibleNavigationController.swift; sourceTree = "<group>"; };
 		03E07EFB202F890C00B4677B /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		03E07EFD2030CF3700B4677B /* SplashScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenViewController.swift; sourceTree = "<group>"; };
 		03E07EFF2030D0A900B4677B /* SplashScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
 		03E07F012030E44A00B4677B /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		03E07F0320314C8100B4677B /* LiveBroadcastManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveBroadcastManager.swift; sourceTree = "<group>"; };
+		03ECCB82203F880D00EEF417 /* PublicProgramNotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicProgramNotificationViewController.swift; sourceTree = "<group>"; };
+		03ECCB8420408ADA00EEF417 /* ArchiveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveViewController.swift; sourceTree = "<group>"; };
+		03ECCB862040BD0C00EEF417 /* ArchiveManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveManager.swift; sourceTree = "<group>"; };
+		03ECCB88204123BC00EEF417 /* ProgramArchiveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramArchiveViewController.swift; sourceTree = "<group>"; };
 		03F058882018246A00B568E3 /* raa-ios-player.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "raa-ios-player.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		03F0588B2018246A00B568E3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		03F058922018246A00B568E3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -125,6 +139,7 @@
 				03A498AA2023C912008B56BA /* TransportEntities */,
 				03E07F0320314C8100B4677B /* LiveBroadcastManager.swift */,
 				03A498A82023C4DD008B56BA /* FeedManager.swift */,
+				03ECCB862040BD0C00EEF417 /* ArchiveManager.swift */,
 				03CB4E68202E5D32006ECD08 /* ProgramInfoDirectoryManager.swift */,
 				03CB4E6C202F7762006ECD08 /* PlaybackManager.swift */,
 				0325645E201E66D500494D6E /* UserManager.swift */,
@@ -164,7 +179,11 @@
 				0365F9322019A5AE0061F974 /* LiveBroadcastViewController.swift */,
 				03E07EFB202F890C00B4677B /* PlayerViewController.swift */,
 				03A498A62023B976008B56BA /* ProgramDetailsViewController.swift */,
+				03ECCB8420408ADA00EEF417 /* ArchiveViewController.swift */,
+				03ECCB88204123BC00EEF417 /* ProgramArchiveViewController.swift */,
 				0365F9342019A73F0061F974 /* SettingsViewController.swift */,
+				03ECCB82203F880D00EEF417 /* PublicProgramNotificationViewController.swift */,
+				03DDFB6A203E201C006C1F8F /* BackwardCompatibleNavigationController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -175,6 +194,7 @@
 				03A498AF20240946008B56BA /* ProgramCard.swift */,
 				038BBD912032AE7F0031A56E /* LiveBroadcastProgramCard.swift */,
 				03A498B020240947008B56BA /* FeedEntryProgramCard.swift */,
+				03D90128204131AA0064908E /* ProgramArchiveEntryCard.swift */,
 			);
 			name = Program;
 			path = Player;
@@ -204,6 +224,7 @@
 				03A932922033EDCE00B931B1 /* FeedEntry.swift */,
 				03A498AB2023C92E008B56BA /* User.swift */,
 				03701088203286F200FDE4ED /* LiveBroadcastStatus.swift */,
+				03D9012A204211190064908E /* ArchiveEntry.swift */,
 			);
 			path = TransportEntities;
 			sourceTree = "<group>";
@@ -410,27 +431,34 @@
 				03F0588C2018246A00B568E3 /* AppDelegate.swift in Sources */,
 				03A498A020239B1B008B56BA /* CardPlayer.swift in Sources */,
 				03381D002025279E00F179E1 /* Utils.swift in Sources */,
+				03ECCB872040BD0C00EEF417 /* ArchiveManager.swift in Sources */,
 				03A498B220240947008B56BA /* FeedEntryProgramCard.swift in Sources */,
+				03ECCB89204123BC00EEF417 /* ProgramArchiveViewController.swift in Sources */,
 				03E07EFC202F890C00B4677B /* PlayerViewController.swift in Sources */,
 				03A498B120240947008B56BA /* ProgramCard.swift in Sources */,
 				0365F92E201931F40061F974 /* FeedViewController.swift in Sources */,
 				03701089203286F200FDE4ED /* LiveBroadcastStatus.swift in Sources */,
+				03D90129204131AA0064908E /* ProgramArchiveEntryCard.swift in Sources */,
 				03A498A520239B1B008B56BA /* CardArticle.swift in Sources */,
 				0365F931201977950061F974 /* XibContainer.swift in Sources */,
 				03A932932033EDCE00B931B1 /* FeedEntry.swift in Sources */,
 				0325645A201E5AFA00494D6E /* Context.swift in Sources */,
 				03A498A92023C4DD008B56BA /* FeedManager.swift in Sources */,
+				03DDFB6B203E201C006C1F8F /* BackwardCompatibleNavigationController.swift in Sources */,
 				03A498AC2023C92E008B56BA /* User.swift in Sources */,
 				03A498A220239B1B008B56BA /* Animator.swift in Sources */,
 				03381CFE202504F300F179E1 /* UIModelCommunicator.swift in Sources */,
 				03CB4E69202E5D32006ECD08 /* ProgramInfoDirectoryManager.swift in Sources */,
 				0325645F201E66D500494D6E /* UserManager.swift in Sources */,
 				03E07F0420314C8100B4677B /* LiveBroadcastManager.swift in Sources */,
+				03ECCB8520408ADA00EEF417 /* ArchiveViewController.swift in Sources */,
 				03A498A320239B1B008B56BA /* LayoutHelper.swift in Sources */,
+				03ECCB83203F880D00EEF417 /* PublicProgramNotificationViewController.swift in Sources */,
 				03CB4E6B202E5DD5006ECD08 /* ProgramInfo.swift in Sources */,
 				03A4989F20239B1B008B56BA /* Card.swift in Sources */,
 				03A4989D20239B1B008B56BA /* CardGroupSliding.swift in Sources */,
 				03CB4E6D202F7762006ECD08 /* PlaybackManager.swift in Sources */,
+				03D9012B204211190064908E /* ArchiveEntry.swift in Sources */,
 				0365F92B201931850061F974 /* PlayerView.swift in Sources */,
 				0365F9332019A5AE0061F974 /* LiveBroadcastViewController.swift in Sources */,
 				03A498A120239B1B008B56BA /* CardHighlight.swift in Sources */,
@@ -583,6 +611,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YLKA663U7G;
 				INFOPLIST_FILE = "raa-ios-player/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "raa.raa-ios-player";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -603,6 +632,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YLKA663U7G;
 				INFOPLIST_FILE = "raa-ios-player/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "raa.raa-ios-player";
 				PRODUCT_NAME = "$(TARGET_NAME)";

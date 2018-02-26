@@ -16,21 +16,21 @@ class ProgramCard : Card {
     
     var blurV = UIVisualEffectView()
 
-    private var programTitleLbl = UILabel()
-    private var programSubtitleLbl = UILabel()
+    var programTitleLbl = UILabel()
+    var programSubtitleLbl = UILabel()
     
-    private var timeTitle1Lbl = UILabel()
-    private var timeValue1Lbl = UILabel()
-    private var timeSubValue1Lbl = UILabel()
-    private var timeTitle2Lbl = UILabel()
-    private var timeValue2Lbl = UILabel()
-    private var timeSubValue2Lbl = UILabel()
+    var timeTitle1Lbl = UILabel()
+    var timeValue1Lbl = UILabel()
+    var timeSubValue1Lbl = UILabel()
+    var timeTitle2Lbl = UILabel()
+    var timeValue2Lbl = UILabel()
+    var timeSubValue2Lbl = UILabel()
     
     var actionBtn = UIButton()
     var actionBtnBackgroundColor = UIColor(red: 47/255, green: 133/255, blue: 116/255, alpha: 1)
 
-    @IBInspectable public var programTitleSize: CGFloat = 16
-    @IBInspectable public var programSubtitleSize: CGFloat = 14
+    @IBInspectable public var programTitleSize: CGFloat = 14
+    @IBInspectable public var programSubtitleSize: CGFloat = 13
     
     @IBInspectable public var timeTitleSize: CGFloat = 12
     @IBInspectable public var timeValueSize: CGFloat = 20
@@ -125,6 +125,7 @@ class ProgramCard : Card {
         
         self.actionBtn.addTarget(self, action: #selector(actionButtonTapped), for: UIControlEvents.touchUpInside)
         self.actionBtn.addTarget(self, action: #selector(actionButtonTouchDown), for: UIControlEvents.touchDown)
+        self.actionBtn.addTarget(self, action: #selector(actionButtonTouchCancel), for: UIControlEvents.touchCancel)
         backgroundIV.addSubview(actionBtn)
     }
     
@@ -143,9 +144,10 @@ class ProgramCard : Card {
         programTitleLbl.textColor = textColor
         programTitleLbl.font = UIFont.systemFont(ofSize: programTitleSize, weight: .medium)
         programTitleLbl.adjustsFontSizeToFitWidth = true
-        programTitleLbl.minimumScaleFactor = 0.1
+        programTitleLbl.minimumScaleFactor = 0.5
         programTitleLbl.lineBreakMode = .byTruncatingTail
-        programTitleLbl.numberOfLines = 1
+        programTitleLbl.textAlignment = .right
+        programTitleLbl.numberOfLines = 2
         backgroundIV.bringSubview(toFront: programTitleLbl)
 
         programSubtitleLbl.text = programSubtitle
@@ -168,7 +170,7 @@ class ProgramCard : Card {
         timeTitle1Lbl.font = UIFont.systemFont(ofSize: timeTitleSize, weight: .medium)
         timeTitle1Lbl.lineHeight(0.70)
         timeTitle1Lbl.adjustsFontSizeToFitWidth = true
-        timeTitle1Lbl.minimumScaleFactor = 0.1
+        timeTitle1Lbl.minimumScaleFactor = 0.3
         timeTitle1Lbl.lineBreakMode = .byTruncatingTail
         timeTitle1Lbl.numberOfLines = 1
         blurV.contentView.bringSubview(toFront: timeTitle1Lbl)
@@ -177,7 +179,7 @@ class ProgramCard : Card {
         timeValue1Lbl.textColor = textColor
         timeValue1Lbl.font = UIFont.systemFont(ofSize: timeValueSize, weight: .light)
         timeValue1Lbl.adjustsFontSizeToFitWidth = true
-        timeValue1Lbl.minimumScaleFactor = 0.1
+        timeValue1Lbl.minimumScaleFactor = 0.3
         timeValue1Lbl.lineBreakMode = .byTruncatingTail
         timeValue1Lbl.numberOfLines = 1
         blurV.contentView.bringSubview(toFront: timeValue1Lbl)
@@ -188,7 +190,7 @@ class ProgramCard : Card {
         timeSubValue1Lbl.textColor = textColor
         timeSubValue1Lbl.font = UIFont.systemFont(ofSize: timeSubValueSize, weight: .medium)
         timeSubValue1Lbl.adjustsFontSizeToFitWidth = true
-        timeSubValue1Lbl.minimumScaleFactor = 0.1
+        timeSubValue1Lbl.minimumScaleFactor = 0.3
         timeSubValue1Lbl.lineBreakMode = .byTruncatingTail
         timeSubValue1Lbl.numberOfLines = 1
         blurV.contentView.addSubview(timeSubValue1Lbl)
@@ -240,11 +242,11 @@ class ProgramCard : Card {
         
         let gimme = LayoutHelper(rect: backgroundIV.bounds)
         
-        programTitleLbl.frame.size = CGSize(width: gimme.X(70) - 30, height: 20)
-        programTitleLbl.frame.origin = CGPoint(x: gimme.RevX(0, width: programTitleLbl.bounds.size.width) - 20, y: 30)
+        programTitleLbl.frame.size = CGSize(width: gimme.X(70) - 30, height: 40)
+        programTitleLbl.frame.origin = CGPoint(x: gimme.RevX(0, width: programTitleLbl.frame.size.width) - 15, y: 15)
         
-        programSubtitleLbl.frame.size = CGSize(width: gimme.X(70) - 30, height: 20)
-        programSubtitleLbl.frame.origin = CGPoint(x: gimme.RevX(0, width: programSubtitleLbl.bounds.size.width) - 20, y: programTitleLbl.frame.maxY + 10)
+        programSubtitleLbl.frame.size = CGSize(width: gimme.X(70) - 30, height: 30)
+        programSubtitleLbl.frame.origin = CGPoint(x: gimme.RevX(0, width: programSubtitleLbl.frame.size.width) - 15, y: programTitleLbl.frame.maxY + 10)
         
         blurV.frame = CGRect(x: 0,
                              y: 0,
@@ -263,6 +265,8 @@ class ProgramCard : Card {
         timeTitle2Lbl.frame.origin = CGPoint(x: blurVGimme.RevX(0, width: timeTitle2Lbl.bounds.size.width) - 10, y: timeValue2Lbl.frame.origin.y - timeTitle2Lbl.bounds.size.height)
 
         timeValue1Lbl.sizeToFit()
+        // Don't allow lable to pass the boundary
+        timeValue1Lbl.frame.size = CGSize(width: min(timeValue1Lbl.bounds.width, blurV.bounds.width - 20), height: timeValue1Lbl.bounds.height)
         timeValue1Lbl.frame.origin = CGPoint(x: blurVGimme.RevX(0, width: timeValue1Lbl.bounds.size.width) - 10, y: timeTitle2Lbl.frame.origin.y - timeValue1Lbl.bounds.size.height - 10)
 
         timeSubValue1Lbl.sizeToFit()
@@ -279,8 +283,18 @@ class ProgramCard : Card {
     
     @objc func actionButtonTouchDown() {
         self.actionBtn.isHighlighted = true
+        UIView.animate(withDuration: 0.1, animations: {
+            self.actionBtn.backgroundColor = UIColor.black
+        })
     }
-    
+
+    @objc func actionButtonTouchCancel() {
+        self.actionBtn.isHighlighted = true
+        UIView.animate(withDuration: 0.1, animations: {
+            self.actionBtn.backgroundColor = self.actionBtnBackgroundColor
+        })
+    }
+
     @objc func actionButtonTapped() {
         self.actionBtn.isHighlighted = false
         

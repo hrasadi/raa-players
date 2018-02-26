@@ -46,6 +46,50 @@ class Utils {
         return result
     }
 
+    class func getPersianLocaleDateString(_ date: Date) -> String {
+        let components = Calendar.current.dateComponents([.day, .month, .year], from: date)
+
+        var result = ""
+        result += Utils.convertToPersianLocaleString(String(describing: components.day!)) ?? ""
+        result += " "
+        result += Utils.getPersianLocaleMonthName(components.month!)
+        result += " "
+        result += Utils.convertToPersianLocaleString(String(describing: components.year!)) ?? ""
+        
+        return result
+    }
+    
+    class func getPersianLocaleMonthName(_ monthOrdinal: Int) -> String {
+        switch monthOrdinal {
+        case 0:
+            return "ژانویه"
+        case 1:
+            return "فوریه"
+        case 2:
+            return "مارس"
+        case 3:
+            return "آوریل"
+        case 4:
+            return "می"
+        case 5:
+            return "جون"
+        case 6:
+            return "جولای"
+        case 7:
+            return "آگوست"
+        case 8:
+            return "سپتامبر"
+        case 9:
+            return "اکتبر"
+        case 10:
+            return "نوامبر"
+        case 11:
+            return "دسامبر"
+        default:
+            return ""
+        }
+    }
+    
     class func getRelativeDayName(_ date: Date?) -> String? {
         guard date != nil else {
             return nil;

@@ -24,11 +24,12 @@ class Context {
         }
     }
     
+    public static let BASE_URL_PREFIX = "https://raa.media"
     public static let API_URL_PREFIX = "http://api.raa.media:7800"
     public static let LIVE_STREAM_URL_PREFIX = "https://stream.raa.media"
-    public static let ARCHIVE_URL_PREFIX = "https://raa.media/archive"
-    public static let RSS_URL_PREFIX = "https://raa.media/rss"
-    public static let LIVE_INFO_URL_PREFIX = "https://raa.media/live"
+    public static let ARCHIVE_URL_PREFIX = Context.BASE_URL_PREFIX + "/archive"
+    public static let RSS_URL_PREFIX = Context.BASE_URL_PREFIX + "/rss"
+    public static let LIVE_INFO_URL_PREFIX = Context.BASE_URL_PREFIX + "/live"
 
     public static func initiateManagers() {
         if instance == nil {
@@ -38,6 +39,7 @@ class Context {
             instance?.programInfoDirectoryManager = ProgramInfoDirectoryManager()
             instance?.feedManager = FeedManager()
             instance?.liveBroadcastManager = LiveBroadcastManager()
+            instance?.archiveManager = ArchiveManager()
             instance?.playbackManager = PlaybackManager()
             
             // additional initiate functions
@@ -45,6 +47,7 @@ class Context {
             instance?.programInfoDirectoryManager.initiate()
             instance?.feedManager.initiate()
             instance?.liveBroadcastManager.initiate()
+            instance?.archiveManager.initiate()
             instance?.playbackManager.initiate()
         }
     }
@@ -53,6 +56,7 @@ class Context {
     public var programInfoDirectoryManager: ProgramInfoDirectoryManager!
     public var feedManager: FeedManager!
     public var liveBroadcastManager: LiveBroadcastManager!
+    public var archiveManager: ArchiveManager!
     public var playbackManager: PlaybackManager!
     public let settings = UserDefaults.standard
     

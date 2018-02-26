@@ -3,6 +3,150 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "LiveBroadcastViewController.tableView(_:cellForRowAt:):LiveBroadcastViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "indexPath.row">
+            </PersistentString>
+            <PersistentString
+               value = "Context.Instance.liveBroadcastManager.getMostRecentProgramIndex()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static Formatter.dateFromISO8601(from:):LiveBroadcastViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "Locale.current.regionCode">
+            </PersistentString>
+            <PersistentString
+               value = "NSTimeZone.local.identifier">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Animator.animateTransition(using:):Animator.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "card.originalFrame">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ProgramArchivePodcastDescriptionViewController.init(coder:):ProgramArchiveViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "static Utils.getPersianLocaleDateString(_:):Utils.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "String(describing: components.day!)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in LiveBroadcastManager.loadLiveLineup():LiveBroadcastManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "String(data: data!, encoding: .utf8)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "FeedManager.lookupPersonalFeedEntry(_:):FeedManager.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #7 in Animator.animateTransition(using:):Animator.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "detailVC.view.frame">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlayerViewController.updatePlayerView():PlayerViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "playbackState">
+            </PersistentString>
+            <PersistentString
+               value = "Context.Instance.feedManager.pullData()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "DetailViewController.buildSnapshot():DetailViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.view.bounds">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ProgramArchiveContainerViewController.prepare(for:sender:):ProgramArchiveViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "segue.identifier">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #2 in UserManager.initiate():UserManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "result[0] == Result&lt;Bool&gt;.fulfilled(true)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ProgramCard.draw(_:):ProgramCard.swift">
+      </ContextState>
+      <ContextState
+         contextName = "LiveBroadcastViewController.updateTablePlayableStates():LiveBroadcastViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "Context.Instance.liveBroadcastManager">
+            </PersistentString>
+            <PersistentString
+               value = "currentActionableCellIndexPath">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "FeedViewController.init(coder:):FeedViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "Context.Instance.feedManager">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #3 in LocationManager.locateDevice():LocationManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "Context.Instance.userManager.user">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "LiveBroadcastViewController.viewDidLoad():LiveBroadcastViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "PlaybackManager.doPlay(_:seekPosition:):PlaybackManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "AVAudioPlayer(contentsOf: URL(string: mediaPath)!)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "nano_free_definite_size:(null)">
+         <PersistentStrings>
+            <PersistentString
+               value = "backgroundImageView.image">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "ProgramCard.layout(animating:):ProgramCard.swift">
          <PersistentStrings>
             <PersistentString
@@ -20,18 +164,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #1 in LiveBroadcastManager.loadLiveLineup():LiveBroadcastManager.swift">
+         contextName = "FeedManager.loadPersonalFeed():FeedManager.swift">
          <PersistentStrings>
             <PersistentString
-               value = "String(data: data!, encoding: .utf8)">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #2 in UserManager.initiate():UserManager.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "result[0] == Result&lt;Bool&gt;.fulfilled(true)">
+               value = "Context.Instance.userManager">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -47,97 +183,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "LiveBroadcastViewController.updateTablePlayableStates():LiveBroadcastViewController.swift">
+         contextName = "PlaybackManager.doPause():PlaybackManager.swift">
          <PersistentStrings>
             <PersistentString
-               value = "Context.Instance.liveBroadcastManager">
-            </PersistentString>
-            <PersistentString
-               value = "currentActionableCellIndexPath">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "DetailViewController.buildSnapshot():DetailViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.view.bounds">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "Animator.animateTransition(using:):Animator.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "card.originalFrame">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #7 in Animator.animateTransition(using:):Animator.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "detailVC.view.frame">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "ProgramCard.draw(_:):ProgramCard.swift">
-      </ContextState>
-      <ContextState
-         contextName = "LiveBroadcastViewController.tableView(_:cellForRowAt:):LiveBroadcastViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "indexPath.row">
-            </PersistentString>
-            <PersistentString
-               value = "Context.Instance.liveBroadcastManager.getMostRecentProgramIndex()">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #3 in LocationManager.locateDevice():LocationManager.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "Context.Instance.userManager.user">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "LiveBroadcastViewController.viewDidLoad():LiveBroadcastViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "FeedViewController.init(coder:):FeedViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "Context.Instance.feedManager">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "nano_free_definite_size:(null)">
-         <PersistentStrings>
-            <PersistentString
-               value = "backgroundImageView.image">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "FeedManager.loadPersonalFeed():FeedManager.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "Context.Instance.userManager">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "PlayerViewController.updatePlayerView():PlayerViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "playbackState">
-            </PersistentString>
-            <PersistentString
-               value = "Context.Instance.feedManager.pullData()">
+               value = "self.player">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -146,6 +195,17 @@
          <PersistentStrings>
             <PersistentString
                value = "hoursOnlyDateFormatter.dateFormat">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "DetailViewController.layout(_:isPresenting:isAnimating:transform:):DetailViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "scrollView.frame.origin">
+            </PersistentString>
+            <PersistentString
+               value = "view.bounds">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

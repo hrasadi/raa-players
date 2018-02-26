@@ -15,6 +15,7 @@ class ProgramInfo : Codable {
     var About: String?
     var Thumbnail: String?
     var Banner: String?
+    var Feed: String?
 
     private enum CodingKeys: String, CodingKey {
         case ProgramId
@@ -22,6 +23,7 @@ class ProgramInfo : Codable {
         case About
         case Thumbnail
         case Banner
+        case Feed
     }
 
     // Non-coding properties

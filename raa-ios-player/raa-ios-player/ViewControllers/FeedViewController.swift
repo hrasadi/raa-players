@@ -17,16 +17,21 @@ class FeedContainerViewController : PlayerViewController {
     }
 }
 
-class FeedViewController : UIViewController {
-
-    @IBOutlet var feedTableView: UITableView?
+class FeedViewController : UITableViewController {
 
     private static let PERSONAL_FEED_SECTION = 0
     private static let PUBLIC_FEED_SECTION = 1
 
+    private var personalFeedDelegate = PersonalFeedDelegate()
+    private var publicFeedDelegate = PublicFeedDelegate()
+    
     private var feedData: FeedData?
 
     private var programDetailsViewController: ProgramDetailsViewController?
+
+    // Redraw the whole view
+    private static let FULL_REDRAW_PERIOD: TimeInterval = 3600
+    private var lastFullRedrawnTimestamp: TimeInterval?
 
     struct Defaults {
         public static let CELL_HEIGHT: CGFloat = 150
@@ -39,19 +44,50 @@ class FeedViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad();
 
-        self.programDetailsViewController = storyboard?.instantiateViewController(withIdentifier: "ProgramContent") as? ProgramDetailsViewController
+        self.fullRedraw()
+    }
 
+    // FIXES A BUG THAT LAYOUTS TABLE WRONG IN IOS 10
+    func fixTableViewInsets() {
+        let zContentInsets = UIEdgeInsets.zero
+        tableView.contentInset = zContentInsets
+        tableView.scrollIndicatorInsets = zContentInsets
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        fixTableViewInsets()
+    }
+    // END BUG FIX
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        coordinator.animate(alongsideTransition: nil, completion: { _ in
+            self.fullRedraw()
+        })
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        let currentDate = Date().timeIntervalSince1970
+        
+        if self.lastFullRedrawnTimestamp != nil {
+            if currentDate - self.lastFullRedrawnTimestamp! > FeedViewController.FULL_REDRAW_PERIOD {
+                self.fullRedraw()
+            }
+        }
+    }
+
+    private func fullRedraw() {
+        self.lastFullRedrawnTimestamp = Date().timeIntervalSince1970
+
+        self.programDetailsViewController = storyboard?.instantiateViewController(withIdentifier: "ProgramContent") as? ProgramDetailsViewController
+        
         // Do this syncronously as the data is already here
         self.feedData = try! hang(Context.Instance.feedManager.pullData())
         Context.Instance.feedManager.registerEventListener(listenerObject: self)
-
-        self.feedTableView?.dataSource = self
-        self.feedTableView?.delegate = self
-        self.feedTableView?.reloadData()
+        
+        self.tableView?.reloadData()
     }
-
-    private var personalFeedDelegate = PersonalFeedDelegate()
-    private var publicFeedDelegate = PublicFeedDelegate()
     
     class PersonalFeedDelegate : FeedEntryCardDelegate {
         func onPlayButtonClicked(_ requestedFeedEntryId: String) {
@@ -73,7 +109,7 @@ extension FeedViewController : ModelCommunicator {
             (data as? FeedData)?.publicFeed?.count != self.feedData?.publicFeed?.count {
 
             self.feedData = data as? FeedData
-            feedTableView?.reloadData()
+            tableView?.reloadData()
         }
     }
     
@@ -82,30 +118,30 @@ extension FeedViewController : ModelCommunicator {
     }
 }
 
-extension FeedViewController : UITableViewDataSource, UITableViewDelegate {
+extension FeedViewController {
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return Defaults.CELL_HEIGHT
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 2 // Personal and Public
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == FeedViewController.PUBLIC_FEED_SECTION {
-            return "برنامه‌های عمومی"
+            return "برنامه‌های جاری رادیو"
         } else if section == FeedViewController.PERSONAL_FEED_SECTION {
-            return "برنامه‌های مخصوص شما"
+            return "زمان‌بندی شده بر اساس مکان شما"
         }
         return nil // this should not happen
     }
 
-    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         view.semanticContentAttribute = .forceRightToLeft
     }
 
-    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         if section == FeedViewController.PUBLIC_FEED_SECTION {
             if self.feedData?.publicFeed == nil || self.feedData?.publicFeed?.count == 0 {
                 return "فعلا برنامه‌ای اینجا نیست"
@@ -118,7 +154,7 @@ extension FeedViewController : UITableViewDataSource, UITableViewDelegate {
         return nil
     }
     
-    func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+    override func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
         guard let footer = view as? UITableViewHeaderFooterView else { return }
         
         footer.textLabel?.font = UIFont.systemFont(ofSize: 12)
@@ -127,7 +163,7 @@ extension FeedViewController : UITableViewDataSource, UITableViewDelegate {
         footer.textLabel?.frame = footer.frame
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == FeedViewController.PUBLIC_FEED_SECTION {
             return self.feedData?.publicFeed?.count ?? 0
         } else if section == FeedViewController.PERSONAL_FEED_SECTION {
@@ -136,7 +172,7 @@ extension FeedViewController : UITableViewDataSource, UITableViewDelegate {
         return 0 // This should not happen
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == FeedViewController.PUBLIC_FEED_SECTION {
             return generatePublicCell(tableView, indexPath: indexPath)
         } else {
@@ -170,12 +206,21 @@ extension FeedViewController : UITableViewDataSource, UITableViewDelegate {
 
         if (feedEntry?.ReleaseTimestamp != nil) {
             let releaseDate = Date(timeIntervalSince1970: (feedEntry?.ReleaseTimestamp)!)
+            cell.card?.timeTitle1 = "شروع"
             cell.card?.timeValue1 = Utils.convertToPersianLocaleString(Utils.getHourOfDayString(from: releaseDate)) ?? (cell.card?.timeValue1)!
             cell.card?.timeSubValue1 = Utils.convertToPersianLocaleString(Utils.getRelativeDayName(releaseDate)) ?? (cell.card?.timeSubValue1)!
+
+            // If Program is in the future,  playback button should not be active
+            if ((feedEntry?.ReleaseTimestamp)! > Date().timeIntervalSince1970) {
+                cell.card?.actionable = false
+            } else {
+                cell.card?.actionable = true
+            }
         }
         
         if (feedEntry?.ExpirationTimestamp != nil) {
             let expirationDate = Date(timeIntervalSince1970: (feedEntry?.ExpirationTimestamp)!)
+            cell.card?.timeTitle2 = "پایان"
             cell.card?.timeValue2 = Utils.convertToPersianLocaleString(Utils.getHourOfDayString(from: expirationDate)!) ?? (cell.card?.timeValue2)!
             cell.card?.timeSubValue2 = Utils.convertToPersianLocaleString(Utils.getRelativeDayName(expirationDate)) ?? (cell.card?.timeSubValue2)!
         }
@@ -214,15 +259,19 @@ extension FeedViewController : UITableViewDataSource, UITableViewDelegate {
 
         if (feedEntry?.ReleaseTimestamp != nil) {
             let releaseDate = Date(timeIntervalSince1970: (feedEntry?.ReleaseTimestamp)!)
+            cell.card?.timeTitle1 = "انتشار"
             cell.card?.timeValue1 = Utils.convertToPersianLocaleString(Utils.getHourOfDayString(from: releaseDate)) ?? (cell.card?.timeValue1)!
             cell.card?.timeSubValue1 = Utils.convertToPersianLocaleString(Utils.getRelativeDayName(releaseDate)) ?? (cell.card?.timeSubValue1)!
         }
         
         if (feedEntry?.ExpirationTimestamp != nil) {
             let expirationDate = Date(timeIntervalSince1970: (feedEntry?.ExpirationTimestamp)!)
+            cell.card?.timeTitle2 = "انقضا"
             cell.card?.timeValue2 = Utils.convertToPersianLocaleString(Utils.getHourOfDayString(from: expirationDate)!) ?? (cell.card?.timeValue2)!
             cell.card?.timeSubValue2 = Utils.convertToPersianLocaleString(Utils.getRelativeDayName(expirationDate)) ?? (cell.card?.timeSubValue2)!
         }
+        
+        cell.card?.actionable = true
         
         cell.card?.backgroundImage = UIImage(data: entryProgramInfo?.bannerImageData ?? ProgramInfo.defaultBannerImageData)
         

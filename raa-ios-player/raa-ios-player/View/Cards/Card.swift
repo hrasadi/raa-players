@@ -96,12 +96,7 @@ import UIKit
     public func shouldPresent( _ contentViewController: UIViewController?, from superVC: UIViewController?, fullscreen: Bool = false) {
         if let content = contentViewController {
             self.superVC = superVC
-            //detailVC.addChildViewController(content)
             self.contentViewController = content
-            //detailVC.detailView = content.view
-            detailVC.card = self
-            detailVC.delegate = self.delegate
-            detailVC.isFullscreen = fullscreen
         }
     }
     /**
@@ -120,7 +115,6 @@ import UIKit
     
     //Private Vars
     fileprivate var tap = UITapGestureRecognizer()
-    fileprivate var detailVC = DetailViewController()
 
     var superVC: UIViewController?
     var originalFrame = CGRect.zero
@@ -150,8 +144,6 @@ import UIKit
         self.addGestureRecognizer(tap)
         tap.delegate = self
         tap.cancelsTouchesInView = false
-       
-        detailVC.transitioningDelegate = self
         
         // Adding Subviews
         self.addSubview(backgroundIV)
@@ -184,7 +176,7 @@ import UIKit
         // Remove everything first
         backgroundImageView.removeFromSuperview();
         backgroundImageView = UIImageView(image: backgroundImage)
-        backgroundImageView.alpha = 0.4
+        backgroundImageView.alpha = 0.3
         
         backgroundIV.addSubview(backgroundImageView)
         backgroundIV.sendSubview(toBack: backgroundImageView)
@@ -241,11 +233,19 @@ import UIKit
         
         if let vc = superVC {
             // Add child VC
+            let detailVC = DetailViewController()
+
+            detailVC.transitioningDelegate = self
+
+            detailVC.card = self
+            detailVC.delegate = self.delegate
+            detailVC.isFullscreen = false
+
             if self.contentViewController != nil {
-                self.detailVC.addChildViewController(self.contentViewController!)
-                self.detailVC.detailView = self.contentViewController?.view
+                detailVC.addChildViewController(self.contentViewController!)
+                detailVC.detailView = self.contentViewController?.view
             }
-            vc.present(self.detailVC, animated: true, completion: nil)
+            vc.present(detailVC, animated: true, completion: nil)
         } else {
             resetAnimated()
         }

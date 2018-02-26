@@ -46,7 +46,7 @@ class ProgramDetailsViewController : UIViewController {
                 programDescriptionText?.sizeToFit()
             }
         }
-    }
+    }    
 }
 
 extension ProgramDetailsViewController : ModelCommunicator {

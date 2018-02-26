@@ -16,59 +16,49 @@
             <objects>
                 <viewController id="7pc-Aj-tBg" customClass="LiveBroadcastViewController" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="vwB-bT-Rma">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="424"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="484"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="F2Z-jm-grt">
                                 <rect key="frame" x="0.0" y="212" width="375" height="0.0"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </activityIndicatorView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="hJQ-5p-dsA">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="424"/>
-                                <subviews>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="2AV-An-Vj7">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="424"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="liveProgramCell" rowHeight="150" id="leK-IW-D5T" customClass="LiveBroadcastProgramCardTableViewCell" customModule="raa_ios_player" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="28" width="375" height="150"/>
-                                                <autoresizingMask key="autoresizingMask"/>
-                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="leK-IW-D5T" id="0Pf-68-npL">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="150"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <subviews>
-                                                        <view contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="vds-Rt-spk" userLabel="ProgramCard" customClass="LiveBroadcastProgramCard" customModule="raa_ios_player" customModuleProvider="target">
-                                                            <rect key="frame" x="5" y="5" width="365" height="140"/>
-                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        </view>
-                                                    </subviews>
-                                                    <constraints>
-                                                        <constraint firstItem="vds-Rt-spk" firstAttribute="leading" secondItem="0Pf-68-npL" secondAttribute="leading" constant="5" id="57w-FR-PXB"/>
-                                                        <constraint firstAttribute="bottom" secondItem="vds-Rt-spk" secondAttribute="bottom" constant="5" id="Ade-3J-Xqs"/>
-                                                        <constraint firstItem="vds-Rt-spk" firstAttribute="top" secondItem="0Pf-68-npL" secondAttribute="top" constant="5" id="BfW-CR-FRz"/>
-                                                        <constraint firstAttribute="trailing" secondItem="vds-Rt-spk" secondAttribute="trailing" constant="5" id="n28-G3-0ad"/>
-                                                    </constraints>
-                                                </tableViewCellContentView>
-                                                <connections>
-                                                    <outlet property="card" destination="vds-Rt-spk" id="eDc-jR-JB8"/>
-                                                </connections>
-                                            </tableViewCell>
-                                        </prototypes>
-                                    </tableView>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="2AV-An-Vj7" firstAttribute="top" secondItem="hJQ-5p-dsA" secondAttribute="top" id="CXD-0u-YrO"/>
-                                    <constraint firstItem="2AV-An-Vj7" firstAttribute="leading" secondItem="hJQ-5p-dsA" secondAttribute="leading" id="L6J-kl-XIS"/>
-                                    <constraint firstAttribute="trailing" secondItem="2AV-An-Vj7" secondAttribute="trailing" id="YTS-3Y-KOn"/>
-                                </constraints>
-                            </stackView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="2AV-An-Vj7">
+                                <rect key="frame" x="0.0" y="20" width="375" height="464"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="liveProgramCell" rowHeight="150" id="leK-IW-D5T" customClass="LiveBroadcastProgramCardTableViewCell" customModule="raa_ios_player" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="150"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="leK-IW-D5T" id="0Pf-68-npL">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="150"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="vds-Rt-spk" userLabel="ProgramCard" customClass="LiveBroadcastProgramCard" customModule="raa_ios_player" customModuleProvider="target">
+                                                    <rect key="frame" x="5" y="5" width="365" height="140"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="vds-Rt-spk" firstAttribute="leading" secondItem="0Pf-68-npL" secondAttribute="leading" constant="5" id="57w-FR-PXB"/>
+                                                <constraint firstAttribute="bottom" secondItem="vds-Rt-spk" secondAttribute="bottom" constant="5" id="Ade-3J-Xqs"/>
+                                                <constraint firstItem="vds-Rt-spk" firstAttribute="top" secondItem="0Pf-68-npL" secondAttribute="top" constant="5" id="BfW-CR-FRz"/>
+                                                <constraint firstAttribute="trailing" secondItem="vds-Rt-spk" secondAttribute="trailing" constant="5" id="n28-G3-0ad"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="card" destination="vds-Rt-spk" id="eDc-jR-JB8"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="hJQ-5p-dsA" firstAttribute="trailing" secondItem="gkb-oV-lHS" secondAttribute="trailing" id="AAc-4T-Vdj"/>
-                            <constraint firstItem="hJQ-5p-dsA" firstAttribute="leading" secondItem="gkb-oV-lHS" secondAttribute="leading" id="ToY-dW-nD8"/>
-                            <constraint firstItem="hJQ-5p-dsA" firstAttribute="top" secondItem="gkb-oV-lHS" secondAttribute="top" id="nM9-AL-FAy"/>
-                            <constraint firstItem="gkb-oV-lHS" firstAttribute="bottom" secondItem="hJQ-5p-dsA" secondAttribute="bottom" id="sFV-hq-M0Q"/>
+                            <constraint firstItem="2AV-An-Vj7" firstAttribute="leading" secondItem="gkb-oV-lHS" secondAttribute="leading" id="BjQ-tx-efL"/>
+                            <constraint firstItem="2AV-An-Vj7" firstAttribute="trailing" secondItem="gkb-oV-lHS" secondAttribute="trailing" id="Lmu-07-dQa"/>
+                            <constraint firstItem="gkb-oV-lHS" firstAttribute="bottom" secondItem="2AV-An-Vj7" secondAttribute="bottom" id="pYF-5j-z95"/>
+                            <constraint firstItem="2AV-An-Vj7" firstAttribute="top" secondItem="gkb-oV-lHS" secondAttribute="top" id="sah-6w-LMM"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="gkb-oV-lHS"/>
                     </view>
@@ -79,83 +69,67 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gVq-R5-4e1" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1802" y="-460"/>
+            <point key="canvasLocation" x="1947" y="-1177"/>
         </scene>
         <!--Feed View Controller-->
-        <scene sceneID="1eV-XK-RpD">
+        <scene sceneID="m7R-r2-BhR">
             <objects>
-                <viewController id="IL4-PX-Snv" customClass="FeedViewController" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="nuc-6w-0iP">
+                <tableViewController id="qi5-5y-Rvf" customClass="FeedViewController" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="cwF-IC-9D7">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="432"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="mym-hx-C8N">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="432"/>
-                                <subviews>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uBP-9Q-trR">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="432"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="feedCell" rowHeight="150" id="ZDn-j6-psN" customClass="FeedEntryCardTableViewCell" customModule="raa_ios_player" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="28" width="375" height="150"/>
-                                                <autoresizingMask key="autoresizingMask"/>
-                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ZDn-j6-psN" id="50Z-en-coV">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="150"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <subviews>
-                                                        <view contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="G8p-IT-IM9" customClass="FeedEntryProgramCard" customModule="raa_ios_player" customModuleProvider="target">
-                                                            <rect key="frame" x="5" y="5" width="365" height="140"/>
-                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        </view>
-                                                    </subviews>
-                                                    <constraints>
-                                                        <constraint firstItem="G8p-IT-IM9" firstAttribute="leading" secondItem="50Z-en-coV" secondAttribute="leading" constant="5" id="3yn-VI-AyH"/>
-                                                        <constraint firstAttribute="bottom" secondItem="G8p-IT-IM9" secondAttribute="bottom" constant="5" id="aR6-Yd-IUO"/>
-                                                        <constraint firstItem="G8p-IT-IM9" firstAttribute="top" secondItem="50Z-en-coV" secondAttribute="top" constant="5" id="gSt-cO-67D"/>
-                                                        <constraint firstAttribute="trailing" secondItem="G8p-IT-IM9" secondAttribute="trailing" constant="5" id="nHx-Ya-Key"/>
-                                                    </constraints>
-                                                </tableViewCellContentView>
-                                                <connections>
-                                                    <outlet property="card" destination="G8p-IT-IM9" id="Qtp-dz-DPR"/>
-                                                </connections>
-                                            </tableViewCell>
-                                        </prototypes>
-                                    </tableView>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="uBP-9Q-trR" firstAttribute="leading" secondItem="mym-hx-C8N" secondAttribute="leading" id="aae-i7-9p7"/>
-                                    <constraint firstItem="uBP-9Q-trR" firstAttribute="top" secondItem="mym-hx-C8N" secondAttribute="top" id="gLP-n8-bxw"/>
-                                    <constraint firstAttribute="trailing" secondItem="uBP-9Q-trR" secondAttribute="trailing" id="vAo-6R-mT5"/>
-                                </constraints>
-                            </stackView>
-                        </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="mym-hx-C8N" firstAttribute="top" secondItem="NkQ-PM-bar" secondAttribute="top" id="1NI-q7-QSq"/>
-                            <constraint firstItem="NkQ-PM-bar" firstAttribute="bottom" secondItem="mym-hx-C8N" secondAttribute="bottom" id="1mb-vW-amF"/>
-                            <constraint firstItem="mym-hx-C8N" firstAttribute="leading" secondItem="NkQ-PM-bar" secondAttribute="leading" id="PDb-ch-PFa"/>
-                            <constraint firstItem="mym-hx-C8N" firstAttribute="trailing" secondItem="NkQ-PM-bar" secondAttribute="trailing" id="WLw-iV-JTe"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="NkQ-PM-bar"/>
-                    </view>
-                    <connections>
-                        <outlet property="feedTableView" destination="uBP-9Q-trR" id="Mn4-a8-jbH"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="G5M-UE-HYC" sceneMemberID="firstResponder"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="feedCell" rowHeight="150" id="ZDn-j6-psN" customClass="FeedEntryCardTableViewCell" customModule="raa_ios_player" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="150"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ZDn-j6-psN" id="50Z-en-coV">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="150"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <view contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="G8p-IT-IM9" customClass="FeedEntryProgramCard" customModule="raa_ios_player" customModuleProvider="target">
+                                            <rect key="frame" x="5" y="5" width="365" height="140"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </view>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="G8p-IT-IM9" firstAttribute="leading" secondItem="50Z-en-coV" secondAttribute="leading" constant="5" id="3yn-VI-AyH"/>
+                                        <constraint firstAttribute="bottom" secondItem="G8p-IT-IM9" secondAttribute="bottom" constant="5" id="aR6-Yd-IUO"/>
+                                        <constraint firstItem="G8p-IT-IM9" firstAttribute="top" secondItem="50Z-en-coV" secondAttribute="top" constant="5" id="gSt-cO-67D"/>
+                                        <constraint firstAttribute="trailing" secondItem="G8p-IT-IM9" secondAttribute="trailing" constant="5" id="nHx-Ya-Key"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="card" destination="G8p-IT-IM9" id="Qtp-dz-DPR"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="qi5-5y-Rvf" id="5Jt-rR-Q3y"/>
+                            <outlet property="delegate" destination="qi5-5y-Rvf" id="mBl-vR-Lmv"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Wxr-jt-yuU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1802" y="852"/>
+            <point key="canvasLocation" x="1868" y="852"/>
         </scene>
-        <!--پخش زنده-->
+        <!--زنده از پورت جف-->
         <scene sceneID="kAa-yi-cNl">
             <objects>
                 <viewController id="sHx-AM-Cpd" customClass="LiveBroadcastContainerViewController" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="IGs-XH-HVa">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="keg-Yb-pAg">
+                                <rect key="frame" x="0.0" y="88" width="375" height="571"/>
+                                <connections>
+                                    <segue destination="7pc-Aj-tBg" kind="embed" id="gjD-Eg-7N1"/>
+                                </connections>
+                            </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YEV-0v-BSa" userLabel="Player" customClass="XibContainer" customModule="raa_ios_player" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="548" width="375" height="70"/>
+                                <rect key="frame" x="0.0" y="659" width="375" height="70"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="70" id="jSC-1g-V7K"/>
@@ -164,26 +138,20 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="nibName" value="Player"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ufm-PR-9OF">
-                                <rect key="frame" x="0.0" y="116" width="375" height="424"/>
-                                <connections>
-                                    <segue destination="7pc-Aj-tBg" kind="embed" id="Qg0-NP-WWN"/>
-                                </connections>
-                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="YEV-0v-BSa" firstAttribute="top" secondItem="keg-Yb-pAg" secondAttribute="bottom" id="IpK-KV-t9v"/>
                             <constraint firstItem="YEV-0v-BSa" firstAttribute="leading" secondItem="IgG-Cn-Fdv" secondAttribute="leading" id="N62-YQ-z2n"/>
-                            <constraint firstItem="ufm-PR-9OF" firstAttribute="top" secondItem="IgG-Cn-Fdv" secondAttribute="top" id="Ncs-68-drI"/>
-                            <constraint firstItem="YEV-0v-BSa" firstAttribute="top" secondItem="ufm-PR-9OF" secondAttribute="bottom" id="RZI-Z1-Bs5"/>
-                            <constraint firstItem="IgG-Cn-Fdv" firstAttribute="trailing" secondItem="ufm-PR-9OF" secondAttribute="trailing" id="mB9-V6-2N5"/>
+                            <constraint firstItem="keg-Yb-pAg" firstAttribute="leading" secondItem="IgG-Cn-Fdv" secondAttribute="leading" id="NHU-Sa-Zp6"/>
                             <constraint firstItem="IgG-Cn-Fdv" firstAttribute="bottom" secondItem="YEV-0v-BSa" secondAttribute="bottom" id="mcd-Zp-Xac"/>
                             <constraint firstItem="YEV-0v-BSa" firstAttribute="trailing" secondItem="IgG-Cn-Fdv" secondAttribute="trailing" id="qEL-us-3aW"/>
-                            <constraint firstItem="ufm-PR-9OF" firstAttribute="leading" secondItem="IgG-Cn-Fdv" secondAttribute="leading" id="szm-Sl-Yb0"/>
+                            <constraint firstItem="IgG-Cn-Fdv" firstAttribute="trailing" secondItem="keg-Yb-pAg" secondAttribute="trailing" id="rxZ-98-JYF"/>
+                            <constraint firstItem="keg-Yb-pAg" firstAttribute="top" secondItem="IgG-Cn-Fdv" secondAttribute="top" id="yZQ-2j-hkS"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="IgG-Cn-Fdv"/>
                     </view>
-                    <navigationItem key="navigationItem" title="پخش زنده" id="8sq-7M-rjp"/>
+                    <navigationItem key="navigationItem" title="زنده از پورت جف" id="8sq-7M-rjp"/>
                     <connections>
                         <outlet property="playerHeightConstraint" destination="jSC-1g-V7K" id="Xb8-Ky-E8Y"/>
                         <outlet property="playerViewContainer" destination="YEV-0v-BSa" id="4tV-Y4-XKn"/>
@@ -191,7 +159,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wkI-FW-EaW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1129" y="-460"/>
+            <point key="canvasLocation" x="968.79999999999995" y="-1177.0614692653674"/>
         </scene>
         <!--Program Details View Controller-->
         <scene sceneID="adv-ol-FgV">
@@ -222,7 +190,332 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ebZ-rd-ZJp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-820" y="-2.2488755622188905"/>
+            <point key="canvasLocation" x="-551" y="-770"/>
+        </scene>
+        <!--آرشیو برنامه‌ها-->
+        <scene sceneID="4dg-dX-PFo">
+            <objects>
+                <tableViewController id="moa-JE-jP6" customClass="ArchiveViewController" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="vey-md-hqB">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="432"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="programArchiveCell" id="Xea-oo-b7N" customClass="ArchiveProgramTableViewCell" customModule="raa_ios_player" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Xea-oo-b7N" id="Sjz-CJ-Jor">
+                                    <rect key="frame" x="0.0" y="0.0" width="341" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mx2-23-qdI" userLabel="Program Icon">
+                                            <rect key="frame" x="21" y="3.5" width="35" height="35"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="35" id="Zlp-aI-xD2"/>
+                                                <constraint firstAttribute="height" constant="35" id="bnF-yw-kgV"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="نام برنامه" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="CmG-VW-rgh" userLabel="Program Name">
+                                            <rect key="frame" x="71" y="12.5" width="53" height="18"/>
+                                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="CmG-VW-rgh" secondAttribute="trailing" constant="20" symbolic="YES" id="Dnd-E5-IZe"/>
+                                        <constraint firstItem="mx2-23-qdI" firstAttribute="leading" secondItem="Sjz-CJ-Jor" secondAttribute="leadingMargin" constant="5" id="Hkc-mh-qgO"/>
+                                        <constraint firstItem="mx2-23-qdI" firstAttribute="centerY" secondItem="Sjz-CJ-Jor" secondAttribute="centerY" id="auS-Nc-UVC"/>
+                                        <constraint firstItem="CmG-VW-rgh" firstAttribute="leading" secondItem="mx2-23-qdI" secondAttribute="trailing" constant="15" id="lBV-lj-2Di"/>
+                                        <constraint firstItem="CmG-VW-rgh" firstAttribute="centerY" secondItem="Sjz-CJ-Jor" secondAttribute="centerY" id="uAA-fm-RfD"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="ProgramIcon" destination="mx2-23-qdI" id="Pvk-K1-uIS"/>
+                                    <outlet property="ProgramNameLabel" destination="CmG-VW-rgh" id="oPU-bB-ylU"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="moa-JE-jP6" id="dGQ-Gg-RBi"/>
+                            <outlet property="delegate" destination="moa-JE-jP6" id="Mil-Pz-RZF"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="آرشیو برنامه‌ها" id="fJQ-vI-hHY"/>
+                    <connections>
+                        <segue destination="ekW-xK-Wb3" kind="show" identifier="archiveProgramCardsSegue" id="MNJ-do-zd2"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9eg-5R-nb2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1868" y="-3"/>
+        </scene>
+        <!--Program Archive Podcast Description View Controller-->
+        <scene sceneID="H1K-Qw-ELM">
+            <objects>
+                <viewController id="fsZ-Xr-oi1" customClass="ProgramArchivePodcastDescriptionViewController" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2iM-t8-Qj9">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="432"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DE6-E2-IYH" userLabel="OK">
+                                <rect key="frame" x="30" y="372" width="315" height="30"/>
+                                <color key="backgroundColor" red="0.1843137255" green="0.52156862749999999" blue="0.4549019608" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="o5K-M5-78N"/>
+                                </constraints>
+                                <state key="normal" title="متوجه شدم">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="okButtonClicked:" destination="fsZ-Xr-oi1" eventType="touchUpInside" id="zRt-Ra-iNq"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="right" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LVS-RD-BAP">
+                                <rect key="frame" x="20" y="100" width="335" height="200"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="EuL-6y-PZI"/>
+                                </constraints>
+                                <mutableString key="text">برای دسترسی به پادکست‌های این برنامه مراحل زیر رو دنبال کنید:
+
+۱- لینک پایین رو کپی کنید.
+۲- وارد نرم‌افزار Podcasts گوشیتون بشید و Library رو از نوار پایین انتخاب کنید.
+۳- گزینه‌ی Add a Podcast by URL رو انتخاب کنید و لینکی که کپی کرده بودید رو اون‌جا بچسبونید.
+۴- لذت ببرید!</mutableString>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="URL" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="hAZ-v6-254">
+                                <rect key="frame" x="20" y="310" width="335" height="60"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="P8t-Kn-PN0"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="LVS-RD-BAP" firstAttribute="top" secondItem="4gs-CC-MWB" secondAttribute="top" constant="100" id="39f-s5-5cs"/>
+                            <constraint firstItem="DE6-E2-IYH" firstAttribute="leading" secondItem="4gs-CC-MWB" secondAttribute="leading" constant="30" id="JyM-Y6-HvH"/>
+                            <constraint firstItem="4gs-CC-MWB" firstAttribute="trailing" secondItem="LVS-RD-BAP" secondAttribute="trailing" constant="20" id="MUo-hZ-Ppr"/>
+                            <constraint firstItem="LVS-RD-BAP" firstAttribute="leading" secondItem="4gs-CC-MWB" secondAttribute="leading" constant="20" id="OZs-yc-dzU"/>
+                            <constraint firstItem="4gs-CC-MWB" firstAttribute="trailing" secondItem="hAZ-v6-254" secondAttribute="trailing" constant="20" id="Opw-j1-tSz"/>
+                            <constraint firstItem="DE6-E2-IYH" firstAttribute="top" relation="greaterThanOrEqual" secondItem="hAZ-v6-254" secondAttribute="bottom" id="Zzg-O7-SrZ"/>
+                            <constraint firstItem="4gs-CC-MWB" firstAttribute="bottom" secondItem="DE6-E2-IYH" secondAttribute="bottom" constant="30" id="dbf-s1-xw0"/>
+                            <constraint firstItem="4gs-CC-MWB" firstAttribute="trailing" secondItem="DE6-E2-IYH" secondAttribute="trailing" constant="30" id="hl5-nC-VKe"/>
+                            <constraint firstItem="hAZ-v6-254" firstAttribute="leading" secondItem="4gs-CC-MWB" secondAttribute="leading" constant="20" id="nwV-uF-lN0"/>
+                            <constraint firstItem="hAZ-v6-254" firstAttribute="top" secondItem="LVS-RD-BAP" secondAttribute="bottom" constant="10" id="oJR-cc-c6v"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="4gs-CC-MWB"/>
+                    </view>
+                    <connections>
+                        <outlet property="PodcastURLTextView" destination="hAZ-v6-254" id="Rjw-43-8ag"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="d7P-xt-WzD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3516" y="-279.76011994002999"/>
+        </scene>
+        <!--Program Archive Container View Controller-->
+        <scene sceneID="wvf-6u-pIm">
+            <objects>
+                <viewController id="ekW-xK-Wb3" customClass="ProgramArchiveContainerViewController" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="UAH-uW-8ye">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="432"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="14H-YO-yRw">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="362"/>
+                                <subviews>
+                                    <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rPL-cU-oZE">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="312"/>
+                                        <connections>
+                                            <segue destination="dAR-ec-g6N" kind="embed" identifier="programArchiveTableDisplay" id="ors-u6-RyS"/>
+                                        </connections>
+                                    </containerView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LNm-ah-a46">
+                                        <rect key="frame" x="0.0" y="312" width="375" height="50"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o6L-gX-Rc0" userLabel="قسمت‌های این برنامه به صورت پادکست">
+                                                <rect key="frame" x="40" y="10" width="214" height="30"/>
+                                                <color key="backgroundColor" red="0.1843137255" green="0.52156862749999999" blue="0.4549019608" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="udF-JX-GjK"/>
+                                                </constraints>
+                                                <state key="normal" title="قسمت‌های برنامه به صورت پادکست">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="podcastDescriptionClicked:" destination="ekW-xK-Wb3" eventType="touchUpInside" id="fxh-Yw-ALD"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="o6L-gX-Rc0" firstAttribute="leading" secondItem="LNm-ah-a46" secondAttribute="leading" constant="40" id="1kX-83-GsN"/>
+                                            <constraint firstAttribute="bottom" secondItem="o6L-gX-Rc0" secondAttribute="bottom" constant="10" id="GhL-y7-i41"/>
+                                            <constraint firstItem="o6L-gX-Rc0" firstAttribute="top" secondItem="LNm-ah-a46" secondAttribute="top" constant="10" id="Tzr-1e-3fi"/>
+                                            <constraint firstAttribute="trailing" secondItem="o6L-gX-Rc0" secondAttribute="trailing" constant="40" id="lUv-Ci-FcZ"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="rPL-cU-oZE" firstAttribute="leading" secondItem="14H-YO-yRw" secondAttribute="leading" id="38O-GV-XKu"/>
+                                    <constraint firstItem="LNm-ah-a46" firstAttribute="leading" secondItem="14H-YO-yRw" secondAttribute="leading" id="Qze-lS-lYq"/>
+                                    <constraint firstAttribute="trailing" secondItem="LNm-ah-a46" secondAttribute="trailing" id="SIh-4B-FY8"/>
+                                    <constraint firstAttribute="bottom" secondItem="LNm-ah-a46" secondAttribute="bottom" id="Ybf-RQ-TvV"/>
+                                    <constraint firstItem="rPL-cU-oZE" firstAttribute="top" secondItem="14H-YO-yRw" secondAttribute="top" id="eut-4x-xcy"/>
+                                    <constraint firstItem="LNm-ah-a46" firstAttribute="top" secondItem="rPL-cU-oZE" secondAttribute="bottom" id="vgy-dn-cnK"/>
+                                    <constraint firstAttribute="trailing" secondItem="rPL-cU-oZE" secondAttribute="trailing" id="wgI-SZ-irT"/>
+                                </constraints>
+                            </stackView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KEt-Of-PPy" userLabel="Player" customClass="XibContainer" customModule="raa_ios_player" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="362" width="375" height="70"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="70" id="9vz-Fy-XOt"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="nibName" value="Player"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="14H-YO-yRw" firstAttribute="bottom" secondItem="KEt-Of-PPy" secondAttribute="top" id="4NN-Dz-oJC"/>
+                            <constraint firstItem="IN4-o2-AjQ" firstAttribute="bottom" secondItem="KEt-Of-PPy" secondAttribute="bottom" id="BQu-yk-1T1"/>
+                            <constraint firstItem="IN4-o2-AjQ" firstAttribute="trailing" secondItem="14H-YO-yRw" secondAttribute="trailing" id="JH8-rD-gLM"/>
+                            <constraint firstItem="14H-YO-yRw" firstAttribute="leading" secondItem="IN4-o2-AjQ" secondAttribute="leading" id="MlS-Hc-mfV"/>
+                            <constraint firstItem="KEt-Of-PPy" firstAttribute="trailing" secondItem="IN4-o2-AjQ" secondAttribute="trailing" id="Zbo-d0-ddR"/>
+                            <constraint firstItem="KEt-Of-PPy" firstAttribute="leading" secondItem="IN4-o2-AjQ" secondAttribute="leading" id="bDJ-3A-IHm"/>
+                            <constraint firstItem="14H-YO-yRw" firstAttribute="top" secondItem="IN4-o2-AjQ" secondAttribute="top" id="kk1-EG-kTB"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="IN4-o2-AjQ"/>
+                    </view>
+                    <connections>
+                        <outlet property="containerView" destination="rPL-cU-oZE" id="0Mc-A6-xLt"/>
+                        <outlet property="playerHeightConstraint" destination="9vz-Fy-XOt" id="d2q-us-zAB"/>
+                        <outlet property="playerViewContainer" destination="KEt-Of-PPy" id="22T-Cd-ax0"/>
+                        <segue destination="fsZ-Xr-oi1" kind="popoverPresentation" identifier="archivePodcastSegue" popoverAnchorView="UAH-uW-8ye" id="ObX-8x-bze">
+                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                        </segue>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gzy-sE-gDc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2652" y="-4"/>
+        </scene>
+        <!--Program Archive View Controller-->
+        <scene sceneID="oTu-SO-aWw">
+            <objects>
+                <tableViewController id="dAR-ec-g6N" customClass="ProgramArchiveViewController" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="f2G-KC-59X">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="312"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="archiveEntryCell" rowHeight="140" id="x0M-wa-D67" customClass="ProgramArchiveEntryTableViewCell" customModule="raa_ios_player" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="140"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="x0M-wa-D67" id="xGs-c4-rhB">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="140"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <view contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="i6q-6D-pKy" customClass="ProgramArchiveEntryCard" customModule="raa_ios_player" customModuleProvider="target">
+                                            <rect key="frame" x="5" y="5" width="365" height="130"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </view>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="i6q-6D-pKy" secondAttribute="bottom" constant="5" id="6JZ-Bk-vq1"/>
+                                        <constraint firstItem="i6q-6D-pKy" firstAttribute="leading" secondItem="xGs-c4-rhB" secondAttribute="leading" constant="5" id="dao-DT-lDk"/>
+                                        <constraint firstAttribute="trailing" secondItem="i6q-6D-pKy" secondAttribute="trailing" constant="5" id="i4d-qx-Gfv"/>
+                                        <constraint firstItem="i6q-6D-pKy" firstAttribute="top" secondItem="xGs-c4-rhB" secondAttribute="top" constant="5" id="ycL-hD-dLc"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="card" destination="i6q-6D-pKy" id="pf5-oq-TQk"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="dAR-ec-g6N" id="fER-KV-71T"/>
+                            <outlet property="delegate" destination="dAR-ec-g6N" id="QtI-AQ-LTg"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZRc-iN-Syi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3518" y="221"/>
+        </scene>
+        <!--Program Archive Container-->
+        <scene sceneID="Vtr-wD-Rb2">
+            <objects>
+                <viewController id="kRw-zy-6V4" userLabel="Program Archive Container" customClass="ArchiveContainerViewController" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="cAG-2j-xrv">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fSN-O8-LI4">
+                                <rect key="frame" x="0.0" y="116" width="375" height="432"/>
+                                <connections>
+                                    <segue destination="moa-JE-jP6" kind="embed" id="Vuc-Kz-Kk4"/>
+                                </connections>
+                            </containerView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HJ1-Dc-fCQ" userLabel="Player" customClass="XibContainer" customModule="raa_ios_player" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="548" width="375" height="70"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="70" id="v20-A3-oSt"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="nibName" value="Player"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="HJ1-Dc-fCQ" firstAttribute="leading" secondItem="inq-Ok-Ixz" secondAttribute="leading" id="1SE-gp-r1F"/>
+                            <constraint firstItem="fSN-O8-LI4" firstAttribute="top" secondItem="inq-Ok-Ixz" secondAttribute="top" id="JqH-Vb-eHv"/>
+                            <constraint firstItem="HJ1-Dc-fCQ" firstAttribute="top" secondItem="fSN-O8-LI4" secondAttribute="bottom" id="KE8-TT-Yhe"/>
+                            <constraint firstItem="fSN-O8-LI4" firstAttribute="leading" secondItem="inq-Ok-Ixz" secondAttribute="leading" id="OIS-Nm-qWW"/>
+                            <constraint firstItem="inq-Ok-Ixz" firstAttribute="bottom" secondItem="HJ1-Dc-fCQ" secondAttribute="bottom" id="sbt-l0-5A1"/>
+                            <constraint firstItem="HJ1-Dc-fCQ" firstAttribute="trailing" secondItem="inq-Ok-Ixz" secondAttribute="trailing" id="vbD-FO-VTI"/>
+                            <constraint firstItem="fSN-O8-LI4" firstAttribute="trailing" secondItem="inq-Ok-Ixz" secondAttribute="trailing" id="zqc-D7-QbM"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="inq-Ok-Ixz"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="آرشیو برنامه‌ها" id="9lO-cv-gNM"/>
+                    <connections>
+                        <outlet property="playerHeightConstraint" destination="v20-A3-oSt" id="ifa-eP-iOB"/>
+                        <outlet property="playerViewContainer" destination="HJ1-Dc-fCQ" id="S6V-q2-SAC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Kiq-Sb-lb3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1129" y="-2"/>
+        </scene>
+        <!--آرشیو برنامه‌ها-->
+        <scene sceneID="gNG-46-c7R">
+            <objects>
+                <navigationController id="iwj-6F-cti" customClass="BackwardCompatibleNavigationController" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="آرشیو برنامه‌ها" image="archive" id="Zfw-Hx-HNv"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="LQp-js-olD">
+                        <rect key="frame" x="0.0" y="20" width="375" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="kRw-zy-6V4" kind="relationship" relationship="rootViewController" id="NbE-fB-sdv"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4nY-Bo-8Kp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="431" y="-2"/>
         </scene>
         <!--Main-->
         <scene sceneID="ig0-VE-hA1">
@@ -236,17 +529,82 @@
                     <connections>
                         <segue destination="Zva-Lf-MkG" kind="relationship" relationship="viewControllers" id="Fjw-kq-ctM"/>
                         <segue destination="ckx-4Z-Z9P" kind="relationship" relationship="viewControllers" id="Rgr-7t-1Pm"/>
+                        <segue destination="iwj-6F-cti" kind="relationship" relationship="viewControllers" id="Q0G-U3-SV1"/>
                         <segue destination="LCS-o6-Omf" kind="relationship" relationship="viewControllers" id="kzG-0p-DW7"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aGN-Xc-M3Z" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-213" y="-2"/>
+            <point key="canvasLocation" x="-551" y="-2"/>
+        </scene>
+        <!--تنظیمات اعلام برنامه‌های عمومی-->
+        <scene sceneID="Vze-dD-oNx">
+            <objects>
+                <tableViewController id="wyu-vh-yMp" userLabel="تنظیمات اعلام برنامه‌های عمومی" customClass="PublicProgramNotificationViewController" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="248-XT-ER7">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="448"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="publicProgramNotifitationSettingsCell" id="dLP-ax-EH6" customClass="PublicProgramNotificationViewCell" customModule="raa_ios_player" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dLP-ax-EH6" id="lkd-if-hYW">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3bl-85-AOf" userLabel="Program Icon">
+                                            <rect key="frame" x="21" y="5" width="35" height="35"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="35" id="CRk-9I-4Q1"/>
+                                                <constraint firstAttribute="height" constant="35" id="UkB-pj-eRE"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="35" id="XPw-MI-hIS"/>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="35" id="vUI-th-P44"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="500" text="نام برنامه" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="aah-J9-upd" userLabel="Program Name">
+                                            <rect key="frame" x="71" y="13" width="53" height="18"/>
+                                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <switch opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vlX-7G-U8N" userLabel="notifyProgramStart">
+                                            <rect key="frame" x="305" y="6.5" width="51" height="31"/>
+                                        </switch>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="vlX-7G-U8N" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="aah-J9-upd" secondAttribute="trailing" constant="5" id="15j-Ee-bp1"/>
+                                        <constraint firstItem="3bl-85-AOf" firstAttribute="leading" secondItem="lkd-if-hYW" secondAttribute="leadingMargin" constant="5" id="2ca-Gb-tmv"/>
+                                        <constraint firstItem="aah-J9-upd" firstAttribute="centerY" secondItem="lkd-if-hYW" secondAttribute="centerY" id="Ars-zd-ElX"/>
+                                        <constraint firstItem="3bl-85-AOf" firstAttribute="centerY" secondItem="lkd-if-hYW" secondAttribute="centerY" id="Dsd-zi-Aie"/>
+                                        <constraint firstItem="vlX-7G-U8N" firstAttribute="centerY" secondItem="lkd-if-hYW" secondAttribute="centerY" id="NO6-dg-V1u"/>
+                                        <constraint firstItem="aah-J9-upd" firstAttribute="leading" secondItem="3bl-85-AOf" secondAttribute="trailing" constant="15" id="SNp-2H-mr8"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="vlX-7G-U8N" secondAttribute="trailing" constant="5" id="Xqb-XB-Vkf"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="aah-J9-upd" secondAttribute="trailing" constant="20" symbolic="YES" id="bry-J5-0yD"/>
+                                        <constraint firstItem="3bl-85-AOf" firstAttribute="leading" secondItem="lkd-if-hYW" secondAttribute="leadingMargin" constant="5" id="e8c-En-3Av"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="NotifyOnProgramStart" destination="vlX-7G-U8N" id="zax-5d-F7q"/>
+                                    <outlet property="ProgramIcon" destination="3bl-85-AOf" id="yCB-os-mC6"/>
+                                    <outlet property="ProgramNameLabel" destination="aah-J9-upd" id="wZk-4z-AjV"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="wyu-vh-yMp" id="uyE-K0-CvX"/>
+                            <outlet property="delegate" destination="wyu-vh-yMp" id="1fE-DA-yp6"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="a6R-qp-1L3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-276" y="1621"/>
         </scene>
         <!--تنظیمات-->
         <scene sceneID="Jyk-NK-Oz2">
             <objects>
-                <navigationController id="LCS-o6-Omf" sceneMemberID="viewController">
+                <navigationController id="LCS-o6-Omf" customClass="BackwardCompatibleNavigationController" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="تنظیمات" image="settings" id="6v7-xn-6bU"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="WuN-eM-6ae">
@@ -265,29 +623,29 @@
         <scene sceneID="3sN-tg-dxk">
             <objects>
                 <tableViewController id="1SV-GS-aoa" customClass="SettingsViewController" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Mss-7C-i8Y">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="Mss-7C-i8Y">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <label key="tableFooterView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="۲۰۱۷-۱۸ - رادیو اتو-اسعد - برای اطلاع از موارد حقوقی به سایت raa.media مراجعه کنید" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="P5L-hL-Ipj">
-                            <rect key="frame" x="0.0" y="232" width="375" height="44"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <label key="tableFooterView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="۲۰۱۷-۱۸ - رادیو اتو-اسعد - برای اطلاع از موارد حقوقی به سایت raa.media مراجعه کنید" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="P5L-hL-Ipj">
+                            <rect key="frame" x="0.0" y="185" width="375" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                             <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <sections>
-                            <tableViewSection headerTitle=" تنظیمات اعلان‌ها" id="sQx-Gd-HAW">
+                            <tableViewSection id="sQx-Gd-HAW">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="R06-Mr-SmA">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="R06-Mr-SmA">
+                                        <rect key="frame" x="0.0" y="35" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="R06-Mr-SmA" id="f1O-lP-Rlj">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="اعلام‌ شروع برنامه‌های شخصی شما" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dee-48-oDw">
-                                                    <rect key="frame" x="21" y="13" width="205" height="18"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="500" text="اعلام‌ شروع برنامه‌های محلی شما" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="dee-48-oDw">
+                                                    <rect key="frame" x="21" y="13" width="193.5" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -297,47 +655,48 @@
                                                 </switch>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="oSi-lE-cFP" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="dee-48-oDw" secondAttribute="trailing" constant="5" id="2hR-tf-iU2"/>
                                                 <constraint firstAttribute="trailing" secondItem="oSi-lE-cFP" secondAttribute="trailing" constant="20" id="LkZ-Ca-9Z3"/>
-                                                <constraint firstItem="dee-48-oDw" firstAttribute="leading" secondItem="f1O-lP-Rlj" secondAttribute="leadingMargin" constant="5" id="NTh-rg-Bj6"/>
                                                 <constraint firstItem="dee-48-oDw" firstAttribute="centerY" secondItem="f1O-lP-Rlj" secondAttribute="centerY" id="SXk-U1-MXY"/>
+                                                <constraint firstItem="dee-48-oDw" firstAttribute="leading" secondItem="f1O-lP-Rlj" secondAttribute="leadingMargin" constant="5" id="pGU-VT-nEa"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="dee-48-oDw" secondAttribute="trailingMargin" id="sgX-sL-E43"/>
                                                 <constraint firstItem="oSi-lE-cFP" firstAttribute="centerY" secondItem="f1O-lP-Rlj" secondAttribute="centerY" id="y8e-zy-axI"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="clR-d9-ABR">
-                                        <rect key="frame" x="0.0" y="72" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="clR-d9-ABR">
+                                        <rect key="frame" x="0.0" y="79" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" semanticContentAttribute="forceRightToLeft" tableViewCell="clR-d9-ABR" id="zMu-Re-zXZ">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="341" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="اعلام‌ شروع برنامه‌های عمومی" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UO3-0J-apO">
-                                                    <rect key="frame" x="21" y="13" width="175" height="18"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="اعلام‌ انتشار برنامه‌های جدید رادیو" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="UO3-0J-apO">
+                                                    <rect key="frame" x="21" y="13" width="197" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <switch opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sq7-sS-ouP">
-                                                    <rect key="frame" x="306" y="6.5" width="51" height="31"/>
-                                                </switch>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="UO3-0J-apO" firstAttribute="centerY" secondItem="zMu-Re-zXZ" secondAttribute="centerY" id="Exe-ir-CgH"/>
-                                                <constraint firstAttribute="trailing" secondItem="sq7-sS-ouP" secondAttribute="trailing" constant="20" id="aVG-d7-x9T"/>
-                                                <constraint firstItem="sq7-sS-ouP" firstAttribute="centerY" secondItem="zMu-Re-zXZ" secondAttribute="centerY" id="qPD-39-6tf"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="UO3-0J-apO" secondAttribute="trailingMargin" id="T27-bX-TTq"/>
                                                 <constraint firstItem="UO3-0J-apO" firstAttribute="leading" secondItem="zMu-Re-zXZ" secondAttribute="leadingMargin" constant="5" id="y6x-fS-5Mk"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="iet-es-0N0" kind="show" id="CgI-8F-e8C"/>
+                                        </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="rPH-KH-d3d">
-                                        <rect key="frame" x="0.0" y="116" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="rPH-KH-d3d">
+                                        <rect key="frame" x="0.0" y="123" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" semanticContentAttribute="forceRightToLeft" tableViewCell="rPH-KH-d3d" id="O7z-Ik-F0S">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="اعلام شروع برنامه‌‌های پخش زنده" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qSD-GW-Oqj">
-                                                    <rect key="frame" x="21" y="13" width="193" height="18"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="500" text="اعلام شروع برنامه‌‌های زنده از پورت جف" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="qSD-GW-Oqj">
+                                                    <rect key="frame" x="21" y="13" width="233" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -347,39 +706,12 @@
                                                 </switch>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="T47-6e-rzE" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="qSD-GW-Oqj" secondAttribute="trailing" constant="5" id="AFI-a8-1OJ"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="qSD-GW-Oqj" secondAttribute="trailingMargin" id="BZp-xQ-Cnc"/>
                                                 <constraint firstItem="qSD-GW-Oqj" firstAttribute="centerY" secondItem="O7z-Ik-F0S" secondAttribute="centerY" id="MnS-Fb-mNt"/>
                                                 <constraint firstAttribute="trailing" secondItem="T47-6e-rzE" secondAttribute="trailing" constant="20" id="c3K-kf-507"/>
                                                 <constraint firstItem="T47-6e-rzE" firstAttribute="centerY" secondItem="O7z-Ik-F0S" secondAttribute="centerY" id="edm-k9-1oH"/>
                                                 <constraint firstItem="qSD-GW-Oqj" firstAttribute="leading" secondItem="O7z-Ik-F0S" secondAttribute="leadingMargin" constant="5" id="zv2-Oe-DQJ"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                            <tableViewSection headerTitle=" تنظیمات پخش" id="ac7-U7-47O">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Y6E-3t-zuC">
-                                        <rect key="frame" x="0.0" y="188" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Y6E-3t-zuC" id="3Di-IO-Z63">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="پخش برنامه‌ها در پس زمینه" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eOz-tN-YCJ">
-                                                    <rect key="frame" x="21" y="13" width="159" height="18"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <switch opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yu7-gU-LXu">
-                                                    <rect key="frame" x="310" y="6.5" width="51" height="31"/>
-                                                </switch>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="eOz-tN-YCJ" firstAttribute="centerY" secondItem="3Di-IO-Z63" secondAttribute="centerY" id="QP1-gW-fih"/>
-                                                <constraint firstItem="eOz-tN-YCJ" firstAttribute="leading" secondItem="3Di-IO-Z63" secondAttribute="leadingMargin" constant="5" id="VVb-xd-fbm"/>
-                                                <constraint firstAttribute="trailing" secondItem="yu7-gU-LXu" secondAttribute="trailing" constant="20" id="kam-uk-dyf"/>
-                                                <constraint firstItem="yu7-gU-LXu" firstAttribute="centerY" secondItem="3Di-IO-Z63" secondAttribute="centerY" id="nw8-W7-zwm"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -395,19 +727,104 @@
                     <connections>
                         <outlet property="notifyOnLiveProgram" destination="T47-6e-rzE" id="XAC-kC-88d"/>
                         <outlet property="notifyOnPersonalProgram" destination="oSi-lE-cFP" id="ICa-Bg-mRn"/>
-                        <outlet property="notifyOnPublicProgram" destination="sq7-sS-ouP" id="dGC-6e-9eh"/>
-                        <outlet property="playInBackground" destination="yu7-gU-LXu" id="EHx-Ca-jWV"/>
+                        <outlet property="publicProgramNotificationDetailsLink" destination="UO3-0J-apO" id="MSz-PC-EkR"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xM3-eD-fPA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-262" y="852"/>
+            <point key="canvasLocation" x="-2002" y="1623"/>
         </scene>
-        <!--خوراک-->
+        <!--تنظیمات اعلام برنامه‌های عمومی-->
+        <scene sceneID="rmY-QB-AhZ">
+            <objects>
+                <viewController id="iet-es-0N0" userLabel="تنظیمات اعلام برنامه‌های عمومی" customClass="PublicProgramNotificationViewContainer" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="pCN-t2-i8z">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ndm-s7-Dif">
+                                <rect key="frame" x="0.0" y="116" width="375" height="498"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="atc-Ff-d3n">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="498"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YQD-v7-2ja">
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="500" text="اعلام انتشار برنامه‌های جدید رادیو" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="EeV-1F-zre" userLabel="اعلام برنامه">
+                                                        <rect key="frame" x="21" y="11" width="276" height="28"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <switch opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KzD-7Z-9E9">
+                                                        <rect key="frame" x="305" y="9.5" width="51" height="31"/>
+                                                        <connections>
+                                                            <action selector="notifyOnPublicProgramSwitchValueChanged:" destination="iet-es-0N0" eventType="valueChanged" id="OoG-Xq-DZh"/>
+                                                        </connections>
+                                                    </switch>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="0Jo-f9-bOr"/>
+                                                    <constraint firstItem="KzD-7Z-9E9" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="EeV-1F-zre" secondAttribute="trailing" id="CP3-Gf-beg"/>
+                                                    <constraint firstItem="EeV-1F-zre" firstAttribute="leadingMargin" secondItem="YQD-v7-2ja" secondAttribute="leadingMargin" constant="13" id="X7I-Qf-rPb"/>
+                                                    <constraint firstItem="KzD-7Z-9E9" firstAttribute="centerY" secondItem="YQD-v7-2ja" secondAttribute="centerY" id="Z15-tt-dAZ"/>
+                                                    <constraint firstItem="KzD-7Z-9E9" firstAttribute="leading" secondItem="EeV-1F-zre" secondAttribute="trailing" constant="8" symbolic="YES" id="cJ9-WA-ejP"/>
+                                                    <constraint firstAttribute="trailingMargin" secondItem="KzD-7Z-9E9" secondAttribute="trailing" constant="5" id="eFX-7X-1Wb"/>
+                                                    <constraint firstItem="EeV-1F-zre" firstAttribute="centerY" secondItem="YQD-v7-2ja" secondAttribute="centerY" id="oO6-RQ-Dbp"/>
+                                                    <constraint firstItem="EeV-1F-zre" firstAttribute="top" secondItem="YQD-v7-2ja" secondAttribute="top" constant="11" id="viX-eq-KBo"/>
+                                                </constraints>
+                                                <edgeInsets key="layoutMargins" top="8" left="16" bottom="8" right="16"/>
+                                            </view>
+                                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2f8-Y2-SIg">
+                                                <rect key="frame" x="0.0" y="50" width="375" height="448"/>
+                                                <connections>
+                                                    <segue destination="wyu-vh-yMp" kind="embed" identifier="details_embed" id="Ab0-XU-MTj"/>
+                                                </connections>
+                                            </containerView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="2f8-Y2-SIg" secondAttribute="trailing" id="GuF-7i-XwM"/>
+                                            <constraint firstAttribute="bottom" secondItem="2f8-Y2-SIg" secondAttribute="bottom" id="OaI-nD-cWn"/>
+                                            <constraint firstItem="2f8-Y2-SIg" firstAttribute="top" secondItem="YQD-v7-2ja" secondAttribute="bottom" id="fDl-b4-lY9"/>
+                                            <constraint firstItem="2f8-Y2-SIg" firstAttribute="leading" secondItem="atc-Ff-d3n" secondAttribute="leading" id="h5c-Uc-faR"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="atc-Ff-d3n" secondAttribute="bottom" id="2cG-0k-KNH"/>
+                                    <constraint firstItem="atc-Ff-d3n" firstAttribute="top" secondItem="ndm-s7-Dif" secondAttribute="top" id="Chq-Qd-hlR"/>
+                                    <constraint firstAttribute="trailing" secondItem="atc-Ff-d3n" secondAttribute="trailing" id="VjK-qu-W10"/>
+                                    <constraint firstItem="atc-Ff-d3n" firstAttribute="leading" secondItem="ndm-s7-Dif" secondAttribute="leading" id="gYd-GN-bxm"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ndm-s7-Dif" firstAttribute="top" secondItem="qWf-Vl-WOb" secondAttribute="top" id="9dC-fU-1Yi"/>
+                            <constraint firstItem="qWf-Vl-WOb" firstAttribute="bottom" secondItem="ndm-s7-Dif" secondAttribute="bottom" constant="4" id="EzD-44-sEp"/>
+                            <constraint firstItem="qWf-Vl-WOb" firstAttribute="trailing" secondItem="ndm-s7-Dif" secondAttribute="trailing" id="PLZ-S4-h9H"/>
+                            <constraint firstItem="ndm-s7-Dif" firstAttribute="leading" secondItem="qWf-Vl-WOb" secondAttribute="leading" id="iYj-Bz-cYg"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="qWf-Vl-WOb"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="اعلام برنامه‌ها" id="0IU-Do-7uo"/>
+                    <connections>
+                        <outlet property="containerView" destination="2f8-Y2-SIg" id="mFD-gr-EsN"/>
+                        <outlet property="notifyOnPublicProgramSwitch" destination="KzD-7Z-9E9" id="0TK-Cs-ael"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RSt-xN-vZv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1127.2" y="1621.4392803598203"/>
+        </scene>
+        <!--رادیوی شما-->
         <scene sceneID="dh6-ka-5lG">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ckx-4Z-Z9P" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="خوراک" image="feed" id="0bm-uo-KxA"/>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ckx-4Z-Z9P" customClass="BackwardCompatibleNavigationController" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="رادیوی شما" image="feed" id="0bm-uo-KxA"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="grD-pT-gmU">
                         <rect key="frame" x="0.0" y="20" width="375" height="96"/>
@@ -422,7 +839,7 @@
             </objects>
             <point key="canvasLocation" x="432" y="853"/>
         </scene>
-        <!--خوراک-->
+        <!--رادیوی شما-->
         <scene sceneID="47x-9f-EBQ">
             <objects>
                 <viewController id="FNJ-HX-hPY" customClass="FeedContainerViewController" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
@@ -443,7 +860,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wcl-Lu-Lus">
                                 <rect key="frame" x="0.0" y="116" width="375" height="432"/>
                                 <connections>
-                                    <segue destination="IL4-PX-Snv" kind="embed" id="zET-mU-H6v"/>
+                                    <segue destination="qi5-5y-Rvf" kind="embed" id="fAG-RF-fmo"/>
                                 </connections>
                             </containerView>
                         </subviews>
@@ -459,7 +876,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="bbq-Ye-erw"/>
                     </view>
-                    <navigationItem key="navigationItem" title="خوراک" id="lKW-bV-1tA"/>
+                    <navigationItem key="navigationItem" title="رادیوی شما" id="lKW-bV-1tA"/>
                     <connections>
                         <outlet property="playerHeightConstraint" destination="crY-xv-HhJ" id="pRk-tp-6z9"/>
                         <outlet property="playerViewContainer" destination="Q2w-J4-Ofc" id="P7T-2Q-1r4"/>
@@ -469,14 +886,14 @@
             </objects>
             <point key="canvasLocation" x="1129" y="853"/>
         </scene>
-        <!--پخش زنده-->
+        <!--زنده از پورت جف-->
         <scene sceneID="zAF-ga-mkb">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Zva-Lf-MkG" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="پخش زنده" image="live" id="YAG-Rq-hch"/>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Zva-Lf-MkG" customClass="BackwardCompatibleNavigationController" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="زنده از پورت جف" image="live" id="YAG-Rq-hch"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="vaG-YO-nst">
-                        <rect key="frame" x="0.0" y="20" width="375" height="96"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="vaG-YO-nst">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -486,10 +903,11 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vzQ-5R-d2g" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="432" y="-459"/>
+            <point key="canvasLocation" x="271" y="-1176"/>
         </scene>
     </scenes>
     <resources>
+        <image name="archive" width="24" height="24"/>
         <image name="feed" width="24" height="24"/>
         <image name="live" width="18" height="18"/>
         <image name="settings" width="24" height="24"/>
