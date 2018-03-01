@@ -94,8 +94,11 @@ extension NotificationManager: UNUserNotificationCenterDelegate {
                     } else if category == "media.raa.Personal" {
                         // Play personal feed
                         let userInfo = response.notification.request.content.userInfo
-                        // TODO
-                        //Context.Instance.playbackManager.playPersonalFeed()
+                        if let aps = userInfo["aps"] as? NSDictionary {
+                            if let feedEntryId = aps["feedEntryId"] as? String {
+                                Context.Instance.playbackManager.playPersonalFeed(feedEntryId)
+                            }
+                        }
                     }
                 } catch {
                     os_log("Error while deactivating audio session")

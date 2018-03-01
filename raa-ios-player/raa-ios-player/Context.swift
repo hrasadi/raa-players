@@ -19,9 +19,15 @@ class Context {
         get {
             if instance == nil {
                 instance = Context()
+                initiateManagers()
             }
             return instance!
         }
+    }
+    
+    private static var initiated = false
+    public static func isInitiated() -> Bool {
+        return initiated
     }
     
     public static let BASE_URL_PREFIX = "https://raa.media"
@@ -49,7 +55,14 @@ class Context {
             instance?.liveBroadcastManager.initiate()
             instance?.archiveManager.initiate()
             instance?.playbackManager.initiate()
+            
+            initiated = true
         }
+    }
+    
+    public func reloadLineups() {
+        self.liveBroadcastManager.initiate()
+        self.feedManager.initiate()
     }
         
     public var userManager: UserManager!

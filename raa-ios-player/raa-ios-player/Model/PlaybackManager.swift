@@ -51,6 +51,9 @@ class PlaybackManager : UICommunicator<PlaybackState>, AVAudioPlayerDelegate {
         os_log("Requested live playback", type: .default)
         self.playbackState?.programType = .Live
         
+        guard Context.Instance.liveBroadcastManager.getMostRecentProgramIndex() != nil else {
+            return
+        }
         let program = Context.Instance.liveBroadcastManager.liveLineupData.flattenLiveLineup?[Context.Instance.liveBroadcastManager.getMostRecentProgramIndex()!]
         if program != nil {
             self.play(programId: (program?.ProgramId)!, title: (program?.Title)!, subtitle: (program?.Subtitle)!, mediaPath: PlaybackManager.LIVE_STREAM_URL, forceRestartStream: forceRestartStream)

@@ -93,6 +93,9 @@ class LiveBroadcastManager : UICommunicator<LiveLineupData> {
     }
     
     func initiateRefereshTimers() {
+        if self.lineupBroadcastStatusRefreshTimer != nil {
+            self.lineupBroadcastStatusRefreshTimer?.invalidate()
+        }
         // Every 20 seconds
         self.lineupBroadcastStatusRefreshTimer = Timer.scheduledTimer(withTimeInterval: 20, repeats: true) { _ in
             firstly {
@@ -102,6 +105,10 @@ class LiveBroadcastManager : UICommunicator<LiveLineupData> {
             }.catch({ error in
                 os_log("Error while reloading live broadcast status %@", type:.error, error.localizedDescription)
             })
+        }
+        
+        if self.liveLineupRefreshTimer != nil {
+            self.liveLineupRefreshTimer?.invalidate()
         }
         // Every 2 hours
         self.liveLineupRefreshTimer = Timer.scheduledTimer(withTimeInterval: 7200, repeats: true) { _ in

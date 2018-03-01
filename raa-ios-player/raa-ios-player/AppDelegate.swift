@@ -60,6 +60,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
+        if Context.isInitiated() {
+            Context.Instance.reloadLineups()
+        }
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

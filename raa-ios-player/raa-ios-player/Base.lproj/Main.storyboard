@@ -277,12 +277,12 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="EuL-6y-PZI"/>
                                 </constraints>
-                                <mutableString key="text">برای دسترسی به پادکست‌های این برنامه مراحل زیر رو دنبال کنید:
+                                <string key="text">برای دسترسی به پادکست‌های این برنامه مراحل زیر رو دنبال کنید:
 
 ۱- لینک پایین رو کپی کنید.
 ۲- وارد نرم‌افزار Podcasts گوشیتون بشید و Library رو از نوار پایین انتخاب کنید.
 ۳- گزینه‌ی Add a Podcast by URL رو انتخاب کنید و لینکی که کپی کرده بودید رو اون‌جا بچسبونید.
-۴- لذت ببرید!</mutableString>
+۴- لذت ببرید!</string>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -341,7 +341,7 @@
                                         <rect key="frame" x="0.0" y="312" width="375" height="50"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o6L-gX-Rc0" userLabel="قسمت‌های این برنامه به صورت پادکست">
-                                                <rect key="frame" x="40" y="10" width="214" height="30"/>
+                                                <rect key="frame" x="40" y="10" width="295" height="30"/>
                                                 <color key="backgroundColor" red="0.1843137255" green="0.52156862749999999" blue="0.4549019608" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="udF-JX-GjK"/>
@@ -570,6 +570,9 @@
                                         </label>
                                         <switch opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vlX-7G-U8N" userLabel="notifyProgramStart">
                                             <rect key="frame" x="305" y="6.5" width="51" height="31"/>
+                                            <connections>
+                                                <action selector="programNotificationSettingsChanged:" destination="wyu-vh-yMp" eventType="valueChanged" id="bbD-5K-SsH"/>
+                                            </connections>
                                         </switch>
                                     </subviews>
                                     <constraints>
@@ -627,7 +630,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        <label key="tableFooterView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="۲۰۱۷-۱۸ - رادیو اتو-اسعد - برای اطلاع از موارد حقوقی به سایت raa.media مراجعه کنید" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="P5L-hL-Ipj">
+                        <label key="tableFooterView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="۲۰۱۷-۱۸ - رادیو اتو-اسعد - برای اطلاع از موارد حقوقی به سایت raa.media مراجعه کنید" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="P5L-hL-Ipj">
                             <rect key="frame" x="0.0" y="185" width="375" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -652,6 +655,9 @@
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oSi-lE-cFP">
                                                     <rect key="frame" x="306" y="7" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="SettingsValueChanged:" destination="1SV-GS-aoa" eventType="valueChanged" id="agl-sM-WFL"/>
+                                                    </connections>
                                                 </switch>
                                             </subviews>
                                             <constraints>
@@ -703,6 +709,9 @@
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T47-6e-rzE">
                                                     <rect key="frame" x="306" y="6.5" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="SettingsValueChanged:" destination="1SV-GS-aoa" eventType="valueChanged" id="5Aj-ZZ-BeX"/>
+                                                    </connections>
                                                 </switch>
                                             </subviews>
                                             <constraints>

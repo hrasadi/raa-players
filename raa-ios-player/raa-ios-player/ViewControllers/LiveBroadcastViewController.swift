@@ -115,7 +115,7 @@ class LiveBroadcastViewController : UIViewController {
         // The delay is to address a bug in iOS
         // See: https://stackoverflow.com/questions/38611617/scrolltorowatindexpath-not-scrolling-correctly-to-the-bottom-on-ios-8
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.liveBroadcastProgramCardTableView?.scrollToRow(at: indexPath as IndexPath, at: UITableViewScrollPosition.middle, animated: true)
+            self.liveBroadcastProgramCardTableView?.scrollToRow(at: indexPath as IndexPath, at: UITableViewScrollPosition.top, animated: false)
         }
     }
     

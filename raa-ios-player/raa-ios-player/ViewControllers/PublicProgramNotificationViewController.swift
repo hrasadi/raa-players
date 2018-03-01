@@ -30,15 +30,18 @@ class PublicProgramNotificationViewContainer : UIViewController {
         } else {
             self.containerView.subviews[0].isHidden = true
         }
+        
+        self.registerChangesOnServerIfNeeded()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "details_embed" {
             self.detailsVC = segue.destination as? PublicProgramNotificationViewController
+            self.detailsVC?.publicProgramNotificationContainerVC = self
         }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    func registerChangesOnServerIfNeeded() {
         // If the public notifications are turned off
         if self.notifyOnPublicProgramSwitch.isOn == false && self.user?.NotifyOnPublicProgram == 1 {
             Context.Instance.userManager.user.NotifyOnPublicProgram = 0
@@ -68,6 +71,8 @@ class PublicProgramNotificationViewContainer : UIViewController {
 
 class PublicProgramNotificationViewController : UITableViewController {
 
+    public var publicProgramNotificationContainerVC: PublicProgramNotificationViewContainer?
+    
     private var filteredProgramInfos: [String: ProgramInfo]?
     private var filteredProgramInfoCount: Int = 0
     private var user: User?
@@ -109,6 +114,10 @@ class PublicProgramNotificationViewController : UITableViewController {
         self.filteredProgramInfos = programInfoDirectory?.ProgramInfos.filter({ (key: String, value: ProgramInfo) -> Bool in
             return value.Feed == "Public" ? true : false
         })
+    }
+    
+    @IBAction func programNotificationSettingsChanged(_ sender: Any) {
+        self.publicProgramNotificationContainerVC?.registerChangesOnServerIfNeeded()
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -37,7 +37,8 @@ class SettingsViewController : UITableViewController {
         self.notifyOnLiveProgram.isOn = Bool.init(exactly: user.NotifyOnLiveProgram as NSNumber)!
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    
+    @IBAction func SettingsValueChanged(_ sender: Any) {
         let user = Context.Instance.userManager.user
         var dirty = false
         

@@ -138,6 +138,9 @@ class FeedManager : UICommunicator<FeedData> {
     }
 
     func initiateRefereshTimers() {
+        if self.publicFeedRefreshTimer != nil {
+            self.publicFeedRefreshTimer?.invalidate()
+        }
         // Every 5 minutes
         self.publicFeedRefreshTimer = Timer.scheduledTimer(withTimeInterval: 300, repeats: true) { _ in
             firstly {
@@ -147,6 +150,10 @@ class FeedManager : UICommunicator<FeedData> {
             }.catch({ error in
                 os_log("Error while reloading public feed status %@", type:.error, error.localizedDescription)
             })
+        }
+        
+        if self.personalFeedRefreshTimer != nil {
+            self.personalFeedRefreshTimer?.invalidate()
         }
         // Every minute
         self.personalFeedRefreshTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
