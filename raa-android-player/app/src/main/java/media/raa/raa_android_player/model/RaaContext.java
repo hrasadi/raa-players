@@ -5,9 +5,10 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationManagerCompat;
 
-import media.raa.raa_android_player.model.lineup.Lineup;
-import media.raa.raa_android_player.model.lineup.RemotePlaybackStatus;
-import media.raa.raa_android_player.model.lineup.RemotePlaybackStatusCheckingPolicy;
+import media.raa.raa_android_player.model.livebroadcast.LiveBroadcastLineup;
+import media.raa.raa_android_player.model.livebroadcast.RemotePlaybackStatus;
+import media.raa.raa_android_player.model.livebroadcast.RemotePlaybackStatusCheckingPolicy;
+import media.raa.raa_android_player.model.programinfodirectory.ProgramInfoDirectory;
 
 /**
  * Singleton container of Raa common
@@ -16,6 +17,9 @@ import media.raa.raa_android_player.model.lineup.RemotePlaybackStatusCheckingPol
 
 public class RaaContext {
     private static RaaContext instance;
+
+    public static final String BASE_URL = "https://raa.media";
+    public static final String API_PREFIX_URL = "http://api.raa.media:7800";
 
     public static void initializeInstance(Context context) {
         instance = new RaaContext(context);
@@ -37,8 +41,9 @@ public class RaaContext {
     }
 
     private SharedPreferences settings;
-    private Lineup currentLineup;
+    private LiveBroadcastLineup liveBroadcastLineup;
     private RemotePlaybackStatus currentStatus;
+    private ProgramInfoDirectory programInfoDirectory;
 
     private RemotePlaybackStatusCheckingPolicy statusCheckingPolicy;
 
@@ -57,17 +62,26 @@ public class RaaContext {
     }
 
     /**
-     * Returns the current lineup or instantiate and load data into it if an instance does not exist
-     * @param forceUpdate true if the lineup should be reloaded, false if the old values are good
+     * The instance of ProgramInfoDirectory. A call to reload() function will refresh its data in an
+     * async manner
+     * @return The programInfoDirectory instance (may not be populated)
+     */
+    public ProgramInfoDirectory getProgramInfoDirectory() {
+        if (programInfoDirectory == null) {
+            programInfoDirectory = new ProgramInfoDirectory();
+        }
+        return programInfoDirectory;
+    }
+
+    /**
+     * Returns the current lineup. The reload function must be called in order to populate data
      * @return The lineup instance (may not be populated)
      */
-    public Lineup getCurrentLineup(boolean forceUpdate) {
-        if (currentLineup == null) {
-            currentLineup = new Lineup();
-            return currentLineup;
-        } else {
-            return currentLineup.get(forceUpdate);
+    public LiveBroadcastLineup getLiveBroadcastLineup() {
+        if (liveBroadcastLineup == null) {
+            liveBroadcastLineup = new LiveBroadcastLineup();
         }
+        return liveBroadcastLineup;
     }
 
     public RemotePlaybackStatus getCurrentStatus(boolean forceUpdate) {

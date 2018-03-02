@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
         android:id="@+id/notification_art_image"
@@ -22,7 +23,7 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="@dimen/notification_action_horizontal_margin"
-        android:src="@drawable/ic_play_button"
+        app:srcCompat="@drawable/ic_play_black_24dp"
         android:background="@null" />
 
     <ImageButton
@@ -32,7 +33,7 @@
         android:contentDescription="@string/pause_action_description"
         android:layout_toStartOf="@id/notification_action_start_stop"
         android:layout_centerVertical="true"
-        android:src="@drawable/ic_pause_button"
+        app:srcCompat="@drawable/ic_pause_black_24dp"
         android:background="@null" />
 
     <LinearLayout
@@ -49,8 +50,7 @@
             android:id="@+id/notification_program_name_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="marquee"
-            android:maxLines="1"
+            android:singleLine="true"
             android:layoutDirection="rtl"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead" />
 
@@ -58,8 +58,7 @@
             android:id="@+id/notification_program_clips_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="marquee"
-            android:maxLines="1"
+            android:singleLine="true"
             android:layoutDirection="rtl" />
     </LinearLayout>
 

@@ -5,4 +5,7 @@
     <dimen name="text_margin">8dp</dimen>
     <dimen name="notification_action_horizontal_margin">20dp</dimen>
     <dimen name="notification_icon_horizontal_margin">8dp</dimen>
+    <dimen name="program_card_small_margin">2dp</dimen>
+
+    <dimen name="player_thumbnail_margin">4dp</dimen>
 </resources>

@@ -22,7 +22,7 @@ import android.widget.RemoteViews;
 import java.io.IOException;
 import java.util.Objects;
 
-import media.raa.raa_android_player.Player;
+import media.raa.raa_android_player.RaaMainActivity;
 import media.raa.raa_android_player.R;
 
 import static android.view.View.INVISIBLE;
@@ -34,7 +34,7 @@ import static media.raa.raa_android_player.model.notification.NotificationServic
   */
 public class PlaybackService extends Service {
 
-    private static final String STREAM_URL = "https://api.raa.media/linkgenerator/live.mp3?src=aHR0cHM6Ly9zdHJlYW0ucmFhLm1lZGlhL3JhYTEub2dn";
+    private static final String STREAM_URL = "https://api.raa.media/linkgenerator/live.mp3?src=aHR0cHM6Ly9zdHJlYW0ucmFhLm1lZGlhL3JhYTFfbmV3Lm9nZw==";
 
     public static final String ACTION_PLAY = "action_play";
     public static final String ACTION_STOP = "action_stop";
@@ -140,7 +140,7 @@ public class PlaybackService extends Service {
 
     public Notification createNotification() {
         String actionToDisplay = ACTION_PLAY; // not playing
-        int actionToDisplayIcon = R.drawable.ic_play_button;
+        int actionToDisplayIcon = R.drawable.ic_play_black_24dp;
         int shouldDisplayPauseButton = INVISIBLE;
         if (player != null && player.isPlaying()) {
             actionToDisplay = ACTION_STOP;
@@ -179,7 +179,7 @@ public class PlaybackService extends Service {
     // This will notify the UI (to update the playback status of the bar)
     private void notifyUI() {
         if (RaaContext.getInstance().isApplicationForeground()) {
-            Intent metadataUpdateIntent = new Intent(Player.PLAYER_BAR_EVENT);
+            Intent metadataUpdateIntent = new Intent(RaaMainActivity.PLAYER_BAR_EVENT);
             broadcaster.sendBroadcast(metadataUpdateIntent);
         }
     }

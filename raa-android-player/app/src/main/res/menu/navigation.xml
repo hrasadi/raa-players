@@ -2,17 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/navigation_live"
+        android:icon="@drawable/ic_live_black_24dp"
+        android:title="@string/title_live" />
+
+    <item
+        android:id="@+id/navigation_feed"
+        android:icon="@drawable/ic_feed_black_24dp"
+        android:title="@string/title_feed" />
+
+    <item
+        android:id="@+id/navigation_archive"
+        android:icon="@drawable/ic_archive_black_24dp"
+        android:title="@string/title_archive" />
+
+    <item
         android:id="@+id/navigation_settings"
         android:icon="@drawable/ic_settings_black_24dp"
         android:title="@string/title_settings" />
-    <item
-        android:id="@+id/navigation_lineup"
-        android:icon="@drawable/ic_schedule_black_24dp"
-        android:title="@string/title_lineup" />
-
-    <item
-        android:id="@+id/navigation_podcast"
-        android:icon="@drawable/ic_podcast_black_24dp"
-        android:title="@string/title_podcast" />
 
 </menu>

@@ -11,7 +11,7 @@ import android.support.v7.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import media.raa.raa_android_player.Player;
+import media.raa.raa_android_player.RaaMainActivity;
 import media.raa.raa_android_player.R;
 import media.raa.raa_android_player.model.PlaybackService;
 import media.raa.raa_android_player.model.RaaContext;
@@ -84,7 +84,7 @@ public class NotificationService extends FirebaseMessagingService {
         PendingIntent playPendingIntent = PendingIntent.getService(getApplicationContext(),
                 RAA_CURRENTLY_PLAYING_NOTIFICATION_ID, playIntent, 0);
 
-        Intent appIntent = new Intent(getApplicationContext(), Player.class);
+        Intent appIntent = new Intent(getApplicationContext(), RaaMainActivity.class);
         PendingIntent appPendingIntent = PendingIntent.getActivity(getApplicationContext(),
                 RAA_CURRENTLY_PLAYING_NOTIFICATION_ID, appIntent, 0);
 
