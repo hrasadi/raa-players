@@ -18,19 +18,26 @@ class LiveBroadcastManager : UICommunicator<LiveLineupData> {
 
     public var liveLineupData = LiveLineupData()
     private var liveLineupDataResolver: Resolver<LiveLineupData>?
-    
+
+    private var isLoading = false
+
     private var lineupBroadcastStatusRefreshTimer: Timer?
     private var liveLineupRefreshTimer: Timer?
 
     func initiate() {
+        self.isLoading = true
+
         firstly {
             when(resolved: self.loadLiveLineup(), self.loadBroadcastStatus())
         }.done { _ in
+            self.isLoading = false
             self.liveLineupDataResolver?.resolve(self.liveLineupData, nil)
             self.liveLineupDataResolver = nil
             
             self.initiateRefereshTimers()
         }.catch { error in
+            self.isLoading = false
+
             os_log("Error while downloading live lineup, error is %@", type: .error, error.localizedDescription)
             self.liveLineupDataResolver?.reject(error)
         }
@@ -124,7 +131,7 @@ class LiveBroadcastManager : UICommunicator<LiveLineupData> {
     
     override func pullData() -> Promise<LiveLineupData> {
         return Promise<LiveLineupData> { seal in
-            if (self.liveLineupData.flattenLiveLineup != nil && self.liveLineupData.liveBroadcastStatus != nil) {
+            if !self.isLoading {
                 seal.resolve(self.liveLineupData, nil)
             } else {
                 // Someone else will resolve this

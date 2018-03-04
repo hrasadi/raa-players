@@ -255,11 +255,11 @@
             <objects>
                 <viewController id="fsZ-Xr-oi1" customClass="ProgramArchivePodcastDescriptionViewController" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2iM-t8-Qj9">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="432"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DE6-E2-IYH" userLabel="OK">
-                                <rect key="frame" x="30" y="372" width="315" height="30"/>
+                                <rect key="frame" x="30" y="607" width="315" height="30"/>
                                 <color key="backgroundColor" red="0.1843137255" green="0.52156862749999999" blue="0.4549019608" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="o5K-M5-78N"/>
@@ -272,7 +272,7 @@
                                 </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="right" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LVS-RD-BAP">
-                                <rect key="frame" x="20" y="100" width="335" height="200"/>
+                                <rect key="frame" x="20" y="120" width="335" height="200"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="EuL-6y-PZI"/>
@@ -288,7 +288,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="URL" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="hAZ-v6-254">
-                                <rect key="frame" x="20" y="310" width="335" height="60"/>
+                                <rect key="frame" x="20" y="330" width="335" height="60"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="P8t-Kn-PN0"/>
@@ -329,19 +329,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="14H-YO-yRw">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="362"/>
+                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="362"/>
                                 <subviews>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rPL-cU-oZE">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="312"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="362"/>
                                         <connections>
                                             <segue destination="dAR-ec-g6N" kind="embed" identifier="programArchiveTableDisplay" id="ors-u6-RyS"/>
                                         </connections>
                                     </containerView>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LNm-ah-a46">
-                                        <rect key="frame" x="0.0" y="312" width="375" height="50"/>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LNm-ah-a46">
+                                        <rect key="frame" x="0.0" y="362" width="0.0" height="0.0"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o6L-gX-Rc0" userLabel="قسمت‌های این برنامه به صورت پادکست">
-                                                <rect key="frame" x="40" y="10" width="295" height="30"/>
+                                                <rect key="frame" x="0.0" y="10" width="0.0" height="30"/>
                                                 <color key="backgroundColor" red="0.1843137255" green="0.52156862749999999" blue="0.4549019608" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="udF-JX-GjK"/>
@@ -349,12 +349,9 @@
                                                 <state key="normal" title="قسمت‌های برنامه به صورت پادکست">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
-                                                <connections>
-                                                    <action selector="podcastDescriptionClicked:" destination="ekW-xK-Wb3" eventType="touchUpInside" id="fxh-Yw-ALD"/>
-                                                </connections>
                                             </button>
                                         </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" red="0.92156862745098034" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstItem="o6L-gX-Rc0" firstAttribute="leading" secondItem="LNm-ah-a46" secondAttribute="leading" constant="40" id="1kX-83-GsN"/>
                                             <constraint firstAttribute="bottom" secondItem="o6L-gX-Rc0" secondAttribute="bottom" constant="10" id="GhL-y7-i41"/>
@@ -374,7 +371,7 @@
                                 </constraints>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KEt-Of-PPy" userLabel="Player" customClass="XibContainer" customModule="raa_ios_player" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="362" width="375" height="70"/>
+                                <rect key="frame" x="0.0" y="362" width="0.0" height="70"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="70" id="9vz-Fy-XOt"/>
@@ -400,9 +397,6 @@
                         <outlet property="containerView" destination="rPL-cU-oZE" id="0Mc-A6-xLt"/>
                         <outlet property="playerHeightConstraint" destination="9vz-Fy-XOt" id="d2q-us-zAB"/>
                         <outlet property="playerViewContainer" destination="KEt-Of-PPy" id="22T-Cd-ax0"/>
-                        <segue destination="fsZ-Xr-oi1" kind="popoverPresentation" identifier="archivePodcastSegue" popoverAnchorView="UAH-uW-8ye" id="ObX-8x-bze">
-                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                        </segue>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gzy-sE-gDc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -631,7 +625,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <label key="tableFooterView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="۲۰۱۷-۱۸ - رادیو اتو-اسعد - برای اطلاع از موارد حقوقی به سایت raa.media مراجعه کنید" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="P5L-hL-Ipj">
-                            <rect key="frame" x="0.0" y="185" width="375" height="44"/>
+                            <rect key="frame" x="0.0" y="241" width="375" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                             <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
@@ -694,33 +688,37 @@
                                             <segue destination="iet-es-0N0" kind="show" id="CgI-8F-e8C"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="rPH-KH-d3d">
-                                        <rect key="frame" x="0.0" y="123" width="375" height="44"/>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="احتمالا با این قسمت کاری ندارید!" id="AJK-Fq-aUn">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="iXt-Dy-Jzb">
+                                        <rect key="frame" x="0.0" y="179" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" semanticContentAttribute="forceRightToLeft" tableViewCell="rPH-KH-d3d" id="O7z-Ik-F0S">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" semanticContentAttribute="forceRightToLeft" tableViewCell="iXt-Dy-Jzb" id="E3P-pz-ZeN">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="500" text="اعلام شروع برنامه‌‌های زنده از پورت جف" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="qSD-GW-Oqj">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="500" text="اعلام شروع برنامه‌‌های زنده از پورت جف" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="QmP-dd-lqA">
                                                     <rect key="frame" x="21" y="13" width="233" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <switch opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T47-6e-rzE">
+                                                <switch opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MRh-Fv-cAd">
                                                     <rect key="frame" x="306" y="6.5" width="51" height="31"/>
                                                     <connections>
-                                                        <action selector="SettingsValueChanged:" destination="1SV-GS-aoa" eventType="valueChanged" id="5Aj-ZZ-BeX"/>
+                                                        <action selector="SettingsValueChanged:" destination="1SV-GS-aoa" eventType="valueChanged" id="0Sd-Kx-nDz"/>
                                                     </connections>
                                                 </switch>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="T47-6e-rzE" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="qSD-GW-Oqj" secondAttribute="trailing" constant="5" id="AFI-a8-1OJ"/>
-                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="qSD-GW-Oqj" secondAttribute="trailingMargin" id="BZp-xQ-Cnc"/>
-                                                <constraint firstItem="qSD-GW-Oqj" firstAttribute="centerY" secondItem="O7z-Ik-F0S" secondAttribute="centerY" id="MnS-Fb-mNt"/>
-                                                <constraint firstAttribute="trailing" secondItem="T47-6e-rzE" secondAttribute="trailing" constant="20" id="c3K-kf-507"/>
-                                                <constraint firstItem="T47-6e-rzE" firstAttribute="centerY" secondItem="O7z-Ik-F0S" secondAttribute="centerY" id="edm-k9-1oH"/>
-                                                <constraint firstItem="qSD-GW-Oqj" firstAttribute="leading" secondItem="O7z-Ik-F0S" secondAttribute="leadingMargin" constant="5" id="zv2-Oe-DQJ"/>
+                                                <constraint firstAttribute="trailing" secondItem="MRh-Fv-cAd" secondAttribute="trailing" constant="20" id="0BM-qV-dxH"/>
+                                                <constraint firstItem="QmP-dd-lqA" firstAttribute="leading" secondItem="E3P-pz-ZeN" secondAttribute="leadingMargin" constant="5" id="5ZJ-jc-SKC"/>
+                                                <constraint firstItem="MRh-Fv-cAd" firstAttribute="centerY" secondItem="E3P-pz-ZeN" secondAttribute="centerY" id="Yg6-HU-LtD"/>
+                                                <constraint firstItem="MRh-Fv-cAd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="QmP-dd-lqA" secondAttribute="trailing" constant="5" id="b3P-GY-wl2"/>
+                                                <constraint firstItem="QmP-dd-lqA" firstAttribute="centerY" secondItem="E3P-pz-ZeN" secondAttribute="centerY" id="bWV-Cg-XVn"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="QmP-dd-lqA" secondAttribute="trailingMargin" id="yUR-DP-3ul"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -734,7 +732,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="تنظیمات" id="a5Y-BL-RJQ"/>
                     <connections>
-                        <outlet property="notifyOnLiveProgram" destination="T47-6e-rzE" id="XAC-kC-88d"/>
+                        <outlet property="notifyOnLiveProgram" destination="MRh-Fv-cAd" id="UVQ-Kc-eyM"/>
                         <outlet property="notifyOnPersonalProgram" destination="oSi-lE-cFP" id="ICa-Bg-mRn"/>
                         <outlet property="publicProgramNotificationDetailsLink" destination="UO3-0J-apO" id="MSz-PC-EkR"/>
                     </connections>

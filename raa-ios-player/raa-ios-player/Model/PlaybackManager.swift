@@ -14,7 +14,7 @@ import UIKit
 
 class PlaybackManager : UICommunicator<PlaybackState>, AVAudioPlayerDelegate {
 
-    static let LIVE_STREAM_URL = Context.LIVE_STREAM_URL_PREFIX + "/raa1_new.ogg"
+    static let LIVE_STREAM_URL = Context.API_URL_PREFIX + "/linkgenerator/live.mp3?src=aHR0cHM6Ly9zdHJlYW0ucmFhLm1lZGlhL3JhYTFfbmV3Lm9nZw=="
     
     let audioSession = AVAudioSession.sharedInstance()
     var player: AVPlayer? = nil

@@ -78,7 +78,7 @@ class ArchiveManager : UICommunicator<ArchiveData> {
     
     private func flattenArchive(archive: [String : [CProgram]]) -> [ArchiveEntry] {
         var flattenArchive: [ArchiveEntry] = []
-        let sortedDates = Array(archive.keys).sorted(by: <)
+        let sortedDates = Array(archive.keys).sorted(by: >)
         for date in sortedDates {
             for program in archive[date]! {
                 let archiveEntry = ArchiveEntry()

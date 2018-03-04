@@ -105,8 +105,8 @@ class LiveBroadcastViewController : UIViewController {
                 self.updateTablePlayableStates() // Change cards state
             }.ensure {
                 Context.Instance.liveBroadcastManager.registerEventListener(listenerObject: self)
-            }.catch {_ in
-        }
+            }.catch { _ in
+            }
     }
     
     func scrollToCurrentProgram() {
@@ -141,7 +141,7 @@ class LiveBroadcastViewController : UIViewController {
         
         // Grayout the old cells (all that was prior to the current active cell)
         let currentCellIndexPathRow = self.currentActionableCellIndexPath?.row
-        if oldActionableCellRow != nil && currentCellIndexPathRow != nil {
+        if oldActionableCellRow != nil && currentCellIndexPathRow != nil && oldActionableCellRow! < currentCellIndexPathRow! {
             for cellRow in oldActionableCellRow!..<currentCellIndexPathRow! {
                 let cellIndexPath = IndexPath(row: cellRow, section: (self.currentActionableCellIndexPath?.section)!)
                 let timeoutedCell = self.liveBroadcastProgramCardTableView?.cellForRow(at: cellIndexPath) as? LiveBroadcastProgramCardTableViewCell
@@ -239,9 +239,8 @@ extension LiveBroadcastViewController : ModelCommunicator {
         
         // Reload the whole table only of the lineup is completely updated
         // (e.g. date passed)
-        if (needCompleteReload) {
-            self.liveBroadcastProgramCardTableView?.reloadData()
-            self.scrollToCurrentProgram()
+        if needCompleteReload {
+            self.fullRedraw()
         }
         if needStatusUpdate {
             self.updateTablePlayableStates() // Change cards state
