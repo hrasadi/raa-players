@@ -9,7 +9,7 @@
         android:id="@+id/player_background"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="@color/player_background"
+        android:background="@color/color_player_background"
         android:layout_gravity="bottom"/>
 
     <RelativeLayout

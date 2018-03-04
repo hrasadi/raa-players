@@ -1,7 +1,6 @@
-package media.raa.raa_android_player.model.feed;
+package media.raa.raa_android_player.model.entities.feed;
 
 import media.raa.raa_android_player.model.entities.Program;
-import media.raa.raa_android_player.model.feed.FeedEntry;
 
 /**
  * Represents a public entry in the feed
@@ -10,11 +9,6 @@ import media.raa.raa_android_player.model.feed.FeedEntry;
 
 public class PublicFeedEntry extends FeedEntry {
     private int upvotes;
-
-    public PublicFeedEntry(String id, Program program, Double releaseTimestamp, Double expirationTimestamp, int upvotes) {
-        super(id, program, releaseTimestamp, expirationTimestamp);
-        this.upvotes = upvotes;
-    }
 
     public int getUpvotes() {
         return upvotes;

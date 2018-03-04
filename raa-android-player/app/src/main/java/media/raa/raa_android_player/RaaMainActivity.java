@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
@@ -30,7 +29,8 @@ import java.util.concurrent.TimeUnit;
 
 import media.raa.raa_android_player.model.PlaybackService;
 import media.raa.raa_android_player.model.RaaContext;
-import media.raa.raa_android_player.model.livebroadcast.RemotePlaybackStatus;
+import media.raa.raa_android_player.model.entities.livebroadcast.RemotePlaybackStatus;
+import media.raa.raa_android_player.view.feed.FeedLoadingFragment;
 import media.raa.raa_android_player.view.livebroadcast.LiveBroadcastLoadingFragment;
 import media.raa.raa_android_player.view.settings.SettingsFragment;
 
@@ -49,6 +49,7 @@ public class RaaMainActivity extends AppCompatActivity implements SettingsFragme
     Timer playerBarTimer;
 
     LiveBroadcastLoadingFragment liveBroadcastLoadingFragment;
+    FeedLoadingFragment feedLoadingFragment;
     SettingsFragment settingsFragment;
 
 
@@ -93,6 +94,7 @@ public class RaaMainActivity extends AppCompatActivity implements SettingsFragme
         navigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         liveBroadcastLoadingFragment = LiveBroadcastLoadingFragment.newInstance();
+        feedLoadingFragment = feedLoadingFragment.newInstance();
         settingsFragment = SettingsFragment.newInstance();
 
         navigationView.setSelectedItemId(R.id.navigation_settings);
@@ -105,13 +107,13 @@ public class RaaMainActivity extends AppCompatActivity implements SettingsFragme
             = item -> {
         switch (item.getItemId()) {
             case R.id.navigation_live:
-                displayLineupFragment();
+                displayLiveBroadcastFragment();
                 return true;
             case R.id.navigation_feed:
-                displayLineupFragment();
+                displayFeedFragment();
                 return true;
             case R.id.navigation_archive:
-                displayLineupFragment();
+                displayLiveBroadcastFragment();
                 return true;
             case R.id.navigation_settings:
                 displaySettingsFragment();
@@ -168,7 +170,7 @@ public class RaaMainActivity extends AppCompatActivity implements SettingsFragme
         RaaContext.getInstance().setApplicationBackground();
     }
 
-    private void displayLineupFragment() {
+    private void displayLiveBroadcastFragment() {
         //noinspection ConstantConditions
         this.getSupportActionBar().setTitle(getString(R.string.title_live));
 
@@ -177,10 +179,13 @@ public class RaaMainActivity extends AppCompatActivity implements SettingsFragme
                 .replace(R.id.application_frame, liveBroadcastLoadingFragment).commit();
     }
 
-    private void openPodcast() {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-                Uri.parse("https://playmusic.app.goo.gl/?ibi=com.google.PlayMusic&isi=691797987&ius=googleplaymusic&link=https://play.google.com/music/m/Iv66xcc6zt2drymno7tvkvj4kbq?t%3D%25D8%25B1%25D8%25A7%25D8%25AF%25DB%258C%25D9%2588_%25D8%25A7%25D8%25AA%25D9%2588-%25D8%25A7%25D8%25B3%25D8%25B9%25D8%25AF%26pcampaignid%3DMKT-na-all-co-pr-mu-pod-16"));
-        startActivity(browserIntent);
+    private void displayFeedFragment() {
+        //noinspection ConstantConditions
+        this.getSupportActionBar().setTitle(getString(R.string.title_feed));
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.application_frame, feedLoadingFragment).commit();
     }
 
     private void displaySettingsFragment() {

@@ -1,4 +1,4 @@
-package media.raa.raa_android_player.model.programinfodirectory;
+package media.raa.raa_android_player.model.entities.programinfodirectory;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -102,5 +102,9 @@ public class ProgramInfoDirectory {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public Map<String, ProgramInfo> getProgramInfoMap() {
+        return programInfoMap;
     }
 }

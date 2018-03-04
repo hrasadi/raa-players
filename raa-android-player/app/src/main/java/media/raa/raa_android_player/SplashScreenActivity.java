@@ -9,7 +9,7 @@ import android.widget.TextView;
 import net.danlew.android.joda.JodaTimeAndroid;
 
 import media.raa.raa_android_player.model.RaaContext;
-import media.raa.raa_android_player.model.programinfodirectory.ProgramInfoDirectory;
+import media.raa.raa_android_player.model.entities.programinfodirectory.ProgramInfoDirectory;
 
 public class SplashScreenActivity extends AppCompatActivity {
 

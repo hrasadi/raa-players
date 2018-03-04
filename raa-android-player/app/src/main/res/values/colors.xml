@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#311b92</color>
-    <color name="colorPrimaryDark">#6746c3</color>
-    <color name="colorAccent">#000063</color>
-    <color name="colorBlurVBackground">#bbffffff</color>
+    <color name="color_primary">#311b92</color>
+    <color name="color_primary_light">#6746c3</color>
+    <color name="color_accent">#000063</color>
 
-    <color name="black_overlay">#66000000</color>
-    <color name="player_background">#ffebeeee</color>
+    <color name="color_card_blur_background">#bbffffff</color>
+    <color name="card_card_button_text">#ffffffff</color>
+
+    <color name="color_black_overlay">#66000000</color>
+    <color name="color_player_background">#ffebeeee</color>
 </resources>

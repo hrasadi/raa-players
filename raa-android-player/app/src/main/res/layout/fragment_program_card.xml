@@ -1,140 +1,214 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:animateLayoutChanges="true"
+    android:orientation="vertical">
 
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_gravity="center"
+        android:layout_gravity="top"
         android:layout_marginBottom="5dp"
-        card_view:cardCornerRadius="20dp"
-        card_view:contentPadding="3dp">
-
-        <ImageView
-            android:src="@drawable/img_default_banner"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0.3"
-            android:scaleType="fitXY" android:contentDescription="@string/default_content_description" />
+        card_view:cardCornerRadius="20dp" >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal" android:baselineAligned="false">
-
-            <LinearLayout
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/programName"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/program_card_banner"
+                    android:src="@drawable/img_default_banner"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/text_margin"
-                    android:layout_marginBottom="@dimen/text_margin"
-                    android:layout_marginTop="30dp"
-                    android:textAppearance="?attr/textAppearanceListItem" />
-
-                <TextView
-                    android:id="@+id/programClips"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/text_margin"
-                    android:layout_marginEnd="@dimen/text_margin"
-                    android:layout_marginStart="@dimen/text_margin"
-                    android:layout_marginTop="0dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/colorBlurVBackground"
-                android:orientation="vertical"
-                android:layout_marginTop="30dp">
-
-                <TextView
-                    android:id="@+id/timeTitle1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/text_margin"
-                    android:layout_marginStart="@dimen/text_margin"
-                    android:layout_marginBottom="0dp"
-                    android:layout_marginTop="0dp" />
+                    android:layout_height="150dp"
+                    android:alpha="0.3"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="@string/default_content_description" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:layout_marginEnd="@dimen/text_margin"
-                    android:layout_marginStart="@dimen/text_margin"
-                    android:layout_marginBottom="0dp"
-                    android:layout_marginTop="0dp" >
+                    android:layout_height="150dp"
+                    android:orientation="horizontal"
+                    android:baselineAligned="false">
 
-                    <TextView
-                        android:id="@+id/timeValue1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="23sp"
-                        android:textColor="@android:color/black"
-                        android:layout_marginEnd="@dimen/program_card_small_margin"
-                        android:layout_marginBottom="0dp"
-                        android:layout_marginTop="0dp" />
+                    <RelativeLayout
+                        android:layout_width="0px"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/timeSubValue1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?attr/textAppearanceListItemSecondary"
-                        android:textColor="@android:color/black"
-                        android:layout_marginBottom="0dp"
-                        android:layout_marginTop="0dp" />
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/programTitle"
+                            app:autoSizeTextType="uniform"
+                            android:maxLines="2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/text_margin"
+                            android:layout_marginBottom="@dimen/text_margin"
+                            android:layout_marginTop="30dp"
+                            android:textStyle="bold"
+                            android:textAppearance="?attr/textAppearanceListItem" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/programSubtitle"
+                            app:autoSizeTextType="uniform"
+                            android:maxLines="2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/programTitle"
+                            android:layout_marginBottom="@dimen/text_margin"
+                            android:layout_marginEnd="@dimen/text_margin"
+                            android:layout_marginStart="@dimen/text_margin"
+                            android:layout_marginTop="0dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:padding="0dp"
+                            android:layout_alignParentBottom="true" android:orientation="horizontal">
+
+                            <!--Live-->
+                            <Button
+                                android:visibility="gone"
+                                android:id="@+id/programActionFullBtn"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                style="?android:buttonBarStyle"
+                                android:textColor="@color/card_card_button_text"
+                                android:text="@string/live_card_play"
+                                android:background="@color/color_primary" />
+
+                            <!--<Button-->
+                                <!--android:id="@+id/programAction1Btn"-->
+                                <!--android:layout_width="0dp"-->
+                                <!--android:layout_weight="1"-->
+                                <!--android:layout_height="match_parent"-->
+                                <!--android:layout_margin="@dimen/program_card_small_margin"-->
+                                <!--style="?android:buttonBarStyle"-->
+                                <!--android:background="@drawable/program_card_buttons_background"-->
+                                <!--android:text="@string/live_card_play"-->
+                                <!--android:textColor="@color/card_card_button_text" />-->
+
+                            <!--<Button-->
+                                <!--android:id="@+id/programAction2Btn"-->
+                                <!--android:layout_width="0dp"-->
+                                <!--android:layout_weight="1"-->
+                                <!--android:layout_height="match_parent"-->
+                                <!--android:layout_margin="@dimen/program_card_small_margin"-->
+                                <!--style="?android:buttonBarStyle"-->
+                                <!--android:background="@drawable/program_card_buttons_background"-->
+                                <!--android:textColor="@color/card_card_button_text"-->
+                                <!--android:text="@string/live_card_play" />-->
+                        </LinearLayout>
+                    </RelativeLayout>
+                    <LinearLayout
+                        android:layout_width="0px"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/color_card_blur_background"
+                        android:orientation="vertical"
+                        android:paddingTop="30dp">
+
+                        <TextView
+                            android:id="@+id/timeTitle1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/text_margin"
+                            android:layout_marginStart="@dimen/text_margin"
+                            android:layout_marginBottom="0dp"
+                            android:layout_marginTop="0dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:layout_marginEnd="@dimen/text_margin"
+                            android:layout_marginStart="@dimen/text_margin"
+                            android:layout_marginBottom="0dp"
+                            android:layout_marginTop="0dp" >
+
+                            <TextView
+                                android:id="@+id/timeValue1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="23sp"
+                                android:textColor="@android:color/black"
+                                android:layout_marginEnd="@dimen/program_card_small_margin"
+                                android:layout_marginBottom="0dp"
+                                android:layout_marginTop="0dp" />
+
+                            <TextView
+                                android:id="@+id/timeSubValue1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?attr/textAppearanceListItemSecondary"
+                                android:textColor="@android:color/black"
+                                android:layout_marginBottom="0dp"
+                                android:layout_marginTop="0dp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/timeTitle2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/text_margin"
+                            android:layout_marginStart="@dimen/text_margin"
+                            android:layout_marginBottom="0dp"
+                            android:layout_marginTop="0dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:layout_marginEnd="@dimen/text_margin"
+                            android:layout_marginStart="@dimen/text_margin"
+                            android:layout_marginBottom="0dp"
+                            android:layout_marginTop="0dp" >
+
+                            <TextView
+                                android:id="@+id/timeValue2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="23sp"
+                                android:textColor="@android:color/black"
+                                android:layout_marginEnd="@dimen/program_card_small_margin"
+                                android:layout_marginBottom="0dp"
+                                android:layout_marginTop="0dp" />
+
+                            <TextView
+                                android:id="@+id/timeSubValue2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?attr/textAppearanceListItemSecondary"
+                                android:textColor="@android:color/black"
+                                android:layout_marginBottom="0dp"
+                                android:layout_marginTop="0dp" />
+                        </LinearLayout>
+                    </LinearLayout>
                 </LinearLayout>
+            </FrameLayout>
+
+            <!-- Details -->
+            <FrameLayout
+                android:id="@+id/card_details_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" >
 
                 <TextView
-                    android:id="@+id/timeTitle2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/text_margin"
-                    android:layout_marginStart="@dimen/text_margin"
-                    android:layout_marginBottom="0dp"
-                    android:layout_marginTop="0dp" />
+                    android:text="سلام" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:layout_marginEnd="@dimen/text_margin"
-                    android:layout_marginStart="@dimen/text_margin"
-                    android:layout_marginBottom="0dp"
-                    android:layout_marginTop="0dp" >
-
-                    <TextView
-                        android:id="@+id/timeValue2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="23sp"
-                        android:textColor="@android:color/black"
-                        android:layout_marginEnd="@dimen/program_card_small_margin"
-                        android:layout_marginBottom="0dp"
-                        android:layout_marginTop="0dp" />
-
-
-                    <TextView
-                        android:id="@+id/timeSubValue2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?attr/textAppearanceListItemSecondary"
-                        android:textColor="@android:color/black"
-                        android:layout_marginBottom="0dp"
-                        android:layout_marginTop="0dp" />
-                </LinearLayout>
-            </LinearLayout>
+            </FrameLayout>
         </LinearLayout>
+
+
     </android.support.v7.widget.CardView>
 </LinearLayout>

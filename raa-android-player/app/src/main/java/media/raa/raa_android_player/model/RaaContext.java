@@ -5,10 +5,11 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationManagerCompat;
 
-import media.raa.raa_android_player.model.livebroadcast.LiveBroadcastLineup;
-import media.raa.raa_android_player.model.livebroadcast.RemotePlaybackStatus;
-import media.raa.raa_android_player.model.livebroadcast.RemotePlaybackStatusCheckingPolicy;
-import media.raa.raa_android_player.model.programinfodirectory.ProgramInfoDirectory;
+import media.raa.raa_android_player.model.entities.feed.Feed;
+import media.raa.raa_android_player.model.entities.livebroadcast.LiveBroadcastLineup;
+import media.raa.raa_android_player.model.entities.livebroadcast.RemotePlaybackStatus;
+import media.raa.raa_android_player.model.entities.livebroadcast.RemotePlaybackStatusCheckingPolicy;
+import media.raa.raa_android_player.model.entities.programinfodirectory.ProgramInfoDirectory;
 
 /**
  * Singleton container of Raa common
@@ -40,10 +41,11 @@ public class RaaContext {
         return getInstance();
     }
 
-    private SharedPreferences settings;
     private LiveBroadcastLineup liveBroadcastLineup;
+    private Feed feed;
     private RemotePlaybackStatus currentStatus;
     private ProgramInfoDirectory programInfoDirectory;
+    private SharedPreferences settings;
 
     private RemotePlaybackStatusCheckingPolicy statusCheckingPolicy;
 
@@ -82,6 +84,17 @@ public class RaaContext {
             liveBroadcastLineup = new LiveBroadcastLineup();
         }
         return liveBroadcastLineup;
+    }
+
+    /**
+     * Returns the current lineup. The reload function must be called in order to populate data
+     * @return The lineup instance (may not be populated)
+     */
+    public Feed getFeed() {
+        if (feed == null) {
+            feed = new Feed();
+        }
+        return feed;
     }
 
     public RemotePlaybackStatus getCurrentStatus(boolean forceUpdate) {

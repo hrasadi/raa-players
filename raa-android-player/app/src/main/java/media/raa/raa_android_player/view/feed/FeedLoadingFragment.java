@@ -1,4 +1,4 @@
-package media.raa.raa_android_player.view.livebroadcast;
+package media.raa.raa_android_player.view.feed;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,10 +13,10 @@ import media.raa.raa_android_player.model.RaaContext;
 
 /**
  */
-public class LiveBroadcastLoadingFragment extends Fragment {
+public class FeedLoadingFragment extends Fragment {
 
-    public static LiveBroadcastLoadingFragment newInstance() {
-        return new LiveBroadcastLoadingFragment();
+    public static FeedLoadingFragment newInstance() {
+        return new FeedLoadingFragment();
     }
 
     @Override
@@ -29,8 +29,8 @@ public class LiveBroadcastLoadingFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         //noinspection unchecked
-        RaaContext.getInstance().getLiveBroadcastLineup().reload().done(rs -> {
-            LiveBroadcastListViewFragment fragment = LiveBroadcastListViewFragment.newInstance();
+        RaaContext.getInstance().getFeed().reload().done(rs -> {
+            FeedListViewFragment fragment = FeedListViewFragment.newInstance();
 
             Handler mainHandler = new Handler(getContext().getMainLooper());
             mainHandler.post(() -> getFragmentManager().beginTransaction()

@@ -1,4 +1,4 @@
-package media.raa.raa_android_player.model.livebroadcast;
+package media.raa.raa_android_player.model.entities.livebroadcast;
 
 import android.content.Context;
 import android.content.Intent;
