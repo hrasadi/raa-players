@@ -10,6 +10,7 @@ import media.raa.raa_android_player.model.entities.livebroadcast.LiveBroadcastLi
 import media.raa.raa_android_player.model.entities.livebroadcast.RemotePlaybackStatus;
 import media.raa.raa_android_player.model.entities.livebroadcast.RemotePlaybackStatusCheckingPolicy;
 import media.raa.raa_android_player.model.entities.programinfodirectory.ProgramInfoDirectory;
+import media.raa.raa_android_player.model.user.UserManager;
 
 /**
  * Singleton container of Raa common
@@ -41,10 +42,11 @@ public class RaaContext {
         return getInstance();
     }
 
-    private LiveBroadcastLineup liveBroadcastLineup;
-    private Feed feed;
-    private RemotePlaybackStatus currentStatus;
-    private ProgramInfoDirectory programInfoDirectory;
+    private LiveBroadcastLineup liveBroadcastLineup = new LiveBroadcastLineup();
+    private Feed feed = new Feed();
+    private UserManager userManager;
+    private RemotePlaybackStatus currentStatus = new RemotePlaybackStatus();
+    private ProgramInfoDirectory programInfoDirectory = new ProgramInfoDirectory();
     private SharedPreferences settings;
 
     private RemotePlaybackStatusCheckingPolicy statusCheckingPolicy;
@@ -61,49 +63,44 @@ public class RaaContext {
         } else {
             statusCheckingPolicy = new RemotePlaybackStatusCheckingPolicy.PollServerStatus(context);
         }
+
+        this.userManager = new UserManager(context, settings);
     }
 
     /**
      * The instance of ProgramInfoDirectory. A call to reload() function will refresh its data in an
      * async manner
+     *
      * @return The programInfoDirectory instance (may not be populated)
      */
     public ProgramInfoDirectory getProgramInfoDirectory() {
-        if (programInfoDirectory == null) {
-            programInfoDirectory = new ProgramInfoDirectory();
-        }
         return programInfoDirectory;
     }
 
     /**
      * Returns the current lineup. The reload function must be called in order to populate data
+     *
      * @return The lineup instance (may not be populated)
      */
     public LiveBroadcastLineup getLiveBroadcastLineup() {
-        if (liveBroadcastLineup == null) {
-            liveBroadcastLineup = new LiveBroadcastLineup();
-        }
         return liveBroadcastLineup;
     }
 
     /**
      * Returns the current lineup. The reload function must be called in order to populate data
+     *
      * @return The lineup instance (may not be populated)
      */
     public Feed getFeed() {
-        if (feed == null) {
-            feed = new Feed();
-        }
         return feed;
     }
 
+    public UserManager getUserManager() {
+        return userManager;
+    }
+
     public RemotePlaybackStatus getCurrentStatus(boolean forceUpdate) {
-        if (currentStatus == null) {
-            currentStatus = new RemotePlaybackStatus();
-            return currentStatus;
-        } else {
-            return currentStatus.get(forceUpdate);
-        }
+        return currentStatus.get(forceUpdate);
     }
 
     public void setApplicationForeground() {

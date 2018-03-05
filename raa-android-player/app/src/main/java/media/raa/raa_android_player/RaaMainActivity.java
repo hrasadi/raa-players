@@ -97,8 +97,6 @@ public class RaaMainActivity extends AppCompatActivity implements SettingsFragme
         feedLoadingFragment = feedLoadingFragment.newInstance();
         settingsFragment = SettingsFragment.newInstance();
 
-        navigationView.setSelectedItemId(R.id.navigation_settings);
-
 //        playerBarActionButton = findViewById(R.id.player_bar_action_button);
 //        playerBarActionButton.setOnClickListener(mOnPlayerActionListener);
     }
@@ -133,7 +131,7 @@ public class RaaMainActivity extends AppCompatActivity implements SettingsFragme
         settingsFragment = SettingsFragment.newInstance();
 
         // Default tab is the lineup when we enter foreground
-        navigationView.setSelectedItemId(R.id.navigation_live);
+        navigationView.setSelectedItemId(R.id.navigation_feed);
 
         // start playback
         Intent intent = new Intent(getApplicationContext(), PlaybackService.class);

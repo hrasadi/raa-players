@@ -34,6 +34,13 @@ public class LiveProgramCardListItem extends ProgramCardListItem {
             // Set background if exists
             ProgramInfo pInfo = RaaContext.getInstance().getProgramInfoDirectory()
                     .getProgramInfoMap().get(this.program.getProgramId());
+            if (pInfo != null && pInfo.getAbout() != null && !pInfo.getAbout().isEmpty()) {
+                programDetailsLbl.setText(pInfo.getAbout());
+            } else {
+                programDetailsLbl.setText(R.string.default_program_description);
+            }
+
+            // Banner
             if (pInfo != null && pInfo.getBannerBitmap() != null) {
                 this.programBanner.setImageBitmap(pInfo.getBannerBitmap());
             } else {

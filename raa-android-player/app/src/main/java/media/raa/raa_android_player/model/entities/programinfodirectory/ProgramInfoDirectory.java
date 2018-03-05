@@ -96,8 +96,12 @@ public class ProgramInfoDirectory {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setDoInput(true);
             connection.connect();
+
             InputStream input = connection.getInputStream();
-            return BitmapFactory.decodeStream(input);
+            Bitmap result = BitmapFactory.decodeStream(input);
+            input.close();
+
+            return result;
         } catch (IOException e) {
             e.printStackTrace();
         }

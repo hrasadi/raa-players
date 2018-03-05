@@ -44,7 +44,7 @@
                         android:orientation="vertical">
 
                         <android.support.v7.widget.AppCompatTextView
-                            android:id="@+id/programTitle"
+                            android:id="@+id/program_title"
                             app:autoSizeTextType="uniform"
                             android:maxLines="2"
                             android:layout_width="match_parent"
@@ -56,12 +56,12 @@
                             android:textAppearance="?attr/textAppearanceListItem" />
 
                         <android.support.v7.widget.AppCompatTextView
-                            android:id="@+id/programSubtitle"
+                            android:id="@+id/program_subtitle"
                             app:autoSizeTextType="uniform"
                             android:maxLines="2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/programTitle"
+                            android:layout_below="@id/program_title"
                             android:layout_marginBottom="@dimen/text_margin"
                             android:layout_marginEnd="@dimen/text_margin"
                             android:layout_marginStart="@dimen/text_margin"
@@ -116,7 +116,7 @@
                         android:paddingTop="30dp">
 
                         <TextView
-                            android:id="@+id/timeTitle1"
+                            android:id="@+id/time_title1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/text_margin"
@@ -134,7 +134,7 @@
                             android:layout_marginTop="0dp" >
 
                             <TextView
-                                android:id="@+id/timeValue1"
+                                android:id="@+id/time_value1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="23sp"
@@ -144,7 +144,7 @@
                                 android:layout_marginTop="0dp" />
 
                             <TextView
-                                android:id="@+id/timeSubValue1"
+                                android:id="@+id/time_sub_value1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textAppearance="?attr/textAppearanceListItemSecondary"
@@ -154,7 +154,7 @@
                         </LinearLayout>
 
                         <TextView
-                            android:id="@+id/timeTitle2"
+                            android:id="@+id/time_title2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/text_margin"
@@ -172,7 +172,7 @@
                             android:layout_marginTop="0dp" >
 
                             <TextView
-                                android:id="@+id/timeValue2"
+                                android:id="@+id/time_value2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="23sp"
@@ -182,7 +182,7 @@
                                 android:layout_marginTop="0dp" />
 
                             <TextView
-                                android:id="@+id/timeSubValue2"
+                                android:id="@+id/time_sub_value2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textAppearance="?attr/textAppearanceListItemSecondary"
@@ -199,12 +199,15 @@
                 android:id="@+id/card_details_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
                 android:visibility="gone" >
 
                 <TextView
+                    android:id="@+id/card_details_view_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="سلام" />
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp" />
 
             </FrameLayout>
         </LinearLayout>

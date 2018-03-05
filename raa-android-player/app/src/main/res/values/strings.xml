@@ -13,6 +13,8 @@
     <string name="label_pre_loading_images">یه کم بزک دوزک…</string>
     <string name="label_splash_work_done">ایول، ردیف شد!</string>
 
+    <string name="default_program_description">هنوز چیزی به ذهنمون نرسیده در مورد این برنامه بنویسیم!</string>
+
     <!-- Live broadcast -->
     <string name="live_card_play">پخش</string>
     <string name="live_card_soon">به زودی</string>
@@ -20,6 +22,12 @@
 
     <string name="status_program_finish">شب بخیر! ادامه‌ی برنامه‌های رادیو از نیمه شب…</string>
     <string name="status_now_playing">در حال پخش: %1$s</string>
+
+    <!-- Feed -->
+    <string name="personal_feed_section_header">زمان‌بندی شده بر اساس مکان شما</string>
+    <string name="public_feed_section_header">برنامه‌های جاری رادیو</string>
+    <string name="personal_feed_section_footer">رسیدن بخیر! کمی زمان لازمه تا رادیو زمان‌بندی شما رو یاد بگیره. به زودی برنامه‌های این بخش براتون نمایش داده میشه.</string>
+    <string name="public_feed_section_footer">فعلا برنامه‌ای اینجا نیست. همون طور که می‌دونید برنامه‌های جدید رادیو از دوشنبه شب تا جمعه شب هر هفته (به وقت شرق آمریکا) منتشر می‌شن.</string>
 
     <!-- Notification strings -->
     <string name="start_stop_action_description">توقف/شروع</string>
@@ -30,7 +38,6 @@
     <string name="permission_play_in_background">پخش برنامه‌ها در پس‌زمینه</string>
     <string name="permission_send_notifications">اعلام شروع برنامه‌ی جدید</string>
     <string name="raa_media_copyright">۲۰۱۷ - رادیو اتو-اسعد - برای اطلاع از موارد حقوقی به سایت raa.media مراجعه کنید.</string>
-
 
     <string name="default_content_description">تصویر</string>
     <string name="default_program_title">برنامه</string>

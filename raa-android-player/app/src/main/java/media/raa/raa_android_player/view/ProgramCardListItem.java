@@ -6,7 +6,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import media.raa.raa_android_player.R;
-import media.raa.raa_android_player.model.entities.Program;
 
 /**
  * Superclass for all types of program cards
@@ -31,6 +30,7 @@ public class ProgramCardListItem extends RecyclerView.ViewHolder {
     protected final TextView programSubtitleView;
 
     public final View detailsView;
+    protected final TextView programDetailsLbl;
 
     public ProgramCardListItem(View view) {
         super(view);
@@ -38,19 +38,20 @@ public class ProgramCardListItem extends RecyclerView.ViewHolder {
 
         programBanner = view.findViewById(R.id.program_card_banner);
 
-        startTimeTitleLbl = view.findViewById(R.id.timeTitle1);
-        endTimeTitleLbl = view.findViewById(R.id.timeTitle2);
+        startTimeTitleLbl = view.findViewById(R.id.time_title1);
+        endTimeTitleLbl = view.findViewById(R.id.time_title2);
 
-        programStartTimeView = view.findViewById(R.id.timeValue1);
-        programStartDayView = view.findViewById(R.id.timeSubValue1);
+        programStartTimeView = view.findViewById(R.id.time_value1);
+        programStartDayView = view.findViewById(R.id.time_sub_value1);
 
-        programEndTimeView = view.findViewById(R.id.timeValue2);
-        programEndDayView = view.findViewById(R.id.timeSubValue2);
+        programEndTimeView = view.findViewById(R.id.time_value2);
+        programEndDayView = view.findViewById(R.id.time_sub_value2);
 
-        programTitleView = view.findViewById(R.id.programTitle);
-        programSubtitleView = view.findViewById(R.id.programSubtitle);
+        programTitleView = view.findViewById(R.id.program_title);
+        programSubtitleView = view.findViewById(R.id.program_subtitle);
 
         detailsView = view.findViewById(R.id.card_details_view);
+        programDetailsLbl = view.findViewById(R.id.card_details_view_text);
     }
 
     @Override

@@ -18,7 +18,7 @@ import media.raa.raa_android_player.model.entities.Program;
  * Created by hamid on 3/1/18.
  */
 
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class FeedEntry {
     private String id;
     @SerializedName("Program")

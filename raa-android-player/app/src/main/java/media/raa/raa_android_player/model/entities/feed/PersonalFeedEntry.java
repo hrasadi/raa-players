@@ -6,4 +6,5 @@ package media.raa.raa_android_player.model.entities.feed;
  */
 
 public class PersonalFeedEntry extends FeedEntry {
+    
 }

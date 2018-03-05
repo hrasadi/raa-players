@@ -7,6 +7,7 @@ import media.raa.raa_android_player.model.entities.Program;
  * Created by hamid on 3/1/18.
  */
 
+@SuppressWarnings("unused")
 public class PublicFeedEntry extends FeedEntry {
     private int upvotes;
 

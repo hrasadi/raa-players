@@ -8,7 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 import media.raa.raa_android_player.R;
 import media.raa.raa_android_player.model.RaaContext;
 
@@ -34,8 +36,11 @@ public class FeedListViewFragment extends Fragment {
 
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-            FeedListRecyclerViewAdapter programRecyclerAdapter = new FeedListRecyclerViewAdapter(RaaContext.getInstance().getFeed());
-            recyclerView.setAdapter(programRecyclerAdapter);
+            SectionedRecyclerViewAdapter sectionAdapter = new SectionedRecyclerViewAdapter();
+            sectionAdapter.addSection(new PersonalFeedListSection(RaaContext.getInstance().getFeed()));
+            sectionAdapter.addSection(new PublicFeedListSection(RaaContext.getInstance().getFeed()));
+
+            recyclerView.setAdapter(sectionAdapter);
         }
         return view;
     }
@@ -50,4 +55,30 @@ public class FeedListViewFragment extends Fragment {
         super.onDetach();
     }
 
+
+    public static class FeedSectionHeader extends RecyclerView.ViewHolder {
+        private TextView sectionHeader;
+
+        FeedSectionHeader(View view) {
+            super(view);
+            sectionHeader = view.findViewById(R.id.feed_section_header);
+        }
+
+        void setSectionHeaderLabel(int resId) {
+            this.sectionHeader.setText(resId);
+        }
+    }
+
+    public static class FeedSectionFooter extends RecyclerView.ViewHolder {
+        private TextView sectionFooter;
+
+        FeedSectionFooter(View view) {
+            super(view);
+            sectionFooter = view.findViewById(R.id.feed_section_footer);
+        }
+
+        void setSectionFooterLabel(int resId) {
+            this.sectionFooter.setText(resId);
+        }
+    }
 }
