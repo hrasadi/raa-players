@@ -32,10 +32,14 @@ public class LiveBroadcastListRecyclerViewAdapter extends RecyclerView.Adapter<L
 
     @Override
     public void onBindViewHolder(final LiveProgramCardListItem holder, int position) {
-        final boolean isExpanded = (position == this.expandedItemPosition);
-        holder.detailsView.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
-
         holder.setProgram(flatLineup.get(position));
+
+        // HANDLE EXPANSION
+        // No interaction for programs that their times has passed
+        final boolean isExpanded = (position == this.expandedItemPosition);
+        if (!holder.isDisabled()) {
+            holder.detailsView.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        }
 
         holder.itemView.setOnClickListener(v -> {
             this.expandedItemPosition = isExpanded ? -1 : position;

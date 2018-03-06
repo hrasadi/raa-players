@@ -2,6 +2,7 @@ package media.raa.raa_android_player.view;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,6 +30,8 @@ public class ProgramCardListItem extends RecyclerView.ViewHolder {
     protected final TextView programTitleView;
     protected final TextView programSubtitleView;
 
+    protected final Button actionButton;
+
     public final View detailsView;
     protected final TextView programDetailsLbl;
 
@@ -49,6 +52,8 @@ public class ProgramCardListItem extends RecyclerView.ViewHolder {
 
         programTitleView = view.findViewById(R.id.program_title);
         programSubtitleView = view.findViewById(R.id.program_subtitle);
+
+        actionButton = view.findViewById(R.id.program_action_full_btn);
 
         detailsView = view.findViewById(R.id.card_details_view);
         programDetailsLbl = view.findViewById(R.id.card_details_view_text);

@@ -25,6 +25,17 @@ public class Metadata {
         this.isoFormatter = ISODateTimeFormat.dateTime();
     }
 
+    public boolean hasFinished() {
+        DateTime endTimeObject = isoFormatter.parseDateTime(endTime);
+        return endTimeObject.isBeforeNow();
+    }
+
+    public boolean isInProgress() {
+        DateTime endTimeObject = isoFormatter.parseDateTime(endTime);
+        DateTime startTimeObject = isoFormatter.parseDateTime(startTime);
+        return startTimeObject.isBeforeNow() && endTimeObject.isAfterNow();
+    }
+
     private String getFormattedTime(String time) {
         DateTime d = isoFormatter.parseDateTime(time);
         String zonedDateString = d.withZone(DateTimeZone.getDefault()).toString("HH:mm", Locale.US);

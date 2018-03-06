@@ -47,23 +47,23 @@ public class SettingsFragment extends Fragment {
     }
 
     private void setupSettingsSwitches(View view) {
-        canPlayInBackgroundSwitch = view.findViewById(R.id.can_play_in_background_switch);
-        canPlayInBackgroundSwitch.setChecked(RaaContext.getInstance().canPlayInBackground());
-        canPlayInBackgroundSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                mListener.onCanPlaybackInBackgroundChange(b);
-            }
-        });
-
-        canSendNotificationsSwitch = view.findViewById(R.id.can_send_nitifications_switch);
-        canSendNotificationsSwitch.setChecked(RaaContext.getInstance().canSendNotifications());
-        canSendNotificationsSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                mListener.onCanSendNotificationsChange(b);
-            }
-        });
+//        canPlayInBackgroundSwitch = view.findViewById(R.id.can_play_in_background_switch);
+//        canPlayInBackgroundSwitch.setChecked(RaaContext.getInstance().canPlayInBackground());
+//        canPlayInBackgroundSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//                mListener.onCanPlaybackInBackgroundChange(b);
+//            }
+//        });
+//
+//        canSendNotificationsSwitch = view.findViewById(R.id.can_send_nitifications_switch);
+//        canSendNotificationsSwitch.setChecked(RaaContext.getInstance().canSendNotifications());
+//        canSendNotificationsSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//                mListener.onCanSendNotificationsChange(b);
+//            }
+//        });
     }
 
     @Override

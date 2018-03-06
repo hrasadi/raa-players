@@ -6,8 +6,9 @@
     <color name="color_accent">#000063</color>
 
     <color name="color_card_blur_background">#bbffffff</color>
-    <color name="card_card_button_text">#ffffffff</color>
+    <color name="color_card_button_text">#ffffffff</color>
+    <color name="color_live_card_next_in_line">#ffe1e33e</color>
 
-    <color name="color_black_overlay">#66000000</color>
+    <color name="color_black_overlay">#30000000</color>
     <color name="color_player_background">#ffebeeee</color>
 </resources>

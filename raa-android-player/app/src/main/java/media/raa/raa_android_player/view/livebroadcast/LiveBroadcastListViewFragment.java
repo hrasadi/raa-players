@@ -38,6 +38,8 @@ public class LiveBroadcastListViewFragment extends Fragment {
 
             LiveBroadcastListRecyclerViewAdapter programRecyclerAdapter = new LiveBroadcastListRecyclerViewAdapter(RaaContext.getInstance().getLiveBroadcastLineup());
             recyclerView.setAdapter(programRecyclerAdapter);
+
+            recyclerView.scrollToPosition(RaaContext.getInstance().getLiveBroadcastLineup().getMostRecentProgramIndex());
         }
         return view;
     }

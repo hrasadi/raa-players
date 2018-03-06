@@ -7,10 +7,9 @@ import android.util.Log;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import media.raa.raa_android_player.model.PlaybackService;
-import media.raa.raa_android_player.model.RaaContext;
+import media.raa.raa_android_player.model.playback.PlaybackService;
 
-import static media.raa.raa_android_player.model.PlaybackService.ACTION_UPDATE_METADATA;
+import static media.raa.raa_android_player.model.playback.PlaybackService.ACTION_UPDATE_METADATA;
 
 /**
  * The policy that shows how the server status is retrieved
@@ -46,17 +45,17 @@ public abstract class RemotePlaybackStatusCheckingPolicy {
 
                 @Override
                 public void run() {
-                    RemotePlaybackStatus oldStatus = RaaContext.getInstance().getCurrentStatus(false);
-                    RemotePlaybackStatus newStatus = RaaContext.getInstance().getCurrentStatus(true);
+//                    LiveBroadcastStatus oldStatus = RaaContext.getInstance().getCurrentStatus(false);
+//                    LiveBroadcastStatus newStatus = RaaContext.getInstance().getCurrentStatus(true);
 
-                    if (oldStatus.isCurrentlyPlaying() != newStatus.isCurrentlyPlaying()) {
-                        // Change in playback status is important.
-                        initiateMetadataUpdate();
-                    } else if (newStatus.isCurrentlyPlaying() &&
-                           !oldStatus.getCurrentProgram().equals(newStatus.getCurrentProgram())) {
-                        // New program started
-                        initiateMetadataUpdate();
-                    }
+//                    if (oldStatus.isCurrentlyPlaying() != newStatus.isCurrentlyPlaying()) {
+//                        // Change in playback status is important.
+//                        initiateMetadataUpdate();
+//                    } else if (newStatus.isCurrentlyPlaying() &&
+//                           !oldStatus.getCurrentProgram().equals(newStatus.getCurrentProgram())) {
+//                        // New program started
+//                        initiateMetadataUpdate();
+//                    }
                 }
             }, 0, 10000);
         }

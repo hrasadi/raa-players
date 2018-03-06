@@ -13,12 +13,12 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import media.raa.raa_android_player.RaaMainActivity;
 import media.raa.raa_android_player.R;
-import media.raa.raa_android_player.model.PlaybackService;
+import media.raa.raa_android_player.model.playback.PlaybackService;
 import media.raa.raa_android_player.model.RaaContext;
 
-import static media.raa.raa_android_player.model.PlaybackService.ACTION_PLAY;
-import static media.raa.raa_android_player.model.PlaybackService.ACTION_STOP;
-import static media.raa.raa_android_player.model.PlaybackService.ACTION_UPDATE_METADATA;
+import static media.raa.raa_android_player.model.playback.PlaybackService.ACTION_PLAY;
+import static media.raa.raa_android_player.model.playback.PlaybackService.ACTION_STOP;
+import static media.raa.raa_android_player.model.playback.PlaybackService.ACTION_UPDATE_METADATA;
 
 public class NotificationService extends FirebaseMessagingService {
 
@@ -40,41 +40,41 @@ public class NotificationService extends FirebaseMessagingService {
         if (remoteMessage.getData().size() > 0) {
             if (remoteMessage.getData().containsKey("alert")) {
                 // New program
-                handleNewProgram(remoteMessage.getData().get("alert"));
+                //handleNewProgram(remoteMessage.getData().get("alert"));
             } else { // silent notification, stop playback and remove all notifications
                 handlePlaybackEnd();
             }
         }
     }
 
-    private void handleNewProgram(String newProgramAlert) {
-        if (RaaContext.getInstance(this).isApplicationForeground() ||
-                PlaybackService.isPlaybackServiceActive()) {
-            initiateMetadataUpdate();
-        } else {
-            if (RaaContext.getInstance(this).canSendNotifications()) {
-                notificationManager.notify(RAA_CURRENTLY_PLAYING_NOTIFICATION_ID,
-                        createNotification(newProgramAlert));
-            }
-        }
-    }
+//    private void handleNewProgram(String newProgramAlert) {
+//        if (RaaContext.getInstance(this).isApplicationForeground() ||
+//                PlaybackService.isPlaybackServiceActive()) {
+//            initiateMetadataUpdate();
+//        } else {
+//            if (RaaContext.getInstance(this).canSendNotifications()) {
+//                notificationManager.notify(RAA_CURRENTLY_PLAYING_NOTIFICATION_ID,
+//                        createNotification(newProgramAlert));
+//            }
+//        }
+//    }
 
     private void handlePlaybackEnd() {
         // remove all notifications (if any)
         notificationManager.cancel(RAA_CURRENTLY_PLAYING_NOTIFICATION_ID);
 
-        if (RaaContext.getInstance(this).isApplicationForeground()) {
-            // only update the metadata
-            initiateMetadataUpdate();
-        } else {
+//        if (RaaContext.getInstance(this).isApplicationForeground()) {
+//            // only update the metadata
+//            initiateMetadataUpdate();
+//        } else {
             // If in background, stop playback (only if it is already playing, this is to support
             // Android 8.0 changes)
-            if (PlaybackService.isPlaybackServiceActive()) {
-                Intent stopIntent = new Intent(getApplicationContext(), PlaybackService.class);
-                stopIntent.setAction(ACTION_STOP);
-                startService(stopIntent);
-            }
-        }
+//            if (PlaybackService.isPlaybackServiceActive()) {
+//                Intent stopIntent = new Intent(getApplicationContext(), PlaybackService.class);
+//                stopIntent.setAction(ACTION_STOP);
+//                startService(stopIntent);
+//            }
+//         }
 
     }
 

@@ -18,15 +18,7 @@ public class Media {
         return path;
     }
 
-    public void setPath(String path) {
-        this.path = path;
-    }
-
     public Double getDuration() {
         return duration;
-    }
-
-    public void setDuration(Double duration) {
-        this.duration = duration;
     }
 }

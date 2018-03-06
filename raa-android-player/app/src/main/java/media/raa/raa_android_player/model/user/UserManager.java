@@ -26,11 +26,11 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import media.raa.raa_android_player.model.RaaContext;
 
@@ -52,8 +52,8 @@ public class UserManager {
 
     private static final String SETTINGS_USER_KEY = "user";
 
-    private ArrayList<String> loadingSteps =
-            new ArrayList<>(Arrays.asList("GET_LOCATION", "AUTHORIZE_NOTIFICATIONS"));
+    private ConcurrentLinkedQueue<String> loadingSteps =
+            new ConcurrentLinkedQueue<>(Arrays.asList("GET_LOCATION", "AUTHORIZE_NOTIFICATIONS"));
 
     public UserManager(Context context, SharedPreferences settings) {
         this.context = context;

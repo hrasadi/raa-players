@@ -21,22 +21,32 @@ import media.raa.raa_android_player.model.entities.Program;
 
 @SuppressWarnings("unused")
 public class LiveBroadcastLineup extends JSONReader {
-
     private static final String LIVE_BROADCAST_PREFIX_URL = RaaContext.BASE_URL + "/live";
     private static final String LIVE_BROADCAST_LINEUP_URL = LIVE_BROADCAST_PREFIX_URL + "/live-lineup.json";
-    private static final String LIVE_BROADCAST_STATUS_URL = LIVE_BROADCAST_PREFIX_URL + "/status.json";
+    private static final String LIVE_BROADCAST_STATUS_URL = LiveBroadcastLineup.LIVE_BROADCAST_PREFIX_URL + "/status.json";
 
     private Map<String, List<Program>> lineup;
     private List<Program> flatLineup = new ArrayList<>();
 
+    private LiveBroadcastStatus broadcastStatus;
+    private OnBroadcastStatusUpdated onBroadcastStatusUpdated;
+
     private Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create();
 
     public Promise reload() {
-        return dm.when(() -> this.readServerLineup(LIVE_BROADCAST_LINEUP_URL))
+        return dm.when(() -> this.readServerLineup(LIVE_BROADCAST_LINEUP_URL),
+                () -> this.readServerLineup(LIVE_BROADCAST_STATUS_URL))
                 .done(result -> {
-                    this.parseLiveBroadcastLineup(result);
+                    this.parseLiveBroadcastLineup(result.getFirst().getValue());
                     this.flattenLineup();
+
+                    this.parseLiveBroadcastStatus(result.getSecond().getValue());
                 });
+    }
+
+    public Promise reloadStatus() {
+        return dm.when(() -> this.readServerLineup(LIVE_BROADCAST_STATUS_URL))
+                .done(this::parseLiveBroadcastStatus);
     }
 
     private void parseLiveBroadcastLineup(String serverResponse) {
@@ -44,6 +54,21 @@ public class LiveBroadcastLineup extends JSONReader {
             if (serverResponse != null) {
                 this.lineup = gson.fromJson(serverResponse,
                         new TypeToken<Map<String, List<Program>>>() {}.getType());
+            }
+        } catch (JsonSyntaxException e) {
+            Log.e("Raa", "Error: " + e.toString());
+        }
+    }
+
+    private void parseLiveBroadcastStatus(String serverResponse) {
+        try {
+            if (serverResponse != null) {
+                this.broadcastStatus = gson.fromJson(serverResponse,
+                        new TypeToken<LiveBroadcastStatus>() {}.getType());
+            }
+
+            if (onBroadcastStatusUpdated != null) {
+                onBroadcastStatusUpdated.perform();
             }
         } catch (JsonSyntaxException e) {
             Log.e("Raa", "Error: " + e.toString());
@@ -65,5 +90,38 @@ public class LiveBroadcastLineup extends JSONReader {
 
     public List<Program> getFlatLineup() {
         return flatLineup;
+    }
+
+    public LiveBroadcastStatus getBroadcastStatus() {
+        return broadcastStatus;
+    }
+
+    public int getMostRecentProgramIndex() {
+        for (int i = 0; i < this.flatLineup.size(); i++) {
+            if (this.flatLineup.get(i).getCanonicalIdPath().equals(this.broadcastStatus.getMostRecentProgram())) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    public Program getMostRecentProgram() {
+        return flatLineup.get(this.getMostRecentProgramIndex());
+    }
+
+    public String getNextProgramCanonicalIdPath() {
+        if (this.getMostRecentProgramIndex() + 1 < this.flatLineup.size()) {
+            return this.flatLineup.get(this.getMostRecentProgramIndex() + 1).getCanonicalIdPath();
+        }
+        return null;
+    }
+
+    public void setOnBroadcastStatusUpdated(OnBroadcastStatusUpdated onBroadcastStatusUpdated) {
+        this.onBroadcastStatusUpdated = onBroadcastStatusUpdated;
+    }
+
+    // Callback for live status update (every 10 seconds + notifications)
+    public interface OnBroadcastStatusUpdated {
+        void perform();
     }
 }

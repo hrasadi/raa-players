@@ -15,12 +15,11 @@
         android:layout_weight="1.03" >
     </FrameLayout>
 
-    <include
+    <media.raa.raa_android_player.view.player.InAppPlayerControlsView
         android:id="@+id/player"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:visibility="gone"
-        layout="@layout/fragment_player" />
+        android:visibility="gone" />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"

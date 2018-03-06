@@ -1,11 +1,13 @@
 package media.raa.raa_android_player.model.entities;
 
+import media.raa.raa_android_player.model.RaaContext;
+
 /**
  * Represents one program in its general form (inside a feed or a lineup)
  * Created by hamid on 9/30/17.
  */
 
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings("unused")
 public class Program {
     private String programId;
     private String title;
@@ -17,12 +19,13 @@ public class Program {
 
     private Metadata metadata;
 
-    public String getProgramId() {
-        return programId;
+    public boolean isNextInLine() {
+        return !RaaContext.getInstance().getLiveBroadcastLineup().getBroadcastStatus().isCurrentlyPlaying() &&
+                RaaContext.getInstance().getLiveBroadcastLineup().getNextProgramCanonicalIdPath().equals(this.canonicalIdPath);
     }
 
-    public void setProgramId(String programId) {
-        this.programId = programId;
+    public String getProgramId() {
+        return programId;
     }
 
     public String getTitle() {
@@ -37,39 +40,15 @@ public class Program {
         return subtitle;
     }
 
-    public void setSubtitle(String subtitle) {
-        this.subtitle = subtitle;
-    }
-
     public String getCanonicalIdPath() {
         return canonicalIdPath;
-    }
-
-    public void setCanonicalIdPath(String canonicalIdPath) {
-        this.canonicalIdPath = canonicalIdPath;
     }
 
     public Show getShow() {
         return show;
     }
 
-    public void setShow(Show show) {
-        this.show = show;
-    }
-
-    public Show getPreShow() {
-        return preShow;
-    }
-
-    public void setPreShow(Show preShow) {
-        this.preShow = preShow;
-    }
-
     public Metadata getMetadata() {
         return metadata;
-    }
-
-    public void setMetadata(Metadata metadata) {
-        this.metadata = metadata;
     }
 }

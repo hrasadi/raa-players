@@ -26,7 +26,7 @@ public class MessagingInstanceIDService extends FirebaseInstanceIdService {
         try {
             HttpURLConnection urlConnection = (HttpURLConnection) new URL(deviceRegistrationUrlString).openConnection();
             if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                // Set RemotePlaybackStatus policy to notification based
+                // Set LiveBroadcastStatus policy to notification based
                 Log.d("Raa", "Successfully registered device with FCM. Use notification based status management");
             } else {
                 Log.d("Raa", "Failed to register the device with server. Fallback to legacy status manager");

@@ -20,7 +20,7 @@ import java.util.concurrent.Executors;
  */
 
 public abstract class JSONReader {
-    protected ExecutorService executorService = Executors.newCachedThreadPool();
+    private ExecutorService executorService = Executors.newCachedThreadPool();
     protected DeferredManager dm = new DefaultDeferredManager(executorService);
 
     public abstract Promise reload();

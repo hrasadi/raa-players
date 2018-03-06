@@ -30,10 +30,10 @@
             android:label="@string/app_label">
         </activity>
 
-        <!--<service-->
-            <!--android:name=".model.PlaybackService"-->
-            <!--android:enabled="true"-->
-            <!--android:exported="false" />-->
+        <service
+            android:name=".model.playback.PlaybackService"
+            android:enabled="true"
+            android:exported="false" />
         <service android:name=".model.notification.MessagingInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />

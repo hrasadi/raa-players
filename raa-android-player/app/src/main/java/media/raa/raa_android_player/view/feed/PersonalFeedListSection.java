@@ -1,11 +1,13 @@
 package media.raa.raa_android_player.view.feed;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import java.util.List;
 
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
+import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
 import media.raa.raa_android_player.R;
 import media.raa.raa_android_player.model.RaaContext;
@@ -19,13 +21,17 @@ import media.raa.raa_android_player.view.ProgramCardListItem;
  */
 public class PersonalFeedListSection extends StatelessSection {
     private final List<PersonalFeedEntry> personalFeed;
+    private final SectionedRecyclerViewAdapter sectionedAdapter;
 
-    PersonalFeedListSection(Feed feed) {
+    private int expandedItemPosition = -1;
+
+    PersonalFeedListSection(Feed feed, SectionedRecyclerViewAdapter sectionedAdapter) {
         super(new SectionParameters.Builder(R.layout.fragment_program_card)
                 .headerResourceId(R.layout.feed_section_header)
                 .footerResourceId(R.layout.feed_section_footer)
                 .build());
         personalFeed = feed.getPersonalFeed();
+        this.sectionedAdapter = sectionedAdapter;
     }
 
     @Override
@@ -37,6 +43,15 @@ public class PersonalFeedListSection extends StatelessSection {
     public void onBindItemViewHolder(final RecyclerView.ViewHolder holder, int position) {
         PersonalFeedCardListItem personalFeedItem = (PersonalFeedCardListItem) holder;
         personalFeedItem.setPersonalFeedEntry(personalFeed.get(position));
+
+        // HANDLE EXPANSION
+        final boolean isExpanded = (position == this.expandedItemPosition);
+        personalFeedItem.detailsView.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+
+        personalFeedItem.itemView.setOnClickListener(v -> {
+            this.expandedItemPosition = isExpanded ? -1 : position;
+            sectionedAdapter.notifyItemChangedInSection("PERSONAL_FEED", position);
+        });
     }
 
     @Override
@@ -93,6 +108,11 @@ public class PersonalFeedListSection extends StatelessSection {
                 // Set background if exists
                 ProgramInfo pInfo = RaaContext.getInstance().getProgramInfoDirectory()
                         .getProgramInfoMap().get(this.personalFeedEntry.getProgram().getProgramId());
+                if (pInfo != null && pInfo.getAbout() != null && !pInfo.getAbout().isEmpty()) {
+                    programDetailsLbl.setText(pInfo.getAbout());
+                } else {
+                    programDetailsLbl.setText(R.string.default_program_description);
+                }
                 if (pInfo != null && pInfo.getBannerBitmap() != null) {
                     this.programBanner.setImageBitmap(pInfo.getBannerBitmap());
                 } else {
@@ -107,6 +127,16 @@ public class PersonalFeedListSection extends StatelessSection {
 
                 this.programTitleView.setText(this.personalFeedEntry.getProgram().getTitle());
                 this.programSubtitleView.setText(this.personalFeedEntry.getProgram().getSubtitle());
+
+                if (personalFeedEntry.isInProgress()) {
+                    this.actionButton.setVisibility(View.VISIBLE);
+                } else {
+                    this.actionButton.setVisibility(View.GONE);
+                }
+                this.actionButton.setOnClickListener(sender -> {
+                    // Play public feed
+                    Log.i("Raa", "Playback requested for personal entry: " + this.personalFeedEntry.getId());
+                });
             }
         }
     }

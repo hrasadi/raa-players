@@ -1,11 +1,13 @@
 package media.raa.raa_android_player.view.feed;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import java.util.List;
 
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
+import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
 import media.raa.raa_android_player.R;
 import media.raa.raa_android_player.model.RaaContext;
@@ -20,13 +22,17 @@ import media.raa.raa_android_player.view.ProgramCardListItem;
  */
 public class PublicFeedListSection extends StatelessSection {
     private final List<PublicFeedEntry> publicFeed;
+    private final SectionedRecyclerViewAdapter sectionedAdapter;
 
-    PublicFeedListSection(Feed feed) {
+    private int expandedItemPosition = -1;
+
+    PublicFeedListSection(Feed feed, SectionedRecyclerViewAdapter sectionedAdapter) {
         super(new SectionParameters.Builder(R.layout.fragment_program_card)
                 .headerResourceId(R.layout.feed_section_header)
                 .footerResourceId(R.layout.feed_section_footer)
                 .build());
         publicFeed = feed.getPublicFeed();
+        this.sectionedAdapter = sectionedAdapter;
     }
 
     @Override
@@ -38,6 +44,15 @@ public class PublicFeedListSection extends StatelessSection {
     public void onBindItemViewHolder(final RecyclerView.ViewHolder holder, int position) {
         PublicFeedCardListItem publicFeedItem = (PublicFeedCardListItem) holder;
         publicFeedItem.setPublicFeedEntry(publicFeed.get(position));
+
+        // HANDLE EXPANSION
+        final boolean isExpanded = (position == this.expandedItemPosition);
+        publicFeedItem.detailsView.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+
+        publicFeedItem.itemView.setOnClickListener(v -> {
+            this.expandedItemPosition = isExpanded ? -1 : position;
+            sectionedAdapter.notifyItemChangedInSection("PUBLIC_FEED", position);
+        });
     }
 
     @Override
@@ -94,6 +109,11 @@ public class PublicFeedListSection extends StatelessSection {
                 // Set background if exists
                 ProgramInfo pInfo = RaaContext.getInstance().getProgramInfoDirectory()
                         .getProgramInfoMap().get(this.publicFeedEntry.getProgram().getProgramId());
+                if (pInfo != null && pInfo.getAbout() != null && !pInfo.getAbout().isEmpty()) {
+                    programDetailsLbl.setText(pInfo.getAbout());
+                } else {
+                    programDetailsLbl.setText(R.string.default_program_description);
+                }
                 if (pInfo != null && pInfo.getBannerBitmap() != null) {
                     this.programBanner.setImageBitmap(pInfo.getBannerBitmap());
                 } else {
@@ -108,6 +128,13 @@ public class PublicFeedListSection extends StatelessSection {
 
                 this.programTitleView.setText(this.publicFeedEntry.getProgram().getTitle());
                 this.programSubtitleView.setText(this.publicFeedEntry.getProgram().getSubtitle());
+
+                this.actionButton.setVisibility(View.VISIBLE);
+                this.actionButton.setOnClickListener(sender -> {
+                    // Play public feed
+                    Log.i("Raa", "Playback requested for public entry: " + this.publicFeedEntry.getId());
+                    RaaContext.getInstance().getPlaybackManager().playPublicFeedEntry(publicFeedEntry);
+                });
             }
         }
     }

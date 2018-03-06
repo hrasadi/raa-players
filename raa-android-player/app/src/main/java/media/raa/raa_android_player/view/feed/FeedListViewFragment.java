@@ -37,8 +37,10 @@ public class FeedListViewFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
             SectionedRecyclerViewAdapter sectionAdapter = new SectionedRecyclerViewAdapter();
-            sectionAdapter.addSection(new PersonalFeedListSection(RaaContext.getInstance().getFeed()));
-            sectionAdapter.addSection(new PublicFeedListSection(RaaContext.getInstance().getFeed()));
+            sectionAdapter.addSection("PERSONAL_FEED",
+                    new PersonalFeedListSection(RaaContext.getInstance().getFeed(), sectionAdapter));
+            sectionAdapter.addSection("PUBLIC_FEED",
+                    new PublicFeedListSection(RaaContext.getInstance().getFeed(), sectionAdapter));
 
             recyclerView.setAdapter(sectionAdapter);
         }
@@ -56,7 +58,7 @@ public class FeedListViewFragment extends Fragment {
     }
 
 
-    public static class FeedSectionHeader extends RecyclerView.ViewHolder {
+    static class FeedSectionHeader extends RecyclerView.ViewHolder {
         private TextView sectionHeader;
 
         FeedSectionHeader(View view) {
@@ -69,7 +71,7 @@ public class FeedListViewFragment extends Fragment {
         }
     }
 
-    public static class FeedSectionFooter extends RecyclerView.ViewHolder {
+    static class FeedSectionFooter extends RecyclerView.ViewHolder {
         private TextView sectionFooter;
 
         FeedSectionFooter(View view) {
