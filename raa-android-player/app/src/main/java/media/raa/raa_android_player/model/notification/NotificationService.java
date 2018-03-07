@@ -14,11 +14,6 @@ import com.google.firebase.messaging.RemoteMessage;
 import media.raa.raa_android_player.RaaMainActivity;
 import media.raa.raa_android_player.R;
 import media.raa.raa_android_player.model.playback.PlaybackService;
-import media.raa.raa_android_player.model.RaaContext;
-
-import static media.raa.raa_android_player.model.playback.PlaybackService.ACTION_PLAY;
-import static media.raa.raa_android_player.model.playback.PlaybackService.ACTION_STOP;
-import static media.raa.raa_android_player.model.playback.PlaybackService.ACTION_UPDATE_METADATA;
 
 public class NotificationService extends FirebaseMessagingService {
 
@@ -79,30 +74,31 @@ public class NotificationService extends FirebaseMessagingService {
     }
 
     private Notification createNotification(String alertText) {
-        Intent playIntent = new Intent(getApplicationContext(), PlaybackService.class);
-        playIntent.setAction(ACTION_PLAY);
-        PendingIntent playPendingIntent = PendingIntent.getService(getApplicationContext(),
-                RAA_CURRENTLY_PLAYING_NOTIFICATION_ID, playIntent, 0);
-
-        Intent appIntent = new Intent(getApplicationContext(), RaaMainActivity.class);
-        PendingIntent appPendingIntent = PendingIntent.getActivity(getApplicationContext(),
-                RAA_CURRENTLY_PLAYING_NOTIFICATION_ID, appIntent, 0);
-
-        notificationBuilder
-                .setAutoCancel(true)
-                .setSmallIcon(R.drawable.ic_raa_logo_round_24dp)
-                .setSound(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.program_start))
-                .setContentTitle(alertText)
-                .setContentIntent(appPendingIntent)
-                .addAction(R.drawable.ic_raa_logo_round_24dp, "گوش می‌دهم", playPendingIntent);
-
-        return notificationBuilder.build();
+//        Intent playIntent = new Intent(getApplicationContext(), PlaybackService.class);
+//        playIntent.setAction(ACTION_PLAY);
+//        PendingIntent playPendingIntent = PendingIntent.getService(getApplicationContext(),
+//                RAA_CURRENTLY_PLAYING_NOTIFICATION_ID, playIntent, 0);
+//
+//        Intent appIntent = new Intent(getApplicationContext(), RaaMainActivity.class);
+//        PendingIntent appPendingIntent = PendingIntent.getActivity(getApplicationContext(),
+//                RAA_CURRENTLY_PLAYING_NOTIFICATION_ID, appIntent, 0);
+//
+//        notificationBuilder
+//                .setAutoCancel(true)
+//                .setSmallIcon(R.drawable.ic_raa_logo_round_24dp)
+//                .setSound(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.program_start))
+//                .setContentTitle(alertText)
+//                .setContentIntent(appPendingIntent)
+//                .addAction(R.drawable.ic_raa_logo_round_24dp, "گوش می‌دهم", playPendingIntent);
+//
+//        return notificationBuilder.build();
+        return null;
     }
 
     private void initiateMetadataUpdate() {
         // We are already in the app. So we only need to update the metadata
         Intent updateMetadataIntent = new Intent(getApplicationContext(), PlaybackService.class);
-        updateMetadataIntent.setAction(ACTION_UPDATE_METADATA);
+        //updateMetadataIntent.setAction(ACTION_UPDATE_METADATA);
         startService(updateMetadataIntent);
     }
 }

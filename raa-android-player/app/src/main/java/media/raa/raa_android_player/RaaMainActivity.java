@@ -21,9 +21,6 @@ import media.raa.raa_android_player.view.player.InAppPlayerControlsView;
 import media.raa.raa_android_player.view.settings.SettingsFragment;
 
 public class RaaMainActivity extends AppCompatActivity {
-
-    public static final String PLAYER_BAR_EVENT = "player_bar_event";
-
     BottomNavigationView navigationView;
 
     LiveBroadcastLoadingFragment liveBroadcastLoadingFragment;
@@ -31,6 +28,8 @@ public class RaaMainActivity extends AppCompatActivity {
     SettingsFragment settingsFragment;
 
     InAppPlayerControlsView playerView;
+
+    DummyFragment dummyFragment = new DummyFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,10 +65,12 @@ public class RaaMainActivity extends AppCompatActivity {
                 displayFeedFragment();
                 return true;
             case R.id.navigation_archive:
-                displayLiveBroadcastFragment();
+                displayDummyFragment();
+                //displayLiveBroadcastFragment();
                 return true;
             case R.id.navigation_settings:
-                displaySettingsFragment();
+                displayDummyFragment();
+                //displaySettingsFragment();
                 return true;
         }
         return false;
@@ -125,6 +126,14 @@ public class RaaMainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.application_frame, settingsFragment).commit();
+    }
+
+    // todo
+    private void displayDummyFragment() {
+        this.getSupportActionBar().setTitle("");
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.application_frame, dummyFragment).commit();
     }
 
     public static class BottomNavigationViewHelper {

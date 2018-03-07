@@ -1,8 +1,6 @@
 package media.raa.raa_android_player.view.player;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
@@ -67,86 +65,6 @@ public class InAppPlayerControlsView extends FrameLayout implements PlaybackMana
                     ? R.drawable.ic_pause_black_24dp : R.drawable.ic_play_black_24dp);
         } else {
             this.setVisibility(GONE);
-        }
-    }
-
-//    public void startPlayerBar() {
-//        // Also register the listener for the playback status bar
-//        LocalBroadcastManager.getInstance(this).registerReceiver(metadataUpdateEventReceiver,
-//                new IntentFilter(PLAYER_BAR_EVENT)
-//        );
-//    }
-
-//    private void stopPlayerBar() {
-//        // Stop any timers
-//        playerBarTimer.purge();
-//        playerBarTimer.cancel();
-//
-//        LocalBroadcastManager.getInstance(this).unregisterReceiver(metadataUpdateEventReceiver);
-//    }
-
-    class MetadataUpdateEventReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // OK. Something has changed. Let's figure our what to do!
-            // first let's update the bar title
-//            final LiveBroadcastStatus playbackStatus = RaaContext.getInstance().getCurrentStatus(false);
-//            if (!playbackStatus.isCurrentlyPlaying()) {
-//                if (playbackStatus.getNextBoxId() == null) {
-//                    // No more programs for today
-//                    ((TextView) findViewById(R.id.player_bar_program_title))
-//                            .setText(R.string.status_program_finish);
-//                } else {
-//                    long counterInMs = playbackStatus.getNextBoxStartTime().getTime() - new Date().getTime();
-//                    final long counterInSec = TimeUnit.MILLISECONDS.toSeconds(counterInMs);
-//
-//                    // Show the countdown (update every one second)
-//                    playerBarTimer.schedule(new TimerTask() {
-//
-//                        private long counter = counterInSec;
-//
-//                        @Override
-//                        public void run() {
-//                            String timeRemainingString = "";
-//
-//                            if (counter > 0) {
-//                                counter--;
-//
-//                                if (counter / 3600 != 0) {
-//                                    timeRemainingString = timeRemainingString + counter / 3600 + " ساعت و ";
-//                                }
-//                                long remaining = counter % 3600;
-//                                if (remaining / 60 != 0) {
-//                                    timeRemainingString = timeRemainingString + remaining / 60 + " دقیقه و ";
-//                                }
-//                                remaining = remaining % 60;
-//                                timeRemainingString = timeRemainingString + remaining + " ثانیه ";
-//
-//                                timeRemainingString = Utils.convertToPersianLocaleString(timeRemainingString);
-//                                timeRemainingString = String.format("%s در %s", playbackStatus.getNextBoxId(), timeRemainingString);
-//
-//                            } else {
-//                                timeRemainingString = String.format("به زودی: %s", playbackStatus.getNextBoxId());
-//                                this.cancel();
-//                            }
-//
-//                            final String counterString = timeRemainingString;
-//                            RaaMainActivity.this.runOnUiThread(() -> ((TextView) findViewById(R.id.player_bar_program_title))
-//                                    .setText(counterString));
-//                        }
-//                    }, 0, 1000);
-//                }
-
-//            } else {
-//                // cancel any previous timers
-//                playerBarTimer.cancel();
-//
-//                // Now playing + current program name
-//                ((TextView) findViewById(R.id.player_bar_program_title))
-//                        .setText(String.format(getResources().getString(R.string.status_now_playing),
-//                                playbackStatus.getCurrentProgram()));
-//            }
         }
     }
 }

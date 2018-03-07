@@ -9,8 +9,6 @@ import java.util.TimerTask;
 
 import media.raa.raa_android_player.model.playback.PlaybackService;
 
-import static media.raa.raa_android_player.model.playback.PlaybackService.ACTION_UPDATE_METADATA;
-
 /**
  * The policy that shows how the server status is retrieved
  * Created by hamid on 10/15/17.
@@ -39,7 +37,7 @@ public abstract class RemotePlaybackStatusCheckingPolicy {
                 private void initiateMetadataUpdate() {
                     // We are already in the app. So we only need to update the metadata
                     Intent updateMetadataIntent = new Intent(appContext, PlaybackService.class);
-                    updateMetadataIntent.setAction(ACTION_UPDATE_METADATA);
+                    //updateMetadataIntent.setAction(ACTION_UPDATE_METADATA);
                     appContext.startService(updateMetadataIntent);
                 }
 

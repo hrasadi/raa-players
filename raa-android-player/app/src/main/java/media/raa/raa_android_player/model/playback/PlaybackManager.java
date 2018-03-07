@@ -1,16 +1,19 @@
 package media.raa.raa_android_player.model.playback;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+
+import java.util.Objects;
 
 import media.raa.raa_android_player.model.RaaContext;
 import media.raa.raa_android_player.model.entities.Program;
 import media.raa.raa_android_player.model.entities.ProgramInfo;
 import media.raa.raa_android_player.model.entities.feed.PublicFeedEntry;
 
-import static media.raa.raa_android_player.model.playback.PlaybackService.ACTION_PAUSE;
 import static media.raa.raa_android_player.model.playback.PlaybackService.ACTION_PLAY;
+import static media.raa.raa_android_player.model.playback.PlaybackService.ACTION_PAUSE;
 import static media.raa.raa_android_player.model.playback.PlaybackService.ACTION_RESUME;
 
 /**
@@ -21,6 +24,10 @@ import static media.raa.raa_android_player.model.playback.PlaybackService.ACTION
  */
 
 public class PlaybackManager {
+
+    public static final String ACTION_TOGGLE_PLAYBACK = "media.raa.raa_android_player.model.playback.PlaybackManager.ACTION_TOGGLE_PLAYBACK";
+    public static final String ACTION_PLAYBACK_FINISHED = "media.raa.raa_android_player.model.playback.PlaybackManager.ACTION_PLAYBACK_FINISHED";
+
     @SuppressWarnings("SpellCheckingInspection")
     private static final String LIVE_BROADCAST_STREAM_URL = RaaContext.API_PREFIX_URL +
             "/linkgenerator/live.mp3?src=aHR0cHM6Ly9zdHJlYW0ucmFhLm1lZGlhL3JhYTFfbmV3Lm9nZw==";
@@ -32,7 +39,6 @@ public class PlaybackManager {
 
     public PlaybackManager(Context context) {
         this.context = context;
-        // todo Register for playback service event
     }
 
     public void playLiveBroadcast() {
@@ -99,36 +105,9 @@ public class PlaybackManager {
         }
     }
 
-    public PlayerStatus getCurrentPlayerStatus() {
+    PlayerStatus getCurrentPlayerStatus() {
         return currentPlayerStatus;
     }
-
-    //        }
-    // If system notifications are not allowed, we cannot show the service controls,
-    // therefore playback will be stopped upon quit
-    // Also if user changed the settings to prevent background play
-//        if (!NotificationManagerCompat.from(getApplicationContext()).areNotificationsEnabled()
-//                || !RaaContext.getInstance().canPlayInBackground()) {
-//        // If user does not allow notification, stop the service
-//        Intent intent = new Intent(getApplicationContext(), PlaybackService.class);
-//        intent.setAction(ACTION_STOP);
-//        // Stop the playback
-//        startService(intent);
-
-//        if (playerBarActionButtonPlaying) {
-//            playerBarActionButtonPlaying = false;
-//            playerBarActionButton.setImageResource(R.drawable.ic_play_black_24dp);
-//            Intent intent = new Intent(getApplicationContext(), PlaybackService.class);
-//            intent.setAction(ACTION_STOP);
-//            startService(intent);
-//        } else {
-//            playerBarActionButtonPlaying = true;
-//            playerBarActionButton.setImageResource(R.drawable.ic_pause_black_24dp);
-//            Intent intent = new Intent(getApplicationContext(), PlaybackService.class);
-//            intent.setAction(ACTION_PLAY);
-//            startService(intent);
-//        }
-//    }
 
     public void togglePlaybackState() {
         if (currentPlayerStatus != null && currentPlayerStatus.isPlaying) {
@@ -222,6 +201,22 @@ public class PlaybackManager {
 
         void setPlaying(boolean playing) {
             isPlaying = playing;
+        }
+    }
+
+    public static class PlaybackManagerBroadcastReceiver extends BroadcastReceiver {
+        // Received broadcasts from PlayerService and NotificationBarPlayerControls and
+        // calls appropriate PlaybackManager methods
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // If context not exists, init, otherwise this call does nothing
+            RaaContext.initializeInstance(context);
+
+            if (Objects.equals(intent.getAction(), ACTION_TOGGLE_PLAYBACK)) {
+                RaaContext.getInstance().getPlaybackManager().togglePlaybackState();
+            } else if (Objects.equals(intent.getAction(), ACTION_PLAYBACK_FINISHED)) {
+                // TODO
+            }
         }
     }
 }
