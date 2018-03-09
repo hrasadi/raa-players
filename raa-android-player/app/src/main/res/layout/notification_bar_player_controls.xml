@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/text_margin"
-    android:layoutDirection="rtl"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layoutDirection="rtl">
+
+    <ImageButton
+        android:id="@+id/notification_bar_player_cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/player_thumbnail_margin"
+        android:layout_marginStart="@dimen/player_thumbnail_margin"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:adjustViewBounds="true"
+        android:background="?android:selectableItemBackground"
+        android:scaleType="fitStart"
+        android:contentDescription="@string/default_content_description" />
 
     <ImageView
         android:id="@+id/notification_bar_player_program_thumbnail"
@@ -12,7 +24,7 @@
         android:layout_height="80dp"
         android:layout_marginBottom="@dimen/player_thumbnail_margin"
         android:layout_marginStart="@dimen/player_thumbnail_margin"
-        android:layout_alignParentStart="true"
+        android:layout_toEndOf="@id/notification_bar_player_cancel_button"
         android:adjustViewBounds="true"
         android:contentDescription="@string/default_content_description"
         android:src="@drawable/img_default_thumbnail" />
@@ -20,10 +32,10 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
+        android:layout_marginStart="@dimen/text_margin"
         android:layout_centerVertical="true"
         android:layout_toStartOf="@id/notification_bar_player_action_button"
-        android:layout_alignParentStart="true"
+        android:layout_toEndOf="@id/notification_bar_player_program_thumbnail"
         android:orientation="vertical">
 
         <TextView
@@ -53,7 +65,6 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/start_stop_action_description"
         android:background="?android:selectableItemBackground"
-        android:scaleType="fitStart"
-        app:srcCompat="@drawable/ic_pause_black_24dp" />
+        android:scaleType="fitStart" />
 
 </RelativeLayout>

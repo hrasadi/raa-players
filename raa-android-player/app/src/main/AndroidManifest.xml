@@ -18,7 +18,8 @@
             android:name=".SplashScreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_splash_screen"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -34,7 +35,6 @@
             android:name=".model.playback.PlaybackService"
             android:enabled="true"
             android:exported="false" />
-
         <receiver android:name=".model.playback.PlaybackManager$PlaybackManagerBroadcastReceiver"
             android:enabled="true"
             android:exported="true" >
@@ -44,19 +44,18 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".model.notification.MessagingInstanceIDService">
+        <service android:name=".model.notifications.MessagingInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
         <service
-            android:name=".model.notification.NotificationService"
+            android:name=".model.notifications.NotificationService"
             android:enabled="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
     </application>
 
 </manifest>

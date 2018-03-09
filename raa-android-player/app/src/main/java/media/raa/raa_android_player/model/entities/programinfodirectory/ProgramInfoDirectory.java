@@ -13,6 +13,7 @@ import org.jdeferred2.DeferredManager;
 import org.jdeferred2.DoneCallback;
 import org.jdeferred2.Promise;
 import org.jdeferred2.impl.DefaultDeferredManager;
+import org.jdeferred2.impl.DeferredObject;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -43,10 +44,15 @@ public class ProgramInfoDirectory {
 
     private Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create();
 
-    private Map<String, ProgramInfo> programInfoMap = new HashMap<>();
+    private Map<String, ProgramInfo> programInfoMap;
 
     public Promise reload() {
-        return dm.when(this::loadProgramInfoMap).then((DoneCallback<? super Void>) result -> ProgramInfoDirectory.this.preloadImages());
+        if (programInfoMap != null) {
+            // Already loaded, use the cached values;
+            return new DeferredObject().resolve(null);
+        }
+        return dm.when(this::loadProgramInfoMap).then(
+                (DoneCallback<? super Void>) result -> ProgramInfoDirectory.this.preloadImages());
     }
 
     private void loadProgramInfoMap() {

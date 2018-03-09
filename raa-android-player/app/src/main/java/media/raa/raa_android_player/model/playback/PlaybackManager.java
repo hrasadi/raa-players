@@ -10,6 +10,7 @@ import java.util.Objects;
 import media.raa.raa_android_player.model.RaaContext;
 import media.raa.raa_android_player.model.entities.Program;
 import media.raa.raa_android_player.model.entities.ProgramInfo;
+import media.raa.raa_android_player.model.entities.archive.ArchiveEntry;
 import media.raa.raa_android_player.model.entities.feed.PublicFeedEntry;
 
 import static media.raa.raa_android_player.model.playback.PlaybackService.ACTION_PLAY;
@@ -26,6 +27,7 @@ import static media.raa.raa_android_player.model.playback.PlaybackService.ACTION
 public class PlaybackManager {
 
     public static final String ACTION_TOGGLE_PLAYBACK = "media.raa.raa_android_player.model.playback.PlaybackManager.ACTION_TOGGLE_PLAYBACK";
+    public static final String ACTION_STOP = "media.raa.raa_android_player.model.playback.PlaybackManager.ACTION_STOP";
     public static final String ACTION_PLAYBACK_FINISHED = "media.raa.raa_android_player.model.playback.PlaybackManager.ACTION_PLAYBACK_FINISHED";
 
     @SuppressWarnings("SpellCheckingInspection")
@@ -105,6 +107,38 @@ public class PlaybackManager {
         }
     }
 
+    public void playArchiveEntry(ArchiveEntry entry) {
+        if (entry != null) {
+            // Update player status
+            currentPlayerStatus.setEnabled(true);
+            currentPlayerStatus.setPlaying(true);
+
+            currentPlayerStatus.setItemTitle(entry.getProgram().getTitle());
+            currentPlayerStatus.setItemSubtitle(entry.getProgram().getSubtitle());
+
+            ProgramInfo pInfo = RaaContext.getInstance().getProgramInfoDirectory()
+                    .getProgramInfoMap().get(entry.getProgram().getProgramId());
+
+            if (pInfo != null) {
+                // View is responsible of handling default thumbnail
+                currentPlayerStatus.setItemThumbnail(pInfo.getThumbnailBitmap());
+            } else {
+                currentPlayerStatus.setItemThumbnail(null);
+            }
+
+            currentPlayerStatus.setMediaSourceUrl(entry.getProgram().getShow().getClips()[0].getMedia().getPath());
+
+            // notify in-app view and playback service
+            if (playbackManagerEventListener != null) {
+                playbackManagerEventListener.onPlayerStatusChange(currentPlayerStatus);
+            }
+
+            Intent intent = new Intent(context, PlaybackService.class);
+            intent.setAction(ACTION_PLAY);
+            context.startService(intent);
+        }
+    }
+
     PlayerStatus getCurrentPlayerStatus() {
         return currentPlayerStatus;
     }
@@ -115,6 +149,19 @@ public class PlaybackManager {
         } else {
             this.resume();
         }
+
+        if (playbackManagerEventListener != null) {
+            playbackManagerEventListener.onPlayerStatusChange(currentPlayerStatus);
+        }
+    }
+
+    private void stopPlayback() {
+        currentPlayerStatus.isPlaying = false;
+        currentPlayerStatus.isEnabled = false;
+
+        Intent intent = new Intent(context, PlaybackService.class);
+        intent.setAction(PlaybackService.ACTION_STOP);
+        context.startService(intent);
 
         if (playbackManagerEventListener != null) {
             playbackManagerEventListener.onPlayerStatusChange(currentPlayerStatus);
@@ -214,6 +261,8 @@ public class PlaybackManager {
 
             if (Objects.equals(intent.getAction(), ACTION_TOGGLE_PLAYBACK)) {
                 RaaContext.getInstance().getPlaybackManager().togglePlaybackState();
+            } else if (Objects.equals(intent.getAction(), ACTION_STOP)) {
+                RaaContext.getInstance().getPlaybackManager().stopPlayback();
             } else if (Objects.equals(intent.getAction(), ACTION_PLAYBACK_FINISHED)) {
                 // TODO
             }

@@ -8,8 +8,8 @@ android {
         minSdkVersion 19
         //noinspection OldTargetApi (Handle very complicated notification system)
         targetSdkVersion 25
-        versionCode 8
-        versionName "1.0.3"
+        versionCode 13
+        versionName "2.0.0b4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -48,6 +48,7 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
+
 
 
 

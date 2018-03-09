@@ -15,16 +15,20 @@ import java.lang.reflect.Field;
 import java.util.Locale;
 
 import media.raa.raa_android_player.model.RaaContext;
+import media.raa.raa_android_player.view.archive.ArchiveListLoadingFragment;
 import media.raa.raa_android_player.view.feed.FeedLoadingFragment;
 import media.raa.raa_android_player.view.livebroadcast.LiveBroadcastLoadingFragment;
 import media.raa.raa_android_player.view.player.InAppPlayerControlsView;
 import media.raa.raa_android_player.view.settings.SettingsFragment;
+
+import static android.support.v4.app.FragmentManager.POP_BACK_STACK_INCLUSIVE;
 
 public class RaaMainActivity extends AppCompatActivity {
     BottomNavigationView navigationView;
 
     LiveBroadcastLoadingFragment liveBroadcastLoadingFragment;
     FeedLoadingFragment feedLoadingFragment;
+    ArchiveListLoadingFragment archiveLoadingFragment;
     SettingsFragment settingsFragment;
 
     InAppPlayerControlsView playerView;
@@ -50,6 +54,7 @@ public class RaaMainActivity extends AppCompatActivity {
 
         liveBroadcastLoadingFragment = LiveBroadcastLoadingFragment.newInstance();
         feedLoadingFragment = FeedLoadingFragment.newInstance();
+        archiveLoadingFragment = ArchiveListLoadingFragment.newInstance();
         settingsFragment = SettingsFragment.newInstance();
 
         playerView = findViewById(R.id.player);
@@ -65,8 +70,7 @@ public class RaaMainActivity extends AppCompatActivity {
                 displayFeedFragment();
                 return true;
             case R.id.navigation_archive:
-                displayDummyFragment();
-                //displayLiveBroadcastFragment();
+                displayArchiveListFragment();
                 return true;
             case R.id.navigation_settings:
                 displayDummyFragment();
@@ -85,6 +89,7 @@ public class RaaMainActivity extends AppCompatActivity {
         // Create a new instance each time application comes to foreground
         liveBroadcastLoadingFragment = LiveBroadcastLoadingFragment.newInstance();
         feedLoadingFragment = FeedLoadingFragment.newInstance();
+        archiveLoadingFragment = ArchiveListLoadingFragment.newInstance();
         settingsFragment = SettingsFragment.newInstance();
 
         // Default tab is the lineup when we enter foreground
@@ -100,6 +105,17 @@ public class RaaMainActivity extends AppCompatActivity {
 
         // set app status for background
         RaaContext.getInstance().setApplicationBackground();
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Remove any loading fragments on the top of the stack
+        if (getFragmentManager().getBackStackEntryCount() > 0 ){
+            getFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
+        getSupportFragmentManager().popBackStack("Loading", POP_BACK_STACK_INCLUSIVE);
     }
 
     private void displayLiveBroadcastFragment() {
@@ -118,6 +134,17 @@ public class RaaMainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.application_frame, feedLoadingFragment).commit();
+    }
+
+    private void displayArchiveListFragment() {
+        //noinspection ConstantConditions
+        this.getSupportActionBar().setTitle(getString(R.string.title_archive));
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.application_frame, archiveLoadingFragment)
+                .addToBackStack(getResources().getString(R.string.title_archive))
+                .commit();
     }
 
     private void displaySettingsFragment() {

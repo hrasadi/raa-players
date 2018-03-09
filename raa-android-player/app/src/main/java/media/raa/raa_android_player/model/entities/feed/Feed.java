@@ -38,8 +38,8 @@ public class Feed extends JSONReader {
         String personalFeedUrl = PERSONAL_FEED_URL_PREFIX + "/" +
                 RaaContext.getInstance().getUserManager().getUser().getId();
 
-        return dm.when(() -> this.readServerLineup(PUBLIC_FEED_URL),
-                () -> this.readServerLineup(personalFeedUrl))
+        return dm.when(() -> this.readRemoteJSON(PUBLIC_FEED_URL),
+                () -> this.readRemoteJSON(personalFeedUrl))
                 .done((responses) -> {
                     this.parsePublicFeed(responses.getFirst().getValue());
                     this.parsePersonalFeed(responses.getSecond().getValue());

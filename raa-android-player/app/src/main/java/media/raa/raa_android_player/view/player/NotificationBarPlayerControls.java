@@ -11,6 +11,7 @@ import android.widget.RemoteViews;
 import media.raa.raa_android_player.R;
 import media.raa.raa_android_player.model.playback.PlaybackManager;
 
+import static media.raa.raa_android_player.model.playback.PlaybackManager.ACTION_STOP;
 import static media.raa.raa_android_player.model.playback.PlaybackManager.ACTION_TOGGLE_PLAYBACK;
 
 /**
@@ -42,14 +43,28 @@ public class NotificationBarPlayerControls {
 
     public void updateNotificationBarPlayerControls(PlaybackManager.PlayerStatus playerStatus) {
         if (playerStatus != null) {
-            createNotification(playerStatus);
-            notificationManager.notify(RAA_SERVICE_NOTIFICATION_ID, this.currentNotification);
+            if (!playerStatus.isEnabled()) {
+                // Remove the notification
+                notificationManager.cancel(RAA_SERVICE_NOTIFICATION_ID);
+            } else {
+                createNotification(playerStatus);
+                notificationManager.notify(RAA_SERVICE_NOTIFICATION_ID, this.currentNotification);
+            }
         }
     }
 
     private void createNotification(PlaybackManager.PlayerStatus playerStatus) {
         RemoteViews remoteWidget = new RemoteViews(context.getPackageName(), R.layout.notification_bar_player_controls);
 
+        // Close button
+        Intent stopPlaybackIntent = new Intent(ACTION_STOP);
+        PendingIntent stopPlaybackPendingIntent = PendingIntent.getBroadcast(context,
+                1, stopPlaybackIntent, 0);
+
+        remoteWidget.setOnClickPendingIntent(R.id.notification_bar_player_cancel_button, stopPlaybackPendingIntent);
+        remoteWidget.setImageViewResource(R.id.notification_bar_player_cancel_button, R.drawable.ic_close_black_24dp);
+
+        // Play/pause button
         Intent togglePlaybackIntent = new Intent(ACTION_TOGGLE_PLAYBACK);
         PendingIntent togglePlaybackPendingIntent = PendingIntent.getBroadcast(context,
                 1, togglePlaybackIntent, 0);

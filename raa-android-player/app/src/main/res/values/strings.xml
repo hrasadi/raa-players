@@ -32,6 +32,7 @@
     <!-- Notification strings -->
     <string name="start_stop_action_description">توقف/شروع</string>
     <string name="pause_action_description">قطع</string>
+    <string name="cancel_playback_description">بستن</string>
 
     <!-- Settings string -->
     <string name="playback_settings">تنظیمات پخش</string>

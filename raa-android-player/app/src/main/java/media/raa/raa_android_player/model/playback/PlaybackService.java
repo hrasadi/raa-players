@@ -34,6 +34,7 @@ public class PlaybackService extends Service {
     public static final String ACTION_PLAY = "media.raa.raa_android_player.model.playback.PlaybackService.ACTION_PLAY";
     public static final String ACTION_PAUSE = "media.raa.raa_android_player.model.playback.PlaybackService.ACTION_PAUSE";
     public static final String ACTION_RESUME = "media.raa.raa_android_player.model.playback.PlaybackService.ACTION_RESUME";
+    public static final String ACTION_STOP = "media.raa.raa_android_player.model.playback.PlaybackService.ACTION_STOP";
 
     public static final String APP_ENTERING_BACKGROUND = "app_entering_background";
 
@@ -107,6 +108,8 @@ public class PlaybackService extends Service {
                 exoPlayer.setPlayWhenReady(false);
             } else if (Objects.equals(intent.getAction(), ACTION_RESUME)) {
                 exoPlayer.setPlayWhenReady(true);
+            } else if (Objects.equals(intent.getAction(), ACTION_STOP)) {
+                exoPlayer.stop(true);
             }
 
             notificationBarPlayerControls.updateNotificationBarPlayerControls(currentPlayerStatus);

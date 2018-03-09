@@ -5,9 +5,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
+
+import com.google.android.gms.common.GoogleApiAvailability;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
@@ -20,6 +23,8 @@ public class SplashScreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        GoogleApiAvailability.getInstance().makeGooglePlayServicesAvailable(this);
 
         setContentView(R.layout.activity_splash_screen);
         if (getSupportActionBar() != null) {
@@ -37,11 +42,17 @@ public class SplashScreenActivity extends AppCompatActivity {
         } else {
             this.proceedLoadingAfterPermissionRequest();
         }
-
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    protected void onResume() {
+        super.onResume();
+
+        GoogleApiAvailability.getInstance().makeGooglePlayServicesAvailable(this);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         this.proceedLoadingAfterPermissionRequest();
     }
 
@@ -54,6 +65,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             UserManager um = RaaContext.getInstance().getUserManager();
             mainHandler.post(() -> {
                 ((TextView) findViewById(R.id.splash_progress_text_view)).setText(R.string.label_splash_work_done);
+                //noinspection unchecked
                 um.initiate().done(rs -> startActivity(new Intent(SplashScreenActivity.this, RaaMainActivity.class)));
             });
         });

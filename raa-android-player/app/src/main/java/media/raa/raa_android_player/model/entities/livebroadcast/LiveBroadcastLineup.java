@@ -34,8 +34,8 @@ public class LiveBroadcastLineup extends JSONReader {
     private Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create();
 
     public Promise reload() {
-        return dm.when(() -> this.readServerLineup(LIVE_BROADCAST_LINEUP_URL),
-                () -> this.readServerLineup(LIVE_BROADCAST_STATUS_URL))
+        return dm.when(() -> this.readRemoteJSON(LIVE_BROADCAST_LINEUP_URL),
+                () -> this.readRemoteJSON(LIVE_BROADCAST_STATUS_URL))
                 .done(result -> {
                     this.parseLiveBroadcastLineup(result.getFirst().getValue());
                     this.flattenLineup();
@@ -45,7 +45,7 @@ public class LiveBroadcastLineup extends JSONReader {
     }
 
     public Promise reloadStatus() {
-        return dm.when(() -> this.readServerLineup(LIVE_BROADCAST_STATUS_URL))
+        return dm.when(() -> this.readRemoteJSON(LIVE_BROADCAST_STATUS_URL))
                 .done(this::parseLiveBroadcastStatus);
     }
 

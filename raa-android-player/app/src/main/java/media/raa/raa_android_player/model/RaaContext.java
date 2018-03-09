@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import media.raa.raa_android_player.model.entities.archive.Archive;
 import media.raa.raa_android_player.model.entities.feed.Feed;
 import media.raa.raa_android_player.model.entities.livebroadcast.LiveBroadcastLineup;
 import media.raa.raa_android_player.model.entities.programinfodirectory.ProgramInfoDirectory;
@@ -37,6 +38,7 @@ public class RaaContext {
 
     private LiveBroadcastLineup liveBroadcastLineup = new LiveBroadcastLineup();
     private Feed feed = new Feed();
+    private Archive archive = new Archive();
 
     private UserManager userManager;
     private ProgramInfoDirectory programInfoDirectory = new ProgramInfoDirectory();
@@ -73,7 +75,6 @@ public class RaaContext {
 
     /**
      * Returns the current lineup. The reload function must be called in order to populate data
-     *
      * @return The lineup instance (may not be populated)
      */
     public LiveBroadcastLineup getLiveBroadcastLineup() {
@@ -82,11 +83,18 @@ public class RaaContext {
 
     /**
      * Returns the current lineup. The reload function must be called in order to populate data
-     *
      * @return The lineup instance (may not be populated)
      */
     public Feed getFeed() {
         return feed;
+    }
+
+    /**
+     * Returns the current archive directory. The reload function must be called in order to populate data
+     * @return The archive directory instance (may not be populated)
+     */
+    public Archive getArchive() {
+        return archive;
     }
 
     public UserManager getUserManager() {

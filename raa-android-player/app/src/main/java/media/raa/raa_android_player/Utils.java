@@ -39,4 +39,34 @@ public class Utils {
                 return Utils.convertToPersianLocaleString(Integer.toString(date.getDayOfMonth())) + "ام";
         }
     }
+
+    public static String getMonthStringInPersianLocale(int monthOfYear) {
+        switch (monthOfYear) {
+            case 1:
+                return "ژانویه";
+            case 2:
+                return "فوریه";
+            case 3:
+                return "مارس";
+            case 4:
+                return "آپریل";
+            case 5:
+                return "می";
+            case 6:
+                return "جون";
+            case 7:
+                return "جولای";
+            case 8:
+                return "آگوست";
+            case 9:
+                return "سپتامبر";
+            case 10:
+                return "اکتبر";
+            case 11:
+                return "نوامبر";
+            case 12:
+                return "دسامبر";
+        }
+        return "";
+    }
 }
