@@ -54,7 +54,7 @@ class ProgramArchiveViewController : UITableViewController {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
 
-        dateFormatter.dateFormat = "YYYY-MM-DD"
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         self.dateFormatter.locale = Locale(identifier: "en_US")
     }
     
