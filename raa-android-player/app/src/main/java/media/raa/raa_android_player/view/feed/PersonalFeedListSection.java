@@ -134,8 +134,9 @@ public class PersonalFeedListSection extends StatelessSection {
                     this.actionButton.setVisibility(View.GONE);
                 }
                 this.actionButton.setOnClickListener(sender -> {
-                    // Play public feed
+                    // Play personal feed
                     Log.i("Raa", "Playback requested for personal entry: " + this.personalFeedEntry.getId());
+                    RaaContext.getInstance().getPlaybackManager().playPersonalFeedEntry(personalFeedEntry);
                 });
             }
         }

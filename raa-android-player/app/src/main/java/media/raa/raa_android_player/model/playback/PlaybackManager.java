@@ -5,12 +5,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 
+import org.joda.time.DateTime;
+
 import java.util.Objects;
 
 import media.raa.raa_android_player.model.RaaContext;
 import media.raa.raa_android_player.model.entities.Program;
 import media.raa.raa_android_player.model.entities.ProgramInfo;
+import media.raa.raa_android_player.model.entities.Show;
 import media.raa.raa_android_player.model.entities.archive.ArchiveEntry;
+import media.raa.raa_android_player.model.entities.feed.PersonalFeedEntry;
 import media.raa.raa_android_player.model.entities.feed.PublicFeedEntry;
 
 import static media.raa.raa_android_player.model.playback.PlaybackService.ACTION_PLAY;
@@ -20,6 +24,7 @@ import static media.raa.raa_android_player.model.playback.PlaybackService.ACTION
 /**
  * This class is responsible for communicating between the playback service and main app ui controls
  * Note that this class is in charge of in-app player bar and also playback buttons in the lists.
+ *
  * @see PlaybackService on the other hand controls the ExoPlayer instance and the notification bar controls
  * Created by hamid on 3/6/18.
  */
@@ -28,7 +33,7 @@ public class PlaybackManager {
 
     public static final String ACTION_TOGGLE_PLAYBACK = "media.raa.raa_android_player.model.playback.PlaybackManager.ACTION_TOGGLE_PLAYBACK";
     public static final String ACTION_STOP = "media.raa.raa_android_player.model.playback.PlaybackManager.ACTION_STOP";
-    public static final String ACTION_PLAYBACK_FINISHED = "media.raa.raa_android_player.model.playback.PlaybackManager.ACTION_PLAYBACK_FINISHED";
+    static final String ACTION_PLAYBACK_FINISHED = "media.raa.raa_android_player.model.playback.PlaybackManager.ACTION_PLAYBACK_FINISHED";
 
     @SuppressWarnings("SpellCheckingInspection")
     private static final String LIVE_BROADCAST_STREAM_URL = RaaContext.API_PREFIX_URL +
@@ -44,6 +49,10 @@ public class PlaybackManager {
     }
 
     public void playLiveBroadcast() {
+        currentPlayerStatus = new PlayerStatus();
+
+        currentPlayerStatus.setProgramType(PlayerStatus.ProgramType.Live);
+
         currentPlayerStatus.setEnabled(true);
         currentPlayerStatus.setPlaying(true);
 
@@ -76,6 +85,10 @@ public class PlaybackManager {
     }
 
     public void playPublicFeedEntry(PublicFeedEntry entry) {
+        currentPlayerStatus = new PlayerStatus();
+
+        currentPlayerStatus.setProgramType(PlayerStatus.ProgramType.Public);
+
         if (entry != null) {
             // Update player status
             currentPlayerStatus.setEnabled(true);
@@ -104,10 +117,84 @@ public class PlaybackManager {
             Intent intent = new Intent(context, PlaybackService.class);
             intent.setAction(ACTION_PLAY);
             context.startService(intent);
+        }
+    }
+
+    public void playPersonalFeedEntry(PersonalFeedEntry entry) {
+        currentPlayerStatus = new PersonalEntryPlayerStatus();
+
+        currentPlayerStatus.setProgramType(PlayerStatus.ProgramType.Personal);
+
+        if (entry != null) {
+            // Update player status
+            currentPlayerStatus.setEnabled(true);
+            currentPlayerStatus.setPlaying(true);
+
+            long playbackOffset = this.updatePersonalEntryPlayerStatus(entry);
+
+            currentPlayerStatus.setItemTitle(entry.getProgram().getTitle());
+            currentPlayerStatus.setItemSubtitle(entry.getProgram().getSubtitle());
+
+            ProgramInfo pInfo = RaaContext.getInstance().getProgramInfoDirectory()
+                    .getProgramInfoMap().get(entry.getProgram().getProgramId());
+
+            if (pInfo != null) {
+                // View is responsible of handling default thumbnail
+                currentPlayerStatus.setItemThumbnail(pInfo.getThumbnailBitmap());
+            } else {
+                currentPlayerStatus.setItemThumbnail(null);
+            }
+
+            if (((PersonalEntryPlayerStatus) currentPlayerStatus).isPlayingPreShow) {
+                currentPlayerStatus.setMediaSourceUrl(entry.getProgram().getPreShow().getClips()[0].getMedia().getPath());
+            } else {
+                currentPlayerStatus.setMediaSourceUrl(entry.getProgram().getShow().getClips()[0].getMedia().getPath());
+            }
+
+            // notify in-app view and playback service
+            if (playbackManagerEventListener != null) {
+                playbackManagerEventListener.onPlayerStatusChange(currentPlayerStatus);
+            }
+
+            Intent intent = new Intent(context, PlaybackService.class);
+            intent.setAction(ACTION_PLAY);
+            intent.putExtra("seekTo", playbackOffset);
+            context.startService(intent);
+        }
+    }
+
+    /**
+     * Sets personal entry specific player status
+     * @param personalFeedEntry requested personal entry
+     * @return the offset of playback in millis
+     */
+    private long updatePersonalEntryPlayerStatus(PersonalFeedEntry personalFeedEntry) {
+        PersonalEntryPlayerStatus personalEntryCurrentPlayerStatus = ((PersonalEntryPlayerStatus) currentPlayerStatus);
+        personalEntryCurrentPlayerStatus.setPersonalFeedEntry(personalFeedEntry);
+
+        double preShowDuration = 0;
+        Show preShow = personalFeedEntry.getProgram().getPreShow();
+        if (preShow != null) {
+            preShowDuration = preShow.getClips()[0].getMedia().getDuration();
+        }
+        long showStartTimestampMillis = (personalFeedEntry.getReleaseTimestamp() + (long) preShowDuration) * 1000;
+
+        long nowMillis = DateTime.now().getMillis();
+        // Show is already started
+        if (nowMillis > showStartTimestampMillis) {
+            personalEntryCurrentPlayerStatus.setPlayingPreShow(false);
+            return nowMillis - showStartTimestampMillis;
+        } else {
+            personalEntryCurrentPlayerStatus.setPlayingPreShow(true);
+            return nowMillis - (personalFeedEntry.getReleaseTimestamp() * 1000);
         }
     }
 
     public void playArchiveEntry(ArchiveEntry entry) {
+        currentPlayerStatus = new PlayerStatus();
+
+        currentPlayerStatus.setProgramType(PlayerStatus.ProgramType.Archive);
+
         if (entry != null) {
             // Update player status
             currentPlayerStatus.setEnabled(true);
@@ -137,10 +224,6 @@ public class PlaybackManager {
             intent.setAction(ACTION_PLAY);
             context.startService(intent);
         }
-    }
-
-    PlayerStatus getCurrentPlayerStatus() {
-        return currentPlayerStatus;
     }
 
     public void togglePlaybackState() {
@@ -156,8 +239,8 @@ public class PlaybackManager {
     }
 
     private void stopPlayback() {
-        currentPlayerStatus.isPlaying = false;
-        currentPlayerStatus.isEnabled = false;
+        currentPlayerStatus.setPlaying(false);
+        currentPlayerStatus.setEnabled(false);
 
         Intent intent = new Intent(context, PlaybackService.class);
         intent.setAction(PlaybackService.ACTION_STOP);
@@ -168,8 +251,26 @@ public class PlaybackManager {
         }
     }
 
+    private void handlePlaybackFinished() {
+        if (currentPlayerStatus.getProgramType() == PlayerStatus.ProgramType.Personal) {
+            if (((PersonalEntryPlayerStatus) currentPlayerStatus).isPlayingPreShow()) {
+                // Move to show playback
+                ((PersonalEntryPlayerStatus) currentPlayerStatus).setPlayingPreShow(false);
+                currentPlayerStatus.setMediaSourceUrl(
+                        ((PersonalEntryPlayerStatus) currentPlayerStatus).getPersonalFeedEntry()
+                                .getProgram().getShow().getClips()[0].getMedia().getPath());
+            } else {
+                // Show was finished. Stop playback
+                this.stopPlayback();
+            }
+        } else {
+            // No more actions required! Hide the players and reset PlaybackService state
+            this.stopPlayback();
+        }
+    }
+
     private void pause() {
-        currentPlayerStatus.isPlaying = false;
+        currentPlayerStatus.setPlaying(false);
 
         Intent intent = new Intent(context, PlaybackService.class);
         intent.setAction(ACTION_PAUSE);
@@ -177,11 +278,15 @@ public class PlaybackManager {
     }
 
     private void resume() {
-        currentPlayerStatus.isPlaying = true;
+        currentPlayerStatus.setPlaying(true);
 
         Intent intent = new Intent(context, PlaybackService.class);
         intent.setAction(ACTION_RESUME);
         context.startService(intent);
+    }
+
+    PlayerStatus getCurrentPlayerStatus() {
+        return currentPlayerStatus;
     }
 
     public void setPlaybackManagerEventListener(PlaybackManagerEventListener playbackManagerEventListener) {
@@ -201,6 +306,8 @@ public class PlaybackManager {
 
         private String mediaSourceUrl;
         private boolean isPlaying;
+
+        private ProgramType programType;
 
         public boolean isEnabled() {
             return isEnabled;
@@ -234,7 +341,7 @@ public class PlaybackManager {
             this.itemThumbnail = itemThumbnail;
         }
 
-        public String getMediaSourceUrl() {
+        String getMediaSourceUrl() {
             return mediaSourceUrl;
         }
 
@@ -248,6 +355,42 @@ public class PlaybackManager {
 
         void setPlaying(boolean playing) {
             isPlaying = playing;
+        }
+
+        ProgramType getProgramType() {
+            return programType;
+        }
+
+        void setProgramType(ProgramType programType) {
+            this.programType = programType;
+        }
+
+        public enum ProgramType {
+            Personal,
+            Public,
+            Live,
+            Archive
+        }
+    }
+
+    public static class PersonalEntryPlayerStatus extends PlayerStatus {
+        private PersonalFeedEntry personalFeedEntry;
+        private boolean isPlayingPreShow = false;
+
+        PersonalFeedEntry getPersonalFeedEntry() {
+            return personalFeedEntry;
+        }
+
+        void setPersonalFeedEntry(PersonalFeedEntry personalFeedEntry) {
+            this.personalFeedEntry = personalFeedEntry;
+        }
+
+        boolean isPlayingPreShow() {
+            return isPlayingPreShow;
+        }
+
+        void setPlayingPreShow(boolean playingPreShow) {
+            isPlayingPreShow = playingPreShow;
         }
     }
 
@@ -264,7 +407,7 @@ public class PlaybackManager {
             } else if (Objects.equals(intent.getAction(), ACTION_STOP)) {
                 RaaContext.getInstance().getPlaybackManager().stopPlayback();
             } else if (Objects.equals(intent.getAction(), ACTION_PLAYBACK_FINISHED)) {
-                // TODO
+                RaaContext.getInstance().getPlaybackManager().handlePlaybackFinished();
             }
         }
     }

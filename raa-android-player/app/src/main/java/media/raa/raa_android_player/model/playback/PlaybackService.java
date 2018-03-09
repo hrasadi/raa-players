@@ -9,6 +9,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
@@ -24,6 +25,8 @@ import java.util.Objects;
 
 import media.raa.raa_android_player.model.RaaContext;
 import media.raa.raa_android_player.view.player.NotificationBarPlayerControls;
+
+import static media.raa.raa_android_player.model.playback.PlaybackManager.ACTION_PLAYBACK_FINISHED;
 
 /**
  * Playback manager class implemented in the form of an Android IntentService.
@@ -61,6 +64,18 @@ public class PlaybackService extends Service {
         this.dataSourceFactory = createDataSourceFactory(getApplicationContext(), userAgent);
 
         exoPlayer = ExoPlayerFactory.newSimpleInstance(getApplicationContext(), trackSelector);
+        exoPlayer.addListener(new Player.DefaultEventListener() {
+            @Override
+            public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+                super.onPlayerStateChanged(playWhenReady, playbackState);
+
+                if (playbackState == Player.STATE_ENDED) {
+                    // Notify manager that playback ended
+                    Intent playbackEndedIntent = new Intent(ACTION_PLAYBACK_FINISHED);
+                    sendBroadcast(playbackEndedIntent);
+                }
+            }
+        });
     }
 
     @Nullable
@@ -84,7 +99,9 @@ public class PlaybackService extends Service {
         if (notificationBarPlayerControls.areNotificationEnabled()) {
             startForeground(RAA_SERVICE_FOREGROUND_ID, this.notificationBarPlayerControls.getCurrentNotification());
         } else {
-            // TODO
+            // Stop the playback. There is no point in playing in background when we cannot show
+            // media controls
+            exoPlayer.stop(true);
         }
     }
 
@@ -102,7 +119,12 @@ public class PlaybackService extends Service {
                     ExtractorMediaSource mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory)
                             .createMediaSource(Uri.parse(currentPlayerStatus.getMediaSourceUrl()));
                     exoPlayer.prepare(mediaSource);
+                    // Seek to position if needed
+                    if (intent.hasExtra("seekTo")) {
+                        exoPlayer.seekTo(intent.getLongExtra("seekTo", 0L));
+                    }
                     exoPlayer.setPlayWhenReady(true);
+
                 }
             } else if (Objects.equals(intent.getAction(), ACTION_PAUSE)) {
                 exoPlayer.setPlayWhenReady(false);

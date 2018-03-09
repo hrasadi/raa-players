@@ -48,6 +48,10 @@ public class Program {
         return show;
     }
 
+    public Show getPreShow() {
+        return preShow;
+    }
+
     public Metadata getMetadata() {
         return metadata;
     }
