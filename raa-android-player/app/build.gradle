@@ -8,8 +8,8 @@ android {
         minSdkVersion 19
         //noinspection OldTargetApi (Handle very complicated notification system)
         targetSdkVersion 25
-        versionCode 13
-        versionName "2.0.0b4"
+        versionCode 16
+        versionName "2.0.0b6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -36,8 +36,8 @@ dependencies {
     compile 'com.android.support:support-v4:26.1.0'
     compile 'com.android.support:recyclerview-v7:26.1.0'
     compile 'com.google.android.exoplayer:exoplayer:2.7.0'
-    compile 'com.google.firebase:firebase-messaging:11.8.0'
-    compile 'com.google.android.gms:play-services-gcm:11.8.0'
+    compile 'com.google.firebase:firebase-messaging:11.6.0'
+    compile 'com.google.android.gms:play-services-gcm:11.6.0'
     compile 'com.google.code.gson:gson:2.8.2'
     compile 'org.jdeferred.v2:jdeferred-core:2.0.0-beta1'
     compile 'io.github.luizgrp.sectionedrecyclerviewadapter:sectionedrecyclerviewadapter:1.1.3'

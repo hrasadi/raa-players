@@ -76,9 +76,17 @@ public class Feed extends JSONReader {
             });
 
             // Now filter the feed
+            int lastExpiredIndexToIgnore = 0;
             int lastFeedIndexToShow;
             int futureEntriesIncluded = 0;
             for (lastFeedIndexToShow = 0; lastFeedIndexToShow < this.personalFeed.size(); lastFeedIndexToShow++) {
+                // Remove finished items faster (they will eventually be removed from server but users
+                // are not very patient sometimes
+                if (personalFeed.get(lastFeedIndexToShow).getExpirationTimestamp() < DateTime.now().getMillis() / 1000) {
+                    lastExpiredIndexToIgnore++;
+                }
+
+                // Show PERSONAL_ENTRIES_FROM_FUTURE_TO_SHOW items ahead
                 if (personalFeed.get(lastFeedIndexToShow).getReleaseTimestamp() > DateTime.now().getMillis() / 1000) {
                     futureEntriesIncluded++;
                 }
@@ -86,7 +94,7 @@ public class Feed extends JSONReader {
                     break;
                 }
             }
-            this.personalFeed = this.personalFeed.subList(0, lastFeedIndexToShow);
+            this.personalFeed = this.personalFeed.subList(lastExpiredIndexToIgnore, lastFeedIndexToShow);
         } catch (JsonSyntaxException e) {
             Log.e("Raa", "Error: " + e.toString());
         }

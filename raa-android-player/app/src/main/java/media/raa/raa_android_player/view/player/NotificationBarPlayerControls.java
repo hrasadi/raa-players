@@ -24,7 +24,6 @@ public class NotificationBarPlayerControls {
 
     private Context context;
 
-    @SuppressWarnings("deprecation")
     private NotificationCompat.Builder notificationBuilder;
     private NotificationManagerCompat notificationManager;
     private Notification currentNotification;

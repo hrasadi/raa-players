@@ -8,6 +8,7 @@
     <string name="title_feed">رادیوی شما</string>
     <string name="title_archive">آرشیو برنامه‌ها</string>
     <string name="title_settings">تنظیمات</string>
+    <string name="title_public_program_settings">تنظیمات برنامه‌های عمومی</string>
 
     <string name="label_loading">چند لحظه لطفا…</string>
     <string name="label_pre_loading_images">یه کم بزک دوزک…</string>
@@ -17,7 +18,7 @@
 
     <!-- Live broadcast -->
     <string name="live_card_play">پخش</string>
-    <string name="live_card_soon">به زودی</string>
+    <string name="live_card_soon">برنامه‌ی بعدی</string>
     <string name="live_card_counter">شروع در %1$</string>
 
     <string name="status_program_finish">شب بخیر! ادامه‌ی برنامه‌های رادیو از نیمه شب…</string>
@@ -35,15 +36,12 @@
     <string name="cancel_playback_description">بستن</string>
 
     <!-- Settings string -->
-    <string name="playback_settings">تنظیمات پخش</string>
-    <string name="permission_play_in_background">پخش برنامه‌ها در پس‌زمینه</string>
-    <string name="permission_send_notifications">اعلام شروع برنامه‌ی جدید</string>
-    <string name="raa_media_copyright">۲۰۱۷ - رادیو اتو-اسعد - برای اطلاع از موارد حقوقی به سایت raa.media مراجعه کنید.</string>
+    <string name="notify_on_personal_programs">اعلام شروع برنامه‌های محلی شما</string>
+    <string name="notify_on_public_programs">اعلام انتشار برنامه‌های جدید رادیو</string>
+    <string name="raa_media_copyright">۲۰۱۷-۱۸ - رادیو اتو-اسعد - برای اطلاع از موارد حقوقی به سایت raa.media مراجعه کنید.</string>
 
     <string name="default_content_description">تصویر</string>
     <string name="default_program_title">برنامه</string>
     <string name="default_program_subtitle">توضیحات برنامه</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

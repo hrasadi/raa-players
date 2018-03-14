@@ -39,10 +39,16 @@ public class User {
 
     private transient Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create();
 
-    public User() {
+    User() {
     }
 
-    public String getLocationString() {
+    void commit() {
+        if (this.notificationExcludedPublicPrograms != null) {
+            this.notificationExcludedPublicProgramsString = gson.toJson(this.notificationExcludedPublicPrograms);
+        }
+    }
+
+    String getLocationString() {
         return (country != null ? country : "") + "/" +
                 (state != null ? state : "") + "/" + (city != null ? city : "");
     }
@@ -55,11 +61,11 @@ public class User {
         this.id = id;
     }
 
-    public String getTimeZone() {
+    String getTimeZone() {
         return timeZone;
     }
 
-    public void setTimeZone(String timeZone) {
+    void setTimeZone(String timeZone) {
         this.timeZone = timeZone;
     }
 
@@ -67,7 +73,7 @@ public class User {
         return country;
     }
 
-    public void setCountry(String country) {
+    void setCountry(String country) {
         this.country = country;
     }
 
@@ -75,7 +81,7 @@ public class User {
         return city;
     }
 
-    public void setCity(String city) {
+    void setCity(String city) {
         this.city = city;
     }
 
@@ -83,7 +89,7 @@ public class User {
         return state;
     }
 
-    public void setState(String state) {
+    void setState(String state) {
         this.state = state;
     }
 
@@ -91,7 +97,7 @@ public class User {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
@@ -99,11 +105,11 @@ public class User {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
-    public String getNotificationToken() {
+    String getNotificationToken() {
         return notificationToken;
     }
 
@@ -135,24 +141,16 @@ public class User {
         this.notifyOnLiveProgram = notifyOnLiveProgram;
     }
 
-    public String getNotificationExcludedPublicProgramsString() {
-        if (this.notificationExcludedPublicPrograms != null) {
-            return gson.toJson(this.notificationExcludedPublicPrograms);
-        }
-        return null;
-    }
-
     public void setNotificationExcludedPublicProgramsString(String notificationExcludedPublicProgramsString) {
         this.notificationExcludedPublicProgramsString = notificationExcludedPublicProgramsString;
-        this.notificationExcludedPublicPrograms =
-                gson.fromJson(this.notificationExcludedPublicProgramsString, new TypeToken<Map<String, Boolean>>(){}.getType());
     }
 
     public Map<String, Boolean> getNotificationExcludedPublicPrograms() {
-        return notificationExcludedPublicPrograms;
-    }
+        if (notificationExcludedPublicProgramsString != null) {
+            this.notificationExcludedPublicPrograms =
+                    gson.fromJson(this.notificationExcludedPublicProgramsString, new TypeToken<Map<String, Boolean>>(){}.getType());
+        }
 
-    public void setNotificationExcludedPublicPrograms(Map<String, Boolean> notificationExcludedPublicPrograms) {
-        this.notificationExcludedPublicPrograms = notificationExcludedPublicPrograms;
+        return notificationExcludedPublicPrograms;
     }
 }

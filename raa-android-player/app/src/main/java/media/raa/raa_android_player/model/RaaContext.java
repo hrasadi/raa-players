@@ -51,14 +51,6 @@ public class RaaContext {
         // Load settings from preference store
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
 
-        // TODO
-        // If notifications are disabled, fallback to timer (in foreground mode only)
-//        if (NotificationManagerCompat.from(context).areNotificationsEnabled()) {
-//            statusCheckingPolicy = new RemotePlaybackStatusCheckingPolicy.ReceiveRemoteNotification();
-//        } else {
-//            statusCheckingPolicy = new RemotePlaybackStatusCheckingPolicy.PollServerStatus(context);
-//        }
-
         this.userManager = new UserManager(context, settings);
         this.playbackManager = new PlaybackManager(context);
     }

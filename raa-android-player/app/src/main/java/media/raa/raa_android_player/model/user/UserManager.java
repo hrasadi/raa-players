@@ -185,6 +185,9 @@ public class UserManager {
         } else if (stepIdentifier.equals(LOADING_STEP_REFRESH_NOTIFICATION_TOKEN)) {
             // We only get here if there is a new token, therefore register not matter what
             shouldRegister = true;
+        } else if (!this.user.getTimeZone().equals(DateTimeZone.getDefault().getID())) {
+            this.user.setTimeZone(DateTimeZone.getDefault().getID());
+            shouldRegister = true;
         }
 
         loadingSteps.remove(stepIdentifier);
@@ -192,7 +195,6 @@ public class UserManager {
         if (loadingSteps.size() == 0) {
             if (shouldRegister || this.firstApplicationLaunch) {
                 this.registerUser();
-                this.persistUser();
             } else {
                 Log.i("Raa", "Key user preferences have not changed. Don't re-register");
             }
@@ -202,7 +204,9 @@ public class UserManager {
         }
     }
 
-    private void registerUser() {
+    public void registerUser() {
+        this.user.commit();
+
         AsyncTask.execute(() -> {
             try {
                 URL url = new URL(RaaContext.API_PREFIX_URL + "/registerDevice/Android");
@@ -226,6 +230,7 @@ public class UserManager {
                 Log.e("Raa", "Error while registering user with server.", e);
             }
         });
+        this.persistUser();
     }
 
     private void persistUser() {

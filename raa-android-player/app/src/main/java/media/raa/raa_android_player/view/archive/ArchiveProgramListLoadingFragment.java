@@ -49,12 +49,10 @@ public class ArchiveProgramListLoadingFragment extends Fragment {
                         ArchiveProgramListViewFragment.newInstance(programId);
 
                 Handler mainHandler = new Handler(getContext().getMainLooper());
-                mainHandler.post(() -> {
-                    getFragmentManager().beginTransaction()
-                            .addToBackStack(programId)
-                            .replace(R.id.application_frame, fragment)
-                            .commit();
-                });
+                mainHandler.post(() -> getFragmentManager().beginTransaction()
+                        .addToBackStack(programId)
+                        .replace(R.id.application_frame, fragment)
+                        .commit());
             });
         }
         return inflater.inflate(R.layout.fragment_loading, container, false);

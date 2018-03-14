@@ -3,10 +3,11 @@ package media.raa.raa_android_player.view.settings;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
+import android.widget.Button;
 import android.widget.Switch;
 
 import media.raa.raa_android_player.R;
@@ -16,10 +17,8 @@ import media.raa.raa_android_player.model.RaaContext;
  */
 public class SettingsFragment extends Fragment {
 
-    private OnSettingsFragmentInteractionListener mListener;
-
-    private Switch canPlayInBackgroundSwitch;
-    private Switch canSendNotificationsSwitch;
+    private Switch notifyOnPersonalProgramsSwitch;
+    private Button notifyOnPublicProgramsBtn;
 
     public SettingsFragment() {
 
@@ -32,7 +31,6 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -47,54 +45,41 @@ public class SettingsFragment extends Fragment {
     }
 
     private void setupSettingsSwitches(View view) {
-//        canPlayInBackgroundSwitch = view.findViewById(R.id.can_play_in_background_switch);
-//        canPlayInBackgroundSwitch.setChecked(RaaContext.getInstance().canPlayInBackground());
-//        canPlayInBackgroundSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-//                mListener.onCanPlaybackInBackgroundChange(b);
-//            }
-//        });
-//
-//        canSendNotificationsSwitch = view.findViewById(R.id.can_send_nitifications_switch);
-//        canSendNotificationsSwitch.setChecked(RaaContext.getInstance().canSendNotifications());
-//        canSendNotificationsSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-//                mListener.onCanSendNotificationsChange(b);
-//            }
-//        });
+        notifyOnPersonalProgramsSwitch = view.findViewById(R.id.notify_on_personal_programs_switch);
+        notifyOnPublicProgramsBtn = view.findViewById(R.id.notify_on_public_programs_btn);
+
+        notifyOnPersonalProgramsSwitch.setChecked(RaaContext.getInstance().getUserManager()
+                .getUser().getNotifyOnPersonalProgram() == 1);
+
+        notifyOnPersonalProgramsSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
+
+        });
+
+        // Link to public programs settings page
+        notifyOnPublicProgramsBtn.setOnClickListener(sender -> {
+            PublicProgramNotificationSettingsListFragment fragment =
+                    PublicProgramNotificationSettingsListFragment.newInstance();
+
+            getFragmentManager().beginTransaction()
+                    .addToBackStack("publicProgramNotification")
+                    .replace(R.id.application_frame, fragment)
+                    .commit();
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_settings);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnSettingsFragmentInteractionListener) {
-            mListener = (OnSettingsFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnSettingsFragmentInteractionListener");
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnSettingsFragmentInteractionListener {
-        void onCanPlaybackInBackgroundChange(boolean newValue);
-        void onCanSendNotificationsChange(boolean newValue);
     }
 }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:layoutDirection="rtl">
+
+    <Switch
+        android:id="@+id/notify_on_public_programs_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:textColor="@android:color/black"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:text="@string/notify_on_public_programs" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        android:name="media.raa.raa_android_player.PublicProgramNotificationSettingsListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/large_text_margin"
+        app:layoutManager="LinearLayoutManager"
+        tools:context="media.raa.raa_android_player.view.settings.PublicProgramNotificationSettingsListFragment"
+        tools:listitem="@layout/fragment_program_notification_settings_list_item" />
+</LinearLayout>

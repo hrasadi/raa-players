@@ -9,35 +9,38 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/activity_vertical_margin"
+        android:focusable="true"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/playback_settings"
-            android:layout_marginBottom="@dimen/text_margin"/>
-
         <Switch
-            android:id="@+id/can_play_in_background_switch"
+            android:id="@+id/notify_on_personal_programs_switch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/permission_play_in_background" />
+            android:layout_margin="@dimen/text_margin"
+            android:textColor="@android:color/black"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:text="@string/notify_on_personal_programs" />
 
-        <Switch
-            android:id="@+id/can_send_nitifications_switch"
+        <Button
+            android:id="@+id/notify_on_public_programs_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/permission_send_notifications" />
+            android:layout_margin="@dimen/text_margin"
+            android:focusable="true"
+            android:background="?selectableItemBackground"
+            android:textColor="@android:color/black"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:text="@string/notify_on_public_programs"
+            android:textAlignment="textStart"/>
 
         <TextView
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/raa_media_copyright"
             android:layout_margin="@dimen/text_margin"
             android:textSize="12sp"
-            android:textAlignment="center"/>
+            android:textAlignment="center"
+            android:text="@string/raa_media_copyright" />
     </LinearLayout>
 
 </FrameLayout>

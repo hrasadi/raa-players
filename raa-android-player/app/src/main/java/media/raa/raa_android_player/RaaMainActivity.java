@@ -33,8 +33,6 @@ public class RaaMainActivity extends AppCompatActivity {
 
     InAppPlayerControlsView playerView;
 
-    DummyFragment dummyFragment = new DummyFragment();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,9 +61,9 @@ public class RaaMainActivity extends AppCompatActivity {
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = item -> {
         switch (item.getItemId()) {
-            case R.id.navigation_live:
-                displayLiveBroadcastFragment();
-                return true;
+//            case R.id.navigation_live:
+//                displayLiveBroadcastFragment();
+//                return true;
             case R.id.navigation_feed:
                 displayFeedFragment();
                 return true;
@@ -73,8 +71,7 @@ public class RaaMainActivity extends AppCompatActivity {
                 displayArchiveListFragment();
                 return true;
             case R.id.navigation_settings:
-                displayDummyFragment();
-                //displaySettingsFragment();
+                displaySettingsFragment();
                 return true;
         }
         return false;
@@ -119,6 +116,8 @@ public class RaaMainActivity extends AppCompatActivity {
     }
 
     private void displayLiveBroadcastFragment() {
+        this.clearFragmentsBackStack();
+
         //noinspection ConstantConditions
         this.getSupportActionBar().setTitle(getString(R.string.title_live));
 
@@ -128,6 +127,8 @@ public class RaaMainActivity extends AppCompatActivity {
     }
 
     private void displayFeedFragment() {
+        this.clearFragmentsBackStack();
+
         //noinspection ConstantConditions
         this.getSupportActionBar().setTitle(getString(R.string.title_feed));
 
@@ -143,11 +144,13 @@ public class RaaMainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.application_frame, archiveLoadingFragment)
-                .addToBackStack(getResources().getString(R.string.title_archive))
                 .commit();
+
     }
 
     private void displaySettingsFragment() {
+        this.clearFragmentsBackStack();
+
         //noinspection ConstantConditions
         this.getSupportActionBar().setTitle(getString(R.string.title_settings));
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -155,12 +158,11 @@ public class RaaMainActivity extends AppCompatActivity {
                 .replace(R.id.application_frame, settingsFragment).commit();
     }
 
-    // todo
-    private void displayDummyFragment() {
-        this.getSupportActionBar().setTitle("");
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.application_frame, dummyFragment).commit();
+    private void clearFragmentsBackStack() {
+        FragmentManager fm = getSupportFragmentManager();
+        for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+            fm.popBackStack();
+        }
     }
 
     public static class BottomNavigationViewHelper {

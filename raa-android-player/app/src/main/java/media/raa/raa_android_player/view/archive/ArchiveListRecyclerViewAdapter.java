@@ -62,8 +62,8 @@ public class ArchiveListRecyclerViewAdapter extends RecyclerView.Adapter<Archive
         ArchiveDirectoryListItem(View view) {
             super(view);
 
-            this.programTitleLbl = view.findViewById(R.id.archive_item_program_name);
-            this.programThumbnailImageView = view.findViewById(R.id.archive_item_program_thumbnail);
+            this.programTitleLbl = view.findViewById(R.id.program_name);
+            this.programThumbnailImageView = view.findViewById(R.id.program_thumbnail);
         }
 
         void setProgramId(String programId) {
