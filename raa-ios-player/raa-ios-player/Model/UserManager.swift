@@ -34,7 +34,9 @@ class UserManager {
         firstly {
             when(resolved: self.locationManager.locateDevice(), self.notificationManager.requestNotificationAuthorization())
             }.done { result in
-                if result[0] == Result<Bool>.fulfilled(true) || result[1] == Result<Bool>.fulfilled(true) {
+                if result[0] == Result<Bool>.fulfilled(true) || result[1] == Result<Bool>.fulfilled(true) ||             self.user.TimeZone != NSTimeZone.local.identifier {
+                    /// Update timezone string
+                    self.user.TimeZone = NSTimeZone.local.identifier
                     // register if either token or locations got updated
                     self.registerUser()
                 } else {

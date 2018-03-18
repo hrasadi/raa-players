@@ -259,6 +259,11 @@ public class PlaybackManager {
                 currentPlayerStatus.setMediaSourceUrl(
                         ((PersonalEntryPlayerStatus) currentPlayerStatus).getPersonalFeedEntry()
                                 .getProgram().getShow().getClips()[0].getMedia().getPath());
+                // Start from the beginning of the show media file
+                Intent intent = new Intent(context, PlaybackService.class);
+                intent.setAction(ACTION_PLAY);
+                intent.putExtra("seekTo", 0);
+                context.startService(intent);
             } else {
                 // Show was finished. Stop playback
                 this.stopPlayback();
