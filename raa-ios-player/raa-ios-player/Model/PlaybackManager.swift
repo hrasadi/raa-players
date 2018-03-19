@@ -30,7 +30,7 @@ class PlaybackManager : UICommunicator<PlaybackState>, AVAudioPlayerDelegate {
     func initiate() {
         initAudioSession()
 
-        Context.Instance.liveBroadcastManager.registerEventListener(listenerObject: self)
+//        Context.Instance.liveBroadcastManager.registerEventListener(listenerObject: self)
     }
     
     private func initAudioSession() {

@@ -36,7 +36,7 @@ class FeedManager : UICommunicator<FeedData> {
             self.feedDataResolver?.resolve(self.feedData, nil)
             self.feedDataResolver = nil
             
-            self.initiateRefereshTimers()
+            // self.initiateRefereshTimers()
         }.catch { error in
             self.isLoading = false
             

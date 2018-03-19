@@ -33,8 +33,13 @@ class FeedViewController : UITableViewController {
     private static let FULL_REDRAW_PERIOD: TimeInterval = 3600
     private var lastFullRedrawnTimestamp: TimeInterval?
 
+    // Footer views
+    private var personalFeedFooterView: UIView? = nil
+    private var publicFeedFooterView: UIView? = nil
+    
     struct Defaults {
         public static let CELL_HEIGHT: CGFloat = 150
+        public static let FOOTER_HEIGHT: CGFloat = 40
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -82,11 +87,25 @@ class FeedViewController : UITableViewController {
 
         self.programDetailsViewController = storyboard?.instantiateViewController(withIdentifier: "ProgramContent") as? ProgramDetailsViewController
         
-        // Do this syncronously as the data is already here
-        self.feedData = try! hang(Context.Instance.feedManager.pullData())
-        Context.Instance.feedManager.registerEventListener(listenerObject: self)
+//        self.spinner.startAnimating()
+//        self.view.bringSubview(toFront: self.spinner)
+//        self.spinner.center = UIScreen.main.bounds.center
+//        self.spinner.setNeedsLayout()
+
         
-        self.tableView?.reloadData()
+        firstly {
+            Context.Instance.feedManager.pullData()
+            }.done { feedData in
+                self.feedData = feedData
+                
+//                self.spinner.stopAnimating()
+//                self.spinner.hidesWhenStopped = true
+                
+                self.tableView?.reloadData()
+            }.ensure {
+                Context.Instance.feedManager.registerEventListener(listenerObject: self)
+            }.catch { _ in
+        }
     }
     
     class PersonalFeedDelegate : FeedEntryCardDelegate {
@@ -140,29 +159,50 @@ extension FeedViewController {
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         view.semanticContentAttribute = .forceRightToLeft
     }
+    
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let textLabel: UILabel = UILabel()
+        textLabel.font = UIFont.systemFont(ofSize: 12)
+        textLabel.textColor = UIColor.gray
+        textLabel.textAlignment = .center
+        textLabel.adjustsFontSizeToFitWidth = true
+        textLabel.minimumScaleFactor = 0.6
+        textLabel.numberOfLines = 3
 
-    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         if section == FeedViewController.PUBLIC_FEED_SECTION {
             if self.feedData?.publicFeed == nil || self.feedData?.publicFeed?.count == 0 {
-                return "فعلا برنامه‌ای اینجا نیست"
+                textLabel.text = "فعلا برنامه‌ای اینجا نیست. همون طور که می‌دونید برنامه‌های جدید رادیو از دوشنبه شب تا جمعه شب هر هفته (به وقت شرق آمریکا) منتشر می‌شن."
+                publicFeedFooterView = textLabel
+                return publicFeedFooterView
+            } else {
+                publicFeedFooterView = nil
             }
         } else if section == FeedViewController.PERSONAL_FEED_SECTION {
             if self.feedData?.personalFeed == nil || self.feedData?.personalFeed?.count == 0 {
-                return !Context.Instance.isFirstExecution ? "فعلا برنامه‌ای اینجا نیست" : "رسیدن بخیر! کمی زمان لازمه تا رادیو زمان‌بندی شما رو یاد بگیره!"
+                textLabel.text = !Context.Instance.isFirstExecution ? "فعلا برنامه‌ای اینجا نیست" : "رسیدن بخیر! کمی زمان لازمه تا رادیو زمان‌بندی شما رو یاد بگیره!"
+                personalFeedFooterView = textLabel
+                return personalFeedFooterView
+            } else {
+                personalFeedFooterView = nil
             }
         }
-        return nil
+        return UIView(frame: CGRect.zero)
     }
     
-    override func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
-        guard let footer = view as? UITableViewHeaderFooterView else { return }
-        
-        footer.textLabel?.font = UIFont.systemFont(ofSize: 12)
-        footer.textLabel?.textColor = UIColor.gray
-        footer.textLabel?.textAlignment = .center
-        footer.textLabel?.frame = footer.frame
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if section == FeedViewController.PUBLIC_FEED_SECTION {
+            if self.feedData?.publicFeed == nil || self.feedData?.publicFeed?.count == 0 {
+                return Defaults.FOOTER_HEIGHT
+            }
+        }
+        if section == FeedViewController.PERSONAL_FEED_SECTION {
+            if self.feedData?.personalFeed == nil || self.feedData?.personalFeed?.count == 0 {
+                return Defaults.FOOTER_HEIGHT
+            }
+        }
+        return 0
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == FeedViewController.PUBLIC_FEED_SECTION {
             return self.feedData?.publicFeed?.count ?? 0

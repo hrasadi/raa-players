@@ -25,12 +25,12 @@ class SplashScreenViewController : UIViewController {
 
         self.loadingStatusLbl.text = "اول ببینیم رادیو چی داره..."
 
-        firstly {
-            Context.Instance.liveBroadcastManager.pullData()
-        }.then { _ -> Promise<FeedData> in
-            self.loadingStatusLbl.text = "و البته برنامه‌های مخصوص خود خود شما..."
-            return Context.Instance.feedManager.pullData()
-        }.then { _ -> Promise<ProgramInfoDirectory> in
+        firstly { () -> Promise<ProgramInfoDirectory> in
+//            Context.Instance.liveBroadcastManager.pullData()
+//        }.then { _ -> Promise<FeedData> in
+//            self.loadingStatusLbl.text = "و البته برنامه‌های مخصوص خود خود شما..."
+//            return Context.Instance.feedManager.pullData()
+//        }.then { _ -> Promise<ProgramInfoDirectory> in
             self.loadingStatusLbl.text = "در آرشیو رادیو چی میگذره؟"
             return Context.Instance.programInfoDirectoryManager.pullData()
         }.then(on: q) { _ -> Promise<Bool> in

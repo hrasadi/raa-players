@@ -44,7 +44,7 @@ class Context {
             instance?.userManager = UserManager()
             instance?.programInfoDirectoryManager = ProgramInfoDirectoryManager()
             instance?.feedManager = FeedManager()
-            instance?.liveBroadcastManager = LiveBroadcastManager()
+//            instance?.liveBroadcastManager = LiveBroadcastManager()
             instance?.archiveManager = ArchiveManager()
             instance?.playbackManager = PlaybackManager()
             
@@ -52,7 +52,7 @@ class Context {
             instance?.userManager.initiate()
             instance?.programInfoDirectoryManager.initiate()
             instance?.feedManager.initiate()
-            instance?.liveBroadcastManager.initiate()
+//            instance?.liveBroadcastManager.initiate()
             instance?.archiveManager.initiate()
             instance?.playbackManager.initiate()
             
@@ -61,7 +61,7 @@ class Context {
     }
     
     public func reloadLineups() {
-        self.liveBroadcastManager.initiate()
+//        self.liveBroadcastManager.initiate()
         self.feedManager.initiate()
     }
         

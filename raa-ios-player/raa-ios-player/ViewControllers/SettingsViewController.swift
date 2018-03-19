@@ -34,7 +34,7 @@ class SettingsViewController : UITableViewController {
         }
         #endif
         self.notifyOnPersonalProgram.isOn = Bool.init(exactly: user.NotifyOnPersonalProgram as NSNumber)!
-        self.notifyOnLiveProgram.isOn = Bool.init(exactly: user.NotifyOnLiveProgram as NSNumber)!
+//        self.notifyOnLiveProgram.isOn = Bool.init(exactly: user.NotifyOnLiveProgram as NSNumber)!
     }
     
     
