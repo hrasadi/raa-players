@@ -60,6 +60,10 @@ class Context {
         }
     }
     
+    public func refreshUserRegistration() {
+        self.userManager.initiate()
+    }
+    
     public func reloadLineups() {
 //        self.liveBroadcastManager.initiate()
         self.feedManager.initiate()

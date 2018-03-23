@@ -13,7 +13,7 @@ import LocalAuthentication
 import UIKit
 import PromiseKit
 
-class NotificationManager : NSObject {
+class NotificationManager : UICommunicator<Int> {
     let notificationCenter = UNUserNotificationCenter.current()
     
     public var authorizedForPushNotification = false
@@ -76,7 +76,7 @@ class NotificationManager : NSObject {
 }
 
 extension NotificationManager: UNUserNotificationCenterDelegate {
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
+    @nonobjc func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
         let actionIdentifier = response.actionIdentifier
@@ -89,9 +89,10 @@ extension NotificationManager: UNUserNotificationCenterDelegate {
                 do {
                     try Context.Instance.playbackManager.audioSession.setActive(true)
 
-                    if category == "media.raa.Live" {
-                        Context.Instance.playbackManager.playLiveBroadcast()
-                    } else if category == "media.raa.Personal" {
+//                    if category == "media.raa.Live" {
+//                        Context.Instance.playbackManager.playLiveBroadcast()
+//                    } else
+                    if category == "media.raa.Personal" {
                         // Play personal feed
                         let userInfo = response.notification.request.content.userInfo
                         if let aps = userInfo["aps"] as? NSDictionary {
@@ -106,8 +107,11 @@ extension NotificationManager: UNUserNotificationCenterDelegate {
             }
             break
         default:
-            break
+            // Tapped on notification. Navigate active tab to default (0)
+            self.notifyModelUpdate(data: 0)
+            
         }
         completionHandler()
     }
 }
+

@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
         // Override point for customization after application launch.
         UIView.appearance().semanticContentAttribute = UISemanticContentAttribute.forceRightToLeft;
 
@@ -28,7 +29,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Convert token to string
         Context.Instance.userManager.user.NotificationToken = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
-
         
         // Resolve the registeration promise
         let shouldReregister = previousNotificationToken != Context.Instance.userManager.user.NotificationToken
@@ -61,13 +61,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         if Context.isInitiated() {
-            Context.Instance.reloadLineups()
+            Context.Instance.refreshUserRegistration()
+            // Lineup will be updated on event listener for this event in feedVC
         }
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
     }
-
-
 }
 

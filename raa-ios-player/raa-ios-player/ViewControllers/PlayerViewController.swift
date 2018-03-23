@@ -115,6 +115,10 @@ extension PlayerViewController : PlayerViewDelegate {
         // toggle playback state
         Context.Instance.playbackManager.togglePlaybackState()
     }
+    
+    func onCancelButtonClicked() {
+        Context.Instance.playbackManager.stop()
+    }
 }
 
 extension PlayerViewController : ModelCommunicator {

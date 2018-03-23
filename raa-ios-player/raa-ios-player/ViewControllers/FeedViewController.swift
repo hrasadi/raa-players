@@ -17,7 +17,7 @@ class FeedContainerViewController : PlayerViewController {
     }
 }
 
-class FeedViewController : UITableViewController {
+class FeedViewController : UIViewController {
 
     private static let PERSONAL_FEED_SECTION = 0
     private static let PUBLIC_FEED_SECTION = 1
@@ -27,10 +27,12 @@ class FeedViewController : UITableViewController {
     
     private var feedData: FeedData?
 
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
+    @IBOutlet weak var tableView: UITableView!
     private var programDetailsViewController: ProgramDetailsViewController?
-
+    
     // Redraw the whole view
-    private static let FULL_REDRAW_PERIOD: TimeInterval = 3600
+    private static let FULL_REDRAW_PERIOD: TimeInterval = 30
     private var lastFullRedrawnTimestamp: TimeInterval?
 
     // Footer views
@@ -49,6 +51,11 @@ class FeedViewController : UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad();
 
+        self.tableView.dataSource = self
+        self.tableView.delegate = self        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(fullRedraw), name:  NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+        
         self.fullRedraw()
     }
 
@@ -82,29 +89,33 @@ class FeedViewController : UITableViewController {
         }
     }
 
-    private func fullRedraw() {
+    @objc private func fullRedraw() {
         self.lastFullRedrawnTimestamp = Date().timeIntervalSince1970
 
         self.programDetailsViewController = storyboard?.instantiateViewController(withIdentifier: "ProgramContent") as? ProgramDetailsViewController
         
-//        self.spinner.startAnimating()
-//        self.view.bringSubview(toFront: self.spinner)
-//        self.spinner.center = UIScreen.main.bounds.center
-//        self.spinner.setNeedsLayout()
+        self.tableView?.isHidden = true
+        
+        self.spinner.startAnimating()
+        self.view.bringSubview(toFront: self.spinner)
+        self.spinner.center = UIScreen.main.bounds.center
+        self.spinner.setNeedsLayout()
 
         
-        firstly {
-            Context.Instance.feedManager.pullData()
-            }.done { feedData in
-                self.feedData = feedData
-                
-//                self.spinner.stopAnimating()
-//                self.spinner.hidesWhenStopped = true
-                
-                self.tableView?.reloadData()
-            }.ensure {
-                Context.Instance.feedManager.registerEventListener(listenerObject: self)
-            }.catch { _ in
+        firstly { () -> Promise<FeedData> in
+            Context.Instance.reloadLineups()
+            return Context.Instance.feedManager.pullData()
+        }.done { feedData in
+            self.feedData = feedData
+            
+            self.spinner.stopAnimating()
+            self.spinner.hidesWhenStopped = true
+            
+            self.tableView?.isHidden = false
+            self.tableView?.reloadData()
+        }.ensure {
+            Context.Instance.feedManager.registerEventListener(listenerObject: self)
+        }.catch { _ in
         }
     }
     
@@ -122,14 +133,8 @@ class FeedViewController : UITableViewController {
 
 extension FeedViewController : ModelCommunicator {
     func modelUpdated(data: Any?) {
-        // This is an approximation. We should compare deeply for changes but it will need extra boiler plate.
-        // We may file a bug later on this.
-        if (data as? FeedData)?.personalFeed?.count != self.feedData?.personalFeed?.count ||
-            (data as? FeedData)?.publicFeed?.count != self.feedData?.publicFeed?.count {
-
-            self.feedData = data as? FeedData
-            tableView?.reloadData()
-        }
+        self.feedData = data as? FeedData
+        self.fullRedraw()
     }
     
     func hashCode() -> Int {
@@ -137,17 +142,17 @@ extension FeedViewController : ModelCommunicator {
     }
 }
 
-extension FeedViewController {
+extension FeedViewController : UITableViewDataSource, UITableViewDelegate {
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return Defaults.CELL_HEIGHT
     }
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 2 // Personal and Public
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == FeedViewController.PUBLIC_FEED_SECTION {
             return "برنامه‌های جاری رادیو"
         } else if section == FeedViewController.PERSONAL_FEED_SECTION {
@@ -156,11 +161,11 @@ extension FeedViewController {
         return nil // this should not happen
     }
 
-    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         view.semanticContentAttribute = .forceRightToLeft
     }
     
-    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let textLabel: UILabel = UILabel()
         textLabel.font = UIFont.systemFont(ofSize: 12)
         textLabel.textColor = UIColor.gray
@@ -189,7 +194,7 @@ extension FeedViewController {
         return UIView(frame: CGRect.zero)
     }
     
-    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         if section == FeedViewController.PUBLIC_FEED_SECTION {
             if self.feedData?.publicFeed == nil || self.feedData?.publicFeed?.count == 0 {
                 return Defaults.FOOTER_HEIGHT
@@ -203,7 +208,7 @@ extension FeedViewController {
         return 0
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == FeedViewController.PUBLIC_FEED_SECTION {
             return self.feedData?.publicFeed?.count ?? 0
         } else if section == FeedViewController.PERSONAL_FEED_SECTION {
@@ -212,7 +217,7 @@ extension FeedViewController {
         return 0 // This should not happen
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == FeedViewController.PUBLIC_FEED_SECTION {
             return generatePublicCell(tableView, indexPath: indexPath)
         } else {
@@ -311,13 +316,11 @@ extension FeedViewController {
             cell.card?.timeSubValue2 = Utils.convertToPersianLocaleString(Utils.getRelativeDayName(expirationDate)) ?? (cell.card?.timeSubValue2)!
         }
         
-        cell.card?.actionable = true
-        
         cell.card?.backgroundImage = UIImage(data: entryProgramInfo?.bannerImageData ?? ProgramInfo.defaultBannerImageData)
+        cell.card?.actionable = true
+        cell.card?.feedDelegate = self.publicFeedDelegate
         
         cell.card?.setNeedsDisplay()
-        
-        cell.card?.feedDelegate = self.publicFeedDelegate
         
         return cell
     }

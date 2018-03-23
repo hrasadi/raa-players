@@ -15,6 +15,7 @@ class PlayerView : UIView {
     @IBOutlet weak var itemSubtitle: UILabel!
     @IBOutlet weak var itemThumbnail: UIImageView!
     @IBOutlet weak var playbackState: UIButton!
+    @IBOutlet weak var cancelPlayback: UIButton!
     
     public var delegate: PlayerViewDelegate?
     
@@ -45,9 +46,14 @@ class PlayerView : UIView {
     @IBAction func playButtonClicked(_ sender: Any) {
         self.delegate?.onPlayPauseButtonClicked()
     }
+    
+    @IBAction func cancelButtonClicked(_ sender: Any) {
+        self.delegate?.onCancelButtonClicked()
+    }
 }
 
 protocol PlayerViewDelegate {
     func onPlayPauseButtonClicked()
+    func onCancelButtonClicked()
 }
 

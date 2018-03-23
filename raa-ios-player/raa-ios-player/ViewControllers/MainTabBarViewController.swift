@@ -16,6 +16,23 @@ class MainTabBarViewController : UITabBarController {
     }
     
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
         self.selectedIndex = 0
     }
+}
+
+extension MainTabBarViewController : ModelCommunicator {
+    func modelUpdated(data: Any?) {
+        let targetItemIndex = data as? Int
+        if targetItemIndex != nil {
+            self.selectedIndex = targetItemIndex!
+        }
+    }
+    
+    func hashCode() -> Int {
+        return ObjectIdentifier(self).hashValue
+    }
+    
+    
 }

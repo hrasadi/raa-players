@@ -16,7 +16,7 @@
             <objects>
                 <viewController id="7pc-Aj-tBg" customClass="LiveBroadcastViewController" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="vwB-bT-Rma">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="484"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="533"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="F2Z-jm-grt">
@@ -24,7 +24,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </activityIndicatorView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="2AV-An-Vj7">
-                                <rect key="frame" x="0.0" y="20" width="375" height="464"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="513"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="liveProgramCell" rowHeight="150" id="leK-IW-D5T" customClass="LiveBroadcastProgramCardTableViewCell" customModule="raa_ios_player" customModuleProvider="target">
@@ -71,49 +71,6 @@
             </objects>
             <point key="canvasLocation" x="1947" y="-1177"/>
         </scene>
-        <!--Feed View Controller-->
-        <scene sceneID="m7R-r2-BhR">
-            <objects>
-                <tableViewController id="qi5-5y-Rvf" customClass="FeedViewController" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="cwF-IC-9D7">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="432"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="feedCell" rowHeight="150" id="ZDn-j6-psN" customClass="FeedEntryCardTableViewCell" customModule="raa_ios_player" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="150"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ZDn-j6-psN" id="50Z-en-coV">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="150"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <view contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="G8p-IT-IM9" customClass="FeedEntryProgramCard" customModule="raa_ios_player" customModuleProvider="target">
-                                            <rect key="frame" x="5" y="5" width="365" height="140"/>
-                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </view>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstItem="G8p-IT-IM9" firstAttribute="leading" secondItem="50Z-en-coV" secondAttribute="leading" constant="5" id="3yn-VI-AyH"/>
-                                        <constraint firstAttribute="bottom" secondItem="G8p-IT-IM9" secondAttribute="bottom" constant="5" id="aR6-Yd-IUO"/>
-                                        <constraint firstItem="G8p-IT-IM9" firstAttribute="top" secondItem="50Z-en-coV" secondAttribute="top" constant="5" id="gSt-cO-67D"/>
-                                        <constraint firstAttribute="trailing" secondItem="G8p-IT-IM9" secondAttribute="trailing" constant="5" id="nHx-Ya-Key"/>
-                                    </constraints>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <outlet property="card" destination="G8p-IT-IM9" id="Qtp-dz-DPR"/>
-                                </connections>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="qi5-5y-Rvf" id="5Jt-rR-Q3y"/>
-                            <outlet property="delegate" destination="qi5-5y-Rvf" id="mBl-vR-Lmv"/>
-                        </connections>
-                    </tableView>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Wxr-jt-yuU" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1868" y="852"/>
-        </scene>
         <!--زنده از پورت جف-->
         <scene sceneID="kAa-yi-cNl">
             <objects>
@@ -123,13 +80,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="keg-Yb-pAg">
-                                <rect key="frame" x="0.0" y="64" width="375" height="484"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="533"/>
                                 <connections>
                                     <segue destination="7pc-Aj-tBg" kind="embed" id="gjD-Eg-7N1"/>
                                 </connections>
                             </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YEV-0v-BSa" userLabel="Player" customClass="XibContainer" customModule="raa_ios_player" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="548" width="375" height="70"/>
+                                <rect key="frame" x="0.0" y="597" width="375" height="70"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="70" id="jSC-1g-V7K"/>
@@ -408,12 +365,12 @@
             <objects>
                 <tableViewController id="dAR-ec-g6N" customClass="ProgramArchiveViewController" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="f2G-KC-59X">
-                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="362"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="362"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="archiveEntryCell" rowHeight="140" id="x0M-wa-D67" customClass="ProgramArchiveEntryTableViewCell" customModule="raa_ios_player" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="0.0" height="140"/>
+                                <rect key="frame" x="0.0" y="28" width="375" height="140"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="x0M-wa-D67" id="xGs-c4-rhB">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="140"/>
@@ -831,7 +788,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wcl-Lu-Lus">
                                 <rect key="frame" x="0.0" y="116" width="375" height="432"/>
                                 <connections>
-                                    <segue destination="qi5-5y-Rvf" kind="embed" id="fAG-RF-fmo"/>
+                                    <segue destination="N4d-W3-cH8" kind="embed" id="W6B-rL-MEt"/>
                                 </connections>
                             </containerView>
                         </subviews>
@@ -875,6 +832,66 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vzQ-5R-d2g" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="271" y="-1176"/>
+        </scene>
+        <!--Feed View Controller-->
+        <scene sceneID="cnG-re-AIy">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6yx-aH-Nuv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="N4d-W3-cH8" customClass="FeedViewController" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="oe4-GD-UKs">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="432"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="tPm-9B-Agz">
+                                <rect key="frame" x="177" y="206" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8TD-48-tQU">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="432"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="feedCell" rowHeight="150" id="rsW-Na-1ek" customClass="FeedEntryCardTableViewCell" customModule="raa_ios_player" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="150"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rsW-Na-1ek" id="29I-RP-fWP">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="150"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="TpI-i2-JCg" customClass="FeedEntryProgramCard" customModule="raa_ios_player" customModuleProvider="target">
+                                                    <rect key="frame" x="5" y="5" width="365" height="140"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="TpI-i2-JCg" firstAttribute="top" secondItem="29I-RP-fWP" secondAttribute="top" constant="5" id="DQB-Gh-xyN"/>
+                                                <constraint firstAttribute="bottom" secondItem="TpI-i2-JCg" secondAttribute="bottom" constant="5" id="RRh-b9-ep8"/>
+                                                <constraint firstAttribute="trailing" secondItem="TpI-i2-JCg" secondAttribute="trailing" constant="5" id="ZLJ-xm-3Ef"/>
+                                                <constraint firstItem="TpI-i2-JCg" firstAttribute="leading" secondItem="29I-RP-fWP" secondAttribute="leading" constant="5" id="ame-KK-nTh"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="card" destination="TpI-i2-JCg" id="PlM-Th-Frn"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="dWT-pR-hla" firstAttribute="bottom" secondItem="8TD-48-tQU" secondAttribute="bottom" id="MUM-nv-fPu"/>
+                            <constraint firstItem="8TD-48-tQU" firstAttribute="trailing" secondItem="dWT-pR-hla" secondAttribute="trailing" id="aSG-Bo-M1f"/>
+                            <constraint firstItem="8TD-48-tQU" firstAttribute="leading" secondItem="dWT-pR-hla" secondAttribute="leading" id="bET-KL-I4H"/>
+                            <constraint firstItem="8TD-48-tQU" firstAttribute="top" secondItem="dWT-pR-hla" secondAttribute="top" id="xu9-au-ZIW"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="dWT-pR-hla"/>
+                    </view>
+                    <connections>
+                        <outlet property="spinner" destination="tPm-9B-Agz" id="REF-25-NHE"/>
+                        <outlet property="tableView" destination="8TD-48-tQU" id="1eb-K0-ZTm"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1868" y="851"/>
         </scene>
     </scenes>
     <resources>

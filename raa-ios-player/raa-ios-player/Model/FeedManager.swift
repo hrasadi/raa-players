@@ -53,7 +53,7 @@ class FeedManager : UICommunicator<FeedData> {
                 URLSession.shared.dataTask(.promise, with: URL(string: FeedManager.PUBLIC_FEED_ENDPOINT)!)
             }.flatMap { data, response in
                 os_log("Fetched public feed from server.", type: .default)
-                self.feedData.publicFeed = try! self.jsonDecoder.decode([PublicFeedEntry].self, from: data)
+                self.feedData.publicFeed = try? self.jsonDecoder.decode([PublicFeedEntry].self, from: data)
                 self.feedData.publicFeed?.sort(by: {
                     (a, b) in
                     if (a.ReleaseTimestamp == nil || b.ReleaseTimestamp == nil) {

@@ -63,6 +63,10 @@ class UserManager {
             os_log("Registered device successfully!", type: .default)
             // Save user preferences locally too
             Context.Instance.settings.set(try! self.jsonEncoder.encode(self.user), forKey: PropertyKey.user)
+            
+            
+            // Also refresh personal entries (because server has updadet them when we registered)
+            Context.Instance.reloadLineups()
         }.catch { error in
             os_log("Error while registering device: %@", type: .error, error.localizedDescription)
         }

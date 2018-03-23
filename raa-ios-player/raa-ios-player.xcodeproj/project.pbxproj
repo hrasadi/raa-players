@@ -19,6 +19,7 @@
 		0365F931201977950061F974 /* XibContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0365F930201977950061F974 /* XibContainer.swift */; };
 		0365F9332019A5AE0061F974 /* LiveBroadcastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0365F9322019A5AE0061F974 /* LiveBroadcastViewController.swift */; };
 		0365F9352019A73F0061F974 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0365F9342019A73F0061F974 /* SettingsViewController.swift */; };
+		0369BD492064AC93000C2FE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0369BD482064AC93000C2FE3 /* Assets.xcassets */; };
 		03701089203286F200FDE4ED /* LiveBroadcastStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03701088203286F200FDE4ED /* LiveBroadcastStatus.swift */; };
 		038BBD922032AE7F0031A56E /* LiveBroadcastProgramCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038BBD912032AE7F0031A56E /* LiveBroadcastProgramCard.swift */; };
 		039CD39120362A4C00303512 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039CD39020362A4C00303512 /* NotificationManager.swift */; };
@@ -56,7 +57,6 @@
 		03F0588C2018246A00B568E3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F0588B2018246A00B568E3 /* AppDelegate.swift */; };
 		03F058932018246A00B568E3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03F058912018246A00B568E3 /* Main.storyboard */; };
 		03F058982018246A00B568E3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03F058962018246A00B568E3 /* LaunchScreen.storyboard */; };
-		03F058A02018490100B568E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 03F0589F2018490100B568E3 /* Assets.xcassets */; };
 		03F326972018E7FE00FB054E /* Player.xib in Resources */ = {isa = PBXBuildFile; fileRef = 03F326962018E7FE00FB054E /* Player.xib */; };
 		47E6BA6294CB374E091CD469 /* Pods_raa_ios_player.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778C1F3F84691DEE69A058AC /* Pods_raa_ios_player.framework */; };
 /* End PBXBuildFile section */
@@ -74,6 +74,7 @@
 		0365F930201977950061F974 /* XibContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XibContainer.swift; sourceTree = "<group>"; };
 		0365F9322019A5AE0061F974 /* LiveBroadcastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveBroadcastViewController.swift; sourceTree = "<group>"; };
 		0365F9342019A73F0061F974 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		0369BD482064AC93000C2FE3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		03701088203286F200FDE4ED /* LiveBroadcastStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveBroadcastStatus.swift; sourceTree = "<group>"; };
 		038BBD912032AE7F0031A56E /* LiveBroadcastProgramCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveBroadcastProgramCard.swift; sourceTree = "<group>"; };
 		039CD39020362A4C00303512 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
@@ -114,7 +115,6 @@
 		03F058922018246A00B568E3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		03F058972018246A00B568E3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		03F058992018246A00B568E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		03F0589F2018490100B568E3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		03F326962018E7FE00FB054E /* Player.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Player.xib; sourceTree = "<group>"; };
 		70340E560AA2D00B77AF7DEC /* Pods-raa-ios-player.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-raa-ios-player.debug.xcconfig"; path = "Pods/Target Support Files/Pods-raa-ios-player/Pods-raa-ios-player.debug.xcconfig"; sourceTree = "<group>"; };
 		778C1F3F84691DEE69A058AC /* Pods_raa_ios_player.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_raa_ios_player.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -261,8 +261,8 @@
 				03F058912018246A00B568E3 /* Main.storyboard */,
 				03E07EFF2030D0A900B4677B /* SplashScreen.storyboard */,
 				03F058962018246A00B568E3 /* LaunchScreen.storyboard */,
-				03F0589F2018490100B568E3 /* Assets.xcassets */,
 				03F058992018246A00B568E3 /* Info.plist */,
+				0369BD482064AC93000C2FE3 /* Assets.xcassets */,
 				039CD39220363E9B00303512 /* raa-ios-player.entitlements */,
 			);
 			path = "raa-ios-player";
@@ -355,8 +355,8 @@
 				033BDC952037D969002D4096 /* ProgramStart.caf in Resources */,
 				03F326972018E7FE00FB054E /* Player.xib in Resources */,
 				03F058982018246A00B568E3 /* LaunchScreen.storyboard in Resources */,
-				03F058A02018490100B568E3 /* Assets.xcassets in Resources */,
 				03E07F002030D0A900B4677B /* SplashScreen.storyboard in Resources */,
+				0369BD492064AC93000C2FE3 /* Assets.xcassets in Resources */,
 				03A4988720225433008B56BA /* Podfile in Resources */,
 				03F058932018246A00B568E3 /* Main.storyboard in Resources */,
 			);
