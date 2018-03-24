@@ -590,11 +590,11 @@
                         <sections>
                             <tableViewSection id="sQx-Gd-HAW">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="R06-Mr-SmA">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="R06-Mr-SmA">
                                         <rect key="frame" x="0.0" y="35" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="R06-Mr-SmA" id="f1O-lP-Rlj">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="341" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="500" text="اعلام‌ شروع برنامه‌های محلی شما" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="dee-48-oDw">
@@ -603,22 +603,16 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <switch opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oSi-lE-cFP">
-                                                    <rect key="frame" x="306" y="7" width="51" height="31"/>
-                                                    <connections>
-                                                        <action selector="SettingsValueChanged:" destination="1SV-GS-aoa" eventType="valueChanged" id="agl-sM-WFL"/>
-                                                    </connections>
-                                                </switch>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="oSi-lE-cFP" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="dee-48-oDw" secondAttribute="trailing" constant="5" id="2hR-tf-iU2"/>
-                                                <constraint firstAttribute="trailing" secondItem="oSi-lE-cFP" secondAttribute="trailing" constant="20" id="LkZ-Ca-9Z3"/>
                                                 <constraint firstItem="dee-48-oDw" firstAttribute="centerY" secondItem="f1O-lP-Rlj" secondAttribute="centerY" id="SXk-U1-MXY"/>
                                                 <constraint firstItem="dee-48-oDw" firstAttribute="leading" secondItem="f1O-lP-Rlj" secondAttribute="leadingMargin" constant="5" id="pGU-VT-nEa"/>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="dee-48-oDw" secondAttribute="trailingMargin" id="sgX-sL-E43"/>
-                                                <constraint firstItem="oSi-lE-cFP" firstAttribute="centerY" secondItem="f1O-lP-Rlj" secondAttribute="centerY" id="y8e-zy-axI"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="Zjy-QN-KVr" kind="show" id="ru0-f3-wI8"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="clR-d9-ABR">
                                         <rect key="frame" x="0.0" y="79" width="375" height="44"/>
@@ -654,7 +648,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="تنظیمات" id="a5Y-BL-RJQ"/>
                     <connections>
-                        <outlet property="notifyOnPersonalProgram" destination="oSi-lE-cFP" id="ICa-Bg-mRn"/>
+                        <outlet property="personalProgramNotificationDetailsLink" destination="dee-48-oDw" id="CJN-3p-Pbi"/>
                         <outlet property="publicProgramNotificationDetailsLink" destination="UO3-0J-apO" id="MSz-PC-EkR"/>
                     </connections>
                 </tableViewController>
@@ -836,7 +830,6 @@
         <!--Feed View Controller-->
         <scene sceneID="cnG-re-AIy">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="6yx-aH-Nuv" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="N4d-W3-cH8" customClass="FeedViewController" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="oe4-GD-UKs">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="432"/>
@@ -890,8 +883,162 @@
                         <outlet property="tableView" destination="8TD-48-tQU" id="1eb-K0-ZTm"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6yx-aH-Nuv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1868" y="851"/>
+        </scene>
+        <!--تنظیمات اعلام برنامه‌های شخصی-->
+        <scene sceneID="z0A-kT-Cxn">
+            <objects>
+                <viewController id="Zjy-QN-KVr" userLabel="تنظیمات اعلام برنامه‌های شخصی" customClass="PersonalProgramNotificationViewContainer" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="CKm-YM-kw8">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BRl-br-P2l">
+                                <rect key="frame" x="0.0" y="116" width="375" height="498"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="PeL-aY-BVD">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="498"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pwc-2A-H7b">
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="500" text="اعلام شروع برنامه‌های محلی شما" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="KIc-Rf-aWG" userLabel="اعلام برنامه">
+                                                        <rect key="frame" x="21" y="11" width="276" height="28"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <switch opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bb0-La-lIe">
+                                                        <rect key="frame" x="305" y="9.5" width="51" height="31"/>
+                                                        <connections>
+                                                            <action selector="notifyOnPersonalProgramSwitchValueChanged:" destination="Zjy-QN-KVr" eventType="valueChanged" id="rzu-FA-QBf"/>
+                                                        </connections>
+                                                    </switch>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="Bb0-La-lIe" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="KIc-Rf-aWG" secondAttribute="trailing" id="FSi-SQ-YSE"/>
+                                                    <constraint firstItem="Bb0-La-lIe" firstAttribute="centerY" secondItem="pwc-2A-H7b" secondAttribute="centerY" id="Rch-DG-ass"/>
+                                                    <constraint firstItem="Bb0-La-lIe" firstAttribute="leading" secondItem="KIc-Rf-aWG" secondAttribute="trailing" constant="8" symbolic="YES" id="azb-o5-o8g"/>
+                                                    <constraint firstItem="KIc-Rf-aWG" firstAttribute="top" secondItem="pwc-2A-H7b" secondAttribute="top" constant="11" id="c7C-ye-NxJ"/>
+                                                    <constraint firstAttribute="height" constant="50" id="h9O-de-p0u"/>
+                                                    <constraint firstItem="KIc-Rf-aWG" firstAttribute="centerY" secondItem="pwc-2A-H7b" secondAttribute="centerY" id="kZX-vs-gbl"/>
+                                                    <constraint firstItem="KIc-Rf-aWG" firstAttribute="leadingMargin" secondItem="pwc-2A-H7b" secondAttribute="leadingMargin" constant="13" id="sDS-Sn-JdS"/>
+                                                    <constraint firstAttribute="trailingMargin" secondItem="Bb0-La-lIe" secondAttribute="trailing" constant="5" id="z1T-T2-ErR"/>
+                                                </constraints>
+                                                <edgeInsets key="layoutMargins" top="8" left="16" bottom="8" right="16"/>
+                                            </view>
+                                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gr2-ze-eFy">
+                                                <rect key="frame" x="0.0" y="50" width="375" height="448"/>
+                                                <connections>
+                                                    <segue destination="ES1-BH-ki7" kind="embed" identifier="details_embed" id="GVl-vO-2Qn"/>
+                                                </connections>
+                                            </containerView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="Gr2-ze-eFy" firstAttribute="leading" secondItem="PeL-aY-BVD" secondAttribute="leading" id="CVz-fc-RA6"/>
+                                            <constraint firstItem="Gr2-ze-eFy" firstAttribute="top" secondItem="pwc-2A-H7b" secondAttribute="bottom" id="WKQ-Mv-xJD"/>
+                                            <constraint firstAttribute="bottom" secondItem="Gr2-ze-eFy" secondAttribute="bottom" id="clA-1l-GlL"/>
+                                            <constraint firstAttribute="trailing" secondItem="Gr2-ze-eFy" secondAttribute="trailing" id="yOf-za-B6c"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="PeL-aY-BVD" secondAttribute="trailing" id="PuL-Ie-Gp9"/>
+                                    <constraint firstItem="PeL-aY-BVD" firstAttribute="leading" secondItem="BRl-br-P2l" secondAttribute="leading" id="a3b-mJ-UDN"/>
+                                    <constraint firstItem="PeL-aY-BVD" firstAttribute="top" secondItem="BRl-br-P2l" secondAttribute="top" id="d60-ta-Xw3"/>
+                                    <constraint firstAttribute="bottom" secondItem="PeL-aY-BVD" secondAttribute="bottom" id="vdB-bs-cFI"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="BRl-br-P2l" firstAttribute="leading" secondItem="C5f-em-2CB" secondAttribute="leading" id="84t-g0-8lk"/>
+                            <constraint firstItem="C5f-em-2CB" firstAttribute="bottom" secondItem="BRl-br-P2l" secondAttribute="bottom" constant="4" id="UDq-3s-uW1"/>
+                            <constraint firstItem="C5f-em-2CB" firstAttribute="trailing" secondItem="BRl-br-P2l" secondAttribute="trailing" id="fqu-X5-WAp"/>
+                            <constraint firstItem="BRl-br-P2l" firstAttribute="top" secondItem="C5f-em-2CB" secondAttribute="top" id="iqK-lk-9eT"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="C5f-em-2CB"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="اعلام برنامه‌ها" id="jTY-75-k0f"/>
+                    <connections>
+                        <outlet property="containerView" destination="Gr2-ze-eFy" id="Nzf-e3-FAI"/>
+                        <outlet property="notifyOnPersonalProgramSwitch" destination="Bb0-La-lIe" id="KqQ-uk-gpr"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TTt-53-eIY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1127" y="2393"/>
+        </scene>
+        <!--تنظیمات اعلام برنامه‌های عمومی-->
+        <scene sceneID="E4Y-yd-CQE">
+            <objects>
+                <tableViewController id="ES1-BH-ki7" userLabel="تنظیمات اعلام برنامه‌های عمومی" customClass="PersonalProgramNotificationViewController" customModule="raa_ios_player" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="au3-OE-0es">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="448"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="personalProgramNotifitationSettingsCell" id="Cdd-wr-heR" customClass="PersonalProgramNotificationViewCell" customModule="raa_ios_player" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Cdd-wr-heR" id="JCr-mV-lzh">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="g33-wp-PyZ" userLabel="Program Icon">
+                                            <rect key="frame" x="21" y="5" width="35" height="35"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="35" id="AHa-CQ-Cw9"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="35" id="av3-2t-aek"/>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="35" id="gSV-6G-QsB"/>
+                                                <constraint firstAttribute="width" constant="35" id="iaM-hE-lVu"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="500" text="نام برنامه" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="wij-gh-Ph5" userLabel="Program Name">
+                                            <rect key="frame" x="71" y="13" width="53" height="18"/>
+                                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <switch opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wzz-pT-O0W" userLabel="notifyProgramStart">
+                                            <rect key="frame" x="305" y="6.5" width="51" height="31"/>
+                                            <connections>
+                                                <action selector="programNotificationSettingsChanged:" destination="ES1-BH-ki7" eventType="valueChanged" id="BrH-b4-77N"/>
+                                            </connections>
+                                        </switch>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="wzz-pT-O0W" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="wij-gh-Ph5" secondAttribute="trailing" constant="5" id="8F8-Kl-G6I"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="wij-gh-Ph5" secondAttribute="trailing" constant="20" symbolic="YES" id="Alr-pv-Yyo"/>
+                                        <constraint firstItem="g33-wp-PyZ" firstAttribute="centerY" secondItem="JCr-mV-lzh" secondAttribute="centerY" id="EG2-Pg-YJh"/>
+                                        <constraint firstItem="wij-gh-Ph5" firstAttribute="centerY" secondItem="JCr-mV-lzh" secondAttribute="centerY" id="aMv-bO-6xi"/>
+                                        <constraint firstItem="wij-gh-Ph5" firstAttribute="leading" secondItem="g33-wp-PyZ" secondAttribute="trailing" constant="15" id="f8Q-fu-4HF"/>
+                                        <constraint firstItem="g33-wp-PyZ" firstAttribute="leading" secondItem="JCr-mV-lzh" secondAttribute="leadingMargin" constant="5" id="fSd-sN-I1o"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="wzz-pT-O0W" secondAttribute="trailing" constant="5" id="ofm-uX-ghl"/>
+                                        <constraint firstItem="g33-wp-PyZ" firstAttribute="leading" secondItem="JCr-mV-lzh" secondAttribute="leadingMargin" constant="5" id="q5i-tB-mwu"/>
+                                        <constraint firstItem="wzz-pT-O0W" firstAttribute="centerY" secondItem="JCr-mV-lzh" secondAttribute="centerY" id="zLx-Iz-8R3"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="NotifyOnProgramStart" destination="wzz-pT-O0W" id="lXa-3q-IPS"/>
+                                    <outlet property="ProgramIcon" destination="g33-wp-PyZ" id="jM9-Fy-IBd"/>
+                                    <outlet property="ProgramNameLabel" destination="wij-gh-Ph5" id="kST-Ip-G5p"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="ES1-BH-ki7" id="tDO-yH-xyb"/>
+                            <outlet property="delegate" destination="ES1-BH-ki7" id="Hym-u4-K3l"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FuO-Wm-Zzj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-276" y="2392"/>
         </scene>
     </scenes>
     <resources>

@@ -22,6 +22,10 @@ class PlaybackManager : UICommunicator<PlaybackState>, AVAudioPlayerDelegate {
     var playbackState: PlaybackState? = nil
     var personalFeedPlaybackState: PersonalFeedPlaybackState? = nil
     
+    struct PropertyKey {
+        static var media = "PlaybackState"
+    }
+    
     override init() {
         super.init()
         playbackState = PlaybackState()
@@ -177,6 +181,8 @@ class PlaybackManager : UICommunicator<PlaybackState>, AVAudioPlayerDelegate {
     public func pause() {
         self.playbackState?.playing = false
         self.doPause()
+        // save playback state in settings
+        
         self.notifyModelUpdate(data: self.playbackState!)
     }
     

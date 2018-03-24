@@ -1,5 +1,5 @@
 //
-//  PublicProgramNotificationViewController.swift
+//  PersonalProgramNotificationViewController.swift
 //  raa-ios-player
 //
 //  Created by Hamid on 2/22/18.
@@ -10,17 +10,17 @@ import Foundation
 import UIKit
 import PromiseKit
 
-class PublicProgramNotificationViewContainer : UIViewController {
+class PersonalProgramNotificationViewContainer : UIViewController {
     @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var notifyOnPublicProgramSwitch: UISwitch!
+    @IBOutlet weak var notifyOnPersonalProgramSwitch: UISwitch!
     
-    var detailsVC: PublicProgramNotificationViewController?
+    var detailsVC: PersonalProgramNotificationViewController?
     
     var user: User?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-
+        
         self.user = Context.Instance.userManager.user
     }
     
@@ -28,19 +28,19 @@ class PublicProgramNotificationViewContainer : UIViewController {
         let user = Context.Instance.userManager.user
         // Show settings in simulator. but hide them on device if user said so
         #if !((arch(i386) || arch(x86_64)) && os(iOS))
-        if (user.NotificationToken == nil) {
-            self.notifyOnPublicProgramSwitch.isEnabled = false
-        }
+            if (user.NotificationToken == nil) {
+                self.notifyOnPersonalProgramSwitch.isEnabled = false
+            }
         #endif
-        
-        if self.notifyOnPublicProgramSwitch.isEnabled {
-            self.notifyOnPublicProgramSwitch.isOn = Bool.init(exactly: NSNumber(value: user.NotifyOnPublicProgram))!
-            self.notifyOnPublicProgramSwitchValueChanged(self)
+
+        if self.notifyOnPersonalProgramSwitch.isEnabled {
+            self.notifyOnPersonalProgramSwitch.isOn = Bool.init(exactly: NSNumber(value: user.NotifyOnPersonalProgram))!
+            self.notifyOnPersonalProgramSwitchValueChanged(self)
         }
     }
-    
-    @IBAction func notifyOnPublicProgramSwitchValueChanged(_ sender: Any) {
-        if self.notifyOnPublicProgramSwitch.isOn {
+
+    @IBAction func notifyOnPersonalProgramSwitchValueChanged(_ sender: Any) {
+        if self.notifyOnPersonalProgramSwitch.isOn {
             self.containerView.subviews[0].isHidden = false
         } else {
             self.containerView.subviews[0].isHidden = true
@@ -51,20 +51,20 @@ class PublicProgramNotificationViewContainer : UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "details_embed" {
-            self.detailsVC = segue.destination as? PublicProgramNotificationViewController
-            self.detailsVC?.publicProgramNotificationContainerVC = self
+            self.detailsVC = segue.destination as? PersonalProgramNotificationViewController
+            self.detailsVC?.personalProgramNotificationContainerVC = self
         }
     }
     
     func registerChangesOnServerIfNeeded() {
-        // If the public notifications are turned off
-        if self.notifyOnPublicProgramSwitch.isOn == false && self.user?.NotifyOnPublicProgram == 1 {
-            Context.Instance.userManager.user.NotifyOnPublicProgram = 0
+        // If the personal notifications are turned off
+        if self.notifyOnPersonalProgramSwitch.isOn == false && self.user?.NotifyOnPersonalProgram == 1 {
+            Context.Instance.userManager.user.NotifyOnPersonalProgram = 0
             Context.Instance.userManager.registerUser()
-        } else if self.notifyOnPublicProgramSwitch.isOn == true {
+        } else if self.notifyOnPersonalProgramSwitch.isOn == true {
             var shouldRegister = false
-            if self.user?.NotifyOnPublicProgram == 0 {
-                Context.Instance.userManager.user.NotifyOnPublicProgram = 1
+            if self.user?.NotifyOnPersonalProgram == 0 {
+                Context.Instance.userManager.user.NotifyOnPersonalProgram = 1
                 shouldRegister = true
             }
             
@@ -72,7 +72,7 @@ class PublicProgramNotificationViewContainer : UIViewController {
             
             if programNotificationChangedValues != nil && programNotificationChangedValues!.count > 0 {
                 for (key, value) in programNotificationChangedValues! {
-                    user?.NotificationExcludedPublicProgramsObject[key] = value
+                    user?.NotificationExcludedPersonalProgramsObject[key] = value
                 }
                 shouldRegister = true
             }
@@ -84,9 +84,9 @@ class PublicProgramNotificationViewContainer : UIViewController {
     }
 }
 
-class PublicProgramNotificationViewController : UITableViewController {
-
-    public var publicProgramNotificationContainerVC: PublicProgramNotificationViewContainer?
+class PersonalProgramNotificationViewController : UITableViewController {
+    
+    public var personalProgramNotificationContainerVC: PersonalProgramNotificationViewContainer?
     
     private var filteredProgramInfos: [String: ProgramInfo]?
     private var filteredProgramInfoCount: Int = 0
@@ -96,8 +96,8 @@ class PublicProgramNotificationViewController : UITableViewController {
         var result: [String: Bool] = [:]
         for cellIdx in 0..<filteredProgramInfoCount {
             let indexPath = IndexPath(row: cellIdx, section: 0)
-            let cell = tableView.cellForRow(at: indexPath) as! PublicProgramNotificationViewCell
-            let previousValue = !(user?.NotificationExcludedPublicProgramsObject[cell.ProgramId!] ?? false)
+            let cell = tableView.cellForRow(at: indexPath) as! PersonalProgramNotificationViewCell
+            let previousValue = !(user?.NotificationExcludedPersonalProgramsObject[cell.ProgramId!] ?? false)
             // Value changed, add to dirty entries
             if cell.NotifyOnProgramStart.isOn != previousValue {
                 result[cell.ProgramId!] = !(cell.NotifyOnProgramStart.isOn)
@@ -106,7 +106,7 @@ class PublicProgramNotificationViewController : UITableViewController {
         return result;
     }
     
-    public var notificationExcludedPublicPrograms:[String: Bool] = [: ]
+    public var notificationExcludedPersonalPrograms:[String: Bool] = [: ]
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -114,25 +114,25 @@ class PublicProgramNotificationViewController : UITableViewController {
         user = Context.Instance.userManager.user
         firstly {
             Context.Instance.programInfoDirectoryManager.pullData()
-        }.done { programInfoDirectory in
-            let programInfoDirectory = programInfoDirectory
-            self.filterProgramInfos(programInfoDirectory)
-            
-            self.tableView.reloadData()
-        }.ensure {
-            Context.Instance.programInfoDirectoryManager.registerEventListener(listenerObject: self)
-        }.catch { _ in
+            }.done { programInfoDirectory in
+                let programInfoDirectory = programInfoDirectory
+                self.filterProgramInfos(programInfoDirectory)
+                
+                self.tableView.reloadData()
+            }.ensure {
+                Context.Instance.programInfoDirectoryManager.registerEventListener(listenerObject: self)
+            }.catch { _ in
         }
     }
     
     func filterProgramInfos(_ programInfoDirectory: ProgramInfoDirectory?) {
         self.filteredProgramInfos = programInfoDirectory?.ProgramInfos.filter({ (key: String, value: ProgramInfo) -> Bool in
-            return value.Feed == "Public" ? true : false
+            return value.Feed == "Personal" ? true : false
         })
     }
     
     @IBAction func programNotificationSettingsChanged(_ sender: Any) {
-        self.publicProgramNotificationContainerVC?.registerChangesOnServerIfNeeded()
+        self.personalProgramNotificationContainerVC?.registerChangesOnServerIfNeeded()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -153,12 +153,12 @@ class PublicProgramNotificationViewController : UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellIdentifier = "publicProgramNotifitationSettingsCell"
+        let cellIdentifier = "personalProgramNotifitationSettingsCell"
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? PublicProgramNotificationViewCell else {
-            fatalError("The dequeued cell is not an instance of PublicProgramNotificationViewCell.")
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? PersonalProgramNotificationViewCell else {
+            fatalError("The dequeued cell is not an instance of PersonalProgramNotificationViewCell.")
         }
-
+        
         let programId = Array((self.filteredProgramInfos?.keys)!)[indexPath.row]
         let programInfo = self.filteredProgramInfos?[programId]
         
@@ -167,13 +167,13 @@ class PublicProgramNotificationViewController : UITableViewController {
         cell.ProgramIcon.image = UIImage(data: programInfo?.thumbnailImageData ?? ProgramInfo.defaultThumbnailImageData)
         cell.ProgramIcon.setNeedsLayout()
         // If excluded == 1 -> turn off notifications (hence switch)
-        cell.NotifyOnProgramStart.isOn = !(user?.NotificationExcludedPublicProgramsObject[programId] ?? false)
+        cell.NotifyOnProgramStart.isOn = !(user?.NotificationExcludedPersonalProgramsObject[programId] ?? false)
         
         return cell
     }
 }
 
-extension PublicProgramNotificationViewController : ModelCommunicator {
+extension PersonalProgramNotificationViewController : ModelCommunicator {
     func modelUpdated(data: Any?) {
         let programInfoDirectory = data as? ProgramInfoDirectory
         self.filterProgramInfos(programInfoDirectory)
@@ -186,9 +186,10 @@ extension PublicProgramNotificationViewController : ModelCommunicator {
     }
 }
 
-class PublicProgramNotificationViewCell : UITableViewCell {
+class PersonalProgramNotificationViewCell : UITableViewCell {
     var ProgramId: String?
     @IBOutlet weak var ProgramIcon: UIImageView!
     @IBOutlet weak var ProgramNameLabel: UILabel!
     @IBOutlet weak var NotifyOnProgramStart: UISwitch!
 }
+

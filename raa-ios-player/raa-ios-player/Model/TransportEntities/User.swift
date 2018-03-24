@@ -64,4 +64,20 @@ class User : Codable, Comparable {
             return self._notificationExcludedPublicProgramsObject
         }
     }
+    
+    public var NotificationExcludedPersonalPrograms: String?
+    private var _notificationExcludedPersonalProgramsObject: [String: Bool] = [: ]
+    public var NotificationExcludedPersonalProgramsObject: [String: Bool] {
+        set {
+            newValue.forEach { (k,v) in self._notificationExcludedPersonalProgramsObject[k] = v }
+            self.NotificationExcludedPersonalPrograms = String(data: try! JSONEncoder().encode(self._notificationExcludedPersonalProgramsObject), encoding: .utf8)
+        }
+        
+        get {
+            if self.NotificationExcludedPersonalPrograms != nil {
+                self._notificationExcludedPersonalProgramsObject = try! JSONDecoder().decode([String: Bool].self, from: (self.NotificationExcludedPersonalPrograms?.data(using: String.Encoding.utf8))!)
+            }
+            return self._notificationExcludedPersonalProgramsObject
+        }
+    }
 }

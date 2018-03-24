@@ -19,6 +19,7 @@
 		0365F931201977950061F974 /* XibContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0365F930201977950061F974 /* XibContainer.swift */; };
 		0365F9332019A5AE0061F974 /* LiveBroadcastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0365F9322019A5AE0061F974 /* LiveBroadcastViewController.swift */; };
 		0365F9352019A73F0061F974 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0365F9342019A73F0061F974 /* SettingsViewController.swift */; };
+		036980692065FC38008A5DE6 /* PersonalProgramNotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036980682065FC38008A5DE6 /* PersonalProgramNotificationViewController.swift */; };
 		0369BD492064AC93000C2FE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0369BD482064AC93000C2FE3 /* Assets.xcassets */; };
 		03701089203286F200FDE4ED /* LiveBroadcastStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03701088203286F200FDE4ED /* LiveBroadcastStatus.swift */; };
 		038BBD922032AE7F0031A56E /* LiveBroadcastProgramCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038BBD912032AE7F0031A56E /* LiveBroadcastProgramCard.swift */; };
@@ -74,6 +75,7 @@
 		0365F930201977950061F974 /* XibContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XibContainer.swift; sourceTree = "<group>"; };
 		0365F9322019A5AE0061F974 /* LiveBroadcastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveBroadcastViewController.swift; sourceTree = "<group>"; };
 		0365F9342019A73F0061F974 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		036980682065FC38008A5DE6 /* PersonalProgramNotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalProgramNotificationViewController.swift; sourceTree = "<group>"; };
 		0369BD482064AC93000C2FE3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		03701088203286F200FDE4ED /* LiveBroadcastStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveBroadcastStatus.swift; sourceTree = "<group>"; };
 		038BBD912032AE7F0031A56E /* LiveBroadcastProgramCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveBroadcastProgramCard.swift; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 				03ECCB88204123BC00EEF417 /* ProgramArchiveViewController.swift */,
 				0365F9342019A73F0061F974 /* SettingsViewController.swift */,
 				03ECCB82203F880D00EEF417 /* PublicProgramNotificationViewController.swift */,
+				036980682065FC38008A5DE6 /* PersonalProgramNotificationViewController.swift */,
 				03DDFB6A203E201C006C1F8F /* BackwardCompatibleNavigationController.swift */,
 			);
 			path = ViewControllers;
@@ -434,6 +437,7 @@
 				03ECCB872040BD0C00EEF417 /* ArchiveManager.swift in Sources */,
 				03A498B220240947008B56BA /* FeedEntryProgramCard.swift in Sources */,
 				03ECCB89204123BC00EEF417 /* ProgramArchiveViewController.swift in Sources */,
+				036980692065FC38008A5DE6 /* PersonalProgramNotificationViewController.swift in Sources */,
 				03E07EFC202F890C00B4677B /* PlayerViewController.swift in Sources */,
 				03A498B120240947008B56BA /* ProgramCard.swift in Sources */,
 				0365F92E201931F40061F974 /* FeedViewController.swift in Sources */,

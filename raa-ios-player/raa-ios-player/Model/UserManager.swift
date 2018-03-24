@@ -23,7 +23,6 @@ class UserManager {
     
     struct PropertyKey {
         static var user = "User"
-        static var media = "PlaybackState"
     }
     
     public func initiate() {
