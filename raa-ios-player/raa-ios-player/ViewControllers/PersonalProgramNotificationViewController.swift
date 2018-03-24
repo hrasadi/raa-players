@@ -30,23 +30,28 @@ class PersonalProgramNotificationViewContainer : UIViewController {
         #if !((arch(i386) || arch(x86_64)) && os(iOS))
             if (user.NotificationToken == nil) {
                 self.notifyOnPersonalProgramSwitch.isEnabled = false
+                self.notifyOnPersonalProgramSwitch.isOn = false
             }
         #endif
 
         if self.notifyOnPersonalProgramSwitch.isEnabled {
             self.notifyOnPersonalProgramSwitch.isOn = Bool.init(exactly: NSNumber(value: user.NotifyOnPersonalProgram))!
-            self.notifyOnPersonalProgramSwitchValueChanged(self)
         }
+
+        self.determineProgramListsViewVisibility()
     }
 
     @IBAction func notifyOnPersonalProgramSwitchValueChanged(_ sender: Any) {
+        self.determineProgramListsViewVisibility()
+        self.registerChangesOnServerIfNeeded()
+    }
+    
+    func determineProgramListsViewVisibility() {
         if self.notifyOnPersonalProgramSwitch.isOn {
             self.containerView.subviews[0].isHidden = false
         } else {
             self.containerView.subviews[0].isHidden = true
         }
-        
-        self.registerChangesOnServerIfNeeded()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

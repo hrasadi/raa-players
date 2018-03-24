@@ -3,6 +3,25 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "PersonalProgramNotificationViewController.programNotificationSettingsChanged(_:):PersonalProgramNotificationViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "static Utils.getPersianLocaleDateString(_:):Utils.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "String(describing: components.day!)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Animator.animateTransition(using:):Animator.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "card.originalFrame">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "LiveBroadcastViewController.tableView(_:cellForRowAt:):LiveBroadcastViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -25,23 +44,7 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "Animator.animateTransition(using:):Animator.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "card.originalFrame">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "ProgramArchivePodcastDescriptionViewController.init(coder:):ProgramArchiveViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "static Utils.getPersianLocaleDateString(_:):Utils.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "String(describing: components.day!)">
-            </PersistentString>
-         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "closure #1 in LiveBroadcastManager.loadLiveLineup():LiveBroadcastManager.swift">
@@ -72,6 +75,9 @@
                value = "Context.Instance.feedManager.pullData()">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlaybackManager.playPersonalFeed(_:):PlaybackManager.swift">
       </ContextState>
       <ContextState
          contextName = "DetailViewController.buildSnapshot():DetailViewController.swift">
@@ -120,6 +126,9 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "PersonalProgramNotificationViewContainer.prepare(for:sender:):PersonalProgramNotificationViewController.swift">
+      </ContextState>
+      <ContextState
          contextName = "closure #3 in LocationManager.locateDevice():LocationManager.swift">
          <PersistentStrings>
             <PersistentString
@@ -147,6 +156,20 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "ProgramArchiveViewController.tableView(_:cellForRowAt:):ProgramArchiveViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.programArchive![row].ReleaseDateString!">
+            </PersistentString>
+            <PersistentString
+               value = "dateFormatter.date(from: &quot;2018-06-06&quot;)">
+            </PersistentString>
+            <PersistentString
+               value = "dateFormatter.dateFormat">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "ProgramCard.layout(animating:):ProgramCard.swift">
          <PersistentStrings>
             <PersistentString
@@ -162,6 +185,17 @@
                value = "programTitleLbl.bounds">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlaybackManager.savePlaybackState():PlaybackManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "player.currentTime().seconds ">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PersonalProgramNotificationViewContainer.viewWillAppear(_:):PersonalProgramNotificationViewController.swift">
       </ContextState>
       <ContextState
          contextName = "FeedManager.loadPersonalFeed():FeedManager.swift">

@@ -27,26 +27,32 @@ class PublicProgramNotificationViewContainer : UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         let user = Context.Instance.userManager.user
         // Show settings in simulator. but hide them on device if user said so
+        self.notifyOnPublicProgramSwitch.isEnabled = true
         #if !((arch(i386) || arch(x86_64)) && os(iOS))
         if (user.NotificationToken == nil) {
             self.notifyOnPublicProgramSwitch.isEnabled = false
+            self.notifyOnPublicProgramSwitch.isOn = false
         }
         #endif
         
         if self.notifyOnPublicProgramSwitch.isEnabled {
             self.notifyOnPublicProgramSwitch.isOn = Bool.init(exactly: NSNumber(value: user.NotifyOnPublicProgram))!
-            self.notifyOnPublicProgramSwitchValueChanged(self)
         }
+
+        self.determineProgramListsViewVisibility()
     }
     
     @IBAction func notifyOnPublicProgramSwitchValueChanged(_ sender: Any) {
+        self.determineProgramListsViewVisibility()
+        self.registerChangesOnServerIfNeeded()
+    }
+    
+    func determineProgramListsViewVisibility() {
         if self.notifyOnPublicProgramSwitch.isOn {
             self.containerView.subviews[0].isHidden = false
         } else {
             self.containerView.subviews[0].isHidden = true
         }
-        
-        self.registerChangesOnServerIfNeeded()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

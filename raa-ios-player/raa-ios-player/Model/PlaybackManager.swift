@@ -23,7 +23,7 @@ class PlaybackManager : UICommunicator<PlaybackState>, AVAudioPlayerDelegate {
     var personalFeedPlaybackState: PersonalFeedPlaybackState? = nil
     
     struct PropertyKey {
-        static var media = "PlaybackState"
+        static var playbackState = "PlaybackState"
     }
     
     override init() {
@@ -155,6 +155,7 @@ class PlaybackManager : UICommunicator<PlaybackState>, AVAudioPlayerDelegate {
         
         // Otherwise do not bother!
         if (self.playbackState?.mediaPath != mediaPath || forceRestartStream) {
+            self.playbackState?.mediaPath = mediaPath
             doPlay(mediaPath, seekPosition: seekPosition)
         }
         
@@ -179,14 +180,18 @@ class PlaybackManager : UICommunicator<PlaybackState>, AVAudioPlayerDelegate {
     }
 
     public func pause() {
+        // save playback state in settings
+        self.savePlaybackState()
+
         self.playbackState?.playing = false
         self.doPause()
-        // save playback state in settings
-        
         self.notifyModelUpdate(data: self.playbackState!)
     }
     
     public func stop() {
+        // save playback state in settings
+        self.savePlaybackState()
+
         self.playbackState?.playing = false
         self.playbackState?.enable = false
         self.doStop()
@@ -194,6 +199,21 @@ class PlaybackManager : UICommunicator<PlaybackState>, AVAudioPlayerDelegate {
     }
     
     // Private methods
+    private func savePlaybackState() {
+        // Don't save state for personal items (they are fire and forget!)
+        if (self.playbackState?.programType == .PublicFeed || self.playbackState?.programType == .Archive) {
+
+            if Context.Instance.settings.dictionary(forKey: PropertyKey.playbackState) == nil {
+                Context.Instance.settings.set([: ], forKey: PropertyKey.playbackState)
+            }
+            
+            var playbackStateDict = Context.Instance.settings.dictionary(forKey: PropertyKey.playbackState)!
+            playbackStateDict[(self.playbackState?.mediaPath)!] = player?.currentTime().seconds
+            
+            Context.Instance.settings.set(playbackStateDict, forKey: PropertyKey.playbackState)
+        }
+    }
+    
     private func doPlay(_ mediaPath: String, seekPosition: CMTime = kCMTimeZero) {
         if player != nil {
             // stop the previous player and let it get released by system
