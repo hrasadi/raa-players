@@ -9,6 +9,7 @@
 import Foundation
 import PromiseKit
 import UIKit
+import Presentr
 import os
 
 class FeedContainerViewController : PlayerViewController {
@@ -23,7 +24,7 @@ class FeedViewController : UIViewController {
     private static let PUBLIC_FEED_SECTION = 1
 
     private var personalFeedDelegate = PersonalFeedDelegate()
-    private var publicFeedDelegate = PublicFeedDelegate()
+    private var publicFeedDelegate: PublicFeedDelegate?
     
     private var feedData: FeedData?
 
@@ -43,9 +44,25 @@ class FeedViewController : UIViewController {
         public static let CELL_HEIGHT: CGFloat = 150
         public static let FOOTER_HEIGHT: CGFloat = 40
     }
+    
+    let presenter: Presentr = {
+        let customPresenter: Presentr = Presentr(presentationType: .bottomHalf)
+        customPresenter.transitionType = .coverVertical
+        customPresenter.dismissTransitionType = .crossDissolve
+        customPresenter.roundCorners = true
+        customPresenter.cornerRadius = 20
+        customPresenter.blurBackground = true
+        customPresenter.blurStyle = UIBlurEffectStyle.light
+        customPresenter.dismissOnSwipe = true
+        customPresenter.dismissOnSwipeDirection = .bottom
+        return customPresenter
+    }()
+
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        
+        self.publicFeedDelegate = PublicFeedDelegate(self)
     }
 
     override func viewDidLoad() {
@@ -57,6 +74,8 @@ class FeedViewController : UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(fullRedraw), name:  NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
         
         self.fullRedraw()
+        
+        Context.Instance.playbackManager.registerEventListener(listenerObject: self)
     }
 
     // FIXES A BUG THAT LAYOUTS TABLE WRONG IN IOS 10
@@ -124,17 +143,47 @@ class FeedViewController : UIViewController {
             Context.Instance.playbackManager.playPersonalFeed(requestedFeedEntryId)
         }
     }
+    
     class PublicFeedDelegate : FeedEntryCardDelegate {
+        private var parentViewController: FeedViewController
+        
+        init(_ parentViewController: FeedViewController) {
+            self.parentViewController = parentViewController
+        }
+        
         func onPlayButtonClicked(_ requestedFeedEntryId: String) {
-            Context.Instance.playbackManager.playPublicFeed(requestedFeedEntryId)
+            // Do not trust the cards state, redetermine playable state with PlayabackManager
+            if self.parentViewController.determinePlayableState(requestedFeedEntryId) == .CurrentlyPlaying {
+                // Pause
+                Context.Instance.playbackManager.togglePlaybackState()
+            } else {
+                if let publicFeedEntry = Context.Instance.feedManager.lookupPublicFeedEntry(requestedFeedEntryId) {
+                    if Context.Instance.playbackManager.getLastPlaybackState((publicFeedEntry.getMediaPath())!) > 0.0 {
+                        let controller = self.parentViewController.storyboard?.instantiateViewController(withIdentifier: "playbackModeRequesterModal") as! PlaybackModeRequesterModal
+                        controller.requestedEntry = publicFeedEntry
+                        self.parentViewController.customPresentViewController(self.parentViewController.presenter, viewController: controller, animated: true, completion: nil)
+                    } else {
+                        Context.Instance.playbackManager.playPublicFeed(requestedFeedEntryId)
+                    }
+                } else {
+                    Context.Instance.playbackManager.playPublicFeed(requestedFeedEntryId)
+                }
+            }
         }
     }
 }
 
 extension FeedViewController : ModelCommunicator {
     func modelUpdated(data: Any?) {
-        self.feedData = data as? FeedData
-        self.fullRedraw()
+        if self.viewIfLoaded?.window != nil {
+            if let feedData = data as? FeedData {
+                self.feedData = feedData
+                self.fullRedraw()
+            }
+            if let _ = data as? PlaybackState {
+                self.refreshCardsPlayableState()
+            }
+        }
     }
     
     func hashCode() -> Int {
@@ -176,7 +225,7 @@ extension FeedViewController : UITableViewDataSource, UITableViewDelegate {
 
         if section == FeedViewController.PUBLIC_FEED_SECTION {
             if self.feedData?.publicFeed == nil || self.feedData?.publicFeed?.count == 0 {
-                textLabel.text = "فعلا برنامه‌ای اینجا نیست. همون طور که می‌دونید برنامه‌های جدید رادیو از دوشنبه شب تا جمعه شب هر هفته (به وقت شرق آمریکا) منتشر می‌شن."
+                textLabel.text = "فعلا برنامه‌ای اینجا نیست. برنامه‌های جدید رادیو از دوشنبه شب تا جمعه شب هر هفته (به وقت شرق آمریکا) منتشر می‌شن."
                 publicFeedFooterView = textLabel
                 return publicFeedFooterView
             } else {
@@ -317,11 +366,33 @@ extension FeedViewController : UITableViewDataSource, UITableViewDelegate {
         }
         
         cell.card?.backgroundImage = UIImage(data: entryProgramInfo?.bannerImageData ?? ProgramInfo.defaultBannerImageData)
+        cell.card?.playableState = self.determinePlayableState(feedEntry?.Id)
+
         cell.card?.actionable = true
         cell.card?.feedDelegate = self.publicFeedDelegate
         
         cell.card?.setNeedsDisplay()
         
         return cell
+    }
+
+    private func refreshCardsPlayableState() {
+        for entryCell in self.tableView.visibleCells {
+            if let cell = entryCell as? FeedEntryCardTableViewCell {
+                cell.card?.playableState = self.determinePlayableState(cell.card?.feedEntryId)
+                cell.card?.setNeedsDisplay()
+            }
+        }
+    }
+    
+    private func determinePlayableState(_ publicFeedEntryId: String?) -> PlayableState {
+        if let publicFeedEntry = Context.Instance.feedManager.lookupPublicFeedEntry(publicFeedEntryId ?? "") {
+            if ((Context.Instance.playbackManager.playbackState?.playing ?? false) && Context.Instance.playbackManager.playbackState?.mediaPath == publicFeedEntry.getMediaPath()) {
+                return .CurrentlyPlaying
+            } else {
+                return .Playable
+            }
+        }
+        return .Playable
     }
 }

@@ -48,3 +48,13 @@ class PublicFeedEntry : Codable {
     var ReleaseTimestamp: Double?
     var ExpirationTimestamp: Double?
 }
+
+extension PublicFeedEntry : Playable {
+    func getMediaPath() -> String? {
+        return ProgramObject?.Show?.Clips?[0].Media?.Path
+    }
+    
+    func getMediaLength() -> Double? {
+        return ProgramObject?.Show?.Clips?[0].Media?.Duration
+    }
+}

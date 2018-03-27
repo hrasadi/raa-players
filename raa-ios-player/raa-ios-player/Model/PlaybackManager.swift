@@ -65,20 +65,20 @@ class PlaybackManager : UICommunicator<PlaybackState>, AVAudioPlayerDelegate {
         }
     }
 
-    public func playPublicFeed(_ feedEntryId: String) {
+    public func playPublicFeed(_ feedEntryId: String, fromPos: Double = 0) {
         os_log("Requested playback of %@", type: .default, feedEntryId)
         self.playbackState?.programType = .PublicFeed
         
         let publicFeedEntry = Context.Instance.feedManager.lookupPublicFeedEntry(feedEntryId)
         if publicFeedEntry != nil {
-            self.play(programId: (publicFeedEntry!.ProgramObject?.ProgramId)!, title: publicFeedEntry!.ProgramObject?.Title, subtitle: publicFeedEntry!.ProgramObject?.Subtitle, mediaPath: (publicFeedEntry!.ProgramObject?.Show?.Clips?[0].Media?.Path)!)
+            self.play(programId: (publicFeedEntry!.ProgramObject?.ProgramId)!, title: publicFeedEntry!.ProgramObject?.Title, subtitle: publicFeedEntry!.ProgramObject?.Subtitle, mediaPath: (publicFeedEntry!.ProgramObject?.Show?.Clips?[0].Media?.Path)!, seekPosition: CMTimeMakeWithSeconds(fromPos, 1000))
         } else {
             // We should never come here
             os_log("This is a bug, we have a key but cannot find entry for it", type: .error)
         }
     }
 
-    public func playArchiveEntry(_ archiveEntry: ArchiveEntry?) {
+    public func playArchiveEntry(_ archiveEntry: ArchiveEntry?, fromPos: Double = 0) {
         if (archiveEntry == nil) {
             // We should never come here
             os_log("This is a bug, we have received a null archive entry to play", type: .error)
@@ -88,7 +88,7 @@ class PlaybackManager : UICommunicator<PlaybackState>, AVAudioPlayerDelegate {
         os_log("Requested playback of %@", type: .default, (archiveEntry?.Program?.CanonicalIdPath)!)
         self.playbackState?.programType = .Archive
         
-        self.play(programId: (archiveEntry!.Program?.ProgramId)!, title: archiveEntry!.Program?.Title, subtitle: archiveEntry!.Program?.Subtitle, mediaPath: (archiveEntry!.Program?.Show?.Clips?[0].Media?.Path)!)
+        self.play(programId: (archiveEntry!.Program?.ProgramId)!, title: archiveEntry!.Program?.Title, subtitle: archiveEntry!.Program?.Subtitle, mediaPath: (archiveEntry!.Program?.Show?.Clips?[0].Media?.Path)!, seekPosition: CMTimeMakeWithSeconds(fromPos, 1000))
     }
     
     public func playPersonalFeed(_ feedEntryId: String) {
@@ -127,6 +127,9 @@ class PlaybackManager : UICommunicator<PlaybackState>, AVAudioPlayerDelegate {
     }
     
     @objc func itemDidFinishPlaying() {
+        // unpersist the previous playback state (if any)
+        self.removePlaybackState()
+        
         if self.playbackState?.programType == .PersonalFeed && self.personalFeedPlaybackState != nil{
             if self.personalFeedPlaybackState!.isPlayingPreShow {
                 self.personalFeedPlaybackState!.isPlayingPreShow = false
@@ -198,6 +201,18 @@ class PlaybackManager : UICommunicator<PlaybackState>, AVAudioPlayerDelegate {
         self.notifyModelUpdate(data: self.playbackState!)
     }
     
+    public func getLastPlaybackState(_ mediaPath: String) -> Double {
+        if Context.Instance.settings.dictionary(forKey: PropertyKey.playbackState) == nil {
+            Context.Instance.settings.set([: ], forKey: PropertyKey.playbackState)
+        }
+        
+        let playbackStateDict = Context.Instance.settings.dictionary(forKey: PropertyKey.playbackState)!
+        if playbackStateDict.keys.contains(mediaPath) {
+            return playbackStateDict[mediaPath] as! Double
+        }
+        return 0.0
+    }
+    
     // Private methods
     private func savePlaybackState() {
         // Don't save state for personal items (they are fire and forget!)
@@ -209,6 +224,23 @@ class PlaybackManager : UICommunicator<PlaybackState>, AVAudioPlayerDelegate {
             
             var playbackStateDict = Context.Instance.settings.dictionary(forKey: PropertyKey.playbackState)!
             playbackStateDict[(self.playbackState?.mediaPath)!] = player?.currentTime().seconds
+            
+            Context.Instance.settings.set(playbackStateDict, forKey: PropertyKey.playbackState)
+        }
+    }
+
+    private func removePlaybackState() {
+        // Don't save state for personal items (they are fire and forget!)
+        if (self.playbackState?.programType == .PublicFeed || self.playbackState?.programType == .Archive) {
+            
+            if Context.Instance.settings.dictionary(forKey: PropertyKey.playbackState) == nil {
+                Context.Instance.settings.set([: ], forKey: PropertyKey.playbackState)
+            }
+            
+            var playbackStateDict = Context.Instance.settings.dictionary(forKey: PropertyKey.playbackState)!
+            if playbackStateDict.keys.contains((self.playbackState?.mediaPath)!) {
+                playbackStateDict.removeValue(forKey: (self.playbackState?.mediaPath)!)
+            }
             
             Context.Instance.settings.set(playbackStateDict, forKey: PropertyKey.playbackState)
         }

@@ -43,6 +43,8 @@
 		03CB4E69202E5D32006ECD08 /* ProgramInfoDirectoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CB4E68202E5D32006ECD08 /* ProgramInfoDirectoryManager.swift */; };
 		03CB4E6B202E5DD5006ECD08 /* ProgramInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CB4E6A202E5DD5006ECD08 /* ProgramInfo.swift */; };
 		03CB4E6D202F7762006ECD08 /* PlaybackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CB4E6C202F7762006ECD08 /* PlaybackManager.swift */; };
+		03CB6BF120676CCB00D438E5 /* PlaybackModeRequesterModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CB6BF020676CCB00D438E5 /* PlaybackModeRequesterModal.swift */; };
+		03CB6BF32067FBD800D438E5 /* Playable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CB6BF22067FBD800D438E5 /* Playable.swift */; };
 		03D90129204131AA0064908E /* ProgramArchiveEntryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D90128204131AA0064908E /* ProgramArchiveEntryCard.swift */; };
 		03D9012B204211190064908E /* ArchiveEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D9012A204211190064908E /* ArchiveEntry.swift */; };
 		03DDFB6B203E201C006C1F8F /* BackwardCompatibleNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DDFB6A203E201C006C1F8F /* BackwardCompatibleNavigationController.swift */; };
@@ -100,6 +102,8 @@
 		03CB4E68202E5D32006ECD08 /* ProgramInfoDirectoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramInfoDirectoryManager.swift; sourceTree = "<group>"; };
 		03CB4E6A202E5DD5006ECD08 /* ProgramInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramInfo.swift; sourceTree = "<group>"; };
 		03CB4E6C202F7762006ECD08 /* PlaybackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackManager.swift; sourceTree = "<group>"; };
+		03CB6BF020676CCB00D438E5 /* PlaybackModeRequesterModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackModeRequesterModal.swift; sourceTree = "<group>"; };
+		03CB6BF22067FBD800D438E5 /* Playable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playable.swift; sourceTree = "<group>"; };
 		03D90128204131AA0064908E /* ProgramArchiveEntryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramArchiveEntryCard.swift; sourceTree = "<group>"; };
 		03D9012A204211190064908E /* ArchiveEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveEntry.swift; sourceTree = "<group>"; };
 		03DDFB6A203E201C006C1F8F /* BackwardCompatibleNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackwardCompatibleNavigationController.swift; sourceTree = "<group>"; };
@@ -183,6 +187,7 @@
 				03A498A62023B976008B56BA /* ProgramDetailsViewController.swift */,
 				03ECCB8420408ADA00EEF417 /* ArchiveViewController.swift */,
 				03ECCB88204123BC00EEF417 /* ProgramArchiveViewController.swift */,
+				03CB6BF020676CCB00D438E5 /* PlaybackModeRequesterModal.swift */,
 				0365F9342019A73F0061F974 /* SettingsViewController.swift */,
 				03ECCB82203F880D00EEF417 /* PublicProgramNotificationViewController.swift */,
 				036980682065FC38008A5DE6 /* PersonalProgramNotificationViewController.swift */,
@@ -228,6 +233,7 @@
 				03A498AB2023C92E008B56BA /* User.swift */,
 				03701088203286F200FDE4ED /* LiveBroadcastStatus.swift */,
 				03D9012A204211190064908E /* ArchiveEntry.swift */,
+				03CB6BF22067FBD800D438E5 /* Playable.swift */,
 			);
 			path = TransportEntities;
 			sourceTree = "<group>";
@@ -409,11 +415,13 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-raa-ios-player/Pods-raa-ios-player-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Player/Player.framework",
+				"${BUILT_PRODUCTS_DIR}/Presentr/Presentr.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Player.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Presentr.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -432,6 +440,8 @@
 				03A498A72023B976008B56BA /* ProgramDetailsViewController.swift in Sources */,
 				03A498A420239B1B008B56BA /* CardGroup.swift in Sources */,
 				03F0588C2018246A00B568E3 /* AppDelegate.swift in Sources */,
+				03CB6BF32067FBD800D438E5 /* Playable.swift in Sources */,
+				03CB6BF120676CCB00D438E5 /* PlaybackModeRequesterModal.swift in Sources */,
 				03A498A020239B1B008B56BA /* CardPlayer.swift in Sources */,
 				03381D002025279E00F179E1 /* Utils.swift in Sources */,
 				03ECCB872040BD0C00EEF417 /* ArchiveManager.swift in Sources */,

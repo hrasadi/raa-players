@@ -43,10 +43,9 @@ class ProgramArchiveEntryCard : FeedEntryProgramCard {
         super.actionButtonTapped()
         
         if self.archiveEntryDelegate != nil {
-            self.archiveEntryDelegate!.onPlayButtonClicked(self.archiveEntry ?? nil)
+            self.archiveEntryDelegate!.onPlayButtonClicked(self.archiveEntry)
         }
-    }
-
+    }    
 }
 
 class ProgramArchiveEntryTableViewCell : UITableViewCell {

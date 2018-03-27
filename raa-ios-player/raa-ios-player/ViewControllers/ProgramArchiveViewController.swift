@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import PromiseKit
+import Presentr
 
 class ProgramArchiveContainerViewController : PlayerViewController {
     public var programId: String?
@@ -51,6 +52,19 @@ class ProgramArchiveViewController : UITableViewController {
         public static let CELL_HEIGHT: CGFloat = 150
     }
 
+    let presenter: Presentr = {
+        let customPresenter: Presentr = Presentr(presentationType: .bottomHalf)
+        customPresenter.transitionType = .coverVertical
+        customPresenter.dismissTransitionType = .crossDissolve
+        customPresenter.roundCorners = true
+        customPresenter.cornerRadius = 20
+        customPresenter.blurBackground = true
+        customPresenter.blurStyle = UIBlurEffectStyle.light
+        customPresenter.dismissOnSwipe = true
+        customPresenter.dismissOnSwipeDirection = .bottom
+        return customPresenter
+    }()
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
 
@@ -63,6 +77,8 @@ class ProgramArchiveViewController : UITableViewController {
         
         programArchive = Context.Instance.archiveManager.loadProgramArchiveSync(programId!)
         self.tableView.reloadData()
+        
+        Context.Instance.playbackManager.registerEventListener(listenerObject: self)
     }
     
     // FIXES A BUG THAT LAYOUTS TABLE WRONG IN IOS 10
@@ -81,7 +97,19 @@ class ProgramArchiveViewController : UITableViewController {
 
 extension ProgramArchiveViewController : ProgramArchiveEntryDelegate {
     func onPlayButtonClicked(_ requestedArchiveEntry: ArchiveEntry?) {
-        Context.Instance.playbackManager.playArchiveEntry(requestedArchiveEntry)
+        // Do not trust the cards state, redetermine playable state with PlayabackManager
+        if self.determinePlayableState(requestedArchiveEntry) == .CurrentlyPlaying {
+            // Pause
+            Context.Instance.playbackManager.togglePlaybackState()
+        } else {
+            if Context.Instance.playbackManager.getLastPlaybackState((requestedArchiveEntry?.getMediaPath())!) > 0.0 {
+                let controller = self.storyboard?.instantiateViewController(withIdentifier: "playbackModeRequesterModal") as! PlaybackModeRequesterModal
+                controller.requestedEntry = requestedArchiveEntry
+                customPresentViewController(presenter, viewController: controller, animated: true, completion: nil)
+            } else {
+                Context.Instance.playbackManager.playArchiveEntry(requestedArchiveEntry)
+            }
+        }
     }
 }
 
@@ -116,12 +144,41 @@ extension ProgramArchiveViewController {
             cell.card?.timeValue1 = ""
         }
         
-        
         cell.card?.backgroundImage = UIImage(data: ProgramInfo.defaultBannerImageData)
-        cell.card?.setNeedsDisplay()
+        cell.card?.playableState = self.determinePlayableState(self.programArchive![row])
         
+        cell.card?.setNeedsDisplay()
         cell.card?.archiveEntryDelegate = self
+        
         return cell
+    }
+    
+    private func refreshCardsPlayableState() {
+        for entryCell in self.tableView.visibleCells {
+            let cell = entryCell as! ProgramArchiveEntryTableViewCell
+            cell.card?.playableState = self.determinePlayableState(cell.card?.archiveEntry)
+            cell.card?.setNeedsDisplay()
+        }
+    }
+    
+    private func determinePlayableState(_ archiveEntry: ArchiveEntry?) -> PlayableState {
+        if ((Context.Instance.playbackManager.playbackState?.playing ?? false) && Context.Instance.playbackManager.playbackState?.mediaPath == archiveEntry?.getMediaPath()) {
+            return .CurrentlyPlaying
+        } else {
+            return .Playable
+        }
+    }
+}
+
+extension ProgramArchiveViewController : ModelCommunicator {
+    func modelUpdated(data: Any?) {
+        if self.viewIfLoaded?.window != nil {
+            self.refreshCardsPlayableState()
+        }
+    }
+    
+    func hashCode() -> Int {
+        return ObjectIdentifier(self).hashValue
     }
 }
 

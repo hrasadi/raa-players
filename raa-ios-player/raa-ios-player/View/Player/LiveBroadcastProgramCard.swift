@@ -50,7 +50,7 @@ class LiveBroadcastProgramCard : ProgramCard {
         self.actionable = true
 
         self.actionBtn.isUserInteractionEnabled = false // No touch
-        actionBtn.layer.backgroundColor = nextInLineBtnBackgroundColor.cgColor
+        self.currentActionBtnBackgroundColor = nextInLineBtnBackgroundColor
 
         let buttonText = (self.nextInLineCountdownValue != nil) ? ("شروع در " + nextInLineCountdownValue!) : "به زودی"
         let btnTitle = NSAttributedString(string: buttonText, attributes: [ NSAttributedStringKey.font : UIFont.systemFont(ofSize: 16, weight: .medium), NSAttributedStringKey.foregroundColor : UIColor.white])
@@ -61,7 +61,7 @@ class LiveBroadcastProgramCard : ProgramCard {
         self.actionable = true
 
         self.actionBtn.isUserInteractionEnabled = true // No touch
-        actionBtn.layer.backgroundColor = actionBtnBackgroundColor.cgColor
+        self.currentActionBtnBackgroundColor = ProgramCard.DEFAULT_ACTION_BTN_COLOR
 
         let btnTitle = NSAttributedString(string: "پخش", attributes: [ NSAttributedStringKey.font : UIFont.systemFont(ofSize: 16, weight: .medium), NSAttributedStringKey.foregroundColor : UIColor.white])
         actionBtn.setAttributedTitle(btnTitle, for: .normal)

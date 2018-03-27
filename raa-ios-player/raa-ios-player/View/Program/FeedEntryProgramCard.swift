@@ -12,7 +12,10 @@ import UIKit
 @IBDesignable
 class FeedEntryProgramCard : ProgramCard {
     public var feedEntryId: String?
-    
+    public var playableState: PlayableState?
+
+    private let currentlyPlayingBackgroundColor = UIColor(red: 227/255, green: 33/255, blue: 0/255, alpha: 1)
+
     public var feedDelegate: FeedEntryCardDelegate?
 
     override public init(frame: CGRect) {
@@ -37,9 +40,15 @@ class FeedEntryProgramCard : ProgramCard {
     override open func draw(_ rect: CGRect) {
         super.draw(rect)
         
-        actionBtn.layer.backgroundColor = actionBtnBackgroundColor.cgColor
+        self.currentActionBtnBackgroundColor = ProgramCard.DEFAULT_ACTION_BTN_COLOR
         let btnTitle = NSAttributedString(string: "پخش", attributes: [ NSAttributedStringKey.font : UIFont.systemFont(ofSize: 16, weight: .medium), NSAttributedStringKey.foregroundColor : UIColor.white])
         actionBtn.setAttributedTitle(btnTitle, for: .normal)
+        
+        if playableState == .CurrentlyPlaying {
+            presentAsCurrentlyPlaying()
+        } else {
+            presentAsPlayable()
+        }
         
         layout()
     }
@@ -48,6 +57,24 @@ class FeedEntryProgramCard : ProgramCard {
         super.layout(animating: animating)
     }
     
+    func presentAsCurrentlyPlaying() {
+        self.actionBtn.isUserInteractionEnabled = true
+        self.currentActionBtnBackgroundColor = currentlyPlayingBackgroundColor
+        
+        let buttonText = "توقف"
+        let btnTitle = NSAttributedString(string: buttonText, attributes: [ NSAttributedStringKey.font : UIFont.systemFont(ofSize: 16, weight: .medium), NSAttributedStringKey.foregroundColor : UIColor.white])
+        actionBtn.setAttributedTitle(btnTitle, for: .normal)
+    }
+    
+    func presentAsPlayable() {
+        self.actionBtn.isUserInteractionEnabled = true
+        self.currentActionBtnBackgroundColor = ProgramCard.DEFAULT_ACTION_BTN_COLOR
+        
+        let btnTitle = NSAttributedString(string: "پخش", attributes: [ NSAttributedStringKey.font : UIFont.systemFont(ofSize: 16, weight: .medium), NSAttributedStringKey.foregroundColor : UIColor.white])
+        actionBtn.setAttributedTitle(btnTitle, for: .normal)
+    }
+
+    
     @objc override func actionButtonTapped() {
         super.actionButtonTapped()
         
@@ -55,6 +82,11 @@ class FeedEntryProgramCard : ProgramCard {
             self.feedDelegate!.onPlayButtonClicked(self.feedEntryId ?? "")
         }
     }
+}
+
+enum PlayableState {
+    case CurrentlyPlaying
+    case Playable
 }
 
 class FeedEntryCardTableViewCell : UITableViewCell {

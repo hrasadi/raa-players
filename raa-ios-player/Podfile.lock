@@ -1,5 +1,6 @@
 PODS:
   - Player (0.8.4)
+  - Presentr (1.3)
   - PromiseKit (6.0.1):
     - PromiseKit/CorePromise (= 6.0.1)
     - PromiseKit/Foundation (= 6.0.1)
@@ -14,13 +15,15 @@ PODS:
 
 DEPENDENCIES:
   - Player
+  - Presentr
   - PromiseKit (~> 6.0)
   - PromiseKit/CoreLocation
 
 SPEC CHECKSUMS:
   Player: e45514e9e5fb8ff18f50eb2ba6f84dac9b6a0024
+  Presentr: 3f0825a42cb32ecd8fc6b6d0b0de87d7d0b42482
   PromiseKit: 18fcba8db2b15c3887ba8acb3e9a328702be3f93
 
-PODFILE CHECKSUM: 32b9ac4319481b314de893ae4c68745f336413a3
+PODFILE CHECKSUM: 0279849fcb7670b1e74c55801e2df437ff60a9e1
 
 COCOAPODS: 1.4.0

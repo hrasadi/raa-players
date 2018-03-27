@@ -26,8 +26,14 @@ class ProgramCard : Card {
     var timeValue2Lbl = UILabel()
     var timeSubValue2Lbl = UILabel()
     
+    public static let DEFAULT_ACTION_BTN_COLOR = UIColor(red: 47/255, green: 133/255, blue: 116/255, alpha: 1)
+
     var actionBtn = UIButton()
-    var actionBtnBackgroundColor = UIColor(red: 47/255, green: 133/255, blue: 116/255, alpha: 1)
+    public var currentActionBtnBackgroundColor = DEFAULT_ACTION_BTN_COLOR {
+        didSet {
+            self.actionBtn.layer.backgroundColor = currentActionBtnBackgroundColor.cgColor
+        }
+    }
 
     @IBInspectable public var programTitleSize: CGFloat = 14
     @IBInspectable public var programSubtitleSize: CGFloat = 13
@@ -291,7 +297,7 @@ class ProgramCard : Card {
     @objc func actionButtonTouchCancel() {
         self.actionBtn.isHighlighted = true
         UIView.animate(withDuration: 0.1, animations: {
-            self.actionBtn.backgroundColor = self.actionBtnBackgroundColor
+            self.actionBtn.backgroundColor = self.currentActionBtnBackgroundColor
         })
     }
 
@@ -299,10 +305,10 @@ class ProgramCard : Card {
         self.actionBtn.isHighlighted = false
         
         UIView.animate(withDuration: 0.1, animations: {
-            self.actionBtn.backgroundColor = UIColor.black
+            self.actionBtn.layer.backgroundColor = UIColor.black.cgColor
         }) { _ in
             UIView.animate(withDuration: 0.1, animations: {
-                self.actionBtn.backgroundColor = self.actionBtnBackgroundColor
+                self.actionBtn.layer.backgroundColor = self.currentActionBtnBackgroundColor.cgColor
             })
         }
     }

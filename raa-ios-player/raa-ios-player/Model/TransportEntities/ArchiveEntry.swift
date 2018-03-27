@@ -12,3 +12,15 @@ class ArchiveEntry : Codable {
     var Program: CProgram?
     var ReleaseDateString: String?
 }
+
+extension ArchiveEntry : Playable {
+    func getMediaPath() -> String? {
+        return Program?.Show?.Clips?[0].Media?.Path
+    }
+    
+    func getMediaLength() -> Double? {
+        return Program?.Show?.Clips?[0].Media?.Duration
+    }
+    
+    
+}

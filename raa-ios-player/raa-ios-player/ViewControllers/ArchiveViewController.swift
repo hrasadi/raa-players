@@ -129,7 +129,5 @@ class ArchiveProgramTableViewCell : UITableViewCell {
     var ProgramId: String?
     @IBOutlet weak var ProgramIcon: UIImageView!
     @IBOutlet weak var ProgramNameLabel: UILabel!
-    
-    
 }
 
