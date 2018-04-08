@@ -8,16 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Switch;
 
 import media.raa.raa_android_player.R;
-import media.raa.raa_android_player.model.RaaContext;
 
 /**
  */
 public class SettingsFragment extends Fragment {
 
-    private Switch notifyOnPersonalProgramsSwitch;
+    private Button notifyOnPersonalProgramsBtn;
     private Button notifyOnPublicProgramsBtn;
 
     public SettingsFragment() {
@@ -45,14 +43,18 @@ public class SettingsFragment extends Fragment {
     }
 
     private void setupSettingsSwitches(View view) {
-        notifyOnPersonalProgramsSwitch = view.findViewById(R.id.notify_on_personal_programs_switch);
+        notifyOnPersonalProgramsBtn = view.findViewById(R.id.notify_on_personal_programs_btn);
         notifyOnPublicProgramsBtn = view.findViewById(R.id.notify_on_public_programs_btn);
 
-        notifyOnPersonalProgramsSwitch.setChecked(RaaContext.getInstance().getUserManager()
-                .getUser().getNotifyOnPersonalProgram() == 1);
+        // Link to personal programs settings page
+        notifyOnPersonalProgramsBtn.setOnClickListener(sender -> {
+            PersonalProgramNotificationSettingsListFragment fragment =
+                    PersonalProgramNotificationSettingsListFragment.newInstance();
 
-        notifyOnPersonalProgramsSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
-
+            getFragmentManager().beginTransaction()
+                    .addToBackStack("personalProgramNotification")
+                    .replace(R.id.application_frame, fragment)
+                    .commit();
         });
 
         // Link to public programs settings page

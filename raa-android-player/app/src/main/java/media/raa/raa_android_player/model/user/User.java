@@ -37,6 +37,10 @@ public class User {
     private String notificationExcludedPublicProgramsString;
     private transient Map<String, Boolean> notificationExcludedPublicPrograms = new HashMap<>();
 
+    @SerializedName("NotificationExcludedPersonalPrograms")
+    private String notificationExcludedPersonalProgramsString;
+    private transient Map<String, Boolean> notificationExcludedPersonalPrograms = new HashMap<>();
+
     private transient Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create();
 
     User() {
@@ -152,5 +156,18 @@ public class User {
         }
 
         return notificationExcludedPublicPrograms;
+    }
+
+    public void setNotificationExcludedPersonalProgramsString(String notificationExcludedPersonalProgramsString) {
+        this.notificationExcludedPersonalProgramsString = notificationExcludedPersonalProgramsString;
+    }
+
+    public Map<String, Boolean> getNotificationExcludedPersonalPrograms() {
+        if (notificationExcludedPersonalProgramsString != null) {
+            this.notificationExcludedPersonalPrograms =
+                    gson.fromJson(this.notificationExcludedPersonalProgramsString, new TypeToken<Map<String, Boolean>>(){}.getType());
+        }
+
+        return notificationExcludedPersonalPrograms;
     }
 }

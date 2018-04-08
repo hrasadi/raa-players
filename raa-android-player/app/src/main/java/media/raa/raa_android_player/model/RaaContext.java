@@ -52,7 +52,7 @@ public class RaaContext {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
 
         this.userManager = new UserManager(context, settings);
-        this.playbackManager = new PlaybackManager(context);
+        this.playbackManager = new PlaybackManager(context, settings);
     }
 
     /**

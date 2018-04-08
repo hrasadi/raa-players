@@ -46,9 +46,14 @@ public class PlaybackService extends Service {
 
     private NotificationBarPlayerControls notificationBarPlayerControls;
 
+    // Used for reading playback service data from main app
+    private static PlaybackService instance;
+
     @Override
     public void onCreate() {
         super.onCreate();
+
+        instance = this;
 
         // If the application is not running (and no context present) this is our chance to recreate
         // the RaaContext
@@ -136,6 +141,13 @@ public class PlaybackService extends Service {
 
             notificationBarPlayerControls.updateNotificationBarPlayerControls(currentPlayerStatus);
         });
+    }
+
+    public static long getCurrentPlaybackPosition() {
+        if (instance != null && instance.exoPlayer != null) {
+            return instance.exoPlayer.getCurrentPosition();
+        }
+        return 0;
     }
 
     /**

@@ -9,6 +9,7 @@
     <string name="title_archive">آرشیو برنامه‌ها</string>
     <string name="title_settings">تنظیمات</string>
     <string name="title_public_program_settings">تنظیمات برنامه‌های عمومی</string>
+    <string name="title_personal_program_settings">تنظیمات برنامه‌های محلی شما</string>
 
     <string name="label_loading">چند لحظه لطفا…</string>
     <string name="label_pre_loading_images">یه کم بزک دوزک…</string>

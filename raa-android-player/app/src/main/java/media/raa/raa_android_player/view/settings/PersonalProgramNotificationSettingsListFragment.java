@@ -24,15 +24,15 @@ import media.raa.raa_android_player.model.user.UserManager;
 /**
  * Displays archive directory list
  */
-public class PublicProgramNotificationSettingsListFragment extends Fragment {
+public class PersonalProgramNotificationSettingsListFragment extends Fragment {
 
     private UserManager userManager = RaaContext.getInstance().getUserManager();
 
-    public static PublicProgramNotificationSettingsListFragment newInstance() {
-        return new PublicProgramNotificationSettingsListFragment();
+    public static PersonalProgramNotificationSettingsListFragment newInstance() {
+        return new PersonalProgramNotificationSettingsListFragment();
     }
 
-    public PublicProgramNotificationSettingsListFragment() {
+    public PersonalProgramNotificationSettingsListFragment() {
     }
 
     @Override
@@ -43,24 +43,24 @@ public class PublicProgramNotificationSettingsListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_public_program_notification_settings_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_personal_program_notification_settings_list, container, false);
 
-        Switch notifyOnPublicProgramsSwitch = view.findViewById(R.id.notify_on_public_programs_switch);
+        Switch notifyOnPersonalProgramsSwitch = view.findViewById(R.id.notify_on_personal_programs_switch);
         RecyclerView recyclerView = view.findViewById(R.id.list);
         Context recyclerViewContext = recyclerView.getContext();
 
         // Set the parent switch
-        notifyOnPublicProgramsSwitch.setChecked(userManager.getUser().getNotifyOnPublicProgram() == 1);
-        notifyOnPublicProgramsSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
+        notifyOnPersonalProgramsSwitch.setChecked(userManager.getUser().getNotifyOnPersonalProgram() == 1);
+        notifyOnPersonalProgramsSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
             boolean shouldRegister = false;
-            if (!b && userManager.getUser().getNotifyOnPublicProgram() == 1) {
+            if (!b && userManager.getUser().getNotifyOnPersonalProgram() == 1) {
                 shouldRegister = true;
-            } else if (b && userManager.getUser().getNotifyOnPublicProgram() == 0) {
+            } else if (b && userManager.getUser().getNotifyOnPersonalProgram() == 0) {
                 shouldRegister = true;
             }
 
             if (shouldRegister) {
-                userManager.getUser().setNotifyOnPublicProgram(b ? 1 : 0);
+                userManager.getUser().setNotifyOnPersonalProgram(b ? 1 : 0);
                 userManager.registerUser();
             }
             decideProgramListVisibility(recyclerView);
@@ -69,21 +69,21 @@ public class PublicProgramNotificationSettingsListFragment extends Fragment {
         // Set the adapter
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerViewContext));
 
-        Map<String, ProgramInfo> publicProgramInfoMap = new HashMap<>(RaaContext.getInstance().getProgramInfoDirectory().getProgramInfoMap());
-        Set<String> programNames = new HashSet<>(publicProgramInfoMap.keySet());
+        Map<String, ProgramInfo> personalProgramInfoMap = new HashMap<>(RaaContext.getInstance().getProgramInfoDirectory().getProgramInfoMap());
+        Set<String> programNames = new HashSet<>(personalProgramInfoMap.keySet());
         for (String pName : programNames) {
-            ProgramInfo ppi = publicProgramInfoMap.get(pName);
-            if (ppi.getFeed() == null || !ppi.getFeed().equals("Public")) {
+            ProgramInfo ppi = personalProgramInfoMap.get(pName);
+            if (ppi.getFeed() == null || !ppi.getFeed().equals("Personal")) {
                 //noinspection SuspiciousMethodCalls
-                publicProgramInfoMap.remove(pName);
+                personalProgramInfoMap.remove(pName);
             }
         }
         recyclerView.setAdapter(new
-                PublicProgramNotificationSettingsListRecyclerViewAdapter(
-                publicProgramInfoMap,
+                PersonalProgramNotificationSettingsListRecyclerViewAdapter(
+                personalProgramInfoMap,
                 (programId, newValue) -> {
                     if (userManager.getUser().getNotifyOnPublicProgram() == 1) {
-                        userManager.getUser().getNotificationExcludedPublicPrograms().put(programId, !newValue);
+                        userManager.getUser().getNotificationExcludedPersonalPrograms().put(programId, !newValue);
                         userManager.registerUser();
                     }
                 })
@@ -94,7 +94,7 @@ public class PublicProgramNotificationSettingsListFragment extends Fragment {
     }
 
     private void decideProgramListVisibility(RecyclerView listView) {
-        if (userManager.getUser().getNotifyOnPublicProgram() == 1) {
+        if (userManager.getUser().getNotifyOnPersonalProgram() == 1) {
             listView.setVisibility(View.VISIBLE);
         } else {
             listView.setVisibility(View.GONE);
@@ -104,7 +104,7 @@ public class PublicProgramNotificationSettingsListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_public_program_settings);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_personal_program_settings);
     }
 
     @Override
@@ -117,7 +117,7 @@ public class PublicProgramNotificationSettingsListFragment extends Fragment {
         super.onDetach();
     }
 
-    public interface OnPublicProgramSettingsChangeListener {
+    public interface OnPersonalProgramSettingsChangeListener {
         void onNotificationSettingsChanged(String programId, boolean newValue);
     }
 }

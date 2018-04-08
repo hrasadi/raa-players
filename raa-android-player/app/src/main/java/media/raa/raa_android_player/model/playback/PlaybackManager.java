@@ -3,10 +3,18 @@ package media.raa.raa_android_player.model.playback;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import org.joda.time.DateTime;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import media.raa.raa_android_player.model.RaaContext;
@@ -35,6 +43,8 @@ public class PlaybackManager {
     public static final String ACTION_STOP = "media.raa.raa_android_player.model.playback.PlaybackManager.ACTION_STOP";
     static final String ACTION_PLAYBACK_FINISHED = "media.raa.raa_android_player.model.playback.PlaybackManager.ACTION_PLAYBACK_FINISHED";
 
+    private static final String SETTINGS_PLAYBACK_STATE_KEY = "playbackState";
+
     @SuppressWarnings("SpellCheckingInspection")
     private static final String LIVE_BROADCAST_STREAM_URL = RaaContext.API_PREFIX_URL +
             "/linkgenerator/live.mp3?src=aHR0cHM6Ly9zdHJlYW0ucmFhLm1lZGlhL3JhYTFfbmV3Lm9nZw==";
@@ -43,9 +53,14 @@ public class PlaybackManager {
     private PlaybackManagerEventListener playbackManagerEventListener;
 
     private Context context;
+    private SharedPreferences settings;
+    private Gson gson;
 
-    public PlaybackManager(Context context) {
+    public PlaybackManager(Context context, SharedPreferences settings) {
         this.context = context;
+        this.settings = settings;
+
+        this.gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create();
     }
 
     public void playLiveBroadcast() {
@@ -238,19 +253,6 @@ public class PlaybackManager {
         }
     }
 
-    private void stopPlayback() {
-        currentPlayerStatus.setPlaying(false);
-        currentPlayerStatus.setEnabled(false);
-
-        Intent intent = new Intent(context, PlaybackService.class);
-        intent.setAction(PlaybackService.ACTION_STOP);
-        context.startService(intent);
-
-        if (playbackManagerEventListener != null) {
-            playbackManagerEventListener.onPlayerStatusChange(currentPlayerStatus);
-        }
-    }
-
     private void handlePlaybackFinished() {
         if (currentPlayerStatus.getProgramType() == PlayerStatus.ProgramType.Personal) {
             if (((PersonalEntryPlayerStatus) currentPlayerStatus).isPlayingPreShow()) {
@@ -266,20 +268,14 @@ public class PlaybackManager {
                 context.startService(intent);
             } else {
                 // Show was finished. Stop playback
-                this.stopPlayback();
+                this.stop();
             }
         } else {
+            this.removePlaybackState();
+
             // No more actions required! Hide the players and reset PlaybackService state
-            this.stopPlayback();
+            this.stop();
         }
-    }
-
-    private void pause() {
-        currentPlayerStatus.setPlaying(false);
-
-        Intent intent = new Intent(context, PlaybackService.class);
-        intent.setAction(ACTION_PAUSE);
-        context.startService(intent);
     }
 
     private void resume() {
@@ -288,6 +284,70 @@ public class PlaybackManager {
         Intent intent = new Intent(context, PlaybackService.class);
         intent.setAction(ACTION_RESUME);
         context.startService(intent);
+    }
+
+    private void pause() {
+        // save playback state in settings
+        this.savePlaybackState();
+
+        currentPlayerStatus.setPlaying(false);
+
+        Intent intent = new Intent(context, PlaybackService.class);
+        intent.setAction(ACTION_PAUSE);
+        context.startService(intent);
+    }
+
+    public void stop() {
+        // save playback state in settings
+        this.savePlaybackState();
+
+        currentPlayerStatus.setPlaying(false);
+        currentPlayerStatus.setEnabled(false);
+
+        Intent intent = new Intent(context, PlaybackService.class);
+        intent.setAction(PlaybackService.ACTION_STOP);
+        context.startService(intent);
+
+        if (playbackManagerEventListener != null) {
+            playbackManagerEventListener.onPlayerStatusChange(currentPlayerStatus);
+        }
+    }
+
+    private void savePlaybackState() {
+        if (this.getCurrentPlayerStatus().getProgramType().equals(PlayerStatus.ProgramType.Public) ||
+                this.getCurrentPlayerStatus().getProgramType().equals(PlayerStatus.ProgramType.Archive)) {
+            SharedPreferences.Editor editor = this.settings.edit();
+
+            Map<String, Long> playbackStateDict;
+            if (!this.settings.contains(SETTINGS_PLAYBACK_STATE_KEY)) {
+                playbackStateDict = new HashMap<>();
+            } else {
+                playbackStateDict = gson.fromJson(
+                        this.settings.getString(SETTINGS_PLAYBACK_STATE_KEY, null),
+                        new TypeToken<HashMap<String, Long>>(){}.getType());
+            }
+
+            playbackStateDict.put(this.getCurrentPlayerStatus().getMediaSourceUrl(),
+                    PlaybackService.getCurrentPlaybackPosition());
+
+            editor.putString(SETTINGS_PLAYBACK_STATE_KEY, gson.toJson(playbackStateDict));
+            editor.apply();
+        }
+    }
+
+    private void removePlaybackState() {
+        SharedPreferences.Editor editor = this.settings.edit();
+        if (this.settings.contains(SETTINGS_PLAYBACK_STATE_KEY)) {
+            Map<String, Long> playbackStateDict = gson.fromJson(
+                    this.settings.getString(SETTINGS_PLAYBACK_STATE_KEY, null),
+                    new TypeToken<HashMap<String, Long>>(){}.getType());
+
+            // Remove any saved status for item
+            playbackStateDict.remove(this.getCurrentPlayerStatus().getMediaSourceUrl());
+
+            editor.putString(SETTINGS_PLAYBACK_STATE_KEY, gson.toJson(playbackStateDict));
+            editor.apply();
+        }
     }
 
     PlayerStatus getCurrentPlayerStatus() {
@@ -410,7 +470,7 @@ public class PlaybackManager {
             if (Objects.equals(intent.getAction(), ACTION_TOGGLE_PLAYBACK)) {
                 RaaContext.getInstance().getPlaybackManager().togglePlaybackState();
             } else if (Objects.equals(intent.getAction(), ACTION_STOP)) {
-                RaaContext.getInstance().getPlaybackManager().stopPlayback();
+                RaaContext.getInstance().getPlaybackManager().stop();
             } else if (Objects.equals(intent.getAction(), ACTION_PLAYBACK_FINISHED)) {
                 RaaContext.getInstance().getPlaybackManager().handlePlaybackFinished();
             }

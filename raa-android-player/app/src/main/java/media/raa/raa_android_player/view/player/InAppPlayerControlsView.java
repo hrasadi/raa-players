@@ -33,12 +33,15 @@ public class InAppPlayerControlsView extends FrameLayout implements PlaybackMana
         programSubTitle = findViewById(R.id.player_bar_program_subtitle);
         programThumbnail = findViewById(R.id.player_bar_program_thumbnail);
 
+        ImageButton playerCancelBtn = findViewById(R.id.player_bar_cancel_button);
         playerActionBtn = findViewById(R.id.player_bar_action_button);
 
+        // Cancel playback
+        playerCancelBtn.setOnClickListener(sender ->
+                RaaContext.getInstance().getPlaybackManager().stop());
         // Play/pause Button listeners
-        playerActionBtn.setOnClickListener(sender -> {
-            RaaContext.getInstance().getPlaybackManager().togglePlaybackState();
-        });
+        playerActionBtn.setOnClickListener(sender ->
+                RaaContext.getInstance().getPlaybackManager().togglePlaybackState());
     }
 
     private void registerPlaybackManager() {
