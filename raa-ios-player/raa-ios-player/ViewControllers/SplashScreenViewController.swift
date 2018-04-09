@@ -19,7 +19,7 @@ class SplashScreenViewController : UIViewController {
     
     override func viewDidLoad() {
         // Startup services and managers, download data from server
-        Context.initiateManagers()
+        Context.initiateManagers(forceContextRenew: true)
 
         let q = DispatchQueue.global(qos: .background)
 

@@ -73,16 +73,6 @@ class PublicProgramNotificationViewContainer : UIViewController {
                 Context.Instance.userManager.user.NotifyOnPublicProgram = 1
                 shouldRegister = true
             }
-            
-            let programNotificationChangedValues = self.detailsVC?.dirtyDict
-            
-            if programNotificationChangedValues != nil && programNotificationChangedValues!.count > 0 {
-                for (key, value) in programNotificationChangedValues! {
-                    user?.NotificationExcludedPublicProgramsObject[key] = value
-                }
-                shouldRegister = true
-            }
-            
             if shouldRegister {
                 Context.Instance.userManager.registerUser()
             }
@@ -97,20 +87,6 @@ class PublicProgramNotificationViewController : UITableViewController {
     private var filteredProgramInfos: [String: ProgramInfo]?
     private var filteredProgramInfoCount: Int = 0
     private var user: User?
-    
-    public var dirtyDict: [String: Bool] {
-        var result: [String: Bool] = [:]
-        for cellIdx in 0..<filteredProgramInfoCount {
-            let indexPath = IndexPath(row: cellIdx, section: 0)
-            let cell = tableView.cellForRow(at: indexPath) as! PublicProgramNotificationViewCell
-            let previousValue = !(user?.NotificationExcludedPublicProgramsObject[cell.ProgramId!] ?? false)
-            // Value changed, add to dirty entries
-            if cell.NotifyOnProgramStart.isOn != previousValue {
-                result[cell.ProgramId!] = !(cell.NotifyOnProgramStart.isOn)
-            }
-        }
-        return result;
-    }
     
     public var notificationExcludedPublicPrograms:[String: Bool] = [: ]
     
@@ -138,7 +114,15 @@ class PublicProgramNotificationViewController : UITableViewController {
     }
     
     @IBAction func programNotificationSettingsChanged(_ sender: Any) {
-        self.publicProgramNotificationContainerVC?.registerChangesOnServerIfNeeded()
+        let rowNumber = (sender as! UISwitch).tag
+        let newValue = !(sender as! UISwitch).isOn
+        
+        let programId = Array((filteredProgramInfos?.keys)!)[rowNumber]
+        
+        if (user?.NotificationExcludedPublicProgramsObject[programId] ?? false) != newValue {
+            user?.NotificationExcludedPublicProgramsObject[programId] = newValue
+            Context.Instance.userManager.registerUser()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -174,6 +158,7 @@ class PublicProgramNotificationViewController : UITableViewController {
         cell.ProgramIcon.setNeedsLayout()
         // If excluded == 1 -> turn off notifications (hence switch)
         cell.NotifyOnProgramStart.isOn = !(user?.NotificationExcludedPublicProgramsObject[programId] ?? false)
+        cell.NotifyOnProgramStart.tag = indexPath.row // Used in value changed callback
         
         return cell
     }

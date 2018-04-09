@@ -62,7 +62,7 @@ class PersonalProgramNotificationViewContainer : UIViewController {
     }
     
     func registerChangesOnServerIfNeeded() {
-        // If the personal notifications are turned off
+        // If the public notifications are turned off
         if self.notifyOnPersonalProgramSwitch.isOn == false && self.user?.NotifyOnPersonalProgram == 1 {
             Context.Instance.userManager.user.NotifyOnPersonalProgram = 0
             Context.Instance.userManager.registerUser()
@@ -72,16 +72,6 @@ class PersonalProgramNotificationViewContainer : UIViewController {
                 Context.Instance.userManager.user.NotifyOnPersonalProgram = 1
                 shouldRegister = true
             }
-            
-            let programNotificationChangedValues = self.detailsVC?.dirtyDict
-            
-            if programNotificationChangedValues != nil && programNotificationChangedValues!.count > 0 {
-                for (key, value) in programNotificationChangedValues! {
-                    user?.NotificationExcludedPersonalProgramsObject[key] = value
-                }
-                shouldRegister = true
-            }
-            
             if shouldRegister {
                 Context.Instance.userManager.registerUser()
             }
@@ -137,9 +127,17 @@ class PersonalProgramNotificationViewController : UITableViewController {
     }
     
     @IBAction func programNotificationSettingsChanged(_ sender: Any) {
-        self.personalProgramNotificationContainerVC?.registerChangesOnServerIfNeeded()
+        let rowNumber = (sender as! UISwitch).tag
+        let newValue = !(sender as! UISwitch).isOn
+        
+        let programId = Array((filteredProgramInfos?.keys)!)[rowNumber]
+        
+        if (user?.NotificationExcludedPersonalProgramsObject[programId] ?? false) != newValue {
+            user?.NotificationExcludedPersonalProgramsObject[programId] = newValue
+            Context.Instance.userManager.registerUser()
+        }
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         self.tableView.reloadData()
     }
@@ -173,7 +171,8 @@ class PersonalProgramNotificationViewController : UITableViewController {
         cell.ProgramIcon.setNeedsLayout()
         // If excluded == 1 -> turn off notifications (hence switch)
         cell.NotifyOnProgramStart.isOn = !(user?.NotificationExcludedPersonalProgramsObject[programId] ?? false)
-        
+        cell.NotifyOnProgramStart.tag = indexPath.row // Used in value changed callback
+
         return cell
     }
 }

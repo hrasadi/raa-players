@@ -37,10 +37,12 @@ class Context {
     public static let RSS_URL_PREFIX = Context.BASE_URL_PREFIX + "/rss"
     public static let LIVE_INFO_URL_PREFIX = Context.BASE_URL_PREFIX + "/live"
 
-    public static func initiateManagers() {
-        if instance == nil {
+    public static func initiateManagers(forceContextRenew: Bool = false) {
+        if instance == nil || forceContextRenew {
             instance = Context()
-            
+        }
+        
+        if !initiated {
             instance?.userManager = UserManager()
             instance?.programInfoDirectoryManager = ProgramInfoDirectoryManager()
             instance?.feedManager = FeedManager()
@@ -67,6 +69,7 @@ class Context {
     public func reloadLineups() {
 //        self.liveBroadcastManager.initiate()
         self.feedManager.initiate()
+        self.feedManager.notifyModelUpdate(data: FeedData()) // Dummy data
     }
         
     public var userManager: UserManager!

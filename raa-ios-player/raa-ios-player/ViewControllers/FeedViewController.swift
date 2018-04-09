@@ -71,11 +71,13 @@ class FeedViewController : UIViewController {
         self.tableView.dataSource = self
         self.tableView.delegate = self        
         
-        NotificationCenter.default.addObserver(self, selector: #selector(fullRedraw), name:  NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
-        
-        self.fullRedraw()
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadLineups), name:  NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+
+        Context.Instance.feedManager.registerEventListener(listenerObject: self)
         Context.Instance.playbackManager.registerEventListener(listenerObject: self)
+
+        self.reloadLineups()
+        self.fullRedraw()
     }
 
     // FIXES A BUG THAT LAYOUTS TABLE WRONG IN IOS 10
@@ -98,17 +100,22 @@ class FeedViewController : UIViewController {
         })
     }
 
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         let currentDate = Date().timeIntervalSince1970
         
         if self.lastFullRedrawnTimestamp != nil {
             if currentDate - self.lastFullRedrawnTimestamp! > FeedViewController.FULL_REDRAW_PERIOD {
+                self.reloadLineups()
                 self.fullRedraw()
             }
         }
     }
 
-    @objc private func fullRedraw() {
+    @objc private func reloadLineups() {
+        Context.Instance.reloadLineups()
+    }
+    
+    func fullRedraw() {
         self.lastFullRedrawnTimestamp = Date().timeIntervalSince1970
 
         self.programDetailsViewController = storyboard?.instantiateViewController(withIdentifier: "ProgramContent") as? ProgramDetailsViewController
@@ -122,7 +129,6 @@ class FeedViewController : UIViewController {
 
         
         firstly { () -> Promise<FeedData> in
-            Context.Instance.reloadLineups()
             return Context.Instance.feedManager.pullData()
         }.done { feedData in
             self.feedData = feedData
@@ -132,8 +138,6 @@ class FeedViewController : UIViewController {
             
             self.tableView?.isHidden = false
             self.tableView?.reloadData()
-        }.ensure {
-            Context.Instance.feedManager.registerEventListener(listenerObject: self)
         }.catch { _ in
         }
     }
@@ -176,8 +180,10 @@ class FeedViewController : UIViewController {
 extension FeedViewController : ModelCommunicator {
     func modelUpdated(data: Any?) {
         if self.viewIfLoaded?.window != nil {
-            if let feedData = data as? FeedData {
-                self.feedData = feedData
+            if data == nil {
+                self.fullRedraw()
+            }
+            if let _ = data as? FeedData {
                 self.fullRedraw()
             }
             if let _ = data as? PlaybackState {
