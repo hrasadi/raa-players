@@ -5,6 +5,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import media.raa.raa_android_player.Utils;
+import media.raa.raa_android_player.model.entities.PlayableItem;
 import media.raa.raa_android_player.model.entities.Program;
 
 /**
@@ -12,7 +13,7 @@ import media.raa.raa_android_player.model.entities.Program;
  * Created by hamid on 3/7/18.
  */
 
-public class ArchiveEntry {
+public class ArchiveEntry implements PlayableItem {
     private Program program;
     private String releaseDate;
 
@@ -44,4 +45,8 @@ public class ArchiveEntry {
         return Utils.convertToPersianLocaleString(dateString);
     }
 
+    @Override
+    public String getMainMediaSourceUrl() {
+        return this.program.getShow().getClips()[0].getMedia().getPath();
+    }
 }

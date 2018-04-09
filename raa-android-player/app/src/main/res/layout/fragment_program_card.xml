@@ -82,8 +82,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:textColor="@color/color_card_button_text"
-                                    android:text="@string/live_card_play"
-                                    android:background="@drawable/program_card_action_button_background"
+                                    android:text="@string/card_play"
+                                    android:background="@drawable/program_card_action_play_button_background"
                                     android:hapticFeedbackEnabled="true" />
                             </LinearLayout>
                         </RelativeLayout>

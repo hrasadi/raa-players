@@ -16,6 +16,7 @@ import media.raa.raa_android_player.model.entities.ProgramInfo;
 import media.raa.raa_android_player.model.entities.feed.Feed;
 import media.raa.raa_android_player.model.entities.feed.PublicFeedEntry;
 import media.raa.raa_android_player.view.ProgramCardListItem;
+import media.raa.raa_android_player.view.ProgramCardListItemUtils;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link Program}
@@ -130,10 +131,17 @@ public class PublicFeedListSection extends StatelessSection {
                 this.programSubtitleView.setText(this.publicFeedEntry.getProgram().getSubtitle());
 
                 this.actionButton.setVisibility(View.VISIBLE);
+                this.setActionButtonMode(ProgramCardListItemUtils.determineCardPlayableState(this.publicFeedEntry.getMainMediaSourceUrl()));
                 this.actionButton.setOnClickListener(sender -> {
-                    // Play public feed
-                    Log.i("Raa", "Playback requested for public entry: " + this.publicFeedEntry.getId());
-                    RaaContext.getInstance().getPlaybackManager().playPublicFeedEntry(publicFeedEntry);
+                    switch (ProgramCardListItemUtils.determineCardPlayableState(this.publicFeedEntry.getMainMediaSourceUrl())) {
+                        case CURRENTLY_PLAYING:
+                            RaaContext.getInstance().getPlaybackManager().togglePlaybackState();
+                            break;
+                        case PLAYABLE:
+                            // Play public feed
+                            Log.i("Raa", "Playback requested for public entry: " + this.publicFeedEntry.getId());
+                            RaaContext.getInstance().getPlaybackManager().playPublicFeedEntry(publicFeedEntry);
+                    }
                 });
             }
         }

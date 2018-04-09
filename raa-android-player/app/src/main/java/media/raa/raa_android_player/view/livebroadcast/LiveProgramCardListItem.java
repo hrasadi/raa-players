@@ -76,7 +76,7 @@ public class LiveProgramCardListItem extends ProgramCardListItem {
 
             // Show action button if next inline or in progress
             if (isInProgress()) {
-                this.actionButton.setText(R.string.live_card_play);
+                this.actionButton.setText(R.string.card_play);
                 this.actionButton.setBackgroundColor(this.actionButton.getResources().getColor(R.color.color_primary));
                 this.actionButton.setVisibility(View.VISIBLE);
                 this.actionButton.setOnClickListener(sender -> {

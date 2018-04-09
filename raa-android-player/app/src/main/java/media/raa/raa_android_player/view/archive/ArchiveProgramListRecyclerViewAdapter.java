@@ -14,6 +14,7 @@ import media.raa.raa_android_player.model.entities.Program;
 import media.raa.raa_android_player.model.entities.ProgramInfo;
 import media.raa.raa_android_player.model.entities.archive.ArchiveEntry;
 import media.raa.raa_android_player.view.ProgramCardListItem;
+import media.raa.raa_android_player.view.ProgramCardListItemUtils;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link Program}
@@ -96,12 +97,24 @@ public class ArchiveProgramListRecyclerViewAdapter extends
                 this.programSubtitleView.setText(this.archiveEntry.getProgram().getSubtitle());
 
                 this.actionButton.setVisibility(View.VISIBLE);
+                this.setActionButtonMode(ProgramCardListItemUtils
+                        .determineCardPlayableState(this.archiveEntry.getMainMediaSourceUrl()));
                 this.actionButton.setOnClickListener(sender -> {
-                    // Play public feed
-                    Log.i("Raa", "Playback requested for archive entry: " + this.archiveEntry.getProgram().getCanonicalIdPath());
-                    RaaContext.getInstance().getPlaybackManager().playArchiveEntry(archiveEntry);
+                    switch (ProgramCardListItemUtils.determineCardPlayableState(this.archiveEntry.getMainMediaSourceUrl())) {
+                        case CURRENTLY_PLAYING:
+                            RaaContext.getInstance().getPlaybackManager().togglePlaybackState();
+                            break;
+                        case PLAYABLE:
+                            // Play public feed
+                            Log.i("Raa", "Playback requested for archive entry: " + this.archiveEntry.getProgram().getCanonicalIdPath());
+                            RaaContext.getInstance().getPlaybackManager().playArchiveEntry(archiveEntry);
+                    }
                 });
             }
+        }
+
+        public ArchiveEntry getArchiveEntry() {
+            return archiveEntry;
         }
     }
 }

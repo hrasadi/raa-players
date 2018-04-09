@@ -11,6 +11,7 @@ import org.joda.time.DateTimeZone;
 import java.util.Locale;
 
 import media.raa.raa_android_player.Utils;
+import media.raa.raa_android_player.model.entities.PlayableItem;
 import media.raa.raa_android_player.model.entities.Program;
 
 /**
@@ -19,7 +20,7 @@ import media.raa.raa_android_player.model.entities.Program;
  */
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public abstract class FeedEntry {
+public abstract class FeedEntry implements PlayableItem {
     private String id;
     @SerializedName("Program")
     private String programString;
@@ -88,5 +89,10 @@ public abstract class FeedEntry {
 
     public void setExpirationTimestamp(long expirationTimestamp) {
         this.expirationTimestamp = expirationTimestamp;
+    }
+
+    @Override
+    public String getMainMediaSourceUrl() {
+        return this.getProgram().getShow().getClips()[0].getMedia().getPath();
     }
 }

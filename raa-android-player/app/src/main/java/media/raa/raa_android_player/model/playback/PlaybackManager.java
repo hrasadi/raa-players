@@ -13,7 +13,9 @@ import com.google.gson.reflect.TypeToken;
 
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -50,7 +52,7 @@ public class PlaybackManager {
             "/linkgenerator/live.mp3?src=aHR0cHM6Ly9zdHJlYW0ucmFhLm1lZGlhL3JhYTFfbmV3Lm9nZw==";
 
     private PlayerStatus currentPlayerStatus = new PlayerStatus();
-    private PlaybackManagerEventListener playbackManagerEventListener;
+    private List<PlaybackManagerEventListener> playbackManagerEventListeners = new ArrayList<>();
 
     private Context context;
     private SharedPreferences settings;
@@ -90,9 +92,7 @@ public class PlaybackManager {
         currentPlayerStatus.setMediaSourceUrl(LIVE_BROADCAST_STREAM_URL);
 
         // notify in-app view and playback service
-        if (playbackManagerEventListener != null) {
-            playbackManagerEventListener.onPlayerStatusChange(currentPlayerStatus);
-        }
+        this.notifyListeners();
 
         Intent intent = new Intent(context, PlaybackService.class);
         intent.setAction(ACTION_PLAY);
@@ -125,9 +125,7 @@ public class PlaybackManager {
             currentPlayerStatus.setMediaSourceUrl(entry.getProgram().getShow().getClips()[0].getMedia().getPath());
 
             // notify in-app view and playback service
-            if (playbackManagerEventListener != null) {
-                playbackManagerEventListener.onPlayerStatusChange(currentPlayerStatus);
-            }
+            this.notifyListeners();
 
             Intent intent = new Intent(context, PlaybackService.class);
             intent.setAction(ACTION_PLAY);
@@ -167,9 +165,7 @@ public class PlaybackManager {
             }
 
             // notify in-app view and playback service
-            if (playbackManagerEventListener != null) {
-                playbackManagerEventListener.onPlayerStatusChange(currentPlayerStatus);
-            }
+            this.notifyListeners();
 
             Intent intent = new Intent(context, PlaybackService.class);
             intent.setAction(ACTION_PLAY);
@@ -231,9 +227,7 @@ public class PlaybackManager {
             currentPlayerStatus.setMediaSourceUrl(entry.getProgram().getShow().getClips()[0].getMedia().getPath());
 
             // notify in-app view and playback service
-            if (playbackManagerEventListener != null) {
-                playbackManagerEventListener.onPlayerStatusChange(currentPlayerStatus);
-            }
+            this.notifyListeners();
 
             Intent intent = new Intent(context, PlaybackService.class);
             intent.setAction(ACTION_PLAY);
@@ -248,8 +242,10 @@ public class PlaybackManager {
             this.resume();
         }
 
-        if (playbackManagerEventListener != null) {
-            playbackManagerEventListener.onPlayerStatusChange(currentPlayerStatus);
+        if (playbackManagerEventListeners != null) {
+            for (PlaybackManagerEventListener playbackManagerEventListener : playbackManagerEventListeners) {
+                playbackManagerEventListener.onPlayerStatusChange(currentPlayerStatus);
+            }
         }
     }
 
@@ -308,8 +304,10 @@ public class PlaybackManager {
         intent.setAction(PlaybackService.ACTION_STOP);
         context.startService(intent);
 
-        if (playbackManagerEventListener != null) {
-            playbackManagerEventListener.onPlayerStatusChange(currentPlayerStatus);
+        if (playbackManagerEventListeners != null) {
+            for (PlaybackManagerEventListener playbackManagerEventListener : playbackManagerEventListeners) {
+                playbackManagerEventListener.onPlayerStatusChange(currentPlayerStatus);
+            }
         }
     }
 
@@ -335,6 +333,14 @@ public class PlaybackManager {
         }
     }
 
+    private void notifyListeners() {
+        if (playbackManagerEventListeners != null) {
+            for (PlaybackManagerEventListener playbackManagerEventListener : playbackManagerEventListeners) {
+                playbackManagerEventListener.onPlayerStatusChange(currentPlayerStatus);
+            }
+        }
+    }
+
     private void removePlaybackState() {
         SharedPreferences.Editor editor = this.settings.edit();
         if (this.settings.contains(SETTINGS_PLAYBACK_STATE_KEY)) {
@@ -350,12 +356,12 @@ public class PlaybackManager {
         }
     }
 
-    PlayerStatus getCurrentPlayerStatus() {
+    public PlayerStatus getCurrentPlayerStatus() {
         return currentPlayerStatus;
     }
 
-    public void setPlaybackManagerEventListener(PlaybackManagerEventListener playbackManagerEventListener) {
-        this.playbackManagerEventListener = playbackManagerEventListener;
+    public void registerPlaybackManagerEventListener(PlaybackManagerEventListener playbackManagerEventListener) {
+        this.playbackManagerEventListeners.add(playbackManagerEventListener);
     }
 
     public interface PlaybackManagerEventListener {
@@ -406,7 +412,7 @@ public class PlaybackManager {
             this.itemThumbnail = itemThumbnail;
         }
 
-        String getMediaSourceUrl() {
+        public String getMediaSourceUrl() {
             return mediaSourceUrl;
         }
 

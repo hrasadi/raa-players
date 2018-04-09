@@ -17,8 +17,10 @@
 
     <string name="default_program_description">هنوز چیزی به ذهنمون نرسیده در مورد این برنامه بنویسیم!</string>
 
+    <string name="card_play">پخش</string>
+    <string name="card_pause">توقف</string>
+
     <!-- Live broadcast -->
-    <string name="live_card_play">پخش</string>
     <string name="live_card_soon">برنامه‌ی بعدی</string>
     <string name="live_card_counter">شروع در %1$</string>
 
@@ -29,7 +31,12 @@
     <string name="personal_feed_section_header">زمان‌بندی شده بر اساس مکان شما</string>
     <string name="public_feed_section_header">برنامه‌های جاری رادیو</string>
     <string name="personal_feed_section_footer">رسیدن بخیر! کمی زمان لازمه تا رادیو زمان‌بندی شما رو یاد بگیره. به زودی برنامه‌های این بخش براتون نمایش داده میشه.</string>
-    <string name="public_feed_section_footer">فعلا برنامه‌ای اینجا نیست. همون طور که می‌دونید برنامه‌های جدید رادیو از دوشنبه شب تا جمعه شب هر هفته (به وقت شرق آمریکا) منتشر می‌شن.</string>
+    <string name="public_feed_section_footer">فعلا برنامه‌ای اینجا نیست. برنامه‌های جدید رادیو از دوشنبه شب تا جمعه شب هر هفته (به وقت شرق آمریکا) منتشر می‌شن.</string>
+
+    <!-- playback -->
+    <string name="playback_mode_resume">پخش ادامه</string>
+    <string name="playback_mode_from_start">پخش از ابتدا</string>
+    <string name="playback_mode_request_text">قبلا کمی از این برنامه رو گوش دادین. حالا چیکار کنیم؟</string>
 
     <!-- Notification strings -->
     <string name="start_stop_action_description">توقف/شروع</string>
@@ -44,5 +51,4 @@
     <string name="default_content_description">تصویر</string>
     <string name="default_program_title">برنامه</string>
     <string name="default_program_subtitle">توضیحات برنامه</string>
-
 </resources>

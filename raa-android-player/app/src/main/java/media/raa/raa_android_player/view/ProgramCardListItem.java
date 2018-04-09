@@ -26,7 +26,7 @@ public class ProgramCardListItem extends RecyclerView.ViewHolder {
 
     protected final TextView programEndTimeView;
     protected final TextView programEndDayView;
-    
+
     protected final TextView programTitleView;
     protected final TextView programSubtitleView;
 
@@ -59,9 +59,26 @@ public class ProgramCardListItem extends RecyclerView.ViewHolder {
         programDetailsLbl = view.findViewById(R.id.card_details_view_text);
     }
 
+    public void setActionButtonMode(ProgramCardListItemUtils.PlayableState playableState) {
+        switch (playableState) {
+            case CURRENTLY_PLAYING:
+                actionButton.setText(R.string.card_pause);
+                actionButton.setBackgroundResource(R.drawable.program_card_action_pause_button_background);
+                break;
+            case PLAYABLE:
+                actionButton.setText(R.string.card_play);
+                actionButton.setBackgroundResource(R.drawable.program_card_action_play_button_background);
+        }
+    }
+
+    public ProgramCardListItemUtils.PlayableState getActionButtonMode() {
+        return actionButton.getText().toString().equals(R.string.card_pause) ?
+                ProgramCardListItemUtils.PlayableState.CURRENTLY_PLAYING :
+                ProgramCardListItemUtils.PlayableState.PLAYABLE;
+    }
+
     @Override
     public String toString() {
         return super.toString() + " '" + programTitleView.getText() + "'";
     }
-
 }

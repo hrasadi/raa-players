@@ -11,4 +11,7 @@
 
     <color name="color_black_overlay">#30000000</color>
     <color name="color_player_background">#ffebeeee</color>
+
+    <color name="color_mode_requester_background">#77ffffff</color>
+    <color name="color_playback_cancel_btn_background">#dde32100</color>
 </resources>

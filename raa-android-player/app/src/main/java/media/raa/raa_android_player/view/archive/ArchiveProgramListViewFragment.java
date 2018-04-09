@@ -14,10 +14,13 @@ import java.util.List;
 import media.raa.raa_android_player.R;
 import media.raa.raa_android_player.model.RaaContext;
 import media.raa.raa_android_player.model.entities.archive.ArchiveEntry;
+import media.raa.raa_android_player.model.playback.PlaybackManager;
+import media.raa.raa_android_player.view.ProgramCardListItemUtils;
 
-public class ArchiveProgramListViewFragment extends Fragment {
+public class ArchiveProgramListViewFragment extends Fragment implements PlaybackManager.PlaybackManagerEventListener {
 
     private String programId;
+    List<ArchiveEntry> programArchive;
 
     public static ArchiveProgramListViewFragment newInstance(String programId) {
         ArchiveProgramListViewFragment archiveProgramListViewFragment = new ArchiveProgramListViewFragment();
@@ -34,6 +37,8 @@ public class ArchiveProgramListViewFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         this.programId = getArguments().getString("programId", null);
+
+        this.registerPlaybackManager();
     }
 
     @Override
@@ -49,13 +54,17 @@ public class ArchiveProgramListViewFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
             if (programId != null) {
-                List<ArchiveEntry> programArchive = RaaContext.getInstance().getArchive().getProgramArchive(programId);
+                programArchive = RaaContext.getInstance().getArchive().getProgramArchive(programId);
                 ArchiveProgramListRecyclerViewAdapter archiveProgramRecyclerAdapter =
                         new ArchiveProgramListRecyclerViewAdapter(programArchive);
                 recyclerView.setAdapter(archiveProgramRecyclerAdapter);
             }
         }
         return view;
+    }
+
+    private void registerPlaybackManager() {
+        RaaContext.getInstance().getPlaybackManager().registerPlaybackManagerEventListener(this);
     }
 
     @Override
@@ -66,5 +75,32 @@ public class ArchiveProgramListViewFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    @Override
+    public void onPlayerStatusChange(PlaybackManager.PlayerStatus newStatus) {
+        RecyclerView recyclerView = (RecyclerView) this.getView();
+
+        if (programArchive != null && recyclerView != null) {
+            for (int i = 0; i < programArchive.size(); i++) {
+                try {
+                    ArchiveProgramListRecyclerViewAdapter.ArchiveProgramCardListItem itemViewHolder =
+                            (ArchiveProgramListRecyclerViewAdapter.ArchiveProgramCardListItem)
+                            recyclerView.findViewHolderForAdapterPosition(i);
+
+                    if (!newStatus.isPlaying()) {
+                        itemViewHolder.setActionButtonMode(ProgramCardListItemUtils.PlayableState.PLAYABLE);
+                    } else {
+                        if (itemViewHolder.getArchiveEntry().getMainMediaSourceUrl().equals(newStatus.getMediaSourceUrl())) {
+                            itemViewHolder.setActionButtonMode(ProgramCardListItemUtils.PlayableState.CURRENTLY_PLAYING);
+                        } else {
+                            itemViewHolder.setActionButtonMode(ProgramCardListItemUtils.PlayableState.PLAYABLE);
+                        }
+                    }
+                } catch (NullPointerException e) {
+                    // No view for this index, just move on
+                }
+            }
+        }
     }
 }

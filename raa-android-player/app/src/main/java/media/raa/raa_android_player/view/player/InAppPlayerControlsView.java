@@ -45,7 +45,7 @@ public class InAppPlayerControlsView extends FrameLayout implements PlaybackMana
     }
 
     private void registerPlaybackManager() {
-        RaaContext.getInstance().getPlaybackManager().setPlaybackManagerEventListener(this);
+        RaaContext.getInstance().getPlaybackManager().registerPlaybackManagerEventListener(this);
     }
 
     @Override
