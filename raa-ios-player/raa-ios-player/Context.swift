@@ -40,6 +40,7 @@ class Context {
     public static func initiateManagers(forceContextRenew: Bool = false) {
         if instance == nil || forceContextRenew {
             instance = Context()
+            initiated = false
         }
         
         if !initiated {
