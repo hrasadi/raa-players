@@ -14,4 +14,20 @@ public class PersonalFeedEntry extends FeedEntry {
 
         return releaseTimeObject.isBeforeNow() && expirationTimeObject.isAfterNow();
     }
+
+    @Override
+    public Long getRemainingDuration() {
+        // Do nothing! (for now)
+        return 0L;
+    }
+
+    @Override
+    public void restartPlayback() {
+        // Do nothing! (for now)
+    }
+
+    @Override
+    public void resumePlayback() {
+        // Do nothing! (for now)
+    }
 }

@@ -1,7 +1,6 @@
 package media.raa.raa_android_player.view.archive;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +21,13 @@ import media.raa.raa_android_player.view.ProgramCardListItemUtils;
 public class ArchiveProgramListRecyclerViewAdapter extends
         RecyclerView.Adapter<ArchiveProgramListRecyclerViewAdapter.ArchiveProgramCardListItem> {
     private final List<ArchiveEntry> programArchive;
+    private ArchiveProgramListItemActionClickedCallback cardActionCallback;
 
     private int expandedItemPosition = -1;
 
-    ArchiveProgramListRecyclerViewAdapter(List<ArchiveEntry> programArchive) {
+    ArchiveProgramListRecyclerViewAdapter(List<ArchiveEntry> programArchive, ArchiveProgramListItemActionClickedCallback cardActionCallback) {
         this.programArchive = programArchive;
+        this.cardActionCallback = cardActionCallback;
     }
 
     @Override
@@ -39,6 +40,7 @@ public class ArchiveProgramListRecyclerViewAdapter extends
     @Override
     public void onBindViewHolder(final ArchiveProgramCardListItem holder, int position) {
         holder.setArchiveEntry(programArchive.get(position));
+        holder.setCardActionCallback(this.cardActionCallback);
 
         // HANDLE EXPANSION
         final boolean isExpanded = (position == this.expandedItemPosition);
@@ -61,6 +63,7 @@ public class ArchiveProgramListRecyclerViewAdapter extends
 
     static class ArchiveProgramCardListItem extends ProgramCardListItem {
         private ArchiveEntry archiveEntry;
+        private ArchiveProgramListItemActionClickedCallback cardActionCallback;
 
         ArchiveProgramCardListItem(View view) {
             super(view);
@@ -99,22 +102,21 @@ public class ArchiveProgramListRecyclerViewAdapter extends
                 this.actionButton.setVisibility(View.VISIBLE);
                 this.setActionButtonMode(ProgramCardListItemUtils
                         .determineCardPlayableState(this.archiveEntry.getMainMediaSourceUrl()));
-                this.actionButton.setOnClickListener(sender -> {
-                    switch (ProgramCardListItemUtils.determineCardPlayableState(this.archiveEntry.getMainMediaSourceUrl())) {
-                        case CURRENTLY_PLAYING:
-                            RaaContext.getInstance().getPlaybackManager().togglePlaybackState();
-                            break;
-                        case PLAYABLE:
-                            // Play public feed
-                            Log.i("Raa", "Playback requested for archive entry: " + this.archiveEntry.getProgram().getCanonicalIdPath());
-                            RaaContext.getInstance().getPlaybackManager().playArchiveEntry(archiveEntry);
-                    }
-                });
+                this.actionButton.setOnClickListener(sender ->
+                        this.cardActionCallback.onActionButtonClicked(this));
             }
         }
 
         public ArchiveEntry getArchiveEntry() {
             return archiveEntry;
         }
+
+        void setCardActionCallback(ArchiveProgramListItemActionClickedCallback cardActionCallback) {
+            this.cardActionCallback = cardActionCallback;
+        }
+    }
+
+    interface ArchiveProgramListItemActionClickedCallback {
+        void onActionButtonClicked(ArchiveProgramCardListItem archiveCardListItem);
     }
 }

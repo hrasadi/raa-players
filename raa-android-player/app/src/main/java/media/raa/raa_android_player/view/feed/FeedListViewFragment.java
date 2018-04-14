@@ -13,15 +13,22 @@ import android.widget.TextView;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 import media.raa.raa_android_player.R;
 import media.raa.raa_android_player.model.RaaContext;
+import media.raa.raa_android_player.model.playback.PlaybackManager;
 
-public class FeedListViewFragment extends Fragment {
+public class FeedListViewFragment extends Fragment implements
+        PlaybackManager.PlaybackManagerEventListener {
     public static FeedListViewFragment newInstance() {
         return new FeedListViewFragment();
     }
 
+    private RecyclerView recyclerView;
+    private PublicFeedListSection publicFeedListSection;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        this.registerPlaybackManager();
     }
 
     @Override
@@ -33,18 +40,24 @@ public class FeedListViewFragment extends Fragment {
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
+            this.recyclerView = recyclerView;
 
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
             SectionedRecyclerViewAdapter sectionAdapter = new SectionedRecyclerViewAdapter();
             sectionAdapter.addSection("PERSONAL_FEED",
                     new PersonalFeedListSection(RaaContext.getInstance().getFeed(), sectionAdapter));
-            sectionAdapter.addSection("PUBLIC_FEED",
-                    new PublicFeedListSection(RaaContext.getInstance().getFeed(), sectionAdapter));
+            this.publicFeedListSection =
+                    new PublicFeedListSection(RaaContext.getInstance().getFeed(), sectionAdapter, this);
+            sectionAdapter.addSection("PUBLIC_FEED", this.publicFeedListSection);
 
             recyclerView.setAdapter(sectionAdapter);
         }
         return view;
+    }
+
+    private void registerPlaybackManager() {
+        RaaContext.getInstance().getPlaybackManager().registerPlaybackManagerEventListener(this);
     }
 
     @Override
@@ -57,6 +70,10 @@ public class FeedListViewFragment extends Fragment {
         super.onDetach();
     }
 
+    @Override
+    public void onPlayerStatusChange(PlaybackManager.PlayerStatus newStatus) {
+        publicFeedListSection.updateItemsStatus(newStatus, recyclerView);
+    }
 
     static class FeedSectionHeader extends RecyclerView.ViewHolder {
         private TextView sectionHeader;

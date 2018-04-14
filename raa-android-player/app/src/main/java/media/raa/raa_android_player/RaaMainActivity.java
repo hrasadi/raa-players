@@ -15,6 +15,7 @@ import java.lang.reflect.Field;
 import java.util.Locale;
 
 import media.raa.raa_android_player.model.RaaContext;
+import media.raa.raa_android_player.view.PlaybackModeRequesterPopup;
 import media.raa.raa_android_player.view.archive.ArchiveListLoadingFragment;
 import media.raa.raa_android_player.view.feed.FeedLoadingFragment;
 import media.raa.raa_android_player.view.livebroadcast.LiveBroadcastLoadingFragment;
@@ -32,6 +33,8 @@ public class RaaMainActivity extends AppCompatActivity {
     SettingsFragment settingsFragment;
 
     InAppPlayerControlsView playerView;
+
+    PlaybackModeRequesterPopup.PlaybackModeRequesterCallback currentPlaybackModeRequesterCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,5 +191,13 @@ public class RaaMainActivity extends AppCompatActivity {
                 Log.e("BottomNav", "Unable to change value of shift mode", e);
             }
         }
+    }
+
+    public PlaybackModeRequesterPopup.PlaybackModeRequesterCallback getCurrentPlaybackModeRequesterCallback() {
+        return currentPlaybackModeRequesterCallback;
+    }
+
+    public void setCurrentPlaybackModeRequesterCallback(PlaybackModeRequesterPopup.PlaybackModeRequesterCallback currentPlaybackModeRequesterCallback) {
+        this.currentPlaybackModeRequesterCallback = currentPlaybackModeRequesterCallback;
     }
 }

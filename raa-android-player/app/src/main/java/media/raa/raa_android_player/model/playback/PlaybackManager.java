@@ -100,6 +100,10 @@ public class PlaybackManager {
     }
 
     public void playPublicFeedEntry(PublicFeedEntry entry) {
+        playPublicFeedEntry(entry, 0L);
+    }
+
+    public void playPublicFeedEntry(PublicFeedEntry entry, long playbackOffset) {
         currentPlayerStatus = new PlayerStatus();
 
         currentPlayerStatus.setProgramType(PlayerStatus.ProgramType.Public);
@@ -129,6 +133,7 @@ public class PlaybackManager {
 
             Intent intent = new Intent(context, PlaybackService.class);
             intent.setAction(ACTION_PLAY);
+            intent.putExtra("seekTo", playbackOffset);
             context.startService(intent);
         }
     }
@@ -202,6 +207,10 @@ public class PlaybackManager {
     }
 
     public void playArchiveEntry(ArchiveEntry entry) {
+        this.playArchiveEntry(entry, 0L);
+    }
+
+    public void playArchiveEntry(ArchiveEntry entry, long playbackOffset) {
         currentPlayerStatus = new PlayerStatus();
 
         currentPlayerStatus.setProgramType(PlayerStatus.ProgramType.Archive);
@@ -231,6 +240,7 @@ public class PlaybackManager {
 
             Intent intent = new Intent(context, PlaybackService.class);
             intent.setAction(ACTION_PLAY);
+            intent.putExtra("seekTo", playbackOffset);
             context.startService(intent);
         }
     }
@@ -333,14 +343,6 @@ public class PlaybackManager {
         }
     }
 
-    private void notifyListeners() {
-        if (playbackManagerEventListeners != null) {
-            for (PlaybackManagerEventListener playbackManagerEventListener : playbackManagerEventListeners) {
-                playbackManagerEventListener.onPlayerStatusChange(currentPlayerStatus);
-            }
-        }
-    }
-
     private void removePlaybackState() {
         SharedPreferences.Editor editor = this.settings.edit();
         if (this.settings.contains(SETTINGS_PLAYBACK_STATE_KEY)) {
@@ -353,6 +355,27 @@ public class PlaybackManager {
 
             editor.putString(SETTINGS_PLAYBACK_STATE_KEY, gson.toJson(playbackStateDict));
             editor.apply();
+        }
+    }
+
+    public long getLastPlaybackState(String mediaSourceUrl) {
+        if (this.settings.contains(SETTINGS_PLAYBACK_STATE_KEY)) {
+            Map<String, Long> playbackStateDict = gson.fromJson(
+                    this.settings.getString(SETTINGS_PLAYBACK_STATE_KEY, null),
+                    new TypeToken<HashMap<String, Long>>() {
+                    }.getType());
+            if (playbackStateDict.containsKey(mediaSourceUrl)) {
+                return playbackStateDict.get(mediaSourceUrl);
+            }
+        }
+        return 0;
+    }
+
+    private void notifyListeners() {
+        if (playbackManagerEventListeners != null) {
+            for (PlaybackManagerEventListener playbackManagerEventListener : playbackManagerEventListeners) {
+                playbackManagerEventListener.onPlayerStatusChange(currentPlayerStatus);
+            }
         }
     }
 

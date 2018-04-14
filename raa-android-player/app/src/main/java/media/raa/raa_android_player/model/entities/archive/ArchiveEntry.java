@@ -1,10 +1,13 @@
 package media.raa.raa_android_player.model.entities.archive;
 
+import android.util.Log;
+
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import media.raa.raa_android_player.Utils;
+import media.raa.raa_android_player.model.RaaContext;
 import media.raa.raa_android_player.model.entities.PlayableItem;
 import media.raa.raa_android_player.model.entities.Program;
 
@@ -48,5 +51,26 @@ public class ArchiveEntry implements PlayableItem {
     @Override
     public String getMainMediaSourceUrl() {
         return this.program.getShow().getClips()[0].getMedia().getPath();
+    }
+
+    @Override
+    public Long getRemainingDuration() {
+        double duration =  this.getProgram().getShow().getClips()[0].getMedia().getDuration() * 1000;
+        long offset = RaaContext.getInstance().getPlaybackManager().getLastPlaybackState(this.getMainMediaSourceUrl());
+        return (long) duration - offset;
+    }
+
+    @Override
+    public void resumePlayback() {
+        long offset = RaaContext.getInstance().getPlaybackManager().getLastPlaybackState(this.getMainMediaSourceUrl());
+
+        Log.i("Raa", "Playback resume requested for archive entry: " + this.getProgram().getCanonicalIdPath());
+        RaaContext.getInstance().getPlaybackManager().playArchiveEntry(this, offset);
+    }
+
+    @Override
+    public void restartPlayback() {
+        Log.i("Raa", "Playback requested for archive entry: " + this.getProgram().getCanonicalIdPath());
+        RaaContext.getInstance().getPlaybackManager().playArchiveEntry(this);
     }
 }

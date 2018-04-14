@@ -12,12 +12,15 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import media.raa.raa_android_player.R;
+import media.raa.raa_android_player.RaaMainActivity;
 import media.raa.raa_android_player.model.RaaContext;
 import media.raa.raa_android_player.model.entities.archive.ArchiveEntry;
 import media.raa.raa_android_player.model.playback.PlaybackManager;
+import media.raa.raa_android_player.view.PlaybackModeRequesterPopup;
 import media.raa.raa_android_player.view.ProgramCardListItemUtils;
 
-public class ArchiveProgramListViewFragment extends Fragment implements PlaybackManager.PlaybackManagerEventListener {
+public class ArchiveProgramListViewFragment extends Fragment implements
+        PlaybackManager.PlaybackManagerEventListener, ArchiveProgramListRecyclerViewAdapter.ArchiveProgramListItemActionClickedCallback {
 
     private String programId;
     List<ArchiveEntry> programArchive;
@@ -56,7 +59,7 @@ public class ArchiveProgramListViewFragment extends Fragment implements Playback
             if (programId != null) {
                 programArchive = RaaContext.getInstance().getArchive().getProgramArchive(programId);
                 ArchiveProgramListRecyclerViewAdapter archiveProgramRecyclerAdapter =
-                        new ArchiveProgramListRecyclerViewAdapter(programArchive);
+                        new ArchiveProgramListRecyclerViewAdapter(programArchive, this);
                 recyclerView.setAdapter(archiveProgramRecyclerAdapter);
             }
         }
@@ -86,7 +89,7 @@ public class ArchiveProgramListViewFragment extends Fragment implements Playback
                 try {
                     ArchiveProgramListRecyclerViewAdapter.ArchiveProgramCardListItem itemViewHolder =
                             (ArchiveProgramListRecyclerViewAdapter.ArchiveProgramCardListItem)
-                            recyclerView.findViewHolderForAdapterPosition(i);
+                                    recyclerView.findViewHolderForAdapterPosition(i);
 
                     if (!newStatus.isPlaying()) {
                         itemViewHolder.setActionButtonMode(ProgramCardListItemUtils.PlayableState.PLAYABLE);
@@ -101,6 +104,38 @@ public class ArchiveProgramListViewFragment extends Fragment implements Playback
                     // No view for this index, just move on
                 }
             }
+        }
+    }
+
+    @Override
+    public void onActionButtonClicked(ArchiveProgramListRecyclerViewAdapter.ArchiveProgramCardListItem archiveCardListItem) {
+        switch (ProgramCardListItemUtils.determineCardPlayableState(archiveCardListItem.getArchiveEntry().getMainMediaSourceUrl())) {
+            case CURRENTLY_PLAYING:
+                RaaContext.getInstance().getPlaybackManager().togglePlaybackState();
+                break;
+            case PLAYABLE:
+                if (RaaContext.getInstance().getPlaybackManager()
+                        .getLastPlaybackState(archiveCardListItem.getArchiveEntry().getMainMediaSourceUrl()) > 0) {
+
+                    PlaybackModeRequesterPopup popup = PlaybackModeRequesterPopup
+                            .newInstance(archiveCardListItem.getArchiveEntry().getRemainingDuration());
+
+                    ((RaaMainActivity) getActivity()).setCurrentPlaybackModeRequesterCallback(
+                                    new PlaybackModeRequesterPopup.PlaybackModeRequesterCallback() {
+                        @Override
+                        public void onResumePlaybackRequested() {
+                            archiveCardListItem.getArchiveEntry().resumePlayback();
+                        }
+
+                        @Override
+                        public void OnRestartPlaybackRequested() {
+                            archiveCardListItem.getArchiveEntry().restartPlayback();
+                        }
+                    });
+                    popup.show(this.getFragmentManager(), "requester");
+                } else {
+                    archiveCardListItem.getArchiveEntry().restartPlayback();
+                }
         }
     }
 }
