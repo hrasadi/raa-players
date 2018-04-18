@@ -50,6 +50,9 @@ public class User {
         if (this.notificationExcludedPublicPrograms != null) {
             this.notificationExcludedPublicProgramsString = gson.toJson(this.notificationExcludedPublicPrograms);
         }
+        if (this.notificationExcludedPersonalPrograms != null) {
+            this.notificationExcludedPersonalProgramsString = gson.toJson(this.notificationExcludedPersonalPrograms);
+        }
     }
 
     String getLocationString() {
