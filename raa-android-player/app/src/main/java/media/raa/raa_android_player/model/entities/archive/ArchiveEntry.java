@@ -55,6 +55,11 @@ public class ArchiveEntry implements PlayableItem {
 
     @Override
     public Long getRemainingDuration() {
+        // Older items (migrated) might not have duration available
+        if (this.getProgram().getShow().getClips()[0].getMedia().getDuration() == null) {
+            return null;
+        }
+
         double duration =  this.getProgram().getShow().getClips()[0].getMedia().getDuration() * 1000;
         long offset = RaaContext.getInstance().getPlaybackManager().getLastPlaybackState(this.getMainMediaSourceUrl());
         return (long) duration - offset;

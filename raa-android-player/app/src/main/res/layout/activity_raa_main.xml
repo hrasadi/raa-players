@@ -6,20 +6,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@android:color/transparent"
     tools:context="media.raa.raa_android_player.RaaMainActivity">
 
     <FrameLayout
-        android:id="@+id/application_frame"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.03" >
-    </FrameLayout>
+        android:layout_weight="1.03">
 
-    <media.raa.raa_android_player.view.player.InAppPlayerControlsView
-        android:id="@+id/player"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:visibility="gone" />
+        <FrameLayout
+            android:id="@+id/application_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+        </FrameLayout>
+
+        <media.raa.raa_android_player.view.player.InAppPlayerControlsView
+            android:id="@+id/player"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:background="@android:color/transparent"
+            android:visibility="gone"
+            android:layout_gravity="bottom"/>
+    </FrameLayout>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"

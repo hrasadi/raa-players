@@ -24,6 +24,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/large_text_margin"
+        android:clipToPadding="false"
+        android:paddingBottom="80dp"
         app:layoutManager="LinearLayoutManager"
         tools:context="media.raa.raa_android_player.view.settings.PublicProgramNotificationSettingsListFragment"
         tools:listitem="@layout/fragment_program_notification_settings_list_item" />

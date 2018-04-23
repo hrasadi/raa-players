@@ -8,8 +8,8 @@ android {
         minSdkVersion 19
         //noinspection OldTargetApi (Handle very complicated notification system)
         targetSdkVersion 25
-        versionCode 19
-        versionName "2.0.0b9"
+        versionCode 20
+        versionName "2.0.0b10"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }

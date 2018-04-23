@@ -34,6 +34,7 @@
     <string name="public_feed_section_footer">فعلا برنامه‌ای اینجا نیست. برنامه‌های جدید رادیو از دوشنبه شب تا جمعه شب هر هفته (به وقت شرق آمریکا) منتشر می‌شن.</string>
 
     <!-- playback -->
+    <string name="playback_mode_resume_default">پخش ادامه</string>
     <string name="playback_mode_resume">پخش ادامه (%1$s دقیقه مانده)</string>
     <string name="playback_mode_from_start">پخش از ابتدا</string>
     <string name="playback_mode_request_text">قبلا کمی از این برنامه رو گوش دادین. حالا چیکار کنیم؟</string>

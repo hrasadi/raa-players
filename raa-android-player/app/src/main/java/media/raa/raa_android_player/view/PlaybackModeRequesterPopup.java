@@ -2,7 +2,6 @@ package media.raa.raa_android_player.view;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +15,12 @@ import media.raa.raa_android_player.Utils;
  */
 public class PlaybackModeRequesterPopup extends DialogFragment {
 
-    public static PlaybackModeRequesterPopup newInstance(long remainingDuration) {
+    public static PlaybackModeRequesterPopup newInstance(Long remainingDuration) {
         Bundle bundle = new Bundle();
-        bundle.putLong("remainingDuration", remainingDuration);
+        // Backward compatibility with old items
+        if (remainingDuration != null) {
+            bundle.putLong("remainingDuration", remainingDuration);
+        }
 
         PlaybackModeRequesterPopup fragment = new PlaybackModeRequesterPopup();
         fragment.setArguments(bundle);
