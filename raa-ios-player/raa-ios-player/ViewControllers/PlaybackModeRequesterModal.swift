@@ -25,13 +25,17 @@ class PlaybackModeRequesterModal : UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        let remainingMinsToPlay: Int = Int(((requestedEntry?.getMediaLength())! -  Context.Instance.playbackManager.getLastPlaybackState((requestedEntry?.getMediaPath())!)) / 60)
-        
-        let remainingMinsToPlayString:String?
-        if remainingMinsToPlay == 0 {
-            remainingMinsToPlayString = "کمتر از یک"
-        } else {
-            remainingMinsToPlayString = Utils.convertToPersianLocaleString(String(remainingMinsToPlay))
+        var remainingMinsToPlayString:String? = nil
+
+        // Some migrated media does not contain media length information
+        if let _ = requestedEntry?.getMediaLength() {
+            let remainingMinsToPlay: Int = Int(((requestedEntry?.getMediaLength())! -  Context.Instance.playbackManager.getLastPlaybackState((requestedEntry?.getMediaPath())!)) / 60)
+            
+            if remainingMinsToPlay == 0 {
+                remainingMinsToPlayString = "کمتر از یک"
+            } else {
+                remainingMinsToPlayString = Utils.convertToPersianLocaleString(String(remainingMinsToPlay))
+            }
         }
         
         if remainingMinsToPlayString != nil {
