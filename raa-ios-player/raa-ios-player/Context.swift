@@ -31,7 +31,7 @@ class Context {
     }
     
     public static let BASE_URL_PREFIX = "https://raa.media"
-    public static let API_URL_PREFIX = "http://api.raa.media:7800"
+    public static let API_URL_PREFIX = "https://api.raa.media"
     public static let LIVE_STREAM_URL_PREFIX = "https://stream.raa.media"
     public static let ARCHIVE_URL_PREFIX = Context.BASE_URL_PREFIX + "/archive"
     public static let RSS_URL_PREFIX = Context.BASE_URL_PREFIX + "/rss"
