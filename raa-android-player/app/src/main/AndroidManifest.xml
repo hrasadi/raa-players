@@ -35,12 +35,14 @@
             android:name=".model.playback.PlaybackService"
             android:enabled="true"
             android:exported="false" />
+
         <receiver android:name=".model.playback.PlaybackManager$PlaybackManagerBroadcastReceiver"
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
                 <action android:name="media.raa.raa_android_player.model.playback.PlaybackManager.ACTION_TOGGLE_PLAYBACK" />
                 <action android:name="media.raa.raa_android_player.model.playback.PlaybackManager.ACTION_STOP" />
+                <action android:name="media.raa.raa_android_player.model.playback.PlaybackManager.ACTION_PLAYBACK_FINISHED" />
             </intent-filter>
         </receiver>
 

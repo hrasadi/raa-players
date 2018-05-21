@@ -91,10 +91,12 @@ public class PlaybackService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (Objects.equals(intent.getAction(), APP_ENTERING_BACKGROUND)) {
-            stopPlaybackIfNotificationsNotEnabled();
-        } else {
-            handlePlaybackIntent(intent);
+        if (intent != null && intent.getAction() != null) {
+            if (Objects.equals(intent.getAction(), APP_ENTERING_BACKGROUND)) {
+                stopPlaybackIfNotificationsNotEnabled();
+            } else {
+                handlePlaybackIntent(intent);
+            }
         }
 
         return super.onStartCommand(intent, flags, startId);

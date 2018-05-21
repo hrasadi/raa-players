@@ -20,7 +20,7 @@ public class RaaContext {
     private static RaaContext instance;
 
     public static final String BASE_URL = "https://raa.media";
-    public static final String API_PREFIX_URL = "http://api.raa.media:7800";
+    public static final String API_PREFIX_URL = "https://api.raa.media";
 
     public static void initializeInstance(Context context) {
         if (instance == null && context != null) {
