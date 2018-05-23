@@ -322,6 +322,11 @@ public class PlaybackManager {
     }
 
     private void savePlaybackState() {
+        // Stale UI buttons, nothing to do!
+        if (this.getCurrentPlayerStatus() == null || this.getCurrentPlayerStatus().getProgramType() == null) {
+            return;
+        }
+
         if (this.getCurrentPlayerStatus().getProgramType().equals(PlayerStatus.ProgramType.Public) ||
                 this.getCurrentPlayerStatus().getProgramType().equals(PlayerStatus.ProgramType.Archive)) {
             SharedPreferences.Editor editor = this.settings.edit();
