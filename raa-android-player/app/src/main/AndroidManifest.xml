@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="media.raa.raa_android_player">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -12,14 +13,16 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:fullBackupContent="@xml/backup_rules"
+        tools:ignore="GoogleAppIndexingWarning">
 
         <activity
             android:name=".SplashScreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_splash_screen"
-            android:theme="@style/AppTheme"
-            android:noHistory="true">
+            android:noHistory="true"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -28,17 +31,17 @@
 
         <activity
             android:name=".RaaMainActivity"
-            android:label="@string/app_label">
-        </activity>
+            android:label="@string/app_label"/>
 
         <service
             android:name=".model.playback.PlaybackService"
             android:enabled="true"
             android:exported="false" />
 
-        <receiver android:name=".model.playback.PlaybackManager$PlaybackManagerBroadcastReceiver"
+        <receiver
+            android:name=".model.playback.PlaybackManager$PlaybackManagerBroadcastReceiver"
             android:enabled="true"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="media.raa.raa_android_player.model.playback.PlaybackManager.ACTION_TOGGLE_PLAYBACK" />
                 <action android:name="media.raa.raa_android_player.model.playback.PlaybackManager.ACTION_STOP" />
@@ -60,8 +63,11 @@
         </service>
 
 
-        <meta-data android:name="com.google.firebase.messaging.default_notification_icon"
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_raa_logo_round_24dp" />
-
+        <meta-data
+            android:name="google_analytics_adid_collection_enabled"
+            android:value="false" />
     </application>
 </manifest>
